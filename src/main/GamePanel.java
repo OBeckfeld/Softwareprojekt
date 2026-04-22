@@ -7,18 +7,11 @@ import java.awt.*;
 
 public class GamePanel extends JPanel {
     private Game game;
-    private MouseInputs mouseInputs;
 
     public GamePanel(Game game) {
         this.game = game;
-        this.mouseInputs = new MouseInputs(this);
 
         setPanelSize();
-
-        // Hier registrieren wir alle Inputs für dieses Panel
-
-        addMouseListener(mouseInputs);
-        addMouseMotionListener(mouseInputs);
     }
 
     private void setPanelSize() {

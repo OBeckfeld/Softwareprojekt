@@ -2,6 +2,7 @@ package main;
 
 import entities.Player;
 import inputs.KeyboardInputs;
+import inputs.MouseInputs;
 
 public class Game implements Runnable {
 
@@ -11,6 +12,7 @@ public class Game implements Runnable {
     private final int FPS_SET = 120; // Wir zielen auf 120 Bilder pro Sekunde ab
     public Player player;
     private KeyboardInputs keyboardInputs;
+    private MouseInputs mouseInputs;
 
     public Game() {
         // Initialisierung der Kern-Komponenten
@@ -18,11 +20,16 @@ public class Game implements Runnable {
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
         keyboardInputs = new KeyboardInputs(this);
+        mouseInputs = new MouseInputs(gamePanel);
 
         // Wichtig: Das Panel muss den Fokus haben, um Tastatureingaben zu erkennen
         gamePanel.setFocusable(true);
         gamePanel.requestFocus();
+
+        //Listener für die Eingaben im GamePanel registrieren
         gamePanel.addKeyListener(keyboardInputs);
+        gamePanel.addMouseListener(mouseInputs);
+        gamePanel.addMouseMotionListener(mouseInputs);
 
         startGameLoop();
     }
