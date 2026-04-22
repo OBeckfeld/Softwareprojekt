@@ -16,14 +16,14 @@ public class GamePanel extends JPanel {
         setPanelSize();
 
         // Hier registrieren wir alle Inputs für dieses Panel
-        addKeyListener(new KeyboardInputs(game));
+
         addMouseListener(mouseInputs);
         addMouseMotionListener(mouseInputs);
     }
 
     private void setPanelSize() {
         // Die feste Größe unseres Spielfelds
-        Dimension size = new Dimension(1280, 800);
+        Dimension size = new Dimension(1920, 1080);
         setPreferredSize(size);
     }
 

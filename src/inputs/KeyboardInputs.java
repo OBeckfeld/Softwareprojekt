@@ -3,14 +3,19 @@ package inputs;
 import main.Game;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.HashSet;
+import java.util.Set;
 
 public class KeyboardInputs implements KeyListener {
 
-    private Game g;
+    private Game game;
+    private final Set<Integer> heldKeys = new HashSet<>();
 
     public KeyboardInputs(Game g) {
-        this.g = g;
+        this.game = g;
     }
+
+    public Set<Integer> getHeldKeys() {return heldKeys;};
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -19,25 +24,11 @@ public class KeyboardInputs implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        // Hier könnte man später Code einfügen, um Bewegungen zu stoppen
+        heldKeys.remove(e.getKeyCode());
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        // Abfrage, welche Taste gedrückt wurde
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_W:
-                g.player.changeY(-5); // Nach oben (Y wird kleiner)
-                break;
-            case KeyEvent.VK_A:
-                g.player.changeX(-5); // Nach links (X wird kleiner)
-                break;
-            case KeyEvent.VK_S:
-                g.player.changeY(5);  // Nach unten (Y wird größer)
-                break;
-            case KeyEvent.VK_D:
-                g.player.changeX(5);  // Nach rechts (X wird größer)
-                break;
+        heldKeys.add(e.getKeyCode());
         }
     }
-}
