@@ -16,7 +16,7 @@ public class Game implements Runnable {
 
     public Game() {
         // Initialisierung der Kern-Komponenten
-        player = new Player(200, 200, 40, 40);
+        player = new Player(200, 200, 80, 40);
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
         keyboardInputs = new KeyboardInputs(this);
