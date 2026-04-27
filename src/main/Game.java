@@ -1,5 +1,7 @@
 package main;
 
+import entities.Enemy;
+import entities.Entity;
 import entities.Player;
 import inputs.KeyboardInputs;
 import inputs.MouseInputs;
@@ -11,17 +13,19 @@ public class Game implements Runnable {
     private Thread gameThread;
     private final int FPS_SET = 120; // Wir zielen auf 120 Bilder pro Sekunde ab
     public Player player;
+    public Enemy enemy;
     private KeyboardInputs keyboardInputs;
     private MouseInputs mouseInputs;
     private Dummy map;//Repräsentation der map
 
     public Game() {
         // Initialisierung der Kern-Komponenten
-        player = new Player(200, 200, 80, 40);
+        player = new Player(200, 200, 80, 40,100);
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
         keyboardInputs = new KeyboardInputs(this);
         mouseInputs = new MouseInputs(gamePanel);
+        enemy = new Enemy(100, 100, 40, 50, 30, 1, 5);
 
         // Wichtig: Das Panel muss den Fokus haben, um Tastatureingaben zu erkennen
         gamePanel.setFocusable(true);

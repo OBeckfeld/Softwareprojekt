@@ -31,6 +31,12 @@ public class GamePanel extends JPanel {
         int x = game.player.getX();
         int y = game.player.getY();
 
+        int xE = game.enemy.getX();
+        int yE = game.enemy.getY();
+
         g.fillRect(x, y, 50, 50);
+
+        g.setColor(Color.RED);
+        g.fillRect(xE, yE, 30, 30);
     }
 }
