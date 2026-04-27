@@ -1,5 +1,8 @@
 package main;
 
+import java.awt.*;
+import java.util.*;
+
 public class Dummy {
     private int health = 100;
     private int maxHealth = 100;
@@ -55,5 +58,9 @@ public class Dummy {
 
     public boolean testBoolean() {
         return true;
+    }
+
+    public ArrayList<Dummy> testList() {
+        return new ArrayList<>();
     }
 }
