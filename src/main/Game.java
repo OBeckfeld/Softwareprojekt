@@ -13,6 +13,7 @@ public class Game implements Runnable {
     public Player player;
     private KeyboardInputs keyboardInputs;
     private MouseInputs mouseInputs;
+    private Dummy map;//Repräsentation der map
 
     public Game() {
         // Initialisierung der Kern-Komponenten
@@ -56,5 +57,11 @@ public class Game implements Runnable {
                 lastFrame = now;
             }
         }
+    }
+
+    public void healthManager(Dummy attacker, Dummy target) {//angegriffene entity wird übergeben
+        if(map.testBoolean()) {//dummy repräsentiert map; test() überprüft, ob Gegner in Reichweite waren
+            target.setHealth(target.getHealth() - (attacker.getAttack() + attacker.getWeapon().getAttack() - target.getDefense()));//health der angegriffenen entity wird bearbeitet
+    }
     }
 }
