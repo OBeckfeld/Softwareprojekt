@@ -3,7 +3,7 @@ package main;
 import entities.Player;
 import inputs.KeyboardInputs;
 import inputs.MouseInputs;
-import gameData.GameMap;
+import entities.EntityManager;
 
 
 public class Game implements Runnable {
@@ -15,16 +15,16 @@ public class Game implements Runnable {
     public Player player;
     private KeyboardInputs keyboardInputs;
     private MouseInputs mouseInputs;
-    private GameMap map;
+    private EntityManager entities;
 
     public Game() {
         // Initialisierung der Kern-Komponenten
-        player = new Player(200, 200, 80, 40);
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
         keyboardInputs = new KeyboardInputs(this);
         mouseInputs = new MouseInputs(gamePanel);
-        map = new GameMap();
+        entities = new EntityManager();
+        player = new Player(200, 200, 80, 40, entities);
 
         // Wichtig: Das Panel muss den Fokus haben, um Tastatureingaben zu erkennen
         gamePanel.setFocusable(true);
