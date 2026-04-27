@@ -3,6 +3,8 @@ package main;
 import entities.Player;
 import inputs.KeyboardInputs;
 import inputs.MouseInputs;
+import gameData.GameMap;
+
 
 public class Game implements Runnable {
 
@@ -13,7 +15,7 @@ public class Game implements Runnable {
     public Player player;
     private KeyboardInputs keyboardInputs;
     private MouseInputs mouseInputs;
-    private Dummy map;//Repräsentation der map
+    private GameMap map;
 
     public Game() {
         // Initialisierung der Kern-Komponenten
@@ -22,6 +24,7 @@ public class Game implements Runnable {
         gameWindow = new GameWindow(gamePanel);
         keyboardInputs = new KeyboardInputs(this);
         mouseInputs = new MouseInputs(gamePanel);
+        map = new GameMap();
 
         // Wichtig: Das Panel muss den Fokus haben, um Tastatureingaben zu erkennen
         gamePanel.setFocusable(true);
@@ -59,9 +62,4 @@ public class Game implements Runnable {
         }
     }
 
-    public void healthManager(Dummy attacker, Dummy target) {//angegriffene entity wird übergeben
-        if(map.testBoolean()) {//dummy repräsentiert map; test() überprüft, ob Gegner in Reichweite waren
-            target.setHealth(target.getHealth() - (attacker.getAttack() + attacker.getWeapon().getAttack() - target.getDefense()));//health der angegriffenen entity wird bearbeitet
     }
-    }
-}
