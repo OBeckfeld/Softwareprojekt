@@ -8,7 +8,7 @@ import java.util.Set;
 public abstract class Entity {
     // Die Position und Größe des Spielers
     private int x, y, height, width;
-    private double speed = 2; // Pixel, mit denen sich der Spieler pro Frame bewegt
+    private double speed = 3; // Pixel, mit denen sich der Spieler pro Frame bewegt
     private MovementComponent movement;
     private Rectangle hurtbox;
 

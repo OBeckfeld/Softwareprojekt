@@ -22,13 +22,14 @@ public class MovementComponent {
 
         //für diagonale Bewegung
         if(dx != 0 && dy != 0){
-            vx = (int) Math.round(dx / 1.4142135623730951);
-            vy = (int) Math.round(dy / 1.4142135623730951);
+            vx = (int) Math.round(dx * 0.70710678118);
+            vy = (int) Math.round(dy * 0.70710678118);
         }
         else{
-            vx = (int )Math.round(dx);
-            vy = (int )Math.round(dy);
+            vx = (int) Math.round(dx);
+            vy = (int) Math.round(dy);
         }
+
 
         player.setX(player.getX() + vx);
         player.setY(player.getY() + vy);
