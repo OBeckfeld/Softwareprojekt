@@ -1,9 +1,13 @@
 package main;
 
+import entities.Entity;
 import entities.Player;
+import entities.Enemy;
 import inputs.KeyboardInputs;
 import inputs.MouseInputs;
-import gameData.GameMap;
+import entities.EntityManager;
+
+import java.util.ArrayList;
 
 
 public class Game implements Runnable {
@@ -15,16 +19,17 @@ public class Game implements Runnable {
     public Player player;
     private KeyboardInputs keyboardInputs;
     private MouseInputs mouseInputs;
-    private GameMap map;
+    private EntityManager entities;
 
     public Game() {
         // Initialisierung der Kern-Komponenten
-        player = new Player(200, 200, 80, 40);
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
         keyboardInputs = new KeyboardInputs(this);
         mouseInputs = new MouseInputs(gamePanel);
-        map = new GameMap();
+        entities = new EntityManager();
+        player = new Player(200, 200, 80, 40, entities);
+        Enemy enemy = new Enemy(100, 100, 40, 40, entities, player);
 
         // Wichtig: Das Panel muss den Fokus haben, um Tastatureingaben zu erkennen
         gamePanel.setFocusable(true);
@@ -51,15 +56,22 @@ public class Game implements Runnable {
         long lastFrame = System.nanoTime();
         long now;
 
+
         while (true) {
             now = System.nanoTime();
             // Wenn genug Zeit vergangen ist, zeichnen wir neu
             if (now - lastFrame >= timePerFrame) {
+                ArrayList<Entity> allEntities = entities.getEntities();
+                //erlaubt es jeder entity jeden tick etwas zu machen
+                for (Entity entity : allEntities){
+                    entity.act();
+                }
                 player.update(keyboardInputs.getHeldKeys());
                 gamePanel.repaint();
                 lastFrame = now;
             }
         }
     }
+    public ArrayList<Entity> getEntities(){ return entities.getEntities();}
 
     }

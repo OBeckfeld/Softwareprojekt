@@ -8,8 +8,8 @@ import java.util.Set;
 
 public class Player extends Entity {
 
-    public Player(int x, int y, int height, int width){
-        super(x, y, height, width);
+    public Player(int x, int y, int height, int width, entityRegistry registry) {
+        super(x, y, height, width, registry);
     }
 
 }
