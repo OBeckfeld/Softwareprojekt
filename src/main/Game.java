@@ -71,6 +71,6 @@ public class Game implements Runnable {
             }
         }
     }
-    public ArrayList<Entity> getEntities(){ return entities.getEntities();}
+    public ArrayList<Entity> getEntities(){ return entities.getEntities();}//nur zum Testen, muss noch entfernt werden
 
     }
