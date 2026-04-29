@@ -17,4 +17,6 @@ public class EntityManager implements entityRegistry {
     }
 
     public ArrayList<Entity> getEntities(){return entities;}
+
+
 }

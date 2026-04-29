@@ -63,7 +63,7 @@ public class Game implements Runnable {
                 ArrayList<Entity> allEntities = entities.getEntities();
                 //erlaubt es jeder entity jeden tick etwas zu machen
                 for (Entity entity : allEntities){
-                    entity.act();
+                    entity.update();
                 }
                 player.update(keyboardInputs.getHeldKeys());
                 gamePanel.repaint();

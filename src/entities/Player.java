@@ -12,5 +12,10 @@ public class Player extends Entity {
         super(x, y, height, width, registry);
     }
 
+
+    public void update(Set<Integer> keyboardInputs) {
+        movement.move(keyboardInputs, this);
+    }
+
 }
 

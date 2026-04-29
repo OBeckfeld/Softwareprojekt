@@ -16,7 +16,7 @@ public class Enemy extends Entity {
         setSpeed(2);
         this.player = player;//nur zum testen
     }
-    public void act(){
+    public void update(){
         Vector vector = new Vector(getX(), getY(), player.getX(), player.getY());
         vector.setLength(getSpeed());
         vector.apply(this);//get getSpeed() schritte in richtung vom player
