@@ -5,7 +5,7 @@ import entities.Player;
 import entities.Enemy;
 import inputs.KeyboardInputs;
 import inputs.MouseInputs;
-import entities.EntityManager;
+import entities.managers.EntityManager;
 
 import java.util.ArrayList;
 

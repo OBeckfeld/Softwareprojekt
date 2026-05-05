@@ -1,4 +1,6 @@
-package entities;
+package entities.managers;
+
+import entities.Entity;
 
 import java.util.ArrayList;
 import java.util.HashMap;

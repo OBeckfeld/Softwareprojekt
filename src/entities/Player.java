@@ -1,9 +1,7 @@
 package entities;
 
-import entities.components.MovementComponent;
+import entities.managers.entityRegistry;
 
-import javax.swing.*;
-import java.awt.event.KeyEvent;
 import java.util.Set;
 
 public class Player extends Entity {

@@ -1,13 +1,7 @@
 package entities;
 
-import entities.Entity;
-import entities.components.MovementComponent;
-import entities.entityRegistry;
+import entities.managers.entityRegistry;
 import tools.Vector;
-
-import javax.swing.*;
-import java.awt.event.KeyEvent;
-import java.util.Set;
 
 public class Enemy extends Entity {
     Player player;//nur zum testen

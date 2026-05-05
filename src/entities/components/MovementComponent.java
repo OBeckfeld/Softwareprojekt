@@ -10,28 +10,25 @@ public class MovementComponent {
     public MovementComponent(){}
 
 //player muss noch zu entity geändert werden
-    public void move(Set<Integer> keyboardInputs, Entity player) {
+    public void move(Set<Integer> keyboardInputs, Entity entity) {
         double dx = 0, dy = 0; //Veränderung der X und Y Koordinaten genau
         int vx, vy ; //Veränderung der X und Y Koordinaten auf int gerundet
 
         //prüfen, welche Inputs gegeben werden
-        if(keyboardInputs.contains(KeyEvent.VK_W)){ dy -= player.getSpeed(); }
-        if(keyboardInputs.contains(KeyEvent.VK_S)){ dy += player.getSpeed(); }
-        if(keyboardInputs.contains(KeyEvent.VK_A)){ dx -= player.getSpeed(); }
-        if(keyboardInputs.contains(KeyEvent.VK_D)){ dx += player.getSpeed(); }
+        if(keyboardInputs.contains(KeyEvent.VK_W)){ dy -= entity.getSpeed(); }
+        if(keyboardInputs.contains(KeyEvent.VK_S)){ dy += entity.getSpeed(); }
+        if(keyboardInputs.contains(KeyEvent.VK_A)){ dx -= entity.getSpeed(); }
+        if(keyboardInputs.contains(KeyEvent.VK_D)){ dx += entity.getSpeed(); }
 
         //für diagonale Bewegung
         if(dx != 0 && dy != 0){
-            vx = (int) Math.round(dx * 0.70710678118);
-            vy = (int) Math.round(dy * 0.70710678118);
-        }
-        else{
-            vx = (int) Math.round(dx);
-            vy = (int) Math.round(dy);
+            dx = dx * 0.70710678118;
+            dy = dy * 0.70710678118;
         }
 
 
-        player.setX(player.getX() + vx);
-        player.setY(player.getY() + vy);
+
+        entity.setX(entity.getX() + dx);
+        entity.setY(entity.getY() + dy);
     }
 }
