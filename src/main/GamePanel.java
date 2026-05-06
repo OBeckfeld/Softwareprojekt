@@ -1,13 +1,9 @@
 package main;
 
-import inputs.KeyboardInputs;
-import inputs.MouseInputs;
 import entities.Entity;
-import entities.Player;
 import entities.Enemy;
 import javax.swing.JPanel;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class GamePanel extends JPanel {
     private Game game;
