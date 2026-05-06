@@ -3,6 +3,7 @@ package main;
 import entities.Entity;
 import entities.Player;
 import entities.Enemy;
+import entities.managers.CollisionManager;
 import inputs.KeyboardInputs;
 import inputs.MouseInputs;
 import entities.managers.EntityManager;
@@ -20,6 +21,7 @@ public class Game implements Runnable {
     private KeyboardInputs keyboardInputs;
     private MouseInputs mouseInputs;
     private EntityManager entities;
+    private CollisionManager collisions;
 
     public Game() {
         // Initialisierung der Kern-Komponenten
@@ -30,6 +32,7 @@ public class Game implements Runnable {
         entities = new EntityManager();
         player = new Player(200, 200, 80, 40, entities);
         Enemy enemy = new Enemy(100, 100, 40, 40, entities, player);
+        collisions = new CollisionManager(entities);
 
         // Wichtig: Das Panel muss den Fokus haben, um Tastatureingaben zu erkennen
         gamePanel.setFocusable(true);
@@ -60,9 +63,9 @@ public class Game implements Runnable {
             now = System.nanoTime();
             // Wenn genug Zeit vergangen ist, zeichnen wir neu
             if (now - lastFrame >= timePerFrame) {
-                ArrayList<Entity> allEntities = entities.getEntities();
+                collisions.checkCollisions();
                 //erlaubt es jeder entity jeden tick etwas zu machen
-                for (Entity entity : allEntities){
+                for (Entity entity : entities.getEntities()){
                     entity.update();
                 }
                 player.update(keyboardInputs.getHeldKeys());

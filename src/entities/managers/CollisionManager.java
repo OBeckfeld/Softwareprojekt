@@ -2,6 +2,7 @@ package entities.managers;
 
 import entities.Entity;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -25,8 +26,11 @@ public class CollisionManager {
                         entities.put(entity, new ArrayList<>());
                     }
                     entities.get(entity).add(otherEntity);//in die Liste wird die Entity eingefügt, die mit der aktuellen Entity kolliedert
+                    System.out.println("test passed");
                 }
+                System.out.println(otherEntity.getName());
             }
+            System.out.println(entity.getName());
         }
     }
 

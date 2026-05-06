@@ -1,11 +1,11 @@
 package entities;
 
-import entities.managers.entityRegistry;
+import entities.managers.EntityRegistry;
 import tools.Vector;
 
 public class Enemy extends Entity {
     Player player;//nur zum testen
-    public Enemy(int x, int y, int height, int width, entityRegistry registry, Player player) {
+    public Enemy(int x, int y, int height, int width, EntityRegistry registry, Player player) {
         super(x, y, height, width, registry);
         setSpeed(2);
         this.player = player;//nur zum testen
@@ -16,4 +16,7 @@ public class Enemy extends Entity {
         vector.apply(this);//get getSpeed() schritte in richtung vom player
     }
 
+    public String getName(){//zum testen von collisionManager
+        return "Fred";
+    }
 }

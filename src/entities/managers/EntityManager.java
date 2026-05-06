@@ -4,7 +4,7 @@ import entities.Entity;
 
 import java.util.ArrayList;
 
-public class EntityManager implements entityRegistry {
+public class EntityManager implements EntityRegistry {
     private ArrayList<Entity> entities;
 
     public EntityManager(){

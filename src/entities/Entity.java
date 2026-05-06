@@ -1,7 +1,7 @@
 package entities;
 
 import entities.components.MovementComponent;
-import entities.managers.entityRegistry;
+import entities.managers.EntityRegistry;
 
 import java.awt.*;
 
@@ -9,11 +9,11 @@ public abstract class Entity {
     // Die Position und Größe des Spielers
     protected int height, width;
     protected double x, y;
-    protected double speed = 1.5; // Pixel, mit denen sich der Spieler pro Frame bewegt
+    protected double speed = 5; // Pixel, mit denen sich der Spieler pro Frame bewegt
     protected MovementComponent movement;
     protected Rectangle hurtbox;
 
-    public Entity(double x, double y, int height, int width, entityRegistry registry) {
+    public Entity(double x, double y, int height, int width, EntityRegistry registry) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -43,4 +43,5 @@ public abstract class Entity {
 
     public void update(){}//wird in jedem frame aufgerufen. die funktion wird in den unterklassen bestimmt
 
+    public String getName(){return "";}//zum testen
 }
