@@ -8,12 +8,15 @@ import entities.Enemy;
 import javax.swing.JPanel;
 import java.awt.*;
 import java.util.ArrayList;
+import tools.TileManager;
 
 public class GamePanel extends JPanel {
     private Game game;
+    private TileManager tileManager;
 
     public GamePanel(Game game) {
         this.game = game;
+        tileManager = new TileManager();
 
         setPanelSize();
     }
@@ -28,6 +31,7 @@ public class GamePanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g); // Wichtig: Bereinigt das Panel vor dem Zeichnen
 
+        tileManager.draw(g);
         // Spieler als blaues Rechteck zeichnen
         g.setColor(Color.BLUE);
 
