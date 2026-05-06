@@ -17,7 +17,17 @@ public class GameMaps {
 
     // 🔹 Store all maps here
     private GameMap[] maps;
-
+    /**
+     * 0  -  horizontal
+     * 1  -  Kreuz
+     * 2  -  vertikal
+     * 3  -  links, unten
+     * 4  -  links, oben
+     * 5  -  rechts, oben
+     * 6  -  rechts, unten
+     * 7  -  leere Wand
+     * 8  -  Boden
+     */
     public GameMaps() {
         maps = new GameMap[2];
 

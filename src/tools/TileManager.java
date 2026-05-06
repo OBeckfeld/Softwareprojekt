@@ -1,6 +1,5 @@
 package tools;
 
-import main.Game;
 import tools.SpriteSheet;
 
 import javax.imageio.ImageIO;
@@ -12,7 +11,6 @@ import tools.GameMaps;
 public class TileManager {
 
     public Tile[] tiles;
-    public int[][] map;
     private GameMaps gameMaps;
     private GameMaps.GameMap currentMap;
 
@@ -20,17 +18,7 @@ public class TileManager {
     int tileSize = 64;
     int size = 512;
 
-    /**
-     * 0  -  horizontal
-     * 1  -  Kreuz
-     * 2  -  vertikal
-     * 3  -  links, unten
-     * 4  -  links, oben
-     * 5  -  rechts, oben
-     * 6  -  rechts, unten
-     * 7  -  leere Wand
-     * 8  -  Boden
-     */
+
     public TileManager() {
         tiles = new Tile[10];
         gameMaps = new GameMaps();
@@ -40,7 +28,7 @@ public class TileManager {
     }
 
 
-
+//definiert die Tiles aus dem Spritesheet
     private void loadTiles() {
         try {
             BufferedImage sheet = ImageIO.read(
@@ -81,14 +69,7 @@ public class TileManager {
         }
     }
 
-    private void loadMap() {
-        for(int row = 0; row < map.length; row++) {
-            for(int col = 0; col < map[0].length; col++) {
-                map[row][col] = (row == 0 || col == 0 || row == 9 || col == 9) ? 1 : 0;
-            }
-        }
-    }
-
+    //zeichnet die currentMap
     public void draw(Graphics g) {
         int[][] map = currentMap.getLayout();
         for(int row = 0; row < map.length; row++) {
