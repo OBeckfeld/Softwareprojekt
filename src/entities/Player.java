@@ -14,9 +14,5 @@ public class Player extends Entity {
     public void update(Set<Integer> keyboardInputs) {
         movement.move(keyboardInputs, this);
     }
-
-    public String getName(){//zum debuggen
-        return "Player";
-    }
 }
 

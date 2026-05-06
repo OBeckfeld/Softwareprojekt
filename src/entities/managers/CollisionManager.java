@@ -26,7 +26,6 @@ public class CollisionManager {
                         entities.put(entity, new ArrayList<>());
                     }
                     entities.get(entity).add(otherEntity);//in die Liste wird die Entity eingefügt, die mit der aktuellen Entity kolliedert
-                    System.out.println("test passed");
                 }
             }
         }

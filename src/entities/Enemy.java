@@ -15,8 +15,4 @@ public class Enemy extends Entity {
         vector.setLength(getSpeed());
         vector.apply(this);//get getSpeed() schritte in richtung vom player
     }
-
-    public String getName(){//zum testen von collisionManager
-        return "Enemy";
-    }
 }
