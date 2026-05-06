@@ -17,7 +17,6 @@ public class Hitbox {
     public void setX(double x){this.x = x;}
     public void setY(double y){this.y = y;}
 
-
     public boolean intersects(Hitbox otherHitbox){
         if(x < otherHitbox.x + otherHitbox.width && x + width > otherHitbox.x && y < otherHitbox.y + otherHitbox.height && y + height > otherHitbox.y){
             return true;
@@ -27,4 +26,8 @@ public class Hitbox {
         }
     }
 
+    public void setLocation(double x, double y){
+        this.x = x;
+        this.y = y;
+    }
 }

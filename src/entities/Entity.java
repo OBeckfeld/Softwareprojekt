@@ -2,6 +2,7 @@ package entities;
 
 import entities.components.MovementComponent;
 import entities.managers.EntityRegistry;
+import tools.Hitbox;
 
 import java.awt.*;
 
@@ -11,7 +12,7 @@ public abstract class Entity {
     protected double x, y;
     protected double speed = 5; // Pixel, mit denen sich der Spieler pro Frame bewegt
     protected MovementComponent movement;
-    protected Rectangle hurtbox;
+    protected Hitbox hurtbox;
 
     public Entity(double x, double y, int height, int width, EntityRegistry registry) {
         this.x = x;
@@ -19,11 +20,11 @@ public abstract class Entity {
         this.width = width;
         this.height = height;
         movement = new MovementComponent();
-        hurtbox = new Rectangle((int)Math.round(x), (int) Math.round(y), width, height);
+        hurtbox = new Hitbox(x, y, width, height);
         registry.register(this);
     }
 
-    public Rectangle getHurtbox() {return hurtbox;}
+    public Hitbox getHurtbox() {return hurtbox;}
 
     public double getX() {
         return x;
