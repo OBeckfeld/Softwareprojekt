@@ -1,19 +1,34 @@
 package entities;
 
-import entities.components.MovementComponent;
 import entities.managers.EntityRegistry;
 import tools.Vector;
 
-public class Enemy extends Entity {
-    Player player;//nur zum testen
-    public Enemy(int x, int y, int height, int width, EntityRegistry registry, Player player) {
+public class Enemy extends PlayerTypeEntity {
+
+    private static final int ATTACK_RANGE = 45;
+
+    Player player;
+
+    public Enemy(double x, double y, int height, int width, EntityRegistry registry, Player player) {
         super(x, y, height, width, registry);
-        setSpeed(8);
-        this.player = player;//nur zum testen
+        setSpeed(2);
+        this.player = player;
     }
-    public void update(){
-        Vector vector = new Vector(getX(), getY(), player.getX(), player.getY());
-        vector.setLength(getSpeed());
-        vector.apply(this);//get getSpeed() schritte in richtung vom player
+
+    @Override
+    public void update() {
+        if (!isAlive() || player == null) return;
+
+        moveTowardsPlayer();
+    }
+
+    private void moveTowardsPlayer() {
+        Vector distVector = new Vector(getX(), getY(), player.getX(), player.getY());
+
+        if (distVector.getLength() > ATTACK_RANGE) {
+            Vector moveVector = new Vector(getX(), getY(), player.getX(), player.getY());
+            moveVector.setLength(getSpeed());
+            moveVector.apply(this);
+        }
     }
 }

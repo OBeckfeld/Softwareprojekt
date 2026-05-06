@@ -4,7 +4,6 @@ import entities.Entity;
 import inputs.KeyboardInputs;
 
 import java.awt.event.KeyEvent;
-import java.util.Set;
 
 public class MovementComponent {
 
@@ -13,18 +12,18 @@ public class MovementComponent {
     public MovementComponent(){}
     public MovementComponent(KeyboardInputs inputs){this.inputs = inputs;}
 
-//player muss noch zu entity geändert werden
     public void move(Entity entity) {
-        double dx = 0, dy = 0; //Veränderung der X und Y Koordinaten genau
-        int vx, vy ; //Veränderung der X und Y Koordinaten auf int gerundet
+        if (inputs == null) {
+            return;
+        }
 
-        //prüfen, welche Inputs gegeben werden
+        double dx = 0, dy = 0;
+
         if(inputs.getHeldKeys().contains(KeyEvent.VK_W)){ dy -= entity.getSpeed(); }
         if(inputs.getHeldKeys().contains(KeyEvent.VK_S)){ dy += entity.getSpeed(); }
         if(inputs.getHeldKeys().contains(KeyEvent.VK_A)){ dx -= entity.getSpeed(); }
         if(inputs.getHeldKeys().contains(KeyEvent.VK_D)){ dx += entity.getSpeed(); }
 
-        //für diagonale Bewegung
         if(dx != 0 && dy != 0){
             dx = dx * 0.70710678118;
             dy = dy * 0.70710678118;

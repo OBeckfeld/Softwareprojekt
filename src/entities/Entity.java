@@ -4,13 +4,10 @@ import entities.components.MovementComponent;
 import entities.managers.EntityRegistry;
 import tools.Hitbox;
 
-import java.awt.*;
-
 public abstract class Entity {
-    // Die Position und Größe des Spielers
     protected int height, width;
     protected double x, y;
-    protected double speed = 5; // Pixel, mit denen sich der Spieler pro Frame bewegt
+    protected double speed = 5;
     protected MovementComponent movement;
     protected Hitbox hurtbox;
 
@@ -37,12 +34,12 @@ public abstract class Entity {
     public void setY(double y) { this.y = y; }
 
     public double getSpeed() { return speed; }
-    public void setSpeed(double speed) { this.speed = speed; }//noch keinen Nutzen, aber in der Zukunft
+    public void setSpeed(double speed) { this.speed = speed; }
 
     public int getWidth() { return width; }
     public int getHeight() { return height; }
 
-    public void update(){}//wird in jedem frame aufgerufen. die funktion wird in den unterklassen bestimmt
+    public void update(){}
 
     public void unregister(EntityRegistry registry){
         registry.unregister(this);

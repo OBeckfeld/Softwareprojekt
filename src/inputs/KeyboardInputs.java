@@ -19,7 +19,6 @@ public class KeyboardInputs implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        // Wird hier nicht benötigt
     }
 
     @Override

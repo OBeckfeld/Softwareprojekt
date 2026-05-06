@@ -12,10 +12,10 @@ public class EntityManager implements EntityRegistry {
     }
 
     @Override
-    public void register(Entity entity){ //fügt eine (neu erstellte) Entity in die Liste hinzu
+    public void register(Entity entity){
         entities.add(entity);
-    }//fügt eine (neu erstellte) Entity in die Liste hinzu
-    public void unregister(Entity entity){entities.remove(entity); //entfernt eine Entity aus der entities Liste
+    }
+    public void unregister(Entity entity){entities.remove(entity);
     }
 
     public ArrayList<Entity> getEntities(){return entities;}
