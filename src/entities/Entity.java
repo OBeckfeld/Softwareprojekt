@@ -29,6 +29,14 @@ public abstract class Entity {
     }
     public void setY(int y) { this.y = y; }
 
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+    
     public double getSpeed() { return speed; }
     public void setSpeed(double speed) { this.speed = speed; }//noch keinen Nutzen, aber in der Zukunft
 

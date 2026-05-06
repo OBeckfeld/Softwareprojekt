@@ -5,9 +5,10 @@ public class PlayerTypeEntity extends Entity {
     protected int health = 100;
     protected int damage = 10;
     protected int defense = 5;
+    protected int direction = 0; //0 = rechts, 1 = unten, 2 = links, 3 = oben
 
-    public PlayerTypeEntity(int x, int y, int height, int width, entityRegistry registry) {
-        super(x, y, height, width, registry);
+    public PlayerTypeEntity(int x, int y, int height, int width) {
+        super(x, y, height, width);
         this.health = health;
         this.damage = damage;
         this.defense = defense;
@@ -35,5 +36,9 @@ public class PlayerTypeEntity extends Entity {
 
     public int getDefense() {
         return defense;
+    }
+
+    public int getDirection() {
+        return direction;
     }
 }
