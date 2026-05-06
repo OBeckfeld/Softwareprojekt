@@ -24,6 +24,7 @@ public class Vector {
     public void apply(Entity entity){
         entity.setX(entity.getX() + dX);
         entity.setY(entity.getY() + dY);
+        entity.getHurtbox().setLocation((int) (entity.getX() + dX), (int) (entity.getY() + dY));
     }
     public double getOffsetX(){
         return dX;

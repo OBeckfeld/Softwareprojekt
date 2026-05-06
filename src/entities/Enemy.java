@@ -17,6 +17,6 @@ public class Enemy extends Entity {
     }
 
     public String getName(){//zum testen von collisionManager
-        return "Fred";
+        return "Enemy";
     }
 }

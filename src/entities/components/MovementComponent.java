@@ -26,9 +26,10 @@ public class MovementComponent {
             dy = dy * 0.70710678118;
         }
 
-
+        entity.getHurtbox().setLocation((int) (entity.getX() + dx), (int) (entity.getY() + dy));
 
         entity.setX(entity.getX() + dx);
         entity.setY(entity.getY() + dy);
     }
+
 }
