@@ -43,4 +43,8 @@ public abstract class Entity {
     public int getHeight() { return height; }
 
     public void update(){}//wird in jedem frame aufgerufen. die funktion wird in den unterklassen bestimmt
+
+    public void unregister(EntityRegistry registry){
+        registry.unregister(this);
+    }
 }

@@ -30,7 +30,7 @@ public class Game implements Runnable {
         keyboardInputs = new KeyboardInputs(this);
         mouseInputs = new MouseInputs(gamePanel);
         entities = new EntityManager();
-        player = new Player(200, 200, 80, 40, entities);
+        player = new Player(200, 200, 80, 40, entities, keyboardInputs);
         Enemy enemy = new Enemy(100, 100, 40, 40, entities, player);
         collisions = new CollisionManager(entities);
 
@@ -68,7 +68,6 @@ public class Game implements Runnable {
                 for (Entity entity : entities.getEntities()){
                     entity.update();
                 }
-                player.update(keyboardInputs.getHeldKeys());
                 gamePanel.repaint();
                 lastFrame = now;
             }
