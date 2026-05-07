@@ -9,7 +9,7 @@ public abstract class Entity {
     // Die Position und Größe des Spielers
     private int height, width;
     private double x, y;
-    private double speed = 1.6; // Pixel, mit denen sich der Spieler pro Frame bewegt
+    private double speed = 2.3; // Pixel, mit denen sich der Spieler pro Frame bewegt
     private MovementComponent movement;
     private Rectangle hurtbox;
 

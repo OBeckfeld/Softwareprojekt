@@ -9,7 +9,6 @@ public class MovementComponent {
 
     public MovementComponent(){}
 
-//player muss noch zu entity geändert werden
     public void move(Set<Integer> keyboardInputs, Entity player) {
         double dx = 0, dy = 0; //Veränderung der X und Y Koordinaten genau
         int vx, vy ; //Veränderung der X und Y Koordinaten auf int gerundet
@@ -32,6 +31,7 @@ public class MovementComponent {
 
 
         player.setX(player.getX() + vx);
+
         player.setY(player.getY() + vy);
     }
 }

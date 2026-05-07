@@ -1,11 +1,8 @@
 package main;
 
-import entities.Entity;
-import entities.Player;
-import entities.Enemy;
+import entities.*;
 import inputs.KeyboardInputs;
 import inputs.MouseInputs;
-import entities.EntityManager;
 
 import java.util.ArrayList;
 
@@ -20,6 +17,7 @@ public class Game implements Runnable {
     private KeyboardInputs keyboardInputs;
     private MouseInputs mouseInputs;
     private EntityManager entities;
+    public CollisionManager collision;
 
     public Game() {
         // Initialisierung der Kern-Komponenten
@@ -28,6 +26,7 @@ public class Game implements Runnable {
         keyboardInputs = new KeyboardInputs(this);
         mouseInputs = new MouseInputs(gamePanel);
         entities = new EntityManager();
+        collision = new CollisionManager(entities);
         player = new Player(200, 200, 80, 40, entities);
         Enemy enemy = new Enemy(100, 100, 40, 40, entities, player);
 
