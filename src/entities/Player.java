@@ -1,16 +1,18 @@
 package entities;
 
 import entities.components.MovementComponent;
-
-import javax.swing.*;
-import java.awt.event.KeyEvent;
-import java.util.Set;
+import entities.managers.EntityRegistry;
+import inputs.KeyboardInputs;
 
 public class Player extends Entity {
 
-    public Player(int x, int y, int height, int width){
-        super(x, y, height, width);
+    public Player(int x, int y, int height, int width, EntityRegistry registry, KeyboardInputs keyboardInputs) {
+        super(x, y, height, width, registry);
+        movement = new MovementComponent(keyboardInputs);
     }
 
+    public void update() {
+        movement.move(this);
+    }
 }
 
