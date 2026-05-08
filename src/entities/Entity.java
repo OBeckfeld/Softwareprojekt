@@ -4,8 +4,6 @@ import entities.components.MovementComponent;
 import entities.managers.EntityRegistry;
 import tools.Hitbox;
 
-import java.awt.*;
-
 public abstract class Entity {
     // Die Position und Größe des Spielers
     protected int height, width;
