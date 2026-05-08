@@ -1,48 +1,50 @@
 package entities;
 
 import entities.components.MovementComponent;
+import entities.managers.EntityRegistry;
+import tools.Hitbox;
 
-import java.util.Set;
+import java.awt.*;
 
 public abstract class Entity {
     // Die Position und Größe des Spielers
-    private int x, y, height, width;
-    private double speed = 5; // Pixel, mit denen sich der Spieler pro Frame bewegt
-    MovementComponent movement;
+    protected int height, width;
+    protected double x, y;
+    protected double speed = 5; // Pixel, mit denen sich der Spieler pro Frame bewegt
+    protected MovementComponent movement;
+    protected Hitbox hurtbox;
 
-    public Entity(int x, int y, int height, int width) {
+    public Entity(double x, double y, int height, int width, EntityRegistry registry) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         movement = new MovementComponent();
+        hurtbox = new Hitbox(x, y, width, height);
+        registry.register(this);
     }
 
+    public Hitbox getHurtbox() {return hurtbox;}
 
-    public int getX() {
+    public double getX() {
         return x;
     }
-    public void setX(int x) {this.x = x;}
+    public void setX(double x) {this.x = x;}
 
-    public int getY() {
+    public double getY() {
         return y;
     }
-    public void setY(int y) { this.y = y; }
+    public void setY(double y) { this.y = y; }
 
-    public int getHeight() {
-        return height;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-    
     public double getSpeed() { return speed; }
     public void setSpeed(double speed) { this.speed = speed; }//noch keinen Nutzen, aber in der Zukunft
 
-    public void update(Set<Integer> keyboardInputs) {
-        movement.move(keyboardInputs, this);
+    public int getWidth() { return width; }
+    public int getHeight() { return height; }
+
+    public void update(){}//wird in jedem frame aufgerufen. die funktion wird in den unterklassen bestimmt
+
+    public void unregister(EntityRegistry registry){
+        registry.unregister(this);
     }
-
-
 }
