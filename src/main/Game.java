@@ -1,27 +1,34 @@
 package main;
 
+import entities.Entity;
 import entities.Player;
+import entities.Enemy;
+import entities.managers.CollisionManager;
 import inputs.KeyboardInputs;
-import inputs.MouseInputs;
+import entities.managers.EntityManager;
+
+import java.util.ArrayList;
+
 
 public class Game implements Runnable {
 
     private GameWindow gameWindow;
     private GamePanel gamePanel;
     private Thread gameThread;
-    private final int FPS_SET = 120; // Wir zielen auf 120 Bilder pro Sekunde ab
-    public Player player;
+    private final int FPS_SET = 120; // Wir zielen auf 120 Bilder pro Sekunde ab;
     private KeyboardInputs keyboardInputs;
-    private MouseInputs mouseInputs;
-    private Dummy map;//Repräsentation der map
+    private EntityManager entities;
+    private CollisionManager collisions;
 
     public Game() {
         // Initialisierung der Kern-Komponenten
-        player = new Player(200, 200, 80, 40);
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
         keyboardInputs = new KeyboardInputs(this);
-        mouseInputs = new MouseInputs(gamePanel);
+        entities = new EntityManager();
+        Player player = new Player(200, 200, 80, 40, entities, keyboardInputs);
+        new Enemy(100, 100, 40, 40, entities, player);
+        collisions = new CollisionManager(entities);
 
         // Wichtig: Das Panel muss den Fokus haben, um Tastatureingaben zu erkennen
         gamePanel.setFocusable(true);
@@ -29,8 +36,6 @@ public class Game implements Runnable {
 
         //Listener für die Eingaben im GamePanel registrieren
         gamePanel.addKeyListener(keyboardInputs);
-        gamePanel.addMouseListener(mouseInputs);
-        gamePanel.addMouseMotionListener(mouseInputs);
 
         startGameLoop();
     }
@@ -52,16 +57,16 @@ public class Game implements Runnable {
             now = System.nanoTime();
             // Wenn genug Zeit vergangen ist, zeichnen wir neu
             if (now - lastFrame >= timePerFrame) {
-                player.update(keyboardInputs.getHeldKeys());
+                collisions.checkCollisions();
+                //erlaubt es jeder entity jeden tick etwas zu machen
+                for (Entity entity : entities.getEntities()){
+                    entity.update();
+                }
                 gamePanel.repaint();
                 lastFrame = now;
             }
         }
     }
+    public ArrayList<Entity> getEntities(){ return entities.getEntities();}//nur zum Testen, muss noch entfernt werden
 
-    public void healthManager(Dummy attacker, Dummy target) {//angegriffene entity wird übergeben
-        if(map.testBoolean()) {//dummy repräsentiert map; test() überprüft, ob Gegner in Reichweite waren
-            target.setHealth(target.getHealth() - (attacker.getAttack() + attacker.getWeapon().getAttack() - target.getDefense()));//health der angegriffenen entity wird bearbeitet
     }
-    }
-}
