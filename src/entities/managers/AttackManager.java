@@ -1,7 +1,12 @@
-package entities;
+package entities.managers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java .math.*;
+
+import entities.Attack;
+import entities.Entity;
+import entities.PlayerTypeEntity;
 
 public class AttackManager {
     private CollisionManager collisionManager;
@@ -15,26 +20,26 @@ public class AttackManager {
     /**
      * newAttack erstellt eine neue Attacke, falls der owner keine aktive Attacke hat, dies limitiert die Anzahl der Attacken pro Entity
      */
-    public void newAttack(int direction, entityRegistry registry, int timeToLive, PlayerTypeEntity owner) {
+    public void newAttack(int direction, EntityRegistry registry, int timeToLive, PlayerTypeEntity owner) {
         if(owner.getAttack() == null || owner.getAttack().isExpired()) { //falls der owner noch keine Attacke hat oder seine Attacke abgelaufen ist, wird eine neue Attacke erstellt
-            int x;
-            int y;
+            double x;
+            double y;
             switch (direction) { //die Position der Attacke wird abhängig von der Richtung des owners gesetzt
                 case 0: //rechts
-                    x = owner.getX() + owner.getWidth();
-                    y = owner.getY() + owner.getHeight() / 2 - 60;
+                    x = Math.round(owner.getX() + owner.getWidth());
+                    y = Math.round(owner.getY() + owner.getHeight() / 2 - 60);
                     break;
                 case 1: //unten
-                    x = owner.getX() + owner.getWidth() / 2 - 30;
-                    y = owner.getY() + owner.getHeight();
+                    x = Math.round(owner.getX() + owner.getWidth() / 2 - 30);
+                    y = Math.round(owner.getY() + owner.getHeight());
                     break;
                 case 2: //links
-                    x = owner.getX() - 60;
-                    y = owner.getY() + owner.getHeight() / 2 - 60;
+                    x = Math.round(owner.getX() - 60);
+                    y = Math.round(owner.getY() + owner.getHeight() / 2 - 60);
                     break;
                 case 3: //oben
-                    x = owner.getX() + owner.getWidth() / 2 - 30;
-                    y = owner.getY() - 60;
+                    x = Math.round(owner.getX() + owner.getWidth() / 2 - 30);
+                    y = Math.round(owner.getY() - 60);
                     break;
                 default:
                     throw new IllegalArgumentException();

@@ -1,5 +1,7 @@
 package entities;
 
+import entities.managers.EntityRegistry;
+
 public class PlayerTypeEntity extends Entity {
     protected Attack attack; //Referenz auf die aktive Attacke der Entity
     protected int health = 100;
@@ -7,8 +9,8 @@ public class PlayerTypeEntity extends Entity {
     protected int defense = 5;
     protected int direction = 0; //0 = rechts, 1 = unten, 2 = links, 3 = oben
 
-    public PlayerTypeEntity(int x, int y, int height, int width) {
-        super(x, y, height, width);
+    public PlayerTypeEntity(int x, int y, int height, int width, EntityRegistry registry) {
+        super(x, y, height, width, registry);
         this.health = health;
         this.damage = damage;
         this.defense = defense;
