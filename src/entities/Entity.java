@@ -13,7 +13,8 @@ public abstract class Entity {
     protected double speed = 5; // Pixel, mit denen sich der Spieler pro Frame bewegt
     protected MovementComponent movement;
     protected Hitbox hurtbox;
-
+    protected EntityRegistry registry;
+    protected int viewRange;
     public Entity(double x, double y, int height, int width, EntityRegistry registry) {
         this.x = x;
         this.y = y;
@@ -22,10 +23,12 @@ public abstract class Entity {
         movement = new MovementComponent();
         hurtbox = new Hitbox(x, y, width, height);
         registry.register(this);
+        this.registry = registry;
+        viewRange = 100;
     }
 
     public Hitbox getHurtbox() {return hurtbox;}
-
+    public int getViewRange(){return viewRange;}
     public double getX() {
         return x;
     }
@@ -46,5 +49,12 @@ public abstract class Entity {
 
     public void unregister(EntityRegistry registry){
         registry.unregister(this);
+    }
+    public double [] getCenter(){//gibt das Center von Entities zurück
+        double cX = x + width/2;
+        double cY = y + height/2;
+        double [] centerCoords = {cX,cY};
+
+        return centerCoords;
     }
 }

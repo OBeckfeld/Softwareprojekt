@@ -4,16 +4,27 @@ import entities.components.MovementComponent;
 import entities.managers.EntityRegistry;
 import tools.Vector;
 
+import java.util.ArrayList;
+
 public class Enemy extends Entity {
     Player player;//nur zum testen
+
     public Enemy(int x, int y, int height, int width, EntityRegistry registry, Player player) {
         super(x, y, height, width, registry);
-        setSpeed(8);
+        setSpeed(3);
         this.player = player;//nur zum testen
     }
     public void update(){
-        Vector vector = new Vector(getX(), getY(), player.getX(), player.getY());
-        vector.setLength(getSpeed());
-        vector.apply(this);//get getSpeed() schritte in richtung vom player
+        ArrayList<Entity> inView = registry.getInView(this);
+        for (Entity entity : inView){
+            if (entity instanceof Player){
+                Vector vector = new Vector(getX(), getY(), entity.getX(), entity.getY());
+                if (vector.getLength() > getSpeed()){ //damit er nicht immer über sein ziel rübergeht
+                    vector.setLength(getSpeed());
+                }
+
+                vector.apply(this);//getSpeed() schritte in richtung vom player
+        }
+        }
     }
 }

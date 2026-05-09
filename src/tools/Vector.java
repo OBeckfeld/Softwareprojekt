@@ -32,4 +32,5 @@ public class Vector {
     public double getOffsetY(){
         return dY;
     }
+    public double getLength() { return length; }
 }
