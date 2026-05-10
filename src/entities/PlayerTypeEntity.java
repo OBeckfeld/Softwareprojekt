@@ -8,9 +8,20 @@ public abstract class PlayerTypeEntity extends Entity {
     protected int damage  = 10;
     protected int defense = 5;
     protected int direction = 0;
+    protected Attack attack = null;
 
     public PlayerTypeEntity(double x, double y, int height, int width, EntityRegistry registry) {
         super(x, y, height, width, registry);
+    }
+
+    public void attack() {
+        if (attack == null || attack.isExpired()) {
+            attack = new Attack(getX(), getY(), height, width, registry, 30, this);
+        }
+    }
+
+    public boolean isOnCooldown() {
+        return attack != null && !attack.isExpired();
     }
 
     public void gainLife(int amount) {
@@ -30,4 +41,5 @@ public abstract class PlayerTypeEntity extends Entity {
     public int getDefense()           { return defense; }
     public int getDirection()         { return direction; }
     public void setDirection(int direction) { this.direction = direction; }
+
 }

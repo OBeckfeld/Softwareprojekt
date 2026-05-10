@@ -47,8 +47,6 @@ public abstract class Entity {
     public double getSpeed() { return speed; }
     public void setSpeed(double speed) { this.speed = speed; }
 
-    public int getWidth() { return width; }
-    public int getHeight() { return height; }
 
     public void update(){}
 
