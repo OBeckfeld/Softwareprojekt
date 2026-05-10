@@ -2,6 +2,8 @@ package main;
 
 import entities.Entity;
 import entities.Enemy;
+import entities.ViewBox;
+
 import javax.swing.JPanel;
 import java.awt.*;
 
@@ -26,6 +28,9 @@ public class GamePanel extends JPanel {
         g.setColor(Color.BLUE);
 
         for (Entity entity : game.getEntities()){
+            if (entity instanceof ViewBox){
+                continue;
+            }
             g.setColor(Color.BLUE);
             if (entity instanceof Enemy){
                 g.setColor(Color.RED);
