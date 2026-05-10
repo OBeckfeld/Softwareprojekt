@@ -1,45 +1,65 @@
-package entities;
+package entities.managers;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.awt.event.KeyEvent;
+
+import entities.Attack;
+import entities.Entity;
+import entities.Player;
+import inputs.KeyboardInputs;
+import entities.PlayerTypeEntity;
 
 public class AttackManager {
     private CollisionManager collisionManager;
     private HashMap<PlayerTypeEntity, Integer> damage; //damage speichert alle Entities, die Schaden nehmen, und den entsprechenden Schaden
+    private KeyboardInputs inputs;
+    private EntityRegistry registry;
 
-    public AttackManager(CollisionManager collisionManager) {
+    public AttackManager(CollisionManager collisionManager, KeyboardInputs inputs, EntityRegistry registry) {
         this.collisionManager = collisionManager;
+        this.inputs = inputs;
+        this.registry = registry;
         this.damage = new HashMap<>();
     }
 
     /**
      * newAttack erstellt eine neue Attacke, falls der owner keine aktive Attacke hat, dies limitiert die Anzahl der Attacken pro Entity
      */
-    public void newAttack(int direction, entityRegistry registry, int timeToLive, PlayerTypeEntity owner) {
+    public void newAttack(int direction, EntityRegistry registry, int timeToLive, PlayerTypeEntity owner) {
         if(owner.getAttack() == null || owner.getAttack().isExpired()) { //falls der owner noch keine Attacke hat oder seine Attacke abgelaufen ist, wird eine neue Attacke erstellt
-            int x;
-            int y;
+            double x;
+            double y;
+            int height;
+            int width;
             switch (direction) { //die Position der Attacke wird abhängig von der Richtung des owners gesetzt
                 case 0: //rechts
-                    x = owner.getX() + owner.getWidth();
-                    y = owner.getY() + owner.getHeight() / 2 - 60;
+                    x = Math.round(owner.getX() + owner.getWidth());
+                    y = Math.round(owner.getY() + owner.getHeight() / 2 - owner.getVerticalRange() / 2);
+                    height = owner.getVerticalRange(); //das Rectangle wird um 90 Grad gedreht, somit werden height und width vertauscht
+                    width = owner.getHorizontalRange();
                     break;
                 case 1: //unten
-                    x = owner.getX() + owner.getWidth() / 2 - 30;
-                    y = owner.getY() + owner.getHeight();
+                    x = Math.round(owner.getX() + owner.getWidth() / 2 - owner.getVerticalRange() / 2);
+                    y = Math.round(owner.getY() + owner.getHeight());
+                    height = owner.getHorizontalRange(); //das Rectangle wird um 90 Grad gedreht, somit werden height und width vertauscht
+                    width = owner.getVerticalRange();
                     break;
                 case 2: //links
-                    x = owner.getX() - 60;
-                    y = owner.getY() + owner.getHeight() / 2 - 60;
+                    x = Math.round(owner.getX() - owner.getHorizontalRange());
+                    y = Math.round(owner.getY() + owner.getHeight() / 2 - owner.getVerticalRange() / 2);
+                    height = owner.getVerticalRange(); //das Rectangle wird um 90 Grad gedreht, somit werden height und width vertauscht
+                    width = owner.getHorizontalRange();
                     break;
                 case 3: //oben
-                    x = owner.getX() + owner.getWidth() / 2 - 30;
-                    y = owner.getY() - 60;
+                    x = Math.round(owner.getX() + owner.getWidth() / 2 - owner.getVerticalRange() / 2);
+                    y = Math.round(owner.getY() - owner.getHorizontalRange());
+                    height = owner.getHorizontalRange(); //das Rectangle wird um 90 Grad gedreht, somit werden height und width vertauscht
+                    width = owner.getVerticalRange();
                     break;
                 default:
                     throw new IllegalArgumentException();
             }
-            Attack attack = new Attack(x, y, 120, 60, registry, timeToLive, owner);
+            Attack attack = new Attack(x, y, width, height, registry, timeToLive, owner);
             owner.setAttack(attack); //die Attacke wird als aktive Attacke des owners gespeichert, die alte Attacke wird überschrieben
         }
     }
@@ -69,5 +89,11 @@ public class AttackManager {
             entity.setHealth(entity.getHealth() - damage.get(entity)); //zieht den Schaden von der Gesundheit der Entity ab
         }
         damage.clear(); //setzt den Schaden zurück, um auf die nächste Runde vorzubereiten
+    }
+
+    public void checkPlayerAttacks(PlayerTypeEntity player) {
+        if(inputs.getHeldKeys().contains(KeyEvent.VK_J)) {
+            newAttack(((PlayerTypeEntity) player).getDirection(), registry, player.getHitCooldown(), (PlayerTypeEntity) player);
+        };
     }
 }

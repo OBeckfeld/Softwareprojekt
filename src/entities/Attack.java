@@ -1,16 +1,16 @@
 package entities;
 
-import java.awt.*;
 import java.util.*;
+import entities.managers.EntityRegistry;
 
 public class Attack extends Entity{
-    private int damage, timeToLive;
-    private int timeAlive = 0;
+    private int damage, timeToLive; // gibt den Schaden und die Dauer einer Attacke an
+    private int timeAlive = 0; //gibt an, wie lange eine Attacke schon aktiv ist
     private boolean expired; //expired gibt an, ob eine Attacke noch aktiv ist
     private ArrayList<Entity> hitList; //hitList speichert alle Entities, die von der Attacke getroffen werden
     private PlayerTypeEntity owner; //Referenz auf Verursacher der Attacke, macht 'Rückschlüsse' möglich
 
-    public Attack(double x, double y, int height, int width, entityRegistry registry, int timeToLive, PlayerTypeEntity owner) {
+    public Attack(double x, double y, int height, int width, EntityRegistry registry, int timeToLive, PlayerTypeEntity owner) {
     super(x, y, height, width, registry);
     this.expired = false;
     this.hitList = new ArrayList<>();
