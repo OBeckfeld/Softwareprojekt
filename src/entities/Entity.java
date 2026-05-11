@@ -5,12 +5,13 @@ import entities.managers.EntityRegistry;
 import tools.Hitbox;
 
 import java.awt.*;
+import java.util.Set;
 
 public abstract class Entity {
     // Die Position und Größe des Spielers
     protected int height, width;
     protected double x, y;
-    protected double speed = 5; // Pixel, mit denen sich der Spieler pro Frame bewegt
+    protected double speed = 2.3; // Pixel, mit denen sich der Spieler pro Frame bewegt
     protected MovementComponent movement;
     protected Hitbox hurtbox;
 

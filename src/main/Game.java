@@ -17,6 +17,7 @@ public class Game implements Runnable {
     private Thread gameThread;
     private final int FPS_SET = 120; // Wir zielen auf 120 Bilder pro Sekunde ab;
     private KeyboardInputs keyboardInputs;
+    private MouseInputs mouseInputs;
     private EntityManager entities;
     private CollisionManager collisions;
 
@@ -25,6 +26,7 @@ public class Game implements Runnable {
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
         keyboardInputs = new KeyboardInputs(this);
+        mouseInputs = new MouseInputs(gamePanel);
         entities = new EntityManager();
         Player player = new Player(200, 200, 80, 40, entities, keyboardInputs);
         new Enemy(100, 100, 40, 40, entities, player);
