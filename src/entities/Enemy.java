@@ -30,7 +30,7 @@ public class Enemy extends PlayerTypeEntity {
         }
     }
 
-    // ── Prüft ob Player im Sichtfeld ist ─────────────────────
+    // Prüft ob Player im Sichtfeld ist
     private void checkIfPlayerInView() {
         for (Entity entity : entityManager.getInView(this)) {
             if (entity instanceof Player) {
