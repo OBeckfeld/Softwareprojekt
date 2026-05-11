@@ -29,8 +29,9 @@ public class GameMaps {
      * 8  -  Boden
      */
     public GameMaps() {
-        maps = new GameMap[2];
+        maps = new GameMap[2]; //Anzahl der aller Maps
 
+        //jede Zeile muss dieselbe Länge haben (nicht map übergreifend)
         maps[0] = new GameMap(new int[][]{
                 {6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,7},
                 {2,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,5,3},

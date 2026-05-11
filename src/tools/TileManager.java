@@ -15,8 +15,8 @@ public class TileManager {
     private GameMaps.GameMap currentMap;
 
 
-    int tileSize = 64;
-    int size = 512;
+    int tileSize = 96;//Skalierung der Tiles
+    final int size = 512;//nicht ändern, ist wichtig, zum ausschneiden der Sprites
 
 
     public TileManager() {
@@ -27,6 +27,11 @@ public class TileManager {
         loadTiles();
     }
 
+    public GameMaps getGameMaps(){
+        return gameMaps;
+    }
+
+    public GameMaps.GameMap getCurrentMap(){return currentMap;}
 
 //definiert die Tiles aus dem Spritesheet
     private void loadTiles() {
@@ -69,7 +74,7 @@ public class TileManager {
         }
     }
 
-    //zeichnet die currentMap
+    //zeichnet die currentMap, muss noch verschoben werden
     public void draw(Graphics g) {
         int[][] map = currentMap.getLayout();
         for(int row = 0; row < map.length; row++) {

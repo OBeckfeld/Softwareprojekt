@@ -4,15 +4,13 @@ import entities.Entity;
 import inputs.KeyboardInputs;
 
 import java.awt.event.KeyEvent;
-import java.util.Set;
 
 public class MovementComponent {
 
-    KeyboardInputs inputs;
+    private KeyboardInputs inputs;
 
     public MovementComponent(){}
     public MovementComponent(KeyboardInputs inputs){this.inputs = inputs;}
-
 //player muss noch zu entity geändert werden
     public void move(Entity entity) {
         double dx = 0, dy = 0; //Veränderung der X und Y Koordinaten genau
@@ -41,6 +39,7 @@ public class MovementComponent {
         entity.getHurtbox().setLocation(entity.getX() + dx,entity.getY() + dy);
 
         entity.setX(entity.getX() + dx);
+
         entity.setY(entity.getY() + dy);
 
     }

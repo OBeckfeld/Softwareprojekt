@@ -6,6 +6,7 @@ import entities.Enemy;
 import entities.managers.CollisionManager;
 import inputs.KeyboardInputs;
 import entities.managers.EntityManager;
+import tools.TileManager;
 
 import java.util.ArrayList;
 
@@ -17,20 +18,20 @@ public class Game implements Runnable {
     private Thread gameThread;
     private final int FPS_SET = 120; // Wir zielen auf 120 Bilder pro Sekunde ab;
     private KeyboardInputs keyboardInputs;
-    private MouseInputs mouseInputs;
     private EntityManager entities;
     private CollisionManager collisions;
+    private TileManager tiles;
 
     public Game() {
         // Initialisierung der Kern-Komponenten
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
         keyboardInputs = new KeyboardInputs(this);
-        mouseInputs = new MouseInputs(gamePanel);
         entities = new EntityManager();
         Player player = new Player(200, 200, 80, 40, entities, keyboardInputs);
         new Enemy(100, 100, 40, 40, entities, player);
-        collisions = new CollisionManager(entities);
+        tiles = new TileManager();
+        collisions = new CollisionManager(entities, tiles);
 
         // Wichtig: Das Panel muss den Fokus haben, um Tastatureingaben zu erkennen
         gamePanel.setFocusable(true);
