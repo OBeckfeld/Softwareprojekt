@@ -6,6 +6,7 @@ import entities.Enemy;
 import entities.managers.CollisionManager;
 import inputs.KeyboardInputs;
 import entities.managers.EntityManager;
+import entities.managers.AttackManager;
 
 import java.util.ArrayList;
 
@@ -19,6 +20,7 @@ public class Game implements Runnable {
     private KeyboardInputs keyboardInputs;
     private EntityManager entities;
     private CollisionManager collisions;
+    private AttackManager attackManager;
 
     public Game() {
         // Initialisierung der Kern-Komponenten
@@ -26,8 +28,8 @@ public class Game implements Runnable {
         gameWindow = new GameWindow(gamePanel);
         keyboardInputs = new KeyboardInputs(this);
         entities = new EntityManager();
-        Player player = new Player(200, 200, 80, 40, entities, keyboardInputs);
-        new Enemy(100, 100, 40, 40, entities,entities);
+        Player player = new Player(200, 200, 80, 40, entities, keyboardInputs, attackManager);
+        new Enemy(100, 100, 40, 40, 360, entities, attackManager); //provisorisch
         collisions = new CollisionManager(entities);
 
         // Wichtig: Das Panel muss den Fokus haben, um Tastatureingaben zu erkennen
