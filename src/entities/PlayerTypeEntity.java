@@ -12,9 +12,6 @@ public class PlayerTypeEntity extends Entity {
 
     public PlayerTypeEntity(int x, int y, int height, int width, int hitCooldown, EntityRegistry registry) {
         super(x, y, height, width, registry);
-        this.health = health;
-        this.damage = damage;
-        this.defense = defense;
         this.hitCooldown = hitCooldown;
 
     }
