@@ -8,5 +8,6 @@ import java.util.ArrayList;
 public interface EntityRegistry {
     void register(Entity entity);
     void unregister(Entity entity);
-    ArrayList<Entity> getInView(Entity entity);
+    ArrayList<Entity> getInRange(Entity entity, int range);
+    boolean collidesWith(Entity entity1, Entity entity2);
 }

@@ -15,9 +15,11 @@ public class Player extends PlayerTypeEntity {
         super(x, y, height, width, 180, registry, attackManager);
         this.inputs = keyboardInputs;
         movement = new MovementComponent(keyboardInputs);
+        mass = 3;
     }
 
     public void update() {
+        super.update();
         movement.move(this);
         if(inputs.getHeldKeys().contains(KeyEvent.VK_J)) {
             attackManager.newAttack(registry, this);

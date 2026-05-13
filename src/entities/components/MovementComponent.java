@@ -2,6 +2,7 @@ package entities.components;
 
 import entities.Entity;
 import inputs.KeyboardInputs;
+import tools.Vector;
 
 import java.awt.event.KeyEvent;
 
@@ -42,5 +43,8 @@ public class MovementComponent {
         entity.setX(entity.getX() + dx);
         entity.setY(entity.getY() + dy);
 
+    }
+    public void applyVector(Entity entity, Vector vector) {
+        move(entity, vector.getOffsetX(), vector.getOffsetY());
     }
 }

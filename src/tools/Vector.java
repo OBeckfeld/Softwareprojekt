@@ -11,23 +11,19 @@ public class Vector {
         dY = toY - fromY;
         length = Math.sqrt(dX * dX + dY * dY);
     }
-    public void setLength(double l){
-        if (length == 0) {
+    //setzt die Länge vom Vektor auf die neue und berechnet die neuen Offset-Koordinaten
+    public void setLength(double l){//damit man nicht durch 0 teilt
+        if (length != 0 && l != 0){
+            dX = dX / length *l;
+            dY = dY / length *l;
+            length = l;
+        }
+        else{
             dX = 0;
             dY = 0;
-            return;
+            length = 0;
         }
-        dX = dX / length *l;
-        dY = dY / length *l;
-        length = l;
-    }
-    public void apply(Entity entity){
-        entity.setX(entity.getX() + dX);
-        entity.setY(entity.getY() + dY);
-        entity.getHurtbox().setLocation(entity.getX(), entity.getY());
-    }
-    public double getLength(){
-        return length;
+
     }
     public double getOffsetX(){
         return dX;

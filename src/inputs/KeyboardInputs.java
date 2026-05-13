@@ -1,6 +1,9 @@
 package inputs;
 
+import entities.Entity;
 import main.Game;
+import tools.Vector;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashSet;
@@ -31,3 +34,4 @@ public class KeyboardInputs implements KeyListener {
         heldKeys.add(e.getKeyCode());
         }
     }
+

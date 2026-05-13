@@ -14,7 +14,20 @@ public class Enemy extends PlayerTypeEntity {
     public Enemy(int x, int y, int height, int width, int hitCooldown, EntityRegistry registry, AttackManager attackManager) {
         super(x, y, height, width, hitCooldown, registry, attackManager);
         setSpeed(2);
+        mass = 1;
     }
+    public void update(){
+        super.update();
+        ArrayList<Entity> inView = getInView();
+        for (Entity entity : inView) {
+
+
+            if (entity instanceof Player) {//player im sichtfeld
+                Vector vector = new Vector(getX(), getY(), entity.getX(), entity.getY());
+
+                if (vector.getLength() > getSpeed()) { //damit er nicht immer über sein ziel rübergeht
+                    vector.setLength(getSpeed());
+                }
 
     public void update() {
         if (health <= 0) {
@@ -42,6 +55,12 @@ public class Enemy extends PlayerTypeEntity {
         targetPlayer = null; // Spieler nicht im Sichtfeld -> stopp
     }
 
+                if (registry.getInRange(this, 100).contains(entity)) { //gegner stoppen wenn sie angreifen können
+                    vector.setLength(0);
+                }
+                applyVector(vector);//schritt ausführen
+            }
+        }
 
     private void moveTowardsPlayer() {
         Vector distVector = new Vector(x, y, targetPlayer.getX(), targetPlayer.getY());

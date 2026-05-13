@@ -33,7 +33,7 @@ public class Game implements Runnable {
         Player player = new Player(200, 200, 80, 40, entities, keyboardInputs, attackManager);
         new Enemy(500, 500, 40, 40, 360, entities, attackManager);
         new Enemy(700, 700, 40, 40, 360, entities, attackManager);//provisorisch
-        
+
 
         // Wichtig: Das Panel muss den Fokus haben, um Tastatureingaben zu erkennen
         gamePanel.setFocusable(true);
@@ -64,8 +64,8 @@ public class Game implements Runnable {
             if (now - lastFrame >= timePerFrame) {
                 collisions.checkCollisions();
                 //erlaubt es jeder entity jeden tick etwas zu machen
-                for (Entity entity : entities.getEntities()){
-                    entity.update(); // crash wegen enemy, dort nachschauen
+                for (Entity entity : new ArrayList<>(entities.getEntities())){
+                    entity.update();
                 }
                 gamePanel.repaint();
                 lastFrame = now;
