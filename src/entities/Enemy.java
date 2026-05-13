@@ -15,7 +15,7 @@ public class Enemy extends Entity {
         this.player = player;//nur zum testen
     }
     public void update(){
-        ArrayList<Entity> inView = registry.getInView(this);
+        ArrayList<Entity> inView = getInView();
         for (Entity entity : inView){
             if (entity instanceof Player){
                 Vector vector = new Vector(getX(), getY(), entity.getX(), entity.getY());
@@ -23,8 +23,17 @@ public class Enemy extends Entity {
                     vector.setLength(getSpeed());
                 }
 
+                if (registry.getInRange(this, 100).contains(entity)){
+                    vector.setLength(0);
+                }
+                if (registry.collidesWith(this, entity)){
+                    vector= new Vector(entity.getCenter() [0], entity.getCenter() [1], getCenter() [0], getCenter() [1]);
+                    vector.setLength(5);
+                }
                 vector.apply(this);//getSpeed() schritte in richtung vom player
-        }
+
+            }
+
         }
     }
 }

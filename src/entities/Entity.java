@@ -5,6 +5,7 @@ import entities.managers.EntityRegistry;
 import tools.Hitbox;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public abstract class Entity {
     // Die Position und Größe des Spielers
@@ -24,7 +25,7 @@ public abstract class Entity {
         hurtbox = new Hitbox(x, y, width, height);
         registry.register(this);
         this.registry = registry;
-        viewRange = 100;
+        viewRange = 300;
     }
 
     public Hitbox getHurtbox() {return hurtbox;}
@@ -57,4 +58,5 @@ public abstract class Entity {
 
         return centerCoords;
     }
+    protected ArrayList<Entity> getInView(){ return registry.getInRange(this, getViewRange()); }
 }
