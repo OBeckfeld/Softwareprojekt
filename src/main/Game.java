@@ -28,9 +28,10 @@ public class Game implements Runnable {
         gameWindow = new GameWindow(gamePanel);
         keyboardInputs = new KeyboardInputs(this);
         entities = new EntityManager();
-        Player player = new Player(200, 200, 80, 40, entities, keyboardInputs);
-        new Enemy(100, 100, 40, 40, entities, player);
         tiles = new TileManager();
+        Player player = new Player(200, 200, 80, 40, entities, keyboardInputs, tiles);
+        new Enemy(100, 100, 40, 40, entities, player, tiles);
+
         collisions = new CollisionManager(entities, tiles);
 
         // Wichtig: Das Panel muss den Fokus haben, um Tastatureingaben zu erkennen

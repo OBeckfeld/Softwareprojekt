@@ -3,6 +3,7 @@ package entities;
 import entities.components.MovementComponent;
 import entities.managers.EntityRegistry;
 import tools.Hitbox;
+import tools.TileManager;
 
 import java.awt.*;
 import java.util.Set;
@@ -14,8 +15,10 @@ public abstract class Entity {
     protected double speed = 2.3; // Pixel, mit denen sich der Spieler pro Frame bewegt
     protected MovementComponent movement;
     protected Hitbox hurtbox;
+    protected TileManager tile;
 
-    public Entity(double x, double y, int height, int width, EntityRegistry registry) {
+    public Entity(double x, double y, int height, int width, EntityRegistry registry, TileManager tile) {
+        this.tile = tile;
         this.x = x;
         this.y = y;
         this.width = width;

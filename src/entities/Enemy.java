@@ -2,12 +2,13 @@ package entities;
 
 import entities.components.MovementComponent;
 import entities.managers.EntityRegistry;
+import tools.TileManager;
 import tools.Vector;
 
 public class Enemy extends Entity {
     Player player;//nur zum testen
-    public Enemy(int x, int y, int height, int width, EntityRegistry registry, Player player) {
-        super(x, y, height, width, registry);
+    public Enemy(int x, int y, int height, int width, EntityRegistry registry, Player player, TileManager tiles) {
+        super(x, y, height, width, registry, tiles);
         setSpeed(8);
         this.player = player;//nur zum testen
     }
