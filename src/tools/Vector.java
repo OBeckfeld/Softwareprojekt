@@ -28,12 +28,6 @@ public class Vector {
         }
 
     }
-    //Verechnet die Offset-Koordinaten mit denen einer Entity (könnte die Berechtigungen vom Vector überschreiten, müssen wir dann entscheiden)
-    public void apply(Entity entity){
-        entity.setX(entity.getX() + dX);
-        entity.setY(entity.getY() + dY);
-        entity.getHurtbox().setLocation((int) (entity.getX() + dX), (int) (entity.getY() + dY));
-    }
     public double getOffsetX(){
         return dX;
     }

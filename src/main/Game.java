@@ -31,11 +31,18 @@ public class Game implements Runnable {
         entities.setCollisions(collisions);
 
         Player player = new Player(0, 0, 80, 40, entities, keyboardInputs);
-        new Enemy(100, 100, 40, 40, entities, player);
-        new Enemy(200, 300, 40, 40, entities, player);
-        new Enemy(300, 400, 40, 40, entities, player);
-        new Enemy(400, 600, 40, 40, entities, player);
-        new Enemy(500, 300, 40, 40, entities, player);
+        new Enemy(100, 100, 40, 40, entities);
+        new Enemy(200, 300, 40, 40, entities);
+        new Enemy(300, 400, 40, 40, entities);
+        new Enemy(400, 600, 40, 40, entities);
+        new Enemy(500, 300, 40, 40, entities);
+        new Enemy(500, 300, 40, 40, entities);
+        new Enemy(500, 300, 40, 40, entities);
+        new Enemy(500, 300, 40, 40, entities);
+        new Enemy(500, 300, 40, 40, entities);
+        new Enemy(500, 300, 40, 40, entities);
+        new Enemy(500, 300, 40, 40, entities);
+
 
 
 
@@ -69,7 +76,6 @@ public class Game implements Runnable {
                 collisions.checkCollisions();
 
                 //erlaubt es jeder entity jeden tick etwas zu machen
-                System.out.println("1");
                 for (Entity entity : new ArrayList<>(entities.getEntities())){
                     entity.update();
                 }

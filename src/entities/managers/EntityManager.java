@@ -23,9 +23,9 @@ public class EntityManager implements EntityRegistry {
     public ArrayList<Entity> getEntities(){return entities;}
 
     public ArrayList<Entity> getInRange(Entity entity, int range){//gibt alle entities zurück, die im sichtfeld von entity sind
-        ViewBox viewBox = new ViewBox((entity.getCenter() [0]-range/2), (entity.getCenter() [1]-range/2), range, range,  this);//die x und y Koordinaten von der view box werden so offset dass es das Zentrum der box auf dem Zentrum der entity steht, sonst würde sie nicht das sichtfeld der Entity auf der linken und oberen seite abdecken und doppelt so weit in die anderen richtingen schauen
-        collisionManager.checkCollisions();//collisions werden geupdatet, da die viewbox am anfang nicht da war könnte das gameplay langsamer machen
-        ArrayList<Entity> colls = collisionManager.getEntities(viewBox);//Entities checken, die im sichtfeld sind
+        ViewBox viewBox = new ViewBox((entity.getCenter() [0]-range/2), (entity.getCenter() [1]-range/2), range, range,  this);//viewBox wird zentriert
+        collisionManager.checkCollisions();//collisions werden geupdatet, da die viewbox am anfang nicht da war | könnte das gameplay langsamer machen
+        ArrayList<Entity> colls = collisionManager.getEntities(viewBox);//Entities checken, die in range sind
 
         entities.remove(viewBox);//view box wieder entfernen
 

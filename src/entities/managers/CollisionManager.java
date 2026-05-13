@@ -18,14 +18,10 @@ public class CollisionManager {
     public ArrayList<Entity> getEntities(Entity entity){ return entities.getOrDefault(entity, new ArrayList<>());}//getOrDefault, damit eine leere Liste statt null zurück gegeben wird, wenn key nicht vorhanden ist. Verhindert Null Pointer Exceptions
 
     public void checkCollisions(){
-        System.out.println("collCheck");
         entities.clear();//Map wird am Anfang des Frames geleert, um dopplungen mit vergangenen Frames zu vermeiden
         for(Entity entity : entityManager.getEntities()){//von jeder Entity wird mit jeder anderen Entity die Hitbox vergleicht
-            System.out.println("coll1");
             for(Entity otherEntity : entityManager.getEntities()){
-                System.out.println("coll2");
                 if(entity != otherEntity && entity.getHurtbox().intersects(otherEntity.getHurtbox())){
-                    System.out.println("coll3");
                     if(!entities.containsKey(entity)){//falls die Entity noch nicht in der Liste erfasst wurde, wird eine neue Liste erstellt
                         entities.put(entity, new ArrayList<>());
                     }

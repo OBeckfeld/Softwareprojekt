@@ -7,33 +7,30 @@ import tools.Vector;
 import java.util.ArrayList;
 
 public class Enemy extends Entity {
-    Player player;//nur zum testen
-
-    public Enemy(int x, int y, int height, int width, EntityRegistry registry, Player player) {
+    public Enemy(int x, int y, int height, int width, EntityRegistry registry) {
         super(x, y, height, width, registry);
         setSpeed(3);
-        this.player = player;//nur zum testen
+        mass = 1;
+        viewRange = 500;
     }
     public void update(){
+        super.update();
         ArrayList<Entity> inView = getInView();
-        for (Entity entity : inView){
-            if (entity instanceof Player){
+        for (Entity entity : inView) {
+
+
+            if (entity instanceof Player) {//player im sichtfeld
                 Vector vector = new Vector(getX(), getY(), entity.getX(), entity.getY());
-                if (vector.getLength() > getSpeed()){ //damit er nicht immer über sein ziel rübergeht
+
+                if (vector.getLength() > getSpeed()) { //damit er nicht immer über sein ziel rübergeht
                     vector.setLength(getSpeed());
                 }
 
-                if (registry.getInRange(this, 100).contains(entity)){
+                if (registry.getInRange(this, 100).contains(entity)) { //gegner stoppen wenn sie angreifen können
                     vector.setLength(0);
                 }
-                if (registry.collidesWith(this, entity)){
-                    vector= new Vector(entity.getCenter() [0], entity.getCenter() [1], getCenter() [0], getCenter() [1]);
-                    vector.setLength(5);
-                }
-                vector.apply(this);//getSpeed() schritte in richtung vom player
-
+                applyVector(vector);//schritt ausführen
             }
-
         }
     }
 }
