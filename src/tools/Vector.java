@@ -32,4 +32,7 @@ public class Vector {
         return dY;
     }
 
+    public double getLength() {
+        return length;
+    }
 }

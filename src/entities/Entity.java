@@ -59,8 +59,8 @@ public abstract class Entity {
         for (Entity entity : inView) {
             if (registry.collidesWith(this, entity)) {
                 Vector vector = new Vector(entity.getCenter()[0], entity.getCenter()[1], getCenter()[0], getCenter()[1]);
-                vector.setLength(2);
-                applyVector(vector);
+                vector.setLength(2/mass);
+                move(vector);
             }
         }
     }//wird in jedem frame aufgerufen. die funktion wird in den unterklassen bestimmt
@@ -77,4 +77,7 @@ public abstract class Entity {
     }
     protected ArrayList<Entity> getInView(){ return registry.getInRange(this, getViewRange()); }
     protected void applyVector(Vector vector){movement.applyVector(this, vector);}
+    protected void move(Vector vector){
+        movement.applyVector(this, vector);
+    }
 }

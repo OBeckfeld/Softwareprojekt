@@ -6,6 +6,7 @@ import entities.ViewBox;
 
 import javax.swing.JPanel;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class GamePanel extends JPanel {
     private Game game;
@@ -27,7 +28,7 @@ public class GamePanel extends JPanel {
 
         g.setColor(Color.BLUE);
 
-        for (Entity entity : game.getEntities()){
+        for (Entity entity : new ArrayList<Entity>(game.getEntities())){
             if (entity instanceof ViewBox){
                 continue;
             }

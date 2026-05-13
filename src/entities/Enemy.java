@@ -5,6 +5,8 @@ import entities.managers.EntityRegistry;
 import tools.Vector;
 import entities.managers.AttackManager;
 
+import java.util.ArrayList;
+
 public class Enemy extends PlayerTypeEntity {
 
     private static final int STOP_RADIUS = 40; //temporär
@@ -14,10 +16,16 @@ public class Enemy extends PlayerTypeEntity {
     public Enemy(int x, int y, int height, int width, int hitCooldown, EntityRegistry registry, AttackManager attackManager) {
         super(x, y, height, width, hitCooldown, registry, attackManager);
         setSpeed(2);
+        viewRange = 500;
         mass = 1;
     }
-    public void update(){
+    public void update() {
         super.update();
+        if (health <= 0) {
+            registry.unregister(this); //crash, muss wo anders hin
+            int triggerAnimation = 1; //Platzhalter für Todesanimation
+            return;
+        }
         ArrayList<Entity> inView = getInView();
         for (Entity entity : inView) {
 
@@ -29,51 +37,16 @@ public class Enemy extends PlayerTypeEntity {
                     vector.setLength(getSpeed());
                 }
 
-    public void update() {
-        if (health <= 0) {
-            registry.unregister(this); //crash, muss wo anders hin
-            int triggerAnimation = 1; //Platzhalter für Todesanimation
-            return;
-        }
-
-        checkIfPlayerInView(); // Sichtfeld prüfen
-
-        if (targetPlayer != null) { // nur aktiv wenn Spieler gesehen wurde
-            moveTowardsPlayer();
-            tryAttackPlayer();
-        }
-    }
-
-    // Prüft ob Player im Sichtfeld ist
-    private void checkIfPlayerInView() {
-        for (Entity entity : registry.getInView(this)) {
-            if (entity instanceof Player) {
-                targetPlayer = (Player) entity; //Spieler gefunden
-                return;
-            }
-        }
-        targetPlayer = null; // Spieler nicht im Sichtfeld -> stopp
-    }
-
                 if (registry.getInRange(this, 100).contains(entity)) { //gegner stoppen wenn sie angreifen können
                     vector.setLength(0);
                 }
-                applyVector(vector);//schritt ausführen
+                move(vector);//schritt ausführen
+                tryAttackEntity(entity);
             }
-        }
-
-    private void moveTowardsPlayer() {
-        Vector distVector = new Vector(x, y, targetPlayer.getX(), targetPlayer.getY());
-
-        if (distVector.getLength() > STOP_RADIUS) {
-            Vector moveVector = new Vector(getX(), getY(), targetPlayer.getX(), targetPlayer.getY());
-            moveVector.setLength(getSpeed());
-            moveVector.apply(this);
         }
     }
 
-
-    private void tryAttackPlayer() {
+    private void tryAttackEntity(Entity targetPlayer) {
         Vector distVector = new Vector(x, y, targetPlayer.getX(), targetPlayer.getY());
         boolean inRange = distVector.getLength() <= ATTACK_RANGE;
 

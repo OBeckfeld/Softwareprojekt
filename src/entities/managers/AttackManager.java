@@ -15,7 +15,7 @@ public class AttackManager {
     private KeyboardInputs inputs;
     private EntityRegistry registry;
 
-    public AttackManager(CollisionManager collisionManager, KeyboardInputs inputs, EntityRegistry registry) {
+    public AttackManager(CollisionManager collisionManager, EntityRegistry registry) {
         this.collisionManager = collisionManager;
         this.inputs = inputs;
         this.registry = registry;

@@ -4,6 +4,7 @@ import entities.Entity;
 import entities.Player;
 import entities.Enemy;
 import entities.managers.CollisionManager;
+import entities.managers.EntityRegistry;
 import inputs.KeyboardInputs;
 import entities.managers.EntityManager;
 import entities.managers.AttackManager;
@@ -30,8 +31,10 @@ public class Game implements Runnable {
         entities = new EntityManager();
         collisions = new CollisionManager(entities);
         entities.setCollisions(collisions);
+        attackManager = new AttackManager(collisions, entities);
         Player player = new Player(200, 200, 80, 40, entities, keyboardInputs, attackManager);
         new Enemy(500, 500, 40, 40, 360, entities, attackManager);
+
         new Enemy(700, 700, 40, 40, 360, entities, attackManager);//provisorisch
 
 
