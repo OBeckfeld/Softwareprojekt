@@ -7,8 +7,8 @@ import entities.managers.AttackManager;
 
 public class Enemy extends PlayerTypeEntity {
 
-    private static final int STOP_RADIUS = 40;
-    private static final int ATTACK_RANGE = 45;
+    private static final int STOP_RADIUS = 40; //temporär
+    private static final int ATTACK_RANGE = 45; //temporär
     private Player targetPlayer = null; // wird gesetzt wenn Spieler im Sichtfeld
 
     public Enemy(int x, int y, int height, int width, int hitCooldown, EntityRegistry registry, AttackManager attackManager) {
