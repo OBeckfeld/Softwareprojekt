@@ -17,7 +17,11 @@ public class Enemy extends PlayerTypeEntity {
     }
 
     public void update() {
-        if (!isAlive()) return;
+        if (health <= 0) {
+            registry.unregister(this); //crash, muss wo anders hin
+            int triggerAnimation = 1; //Platzhalter für Todesanimation
+            return;
+        }
 
         checkIfPlayerInView(); // Sichtfeld prüfen
 

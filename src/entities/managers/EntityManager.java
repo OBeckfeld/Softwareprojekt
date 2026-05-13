@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class EntityManager implements EntityRegistry {
     private ArrayList<Entity> entities;
     CollisionManager collisionManager;
+
     public EntityManager(){
 
         entities = new ArrayList<>();
