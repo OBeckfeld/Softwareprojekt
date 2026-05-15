@@ -36,6 +36,11 @@ public class Game implements Runnable {
         new Enemy(500, 500, 40, 40, 360, entities, attackManager);
 
         new Enemy(700, 700, 40, 40, 360, entities, attackManager);//provisorisch
+        new Enemy(700, 700, 40, 40, 360, entities, attackManager);//provisorisch
+        new Enemy(700, 700, 40, 40, 360, entities, attackManager);//provisorisch
+        new Enemy(700, 700, 40, 40, 360, entities, attackManager);//provisorisch
+        new Enemy(700, 700, 40, 40, 360, entities, attackManager);//provisorisch
+        new Enemy(700, 700, 40, 40, 360, entities, attackManager);//provisorisch
 
 
         // Wichtig: Das Panel muss den Fokus haben, um Tastatureingaben zu erkennen
@@ -70,6 +75,7 @@ public class Game implements Runnable {
                 for (Entity entity : new ArrayList<>(entities.getEntities())){
                     entity.update();
                 }
+                attackManager.damageDistribution();
                 gamePanel.repaint();
                 lastFrame = now;
             }

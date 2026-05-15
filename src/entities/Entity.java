@@ -57,6 +57,7 @@ public abstract class Entity {
     public void update(){
         ArrayList<Entity> inView = getInView();
         for (Entity entity : inView) {
+            if (entity instanceof Attack || entity instanceof ViewBox){continue;}
             if (registry.collidesWith(this, entity)) {
                 Vector vector = new Vector(entity.getCenter()[0], entity.getCenter()[1], getCenter()[0], getCenter()[1]);
                 vector.setLength(2/mass);

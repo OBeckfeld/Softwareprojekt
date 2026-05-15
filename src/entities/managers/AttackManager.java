@@ -1,11 +1,9 @@
 package entities.managers;
 
 import java.util.HashMap;
-import java.awt.event.KeyEvent;
 
 import entities.Attack;
 import entities.Entity;
-import entities.Player;
 import inputs.KeyboardInputs;
 import entities.PlayerTypeEntity;
 
@@ -24,8 +22,10 @@ public class AttackManager {
 
     /**
      * newAttack erstellt eine neue Attacke, falls der owner keine aktive Attacke hat, dies limitiert die Anzahl der Attacken pro Entity
+     *
+     * @return
      */
-    public void newAttack(EntityRegistry registry, PlayerTypeEntity owner) {
+    public Attack newAttack(EntityRegistry registry, PlayerTypeEntity owner) {
         if(owner.getAttack() == null || owner.getAttack().isExpired()) { //falls der owner noch keine Attacke hat oder seine Attacke abgelaufen ist, wird eine neue Attacke erstellt
             double x;
             double y;
@@ -62,6 +62,7 @@ public class AttackManager {
             Attack attack = new Attack(x, y, width, height, registry, owner.getHitCooldown(), owner);
             owner.setAttack(attack); //die Attacke wird als aktive Attacke des owners gespeichert, die alte Attacke wird überschrieben
         }
+        return null;
     }
 
     /**
@@ -82,7 +83,7 @@ public class AttackManager {
     }
 
     /**
-     * damageDistribution verteilt den gespeicherten Shcaden und setzt ihn anschließend zurück
+     * damageDistribution verteilt den gespeicherten Schaden und setzt ihn anschließend zurück
      */
     public void damageDistribution() {
         for (PlayerTypeEntity entity : damage.keySet()) { //durchläuft alle Entities, die Schaden nehmen

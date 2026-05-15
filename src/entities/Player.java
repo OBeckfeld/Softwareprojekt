@@ -23,7 +23,8 @@ public class Player extends PlayerTypeEntity {
         movement.move(this);
         if(inputs.getHeldKeys().contains(KeyEvent.VK_J)) {
             attackManager.newAttack(registry, this);
-        };
+            attackManager.attack(attack);
+        };x
     }
 }
 
