@@ -4,6 +4,7 @@ import entities.Entity;
 import entities.ViewBox;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class EntityManager implements EntityRegistry {
     private ArrayList<Entity> entities;
@@ -18,6 +19,7 @@ public class EntityManager implements EntityRegistry {
     public void register(Entity entity){
         if (entity != null) {
             entities.add(entity);
+            entities = bubbleSortForY(entities);
         }
     }
 
@@ -41,4 +43,28 @@ public class EntityManager implements EntityRegistry {
         this.collisionManager = collisionManager;
     }
     public boolean collidesWith(Entity entity1, Entity entity2){ return collisionManager.getEntities(entity1).contains(entity2);}
+    private ArrayList<Entity> bubbleSortForY(ArrayList<Entity> entitieList)
+    {
+        Entity [] entities = entitieList.toArray(new Entity [entitieList.size()]);
+        int n = entities.length;                 //die Länge (n) der Datenliste  wird ermittelt
+        for (int k = 0; k < n; k++)           //Die Schleife wird n mal ausgeführt
+        {
+            boolean flag=false;               //Eine flag wird Erstellt
+            for (int i =0; i < n-k-1; i++)    //Der unsortierte Teil der Schleife wird durchgegangen
+            {
+                if (entities[i].getY() > entities[i+1].getY())    //Das Datenelement wird mit dem nächsten verglichen
+                {
+                    Entity temp = entities[i];
+                    entities[i] = entities[i+1];    //Die Elemente werden getauscht
+                    entities[i+1] = temp;
+                    flag = true;
+                }
+            }
+            if (!flag)                        //Falls die Liste schon sortiert ist wird abgebrochen
+            {
+                return new ArrayList<Entity>(Arrays.asList(entities));
+            }
+        }
+        return new ArrayList<Entity>(Arrays.asList(entities));
+    }
 }

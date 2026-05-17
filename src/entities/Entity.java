@@ -86,6 +86,7 @@ public abstract class Entity {
     protected void move(Vector vector){
         movement.applyVector(this, vector);
     }
+
     protected int getDirectionTo(double targetX, double targetY){
         double xDis = Math.abs(x - targetX);
         double yDis = Math.abs(y - targetY);
@@ -105,8 +106,8 @@ public abstract class Entity {
             yDir = SOUTH;
         }
         if (xDis > yDis){
-            return yDir;
+            return xDir;
         }
-        return xDir;
+        return yDir;
     }
 }

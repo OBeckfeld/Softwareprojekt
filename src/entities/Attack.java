@@ -26,6 +26,7 @@ public class Attack extends Entity{
         timeAlive++;
         if (timeAlive >= timeToLive) {
             expired = true;
+            registry.unregister(this);
         }
     }
 
