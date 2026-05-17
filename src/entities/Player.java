@@ -11,8 +11,8 @@ public class Player extends PlayerTypeEntity {
 
     protected KeyboardInputs inputs;
 
-    public Player(int x, int y, int height, int width, EntityRegistry registry, KeyboardInputs keyboardInputs, AttackManager attackManager) {
-        super(x, y, height, width, 180, registry, attackManager);
+    public Player(int x, int y, int width, int height, EntityRegistry registry, KeyboardInputs keyboardInputs, AttackManager attackManager) {
+        super(x, y, width, height, 180, registry, attackManager);
         this.inputs = keyboardInputs;
         movement = new MovementComponent(keyboardInputs);
         mass = 3;
@@ -24,7 +24,7 @@ public class Player extends PlayerTypeEntity {
         if(inputs.getHeldKeys().contains(KeyEvent.VK_J)) {
             attackManager.newAttack(registry, this);
             attackManager.attack(attack);
-        };x
+        };
     }
 }
 

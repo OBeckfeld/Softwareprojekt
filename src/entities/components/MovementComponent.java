@@ -1,6 +1,7 @@
 package entities.components;
 
 import entities.Entity;
+import entities.PlayerTypeEntity;
 import inputs.KeyboardInputs;
 import tools.Vector;
 
@@ -20,10 +21,22 @@ public class MovementComponent {
 
         double dx = 0, dy = 0;
 
-        if(inputs.getHeldKeys().contains(KeyEvent.VK_W)){ dy -= entity.getSpeed(); }
-        if(inputs.getHeldKeys().contains(KeyEvent.VK_S)){ dy += entity.getSpeed(); }
-        if(inputs.getHeldKeys().contains(KeyEvent.VK_A)){ dx -= entity.getSpeed(); }
-        if(inputs.getHeldKeys().contains(KeyEvent.VK_D)){ dx += entity.getSpeed(); }
+        if(inputs.getHeldKeys().contains(KeyEvent.VK_W)){
+            dy -= entity.getSpeed();
+            ((PlayerTypeEntity)entity).setDirection(3);
+        }
+        if(inputs.getHeldKeys().contains(KeyEvent.VK_S)){
+            dy += entity.getSpeed();
+            ((PlayerTypeEntity)entity).setDirection(1);
+        }
+        if(inputs.getHeldKeys().contains(KeyEvent.VK_A)){
+            dx -= entity.getSpeed();
+            ((PlayerTypeEntity)entity).setDirection(2);
+        }
+        if(inputs.getHeldKeys().contains(KeyEvent.VK_D)){
+            dx += entity.getSpeed();
+            ((PlayerTypeEntity)entity).setDirection(0);
+        }
 
         if(dx != 0 && dy != 0){
             dx = dx * 0.70710678118;

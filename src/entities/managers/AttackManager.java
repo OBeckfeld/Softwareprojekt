@@ -61,6 +61,7 @@ public class AttackManager {
             }
             Attack attack = new Attack(x, y, width, height, registry, owner.getHitCooldown(), owner);
             owner.setAttack(attack); //die Attacke wird als aktive Attacke des owners gespeichert, die alte Attacke wird überschrieben
+            registry.register(attack);
         }
         return null;
     }

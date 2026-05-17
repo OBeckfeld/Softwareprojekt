@@ -32,7 +32,7 @@ public class Game implements Runnable {
         collisions = new CollisionManager(entities);
         entities.setCollisions(collisions);
         attackManager = new AttackManager(collisions, entities);
-        Player player = new Player(200, 200, 80, 40, entities, keyboardInputs, attackManager);
+        Player player = new Player(200, 200, 40, 80, entities, keyboardInputs, attackManager);
         new Enemy(500, 500, 40, 40, 360, entities, attackManager);
 
         new Enemy(700, 700, 40, 40, 360, entities, attackManager);//provisorisch

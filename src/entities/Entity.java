@@ -17,7 +17,7 @@ public abstract class Entity {
     protected EntityRegistry registry;
     protected int viewRange;
     protected int mass;
-    public Entity(double x, double y, int height, int width, EntityRegistry registry) {
+    public Entity(double x, double y, int width, int height, EntityRegistry registry) {
         this.x = x;
         this.y = y;
         this.width = width;

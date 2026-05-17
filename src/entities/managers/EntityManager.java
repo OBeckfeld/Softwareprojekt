@@ -16,12 +16,15 @@ public class EntityManager implements EntityRegistry {
 
     @Override
     public void register(Entity entity){
-        entities.add(entity);
+        if (entity != null) {
+            entities.add(entity);
+        }
     }
+
     public void unregister(Entity entity){entities.remove(entity);
     }
 
-    public ArrayList<Entity> getEntities(){return entities;}
+    public ArrayList<Entity> getEntities(){return new ArrayList<>(entities);}//damit die eigentliche Liste nicht von anderen Klassen bearbeitet werden kann
 
     public ArrayList<Entity> getInRange(Entity entity, int range){//gibt alle entities zurück, die im sichtfeld von entity sind
         ViewBox viewBox = new ViewBox((entity.getCenter() [0]-range/2), (entity.getCenter() [1]-range/2), range, range,  this);//viewBox wird zentriert

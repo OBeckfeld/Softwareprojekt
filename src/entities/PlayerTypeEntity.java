@@ -13,10 +13,12 @@ public abstract class PlayerTypeEntity extends Entity {
     protected int defense = 5;
     protected int direction = 0; //0 = rechts, 1 = unten, 2 = links, 3 = oben
 
-    public PlayerTypeEntity(int x, int y, int height, int width, int hitCooldown, EntityRegistry registry, AttackManager attackManager) {
-        super(x, y, height, width, registry);
+    public PlayerTypeEntity(int x, int y, int width, int height, int hitCooldown, EntityRegistry registry, AttackManager attackManager) {
+        super(x, y, width, height, registry);
         this.attackManager = attackManager;
         this.hitCooldown = hitCooldown;
+        verticalRange = 120;
+        horizontalRange = 60;
     }
 
     public void gainLife(int amount) {

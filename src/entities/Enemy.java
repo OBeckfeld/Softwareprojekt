@@ -13,8 +13,8 @@ public class Enemy extends PlayerTypeEntity {
     private static final int ATTACK_RANGE = 45; //temporär
     private Player targetPlayer = null; // wird gesetzt wenn Spieler im Sichtfeld
 
-    public Enemy(int x, int y, int height, int width, int hitCooldown, EntityRegistry registry, AttackManager attackManager) {
-        super(x, y, height, width, hitCooldown, registry, attackManager);
+    public Enemy(int x, int y, int width, int height, int hitCooldown, EntityRegistry registry, AttackManager attackManager) {
+        super(x, y, width, height, hitCooldown, registry, attackManager);
         setSpeed(2);
         viewRange = 500;
         mass = 1;
@@ -33,8 +33,8 @@ public class Enemy extends PlayerTypeEntity {
             if (entity instanceof Player) {//player im sichtfeld
                 Vector vector = new Vector(getX(), getY(), entity.getX(), entity.getY());
 
-                if (vector.getLength() > getSpeed()) { //damit er nicht immer über sein ziel rübergeht
-                    vector.setLength(getSpeed());
+                if (vector.getLength() > speed) { //damit der Enemy nicht immer über sein ziel hinausgeht
+                    vector.setLength(speed);
                 }
 
                 if (registry.getInRange(this, 100).contains(entity)) { //gegner stoppen wenn sie angreifen können
@@ -51,5 +51,6 @@ public class Enemy extends PlayerTypeEntity {
         boolean inRange = distVector.getLength() <= ATTACK_RANGE;
 
         attackManager.newAttack(registry, this); // <- kommt jetzt von PlayerTypeEntity
+        attackManager.attack(attack);
     }
 }
