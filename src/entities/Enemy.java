@@ -49,6 +49,7 @@ public class Enemy extends PlayerTypeEntity {
 
     private void tryAttackEntity(Entity targetPlayer) {
         Vector distVector = new Vector(x, y, targetPlayer.getX(), targetPlayer.getY());
+        direction = getDirectionTo(targetPlayer.getX(), targetPlayer.getY());
         boolean inRange = distVector.getLength() <= ATTACK_RANGE;
 
         attackManager.newAttack(registry, this); // <- kommt jetzt von PlayerTypeEntity

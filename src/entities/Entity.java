@@ -9,6 +9,11 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public abstract class Entity {
+    protected static final int NORTH = 3;
+    protected static final int EAST = 0;
+    protected static final int SOUTH = 1;
+    protected static final int WEST = 2;
+
     protected int height, width;
     protected double x, y;
     protected double speed = 5;
@@ -80,5 +85,28 @@ public abstract class Entity {
     protected void applyVector(Vector vector){movement.applyVector(this, vector);}
     protected void move(Vector vector){
         movement.applyVector(this, vector);
+    }
+    protected int getDirectionTo(double targetX, double targetY){
+        double xDis = Math.abs(x - targetX);
+        double yDis = Math.abs(y - targetY);
+        int xDir;
+        int yDir;
+
+        if (x - targetX > 0){
+            xDir = WEST;
+        }
+        else{
+            xDir = EAST;
+        }
+        if (y - targetY > 0){
+            yDir = NORTH;
+        }
+        else{
+            yDir = SOUTH;
+        }
+        if (xDis > yDis){
+            return yDir;
+        }
+        return xDir;
     }
 }
