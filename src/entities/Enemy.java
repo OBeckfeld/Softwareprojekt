@@ -18,6 +18,7 @@ public class Enemy extends PlayerTypeEntity {
         setSpeed(2);
         viewRange = 500;
         mass = 1;
+        health = 1; //zu Testzwecken, für spätere Version unbedingt anpassen!!!
     }
     public void update() {
         super.update();

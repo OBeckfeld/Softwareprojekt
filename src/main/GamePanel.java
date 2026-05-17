@@ -30,7 +30,7 @@ public class GamePanel extends JPanel {
         g.setColor(Color.BLUE);
 
         for (Entity entity : new ArrayList<Entity>(game.getEntities())){
-            if (entity instanceof ViewBox || entity instanceof Attack){
+            if (entity == null || entity instanceof ViewBox || entity instanceof Attack){
                 continue;
             }
             g.setColor(Color.BLUE);
