@@ -3,6 +3,7 @@ package entities;
 import entities.Entity;
 import entities.components.MovementComponent;
 import entities.entityRegistry;
+import tools.TileManager;
 import tools.Vector;
 
 import javax.swing.*;
@@ -11,8 +12,8 @@ import java.util.Set;
 
 public class Enemy extends Entity {
     Player player;//nur zum testen
-    public Enemy(int x, int y, int height, int width, entityRegistry registry, Player player) {
-        super(x, y, height, width, registry);
+    public Enemy(int x, int y, int height, int width, entityRegistry registry, Player player, TileManager tileManager) {
+        super(x, y, height, width, registry, tileManager);
         setSpeed(2);
         this.player = player;//nur zum testen
     }

@@ -3,6 +3,7 @@ package main;
 import entities.*;
 import inputs.KeyboardInputs;
 import inputs.MouseInputs;
+import tools.TileManager;
 
 import java.util.ArrayList;
 
@@ -18,17 +19,18 @@ public class Game implements Runnable {
     private MouseInputs mouseInputs;
     private EntityManager entities;
     public CollisionManager collision;
-
+    private TileManager tileManager;
     public Game() {
         // Initialisierung der Kern-Komponenten
-        gamePanel = new GamePanel(this);
+        tileManager = new TileManager();
+        gamePanel = new GamePanel(this, tileManager);
         gameWindow = new GameWindow(gamePanel);
         keyboardInputs = new KeyboardInputs(this);
         mouseInputs = new MouseInputs(gamePanel);
         entities = new EntityManager();
         collision = new CollisionManager(entities);
-        player = new Player(200, 200, 80, 40, entities);
-        Enemy enemy = new Enemy(100, 100, 40, 40, entities, player);
+        player = new Player(200, 200, 80, 40, entities, tileManager);
+        Enemy enemy = new Enemy(100, 100, 40, 40, entities, player, tileManager);
 
         // Wichtig: Das Panel muss den Fokus haben, um Tastatureingaben zu erkennen
         gamePanel.setFocusable(true);

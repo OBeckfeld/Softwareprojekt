@@ -14,9 +14,9 @@ public class GamePanel extends JPanel {
     private Game game;
     private TileManager tileManager;
 
-    public GamePanel(Game game) {
+    public GamePanel(Game game, TileManager tileManager) {
         this.game = game;
-        tileManager = new TileManager();
+        this.tileManager = tileManager;
 
         setPanelSize();
     }

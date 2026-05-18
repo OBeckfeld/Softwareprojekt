@@ -12,7 +12,7 @@ public class TileManager {
 
     public Tile[] tiles;
     private GameMaps gameMaps;
-    private GameMaps.GameMap currentMap;
+    public GameMaps.GameMap currentMap;
 
 
     int tileSize = 64;
@@ -26,6 +26,7 @@ public class TileManager {
 
         loadTiles();
     }
+
 
 
 //definiert die Tiles aus dem Spritesheet
@@ -87,5 +88,9 @@ public class TileManager {
                 );
             }
         }
+    }
+
+    public GameMaps.GameMap getCurrentMap() {
+        return currentMap;
     }
 }

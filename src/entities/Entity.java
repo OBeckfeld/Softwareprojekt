@@ -1,6 +1,7 @@
 package entities;
 
 import entities.components.MovementComponent;
+import tools.TileManager;
 
 import java.awt.*;
 import java.util.Set;
@@ -12,13 +13,15 @@ public abstract class Entity {
     private double speed = 2.3; // Pixel, mit denen sich der Spieler pro Frame bewegt
     private MovementComponent movement;
     private Rectangle hurtbox;
+    private TileManager tileManager;
 
-    public Entity(double x, double y, int height, int width, entityRegistry registry) {
+    public Entity(double x, double y, int height, int width, entityRegistry registry, TileManager tileManager) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        movement = new MovementComponent();
+        this.tileManager = tileManager;
+        movement = new MovementComponent(tileManager);
         hurtbox = new Rectangle((int)Math.round(x), (int) Math.round(y), width, height);
         registry.register(this);
     }
