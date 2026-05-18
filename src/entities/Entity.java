@@ -81,8 +81,10 @@ public abstract class Entity {
 
         return centerCoords;
     }
+
     protected ArrayList<Entity> getInView(){ return registry.getInRange(this, getViewRange()); }
     protected void applyVector(Vector vector){movement.applyVector(this, vector);}
+    
     protected void move(Vector vector){
         movement.applyVector(this, vector);
     }

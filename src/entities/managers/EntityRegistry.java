@@ -10,4 +10,6 @@ public interface EntityRegistry {
     void unregister(Entity entity);
     ArrayList<Entity> getInRange(Entity entity, int range);
     boolean collidesWith(Entity entity1, Entity entity2);
+    ArrayList<Entity> getEntities();
+    ArrayList<Entity> getCollisions(Entity entity);
 }

@@ -4,6 +4,7 @@ import entities.Attack;
 import entities.Entity;
 import entities.Enemy;
 import entities.Player;
+import entities.Door;
 import entities.ViewBox;
 
 import javax.swing.JPanel;
@@ -44,6 +45,14 @@ public class GamePanel extends JPanel {
                 }
                 else {
                     continue;
+                }
+            }
+            else if (entity instanceof Door){
+                if(((Door)entity).isOpen()) {
+                    g.setColor(Color.GREEN);
+                }
+                else {
+                    g.setColor(Color.GRAY);
                 }
             }
             double x = entity.getX();

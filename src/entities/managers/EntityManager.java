@@ -39,13 +39,18 @@ public class EntityManager implements EntityRegistry {
 
         return colls;
     }
+
     public void setCollisions(CollisionManager collisionManager){
         this.collisionManager = collisionManager;
     }
+
     public boolean collidesWith(Entity entity1, Entity entity2){ return collisionManager.getEntities(entity1).contains(entity2);}
-    private ArrayList<Entity> bubbleSortForY(ArrayList<Entity> entitieList)
+    
+    public ArrayList<Entity> getCollisions(Entity entity){ return collisionManager.getEntities(entity); }
+
+    private ArrayList<Entity> bubbleSortForY(ArrayList<Entity> entityList)
     {
-        Entity [] entities = entitieList.toArray(new Entity [entitieList.size()]);
+        Entity [] entities = entityList.toArray(new Entity [entityList.size()]);
         int n = entities.length;                 //die Länge (n) der Datenliste  wird ermittelt
         for (int k = 0; k < n; k++)           //Die Schleife wird n mal ausgeführt
         {
