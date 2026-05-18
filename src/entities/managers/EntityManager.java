@@ -57,7 +57,7 @@ public class EntityManager implements EntityRegistry {
             boolean flag=false;               //Eine flag wird Erstellt
             for (int i =0; i < n-k-1; i++)    //Der unsortierte Teil der Schleife wird durchgegangen
             {
-                if (entities[i].getY() > entities[i+1].getY())    //Das Datenelement wird mit dem nächsten verglichen
+                if (entities[i].getY()+ entities[i].getHeight()> entities[i+1].getY() + entities[i+1].getHeight())    //Das Datenelement wird mit dem nächsten verglichen
                 {
                     Entity temp = entities[i];
                     entities[i] = entities[i+1];    //Die Elemente werden getauscht

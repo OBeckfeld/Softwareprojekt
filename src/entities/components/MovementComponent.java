@@ -14,7 +14,7 @@ public class MovementComponent {
     public MovementComponent(){}
     public MovementComponent(KeyboardInputs inputs){this.inputs = inputs;}
 
-    public void move(Entity entity) {
+    public void move(PlayerTypeEntity entity) {
         if (inputs == null) {
             return;
         }
@@ -23,19 +23,19 @@ public class MovementComponent {
 
         if(inputs.getHeldKeys().contains(KeyEvent.VK_W)){
             dy -= entity.getSpeed();
-            ((PlayerTypeEntity)entity).setDirection(3);
+            (entity).setDirection(3);
         }
         if(inputs.getHeldKeys().contains(KeyEvent.VK_S)){
-            dy += entity.getSpeed();
-            ((PlayerTypeEntity)entity).setDirection(1);
+            dy +=  entity.getSpeed();
+            (entity).setDirection(1);
         }
         if(inputs.getHeldKeys().contains(KeyEvent.VK_A)){
-            dx -= entity.getSpeed();
+            dx -=  entity.getSpeed();
             ((PlayerTypeEntity)entity).setDirection(2);
         }
         if(inputs.getHeldKeys().contains(KeyEvent.VK_D)){
             dx += entity.getSpeed();
-            ((PlayerTypeEntity)entity).setDirection(0);
+            (entity).setDirection(0);
         }
 
         if(dx != 0 && dy != 0){
