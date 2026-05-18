@@ -4,17 +4,19 @@ import java.util.*;
 import entities.managers.EntityRegistry;
 
 public class Attack extends Entity{
-    private int damage, timeToLive; // gibt den Schaden und die Dauer einer Attacke an
+    private int damage, timeToLive, timeToSee; // gibt den Schaden und die Dauer einer Attacke an
     private int timeAlive = 0; //gibt an, wie lange eine Attacke schon aktiv ist
-    private boolean expired; //expired gibt an, ob eine Attacke noch aktiv ist
+    private boolean expired, visible; //expired gibt an, ob eine Attacke noch aktiv ist
     private ArrayList<Entity> hitList; //hitList speichert alle Entities, die von der Attacke getroffen werden
     private PlayerTypeEntity owner; //Referenz auf Verursacher der Attacke, macht 'Rückschlüsse' möglich
 
     public Attack(double x, double y, int width, int height, EntityRegistry registry, int timeToLive, PlayerTypeEntity owner) {
     super(x, y, width, height, registry);
     this.expired = false;
+    this.visible = true;
     this.hitList = new ArrayList<>();
     this.timeToLive = timeToLive;
+    this.timeToSee = 120; //Zeit, die eine Attacke sichtbar ist
     this.damage = owner.getDamage();
     this.owner = owner;
     }
@@ -24,6 +26,9 @@ public class Attack extends Entity{
      */
     public void update() {
         timeAlive++;
+        if (timeAlive >= timeToSee) {
+            visible = false;
+        }
         if (timeAlive >= timeToLive) {
             expired = true;
             registry.unregister(this);
@@ -44,6 +49,10 @@ public class Attack extends Entity{
 
     public int getDamage() {
         return damage;
+    }
+
+    public boolean isVisible() {
+        return visible;
     }
 
     public ArrayList<Entity> getHitList() {

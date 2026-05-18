@@ -3,6 +3,7 @@ package main;
 import entities.Attack;
 import entities.Entity;
 import entities.Enemy;
+import entities.Player;
 import entities.ViewBox;
 
 import javax.swing.JPanel;
@@ -27,18 +28,23 @@ public class GamePanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.setColor(Color.BLUE);
-
         for (Entity entity : new ArrayList<Entity>(game.getEntities())){
             if (entity == null || entity instanceof ViewBox){
                 continue;
             }
-            g.setColor(Color.BLUE);
-            if (entity instanceof Enemy){
+            if (entity instanceof Player){
+                g.setColor(Color.BLUE);
+            }
+            else if (entity instanceof Enemy){
                 g.setColor(Color.RED);
             }
-            if (entity instanceof Attack){
-                g.setColor(Color.ORANGE);
+            else if (entity instanceof Attack){
+                if(((Attack)entity).isVisible()) {
+                    g.setColor(Color.ORANGE);
+                }
+                else {
+                    continue;
+                }
             }
             double x = entity.getX();
             double y = entity.getY();
