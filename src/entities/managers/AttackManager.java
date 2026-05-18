@@ -4,19 +4,14 @@ import java.util.HashMap;
 
 import entities.Attack;
 import entities.Entity;
-import inputs.KeyboardInputs;
 import entities.PlayerTypeEntity;
 
 public class AttackManager {
     private CollisionManager collisionManager;
     private HashMap<PlayerTypeEntity, Integer> damage; //damage speichert alle Entities, die Schaden nehmen, und den entsprechenden Schaden
-    private KeyboardInputs inputs;
-    private EntityRegistry registry;
 
     public AttackManager(CollisionManager collisionManager, EntityRegistry registry) {
         this.collisionManager = collisionManager;
-        this.inputs = inputs;
-        this.registry = registry;
         this.damage = new HashMap<>();
     }
 

@@ -40,9 +40,9 @@ public class Enemy extends PlayerTypeEntity {
 
                 if (registry.getInRange(this, 100).contains(entity)) { //gegner stoppen wenn sie angreifen können
                     vector.setLength(0);
+                    tryAttackEntity(entity);
                 }
                 move(vector);//schritt ausführen
-                tryAttackEntity(entity);
             }
         }
     }
