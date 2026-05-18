@@ -9,7 +9,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public abstract class Entity {
-    protected static final int NORTH = 3;
+    protected static final int NORTH = 3;//das muss noch geändert werden leute!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     protected static final int EAST = 0;
     protected static final int SOUTH = 1;
     protected static final int WEST = 2;
@@ -17,11 +17,13 @@ public abstract class Entity {
     protected int height, width;
     protected double x, y;
     protected double speed = 5;
+    protected double defaultSpeed = 5;
     protected MovementComponent movement;
     protected Hitbox hurtbox;
     protected EntityRegistry registry;
     protected int viewRange;
     protected int mass;
+
     public Entity(double x, double y, int width, int height, EntityRegistry registry) {
         this.x = x;
         this.y = y;

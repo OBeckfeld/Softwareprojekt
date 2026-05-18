@@ -10,12 +10,10 @@ import entities.PlayerTypeEntity;
 public class AttackManager {
     private CollisionManager collisionManager;
     private HashMap<PlayerTypeEntity, Integer> damage; //damage speichert alle Entities, die Schaden nehmen, und den entsprechenden Schaden
-    private KeyboardInputs inputs;
     private EntityRegistry registry;
 
     public AttackManager(CollisionManager collisionManager, EntityRegistry registry) {
         this.collisionManager = collisionManager;
-        this.inputs = inputs;
         this.registry = registry;
         this.damage = new HashMap<>();
     }
@@ -25,12 +23,13 @@ public class AttackManager {
      *
      * @return
      */
-    public Attack newAttack(EntityRegistry registry, PlayerTypeEntity owner) {
+    public Attack newAttack(PlayerTypeEntity owner) {
         if(owner.getAttack() == null || owner.getAttack().isExpired()) { //falls der owner noch keine Attacke hat oder seine Attacke abgelaufen ist, wird eine neue Attacke erstellt
             double x;
             double y;
             int height;
             int width;
+            owner.setAttacking(true);//sagt dem owner, dass er angreift
             switch (owner.getDirection()) { //die Position der Attacke wird abhängig von der Richtung des owners gesetzt
                 case 0: //rechts
                     x = Math.round(owner.getX() + owner.getWidth());

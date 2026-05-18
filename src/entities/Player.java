@@ -18,13 +18,25 @@ public class Player extends PlayerTypeEntity {
         mass = 3;
     }
 
+    private void attack(){
+        if(inputs.getHeldKeys().contains(KeyEvent.VK_J)){
+            attackManager.newAttack(this);
+            attackManager.attack(attack);
+            isAttacking = true;
+        }
+    }
+
     public void update() {
         super.update();
+        if(isAttacking){
+            speed = 0;
+        }
+        else{
+            speed = defaultSpeed;
+        }
         movement.move(this);
-        if(inputs.getHeldKeys().contains(KeyEvent.VK_J)) {
-            attackManager.newAttack(registry, this);
-            attackManager.attack(attack);
-        };
+        attack();
+        }
     }
-}
+
 

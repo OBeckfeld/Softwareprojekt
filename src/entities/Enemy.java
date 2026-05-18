@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 public class Enemy extends PlayerTypeEntity {
 
-    private static final int STOP_RADIUS = 40; //temporär
-    private static final int ATTACK_RANGE = 45; //temporär
+    private int stopRadius = 40; //temporär
+    private int attackRange = 45; //temporär
     private Player targetPlayer = null; // wird gesetzt wenn Spieler im Sichtfeld
 
     public Enemy(int x, int y, int width, int height, int hitCooldown, EntityRegistry registry, AttackManager attackManager) {
@@ -50,9 +50,9 @@ public class Enemy extends PlayerTypeEntity {
     private void tryAttackEntity(Entity targetPlayer) {
         Vector distVector = new Vector(x, y, targetPlayer.getX(), targetPlayer.getY());
         direction = getDirectionTo(targetPlayer.getCenter()[0], targetPlayer.getCenter()[1]);
-        boolean inRange = distVector.getLength() <= ATTACK_RANGE;
+        boolean inRange = distVector.getLength() <= attackRange;
 
-        attackManager.newAttack(registry, this); // <- kommt jetzt von PlayerTypeEntity
+        attackManager.newAttack(this); // <- kommt jetzt von PlayerTypeEntity
         attackManager.attack(attack);
     }
 }

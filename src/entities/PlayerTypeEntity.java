@@ -12,6 +12,7 @@ public abstract class PlayerTypeEntity extends Entity {
     protected int damage  = 10;
     protected int defense = 5;
     protected int direction = 0; //0 = rechts, 1 = unten, 2 = links, 3 = oben
+    protected boolean isAttacking = false;
 
     public PlayerTypeEntity(int x, int y, int width, int height, int hitCooldown, EntityRegistry registry, AttackManager attackManager) {
         super(x, y, width, height, registry);
@@ -45,4 +46,6 @@ public abstract class PlayerTypeEntity extends Entity {
     public int getVerticalRange () { return verticalRange; }
 
     public int getHorizontalRange() { return horizontalRange; }
+
+    public void setAttacking(boolean attacking){isAttacking = attacking;}
 }
