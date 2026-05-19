@@ -18,6 +18,7 @@ public abstract class PlayerTypeEntity extends Entity {
     protected int direction = 0; //0 = rechts, 1 = unten, 2 = links, 3 = oben
     protected int viewRange;
     protected int mass;
+    protected int damageModifier;
     protected AbilityManager abilityManger;
     protected double speed = 5;
 
@@ -30,6 +31,7 @@ public abstract class PlayerTypeEntity extends Entity {
         abilityManger = new AbilityManager(this);
         viewRange = 300;
         mass = 2;
+        damageModifier = 0;
     }
 
     public void gainLife(int amount) {
@@ -48,6 +50,8 @@ public abstract class PlayerTypeEntity extends Entity {
 
     public int getDefense()           { return defense; }
 
+    public int getDamageModifier(){return damageModifier;}
+
     public int getDirection()         { return direction; }
     public void setDirection(int direction) { this.direction = direction; }
 
@@ -61,6 +65,7 @@ public abstract class PlayerTypeEntity extends Entity {
 
     public double getSpeed() { return speed; }
     public void setSpeed(double speed) { this.speed = speed; }
+    public void setDamageModifier(int mod){damageModifier = mod;}
 
     public int getHorizontalRange() { return horizontalRange; }
 

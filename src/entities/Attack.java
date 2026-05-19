@@ -17,7 +17,8 @@ public class Attack extends Entity{
     this.hitList = new ArrayList<>();
     this.timeToLive = timeToLive;
     this.timeToSee = 120; //Zeit, die eine Attacke sichtbar ist
-    this.damage = owner.getDamage();
+    this.damage = owner.getDamage()+owner.getDamage()* owner.getDamageModifier()/100;
+
     this.owner = owner;
     }
 
