@@ -5,7 +5,6 @@ import entities.managers.EntityRegistry;
 import tools.Hitbox;
 import tools.Vector;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public abstract class Entity {

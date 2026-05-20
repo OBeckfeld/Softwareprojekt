@@ -6,7 +6,7 @@ public class Door extends Entity{
     
     private boolean open;
 
-    public Door(double x, double y, EntityRegistry registry) {
+    public Door(int x, int y, EntityRegistry registry) {
         super(x, y, 10, 120, registry);
         this.open = false;
     }
@@ -20,7 +20,7 @@ public class Door extends Entity{
         open = true;
         for (Entity entity : registry.getCollisions(this)) {
             if (entity instanceof Player) {
-                String mapLoader = "Load new Map"; //Platzhalter für Maploader
+                registry.getMapLoader().buildMap();
             }
         }
     }

@@ -2,16 +2,20 @@ package entities.managers;
 
 import entities.Entity;
 import entities.ViewBox;
+import tools.MapLoader;
+import main.Game;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 
 public class EntityManager implements EntityRegistry {
     private ArrayList<Entity> entities;
-    CollisionManager collisionManager;
+    private CollisionManager collisionManager;
+    private Game game;
 
-    public EntityManager(){
-
+    public EntityManager(Game game){
+        this.game = game;
         entities = new ArrayList<>();
     }
 
@@ -71,5 +75,9 @@ public class EntityManager implements EntityRegistry {
             }
         }
         return new ArrayList<Entity>(Arrays.asList(entities));
+    }
+
+    public MapLoader getMapLoader() {
+        return game.getMapLoader();
     }
 }

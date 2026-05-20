@@ -6,6 +6,7 @@ import entities.Enemy;
 import entities.managers.CollisionManager;
 import entities.managers.EntityRegistry;
 import inputs.KeyboardInputs;
+import tools.MapLoader;
 import entities.managers.EntityManager;
 import entities.managers.AttackManager;
 
@@ -22,16 +23,18 @@ public class Game implements Runnable {
     private EntityManager entities;
     private CollisionManager collisions;
     private AttackManager attackManager;
+    private MapLoader mapLoader;
 
     public Game() {
         // Initialisierung der Kern-Komponenten
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
         keyboardInputs = new KeyboardInputs(this);
-        entities = new EntityManager();
+        entities = new EntityManager(this);
         collisions = new CollisionManager(entities);
         entities.setCollisions(collisions);
         attackManager = new AttackManager(collisions, entities);
+        mapLoader = new MapLoader(new ArrayList<String>(), (EntityRegistry)entities, keyboardInputs, attackManager);
         Player player = new Player(200, 200, 40, 80, entities, keyboardInputs, attackManager);
         new Enemy(500, 500, 40, 40, 360, entities, attackManager);
 
@@ -81,6 +84,8 @@ public class Game implements Runnable {
             }
         }
     }
+    
     public ArrayList<Entity> getEntities(){ return entities.getEntities();}//nur zum Testen, muss noch entfernt werden
 
-    }
+    public MapLoader getMapLoader() { return mapLoader; }
+}

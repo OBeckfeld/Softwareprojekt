@@ -1,6 +1,5 @@
 package entities;
 
-import entities.managers.EntityManager;
 import entities.managers.EntityRegistry;
 import tools.Vector;
 import entities.managers.AttackManager;
@@ -16,6 +15,18 @@ public class Enemy extends PlayerTypeEntity {
         mass = 1;
         health = 1; //zu Testzwecken, für spätere Version unbedingt anpassen!!!
     }
+
+    public Enemy(int x, int y, int width, int height, int health, int damage, int defense, int verticalRange, int horizontalRange, int hitCooldown, EntityRegistry registry, AttackManager attackManager) {
+        super(x, y, width, height, hitCooldown, registry, attackManager);
+        this.attackManager = attackManager;
+        this.hitCooldown = hitCooldown;
+        this.health = health;
+        this.damage = damage;
+        this.defense = defense;
+        this.verticalRange = verticalRange;
+        this.horizontalRange = horizontalRange;
+    }
+
     public void update() {
         super.update();
         if (health <= 0) {
