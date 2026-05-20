@@ -20,6 +20,7 @@ public class AbilityManager {
             return false;
         }
         abilities.add(ability);
+        ability.unlock();
         return true;//feedback
     }
     public void equip(Ability ability, int slot){

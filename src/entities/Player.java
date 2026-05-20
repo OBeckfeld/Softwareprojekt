@@ -4,6 +4,7 @@ import entities.components.MovementComponent;
 import entities.managers.EntityRegistry;
 import inputs.KeyboardInputs;
 import entities.managers.AttackManager;
+import skilltree.DMGBoost;
 import skilltree.Dash;
 
 import java.awt.event.KeyEvent;
@@ -22,6 +23,9 @@ public class Player extends PlayerTypeEntity {
         abilityManger.unlock(dash);
         abilityManger.equip(dash, 1);
         //---------------------------------------------------------------
+        DMGBoost dmgBoost = new DMGBoost(this);
+        abilityManger.unlock(dmgBoost);
+        abilityManger.equip(dmgBoost, 2);
     }
 
     public void update() {
@@ -32,7 +36,7 @@ public class Player extends PlayerTypeEntity {
             attackManager.attack(attack);
         }
         //1 ability slot
-        if(inputs.getHeldKeys().contains(KeyEvent.VK_1)) {
+        if(inputs.getHeldKeys().contains(KeyEvent.VK_SPACE)) {
             abilityManger.use(1);
         }
         //2 ability slot
