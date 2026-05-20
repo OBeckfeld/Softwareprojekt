@@ -42,12 +42,13 @@ public class MovementComponent {
             vx = (int) Math.round(dx);
             vy = (int) Math.round(dy);
         }
+        //geht durch Wände durch, wenn oben und unten keine Wand ist
+        // rechts prüfen
         int playerWidth  = player.getWidth();
         int playerHeight = player.getHeight();
         double newX = player.getX() + vx;
         double newY = player.getY() + vy;
-        if(vx>0){//geht durch Wände durch, wenn oben und unten keine Wand ist
-            // rechts prüfen
+        if(vx>0){
             double right = newX + playerWidth;
             double tileCol   = right / tileSize;
             double tileRowTop    = player.getY() / tileSize;
