@@ -13,7 +13,8 @@ public class Dash extends Ability {
     @Override
     public String getDescription(){ return "Dash";}
     @Override
-    public void unlock(){ unlocked = true; }
+    public void unlock(){ unlocked = true;
+    System.out.println("dash works");}
 
     @Override
     public boolean use(){
@@ -39,4 +40,5 @@ public class Dash extends Ability {
             movementComponent.move(owner, -7, 0);
         }
     }
+    public void end(){}
 }
