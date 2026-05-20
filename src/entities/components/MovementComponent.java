@@ -18,7 +18,7 @@ public class MovementComponent {
 
         double dx = 0, dy = 0; //Veränderung der X und Y Koordinaten genau
         int vx, vy; //Veränderung der X und Y Koordinaten auf int gerundet
-        int tileSize = 64;
+        int tileSize = tileManager.getTileSize();
 
         //prüfen, welche Inputs gegeben werden
         if (keyboardInputs.contains(KeyEvent.VK_W)) {
@@ -46,15 +46,15 @@ public class MovementComponent {
         int playerHeight = player.getHeight();
         double newX = player.getX() + vx;
         double newY = player.getY() + vy;
-        if(vx>0){
+        if(vx>0){//geht durch Wände durch, wenn oben und unten keine Wand ist
             // rechts prüfen
-            double right = newX + playerWidth -1;
+            double right = newX + playerWidth;
             double tileCol   = right / tileSize;
             double tileRowTop    = player.getY() / tileSize;
-            double tileRowBottom = (player.getY() + playerHeight - 1) / tileSize;
+            double tileRowBottom = (player.getY() + playerHeight) / tileSize;
             if (isWall((int)tileRowTop, (int)tileCol) ||
                     isWall((int)tileRowBottom, (int)tileCol)) {
-                newX = tileCol * tileSize - 2.3 - playerWidth;
+                newX = tileCol * tileSize - playerWidth - 2;
             }
         }
         else if (vx < 0) {
@@ -65,21 +65,21 @@ public class MovementComponent {
 
             if (isWall((int)tileRowTop, (int)tileCol) ||
                     isWall((int)tileRowBottom, (int)tileCol)) {
-                newX = tileCol * tileSize + 2.3;
+                newX = tileCol * tileSize + 2;
             }
         }
 
 
         if (vy > 0) {
             // unten prüfen
-            double bottomEdge = newY + playerHeight - 1;
+            double bottomEdge = newY + playerHeight;
             double tileRow    = bottomEdge / tileSize;
             double tileColLeft  = player.getX() / tileSize;
             double tileColRight = (player.getX() + playerWidth - 1) / tileSize;
 
             if (isWall((int)tileRow, (int)tileColLeft) ||
                     isWall((int)tileRow, (int)tileColRight)) {
-                newY = tileRow * tileSize - playerHeight - 2.3;
+                newY = tileRow * tileSize - playerHeight - 2;
             }
         } else if (vy < 0) {
             // oben prüfen
@@ -89,7 +89,7 @@ public class MovementComponent {
 
             if (isWall((int)tileRow, (int)tileColLeft) ||
                     isWall((int)tileRow, (int)tileColRight)) {
-                newY = tileRow * tileSize + 2.3;
+                newY = tileRow * tileSize + 2;
             }
         }
 

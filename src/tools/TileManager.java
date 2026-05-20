@@ -14,9 +14,11 @@ public class TileManager {
     private GameMaps gameMaps;
     public GameMaps.GameMap currentMap;
 
-
-    int tileSize = 64;
+//tileSize muss doppeltes von der echten TileSize sein
+    int tileSize = 120;
     int size = 512;
+
+    public int getTileSize(){return tileSize;}
 
 
     public TileManager() {
