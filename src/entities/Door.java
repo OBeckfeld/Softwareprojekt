@@ -12,6 +12,7 @@ public class Door extends Entity{
     }
 
     public void update() {
+        //Die Tür öffnet sich, sobald alle Enemies besiegt sind
         for (Entity entity : registry.getEntities()) {
             if (entity instanceof Enemy) {
                 return;

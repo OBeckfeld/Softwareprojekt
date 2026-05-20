@@ -3,6 +3,7 @@ package main;
 import entities.Entity;
 import entities.Player;
 import entities.Enemy;
+import entities.Door;
 import entities.managers.CollisionManager;
 import entities.managers.EntityRegistry;
 import inputs.KeyboardInputs;
@@ -45,6 +46,7 @@ public class Game implements Runnable {
         new Enemy(700, 700, 40, 40, 360, entities, attackManager);//provisorisch
         new Enemy(700, 700, 40, 40, 360, entities, attackManager);//provisorisch
 
+        new Door(1900, 500, entities);
 
         // Wichtig: Das Panel muss den Fokus haben, um Tastatureingaben zu erkennen
         gamePanel.setFocusable(true);

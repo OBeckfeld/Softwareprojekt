@@ -12,10 +12,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class MapLoader {
+    //Legt die aktuelle Map fest, welche geladen werden soll
     private int mapIndex = 0;
+    //Liste mit den JSON Dateien, welche die Informationen enthalten
     private ArrayList<String> fileList;
+    //Arrays, welche die Informationen über die Map enthalten
     private int[][] entityMap;
     private int[][] tileMap;
+    //Referenzen von Klassen, die zum generieren der Entities benötigt werden
     private EntityRegistry registry;
     private KeyboardInputs inputs;
     private AttackManager attackManager;
@@ -30,15 +34,15 @@ public class MapLoader {
     /**
      * Methode, welche die Daten der Map aus der angegebenen Datei entnimmt
      */
-    public void fethcMapData() {
-        //try-catch block, um Fhelr zu vermeidn, Java sagt sinst nein
+    public void fetchMapData() {
+        //try-catch block, um Fehler zu vermeiden und gegebenenfalls auszugeben
         try {
-            //Näcshtese Datie wird aus der Liste der Dateien entnommen und der Inhalt wird als String gepseichert
-            String jsnoContent = Files.readString(Path.of(fileList.get(mapIndex) + ".json"));
+            //Nächste Datei wird aus der Liste der Dateien entnommen und der Inhalt wird als String gespeichert
+            String jsonContent = Files.readString(Path.of("room_" +  fileList.get(mapIndex) + ".json"));
 
-            //Die beiden Arrays werden mit Inhalte den Daten der JSOn datei gefüllt
-            entityMap = parseJsonArray(jsnoContent, "entityMap");
-            tileMap = parseJsonArray(jsnoContent, "tileMap");
+            //Der Inhalt der Arrays aus der JSON Datei werden in den Attributen gespeichert
+            entityMap = parseJsonArray(jsonContent, "entityMap");
+            tileMap = parseJsonArray(jsonContent, "tileMap");
         }
         catch (Exception e) {
             //falls ein Fehler auftritt, wird die Fehlermeldung gedruckt
@@ -47,23 +51,23 @@ public class MapLoader {
     }
 
     /**
-     * Methode, welche aus einem in einem String gepseicherten Array ein reguläres Array macht
+     * Methode, welche aus einem in einem String gespeicherten Array ein reguläres Array macht
      */
     public int[][] parseJsonArray(String json, String key) {
         
         //Position des keys im String finden
         int startIndex = json.indexOf("\"" + key + "\"");
 
-        //falls der keyyy nicht vorhanden ist, wird eine Exception georfwen
+        //falls der key nicht vorhanden ist, wird eine Exception geworfen
         if (startIndex == -1) {
             throw new IllegalArgumentException("Key " + key + " not fonud in JSON.");
         }
 
-        //Start und Ende des Arrays im String wedren gefunden, dabei wird alles vor dem Start des Arrays ignoriert
+        //Start und Ende des Arrays im String werden gefunden, dabei wird alles vor dem Start des Arrays ignoriert
         int arrayStart = json.indexOf("[[", startIndex);
         int arrayEnd = json.indexOf("]]", arrayStart);
         
-        //falls das Array nicht gefunden wird, wird eine Exception gerowfem
+        //falls das Array nicht gefunden wird, wird eine Exception geworfen
         if(arrayStart == -1 || arrayEnd == -1) {
             throw new IllegalArgumentException("Array " + key + " has wrongf ormat");
         }
@@ -80,24 +84,23 @@ public class MapLoader {
         //Einzelne Reihen werden verarbeitet
         for (int i = 0; i < numberRows; i++) {
             //Unnötige Zeichen werden entfernt
-            String rowWithoutBullshit = separateRows[i].replaceAll("[","").replaceAll("]","").replaceAll(" ","");
-            //Array mit einzelnen Werten wird erstelt
-            String[] separateValues = rowWithoutBullshit.split(",");
-            //Array, welches das Endergebnis enthalten soll, kriegt zewite Länge dazu
+            String cleanRow = separateRows[i].replaceAll("[","").replaceAll("]","").replaceAll(" ","");
+            //Array mit einzelnen Werten wird erstellt
+            String[] separateValues = cleanRow.split(",");
+            //Array, welches das Endergebnis enthalten soll, erhält Wert für die Stelle i
             parsedArray[i] = new int[separateValues.length];
 
-            //einzelne Wert werden in das Endergebnis Array üebrtragen
+            //Einzelne Wert werden in das Ergebnis-Array üebrtragen
             for (int j = 0; j < separateValues.length; j++) {
-                //Werte werden von String zu int umgewandlet un din das Endegrebnis Array gespeichertt
+                //Werte werden von String zu int umgewandlet und in das Ergebnis-Array gespeichert
                 parsedArray[i][j] = Integer.parseInt(separateValues[j]);
             }
         }
-        //Kollege das hier ist wirklich obvious
         return parsedArray;
     }
 
     /**
-     * Mithilfe angegebner ID und Koordinaten wird eine entsprechende Entity gespanwt
+     * Mithilfe angegebener ID und Koordinaten wird eine entsprechende Entity gespanwt
      */
     public void spawnEntity(int entityId, int x, int y) {
         switch(entityId) {
@@ -118,7 +121,7 @@ public class MapLoader {
         }
     }
 
-    public void plaxeTile(int tileId, int x, int y) {
+    public void placeTile(int tileId, int x, int y) {
         switch(tileId) {
             case 1:
                 String tile1 = "tile gespawnr"; //Platzhlater für Tile
@@ -135,26 +138,27 @@ public class MapLoader {
     }
 
     /*
-     * Methode, welche die Map aubfuat
+     * Methode, welche die Map aufbaut
      */
     public void buildMap() {
         //Mapdaten werden eingeholt
-        fethcMapData();
+        fetchMapData();
         //Berechnung später einfügen
-        int x = -1;
-        int y = -1;
-        //entities werden gespawnt
+        int x = 700;
+        int y = 700;
+        //Entities werden gespawnt
         for (int i = 0; i < entityMap.length; i++) {
             for (int j = 0; j < entityMap[i].length; j++) {
-                spawnEntity(entityMap[i][j], x, y);
-            }
-        }
-        for (int i = 0; i < tileMap.length; i++) {
-            for (int j = 0; j < tileMap[i].length; j++) {
-                plaxeTile(tileMap[i][j], x, y);
+                spawnEntity(entityMap[i][j], j*100, i*100);
             }
         }
         //Tiles wreden platuiert
+        for (int i = 0; i < tileMap.length; i++) {
+            for (int j = 0; j < tileMap[i].length; j++) {
+                placeTile(tileMap[i][j], j*100, i*100);
+            }
+        }
+        //Index wird hochgezählt, damit beim nächsten Aufrauf der nächste Raum geladen wird
         mapIndex++;
     }
 
