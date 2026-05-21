@@ -3,6 +3,7 @@ package tools;
 import entities.managers.EntityRegistry;
 import entities.managers.AttackManager;
 import inputs.KeyboardInputs;
+import entities.Entity;
 import entities.Player;
 import entities.Enemy;
 import entities.Door;
@@ -13,9 +14,7 @@ import java.nio.file.Path;
 
 public class MapLoader {
     //Legt die aktuelle Map fest, welche geladen werden soll
-    private int mapIndex = 0;
-    //Liste mit den JSON Dateien, welche die Informationen enthalten
-    private ArrayList<String> fileList;
+    private int mapIndex = 1;
     //Arrays, welche die Informationen über die Map enthalten
     private int[][] entityMap;
     private int[][] tileMap;
@@ -24,8 +23,7 @@ public class MapLoader {
     private KeyboardInputs inputs;
     private AttackManager attackManager;
 
-    public MapLoader(ArrayList<String> fileList, EntityRegistry registry, KeyboardInputs inputs, AttackManager attackManager) {
-        this.fileList = fileList;
+    public MapLoader(EntityRegistry registry, KeyboardInputs inputs, AttackManager attackManager) {
         this.registry = registry;
         this.inputs = inputs;
         this.attackManager = attackManager;
@@ -38,7 +36,7 @@ public class MapLoader {
         //try-catch block, um Fehler zu vermeiden und gegebenenfalls auszugeben
         try {
             //Nächste Datei wird aus der Liste der Dateien entnommen und der Inhalt wird als String gespeichert
-            String jsonContent = Files.readString(Path.of("room_" +  fileList.get(mapIndex) + ".json"));
+            String jsonContent = Files.readString(Path.of("src", "tools", "mapData", "room_" +  mapIndex + ".json"));
 
             //Der Inhalt der Arrays aus der JSON Datei werden in den Attributen gespeichert
             entityMap = parseJsonArray(jsonContent, "entityMap");
@@ -141,6 +139,16 @@ public class MapLoader {
      * Methode, welche die Map aufbaut
      */
     public void buildMap() {
+        //Entities werden von der Map entfernt
+        ArrayList<Entity> previousEntities = new ArrayList<>(registry.getEntities());
+        for (Entity entity : previousEntities) {
+            if (entity instanceof Player) {
+                entity.setX(200);
+                entity.setY(200);
+                continue;
+            }
+            registry.unregister(entity);
+        }
         //Mapdaten werden eingeholt
         fetchMapData();
         //Berechnung später einfügen
@@ -149,15 +157,17 @@ public class MapLoader {
         //Entities werden gespawnt
         for (int i = 0; i < entityMap.length; i++) {
             for (int j = 0; j < entityMap[i].length; j++) {
-                spawnEntity(entityMap[i][j], j*100, i*100);
+                if(entityMap[i][j] == 1) { continue; }
+                spawnEntity(entityMap[i][j], j*50, i*50);
             }
         }
         //Tiles wreden platuiert
         for (int i = 0; i < tileMap.length; i++) {
             for (int j = 0; j < tileMap[i].length; j++) {
-                placeTile(tileMap[i][j], j*100, i*100);
+                placeTile(tileMap[i][j], j*50, i*50);
             }
         }
+
         //Index wird hochgezählt, damit beim nächsten Aufrauf der nächste Raum geladen wird
         mapIndex++;
     }

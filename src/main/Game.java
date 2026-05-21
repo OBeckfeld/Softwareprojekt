@@ -35,7 +35,7 @@ public class Game implements Runnable {
         collisions = new CollisionManager(entities);
         entities.setCollisions(collisions);
         attackManager = new AttackManager(collisions, entities);
-        mapLoader = new MapLoader(new ArrayList<String>(), (EntityRegistry)entities, keyboardInputs, attackManager);
+        mapLoader = new MapLoader((EntityRegistry)entities, keyboardInputs, attackManager);
         Player player = new Player(200, 200, 40, 80, entities, keyboardInputs, attackManager);
         new Enemy(500, 500, 40, 40, 360, entities, attackManager);
 
@@ -46,7 +46,7 @@ public class Game implements Runnable {
         new Enemy(700, 700, 40, 40, 360, entities, attackManager);//provisorisch
         new Enemy(700, 700, 40, 40, 360, entities, attackManager);//provisorisch
 
-        new Door(1900, 500, entities);
+        new Door(1000, 500, entities);
 
         // Wichtig: Das Panel muss den Fokus haben, um Tastatureingaben zu erkennen
         gamePanel.setFocusable(true);
