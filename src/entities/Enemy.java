@@ -11,7 +11,8 @@ public class Enemy extends PlayerTypeEntity {
 
     public Enemy(int x, int y, int width, int height, int hitCooldown, EntityRegistry registry, AttackManager attackManager) {
         super(x, y, width, height, hitCooldown, registry, attackManager);
-        setSpeed(2);
+        defaultSpeed = 2;
+        speed = defaultSpeed;
         viewRange = 500;
         mass = 1;
         health = 100; //zu Testzwecken, für spätere Version unbedingt anpassen!!!
@@ -50,6 +51,7 @@ public class Enemy extends PlayerTypeEntity {
     }
 
     protected void tryAttackEntity(PlayerTypeEntity targetPlayer) {
+        isAttacking = true;
         direction = getDirectionTo(targetPlayer.getCenter()[0], targetPlayer.getCenter()[1]);
         attackManager.newAttack(this);
         attackManager.attack(attack);

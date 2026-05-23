@@ -17,7 +17,7 @@ public class Player extends PlayerTypeEntity {
     protected KeyboardInputs inputs;
 
     public Player(int x, int y, int width, int height, EntityRegistry registry, KeyboardInputs keyboardInputs, AttackManager attackManager) {
-        super(x, y, width, height, 180, registry, attackManager);
+        super(x, y, width, height, 60, registry, attackManager);
         this.inputs = keyboardInputs;
         movement = new MovementComponent(keyboardInputs);
         mass = 3;
@@ -55,10 +55,6 @@ public class Player extends PlayerTypeEntity {
         //4 ability slot
         if(inputs.getHeldKeys().contains(KeyEvent.VK_4)) {
             abilityManger.use(4);
-        }
-        //4 ability slot
-        if(inputs.getHeldKeys().contains(KeyEvent.VK_Q)) {
-            new FollowingProjectile(getCenter() [0], getCenter() [1], 10, 10, registry, attackManager, this, 4, direction, 300);
         }
     }
 }

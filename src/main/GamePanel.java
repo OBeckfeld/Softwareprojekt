@@ -29,7 +29,7 @@ public class GamePanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        for (Entity entity : new ArrayList<Entity>(game.getEntities())){
+        for (Entity entity : new ArrayList<Entity>(game.getEntityManager().getEntities())) {
             g.setColor(Color.BLUE);
             if (entity == null || entity instanceof ViewBox){
                 continue;

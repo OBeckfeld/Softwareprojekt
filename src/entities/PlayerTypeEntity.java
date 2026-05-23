@@ -7,27 +7,31 @@ import entities.managers.AttackManager;
 import entities.managers.EntityRegistry;
 import tools.Vector;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public abstract class PlayerTypeEntity extends Entity {
 
     protected Attack attack;
-    protected int hitCooldown, verticalRange, horizontalRange;
+    protected int attackDuration, verticalRange, horizontalRange;
     protected int health  = 100;
     protected int damage  = 34;
     protected int defense = 5;
     protected int direction = 0; //0 = rechts, 1 = unten, 2 = links, 3 = oben
+    protected boolean isAttacking = false;
     protected int viewRange;
     protected int mass;
     protected int damageModifier ;
     protected AbilityManager abilityManger;
     protected double speed = 5;
     protected Weapon weapon;
+    protected double defaultSpeed = 5;
 
-    public PlayerTypeEntity(int x, int y, int width, int height, int hitCooldown, EntityRegistry registry, AttackManager attackManager) {
+    public PlayerTypeEntity(int x, int y, int width, int height, int attackDuration,int hitCooldown, EntityRegistry registry, AttackManager attackManager) {
         super(x, y, width, height, registry, attackManager);
-
         this.hitCooldown = hitCooldown;
+        this.attackManager = attackManager;
+        this.attackDuration = attackDuration;
         verticalRange = 120;
         horizontalRange = 60;
         abilityManger = new AbilityManager(this);
@@ -59,7 +63,7 @@ public abstract class PlayerTypeEntity extends Entity {
     public int getDirection()         { return direction; }
     public void setDirection(int direction) { this.direction = direction; }
 
-    public int getHitCooldown() { return hitCooldown; }
+    public int getAttackDuration() { return attackDuration; }
 
     public int getVerticalRange () { return verticalRange; }
 
@@ -73,7 +77,15 @@ public abstract class PlayerTypeEntity extends Entity {
 
     public int getHorizontalRange() { return horizontalRange; }
 
+    public void setAttacking(boolean attacking){isAttacking = attacking;}
+
     public void update(){
+        if(isAttacking){
+            speed = 0;
+        }
+        else{
+            speed = defaultSpeed;
+        }
         abilityManger.update();
         ArrayList<Entity> inView = getInView();
         for (Entity entity : inView) {

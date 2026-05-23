@@ -11,6 +11,7 @@ public class AttackManager {
     private CollisionManager collisionManager;
     private HashMap<PlayerTypeEntity, Integer> damage; //damage speichert alle Entities, die Schaden nehmen, und den entsprechenden Schaden
     private EntityRegistry registry;
+
     public AttackManager(CollisionManager collisionManager, EntityRegistry registry) {
         this.collisionManager = collisionManager;
         this.damage = new HashMap<>();
@@ -28,6 +29,7 @@ public class AttackManager {
             double y;
             int height;
             int width;
+            owner.setAttacking(true);//sagt dem owner, dass er angreift
             switch (owner.getDirection()) { //die Position der Attacke wird abhängig von der Richtung des owners gesetzt
                 case 0: //rechts
                     x = Math.round(owner.getX() + owner.getWidth());
@@ -56,7 +58,7 @@ public class AttackManager {
                 default:
                     throw new IllegalArgumentException();
             }
-            Attack attack = new Attack(x, y, width, height, registry, owner.getHitCooldown(), owner, this);
+            Attack attack = new Attack(x, y, width, height, registry, owner.getAttackDuration(), owner, this);
             owner.setAttack(attack); //die Attacke wird als aktive Attacke des owners gespeichert, die alte Attacke wird überschrieben
             registry.register(attack);
         }
