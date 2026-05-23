@@ -1,13 +1,14 @@
 package entities;
 
+import entities.managers.AttackManager;
 import entities.managers.EntityRegistry;
 
 public class Door extends Entity{
     
     private boolean open;
 
-    public Door(double x, double y, EntityRegistry registry) {
-        super(x, y, 10, 120, registry);
+    public Door(double x, double y, EntityRegistry registry, AttackManager attackManager) {
+        super(x, y, 10, 120, registry, attackManager);
         this.open = false;
     }
 

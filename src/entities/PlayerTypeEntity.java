@@ -1,5 +1,7 @@
 package entities;
 
+import Weapons.StarterSword;
+import Weapons.Weapon;
 import entities.managers.AbilityManager;
 import entities.managers.AttackManager;
 import entities.managers.EntityRegistry;
@@ -9,7 +11,6 @@ import java.util.ArrayList;
 
 public abstract class PlayerTypeEntity extends Entity {
 
-    protected AttackManager attackManager;
     protected Attack attack;
     protected int hitCooldown, verticalRange, horizontalRange;
     protected int health  = 100;
@@ -18,20 +19,23 @@ public abstract class PlayerTypeEntity extends Entity {
     protected int direction = 0; //0 = rechts, 1 = unten, 2 = links, 3 = oben
     protected int viewRange;
     protected int mass;
-    protected int damageModifier;
+    protected int damageModifier ;
     protected AbilityManager abilityManger;
     protected double speed = 5;
+    protected Weapon weapon;
 
     public PlayerTypeEntity(int x, int y, int width, int height, int hitCooldown, EntityRegistry registry, AttackManager attackManager) {
-        super(x, y, width, height, registry);
-        this.attackManager = attackManager;
+        super(x, y, width, height, registry, attackManager);
+
         this.hitCooldown = hitCooldown;
         verticalRange = 120;
         horizontalRange = 60;
         abilityManger = new AbilityManager(this);
         viewRange = 300;
         mass = 2;
-        damageModifier = 0;
+        damageModifier = 100;
+
+        weapon = new StarterSword(this, attackManager);
     }
 
     public void gainLife(int amount) {
@@ -81,4 +85,5 @@ public abstract class PlayerTypeEntity extends Entity {
             }
         }
     }
+
 }

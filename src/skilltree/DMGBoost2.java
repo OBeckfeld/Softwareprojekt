@@ -23,6 +23,7 @@ public class DMGBoost2 extends Ability {
         if (!super.use()){ return false; } //offcooldown check
         return true;
     }
+    public void end(){}
 
 
 }

@@ -1,8 +1,6 @@
 package skilltree;
 import entities.PlayerTypeEntity;
 
-import java.time.Duration;
-import java.time.LocalTime;
 public abstract class Ability {
     protected boolean unlocked;
     protected int cost;
@@ -10,38 +8,39 @@ public abstract class Ability {
     protected double lastUsed;
     protected PlayerTypeEntity owner;
     protected double duration;
-    protected boolean active;
+    protected boolean isRunning;
+    protected boolean active = true;
     public Ability(PlayerTypeEntity owner){
-        unlocked = false;
+        unlocked = false; //freigeschaltet
         cost = 0; //wird in den unter klassen überschrieben
         cooldown = 0; //in Millisekunden
         lastUsed = System.currentTimeMillis();
         this.owner = owner;
-        duration = -10; //in Millisekunden
-        active = false;
+        duration = 10; //in Millisekunden (wie lange die ability ihre effect() Methode aufrufen kann)
+        isRunning = false;
     }
     public abstract String getDescription();
     public abstract void unlock();
     public boolean use() {
-        if (System.currentTimeMillis() - lastUsed < cooldown ||active){
+        if (System.currentTimeMillis() - lastUsed < cooldown || isRunning || !active){//wenn sie auf einem cooldown ist, wenn sie schon läuft, wenn sie eine passive ability ist
             return false; //ability kann nicht benutzt werden
 
         }
 
-        active = true;
+        isRunning = true;
         lastUsed = System.currentTimeMillis();
         return true;//ability kann benutzt werden
     }
     public void effect(){}
     public void update(){
         if (System.currentTimeMillis() - lastUsed < duration){
-
             effect();
         }
-        else if (active == true){
-            active = false;
+        else if (isRunning == true){//tick nachdem sie ihre duration überschritten hat
+            isRunning = false;
             end();
         }
     }
-    public abstract void end();
+    public void end(){}
+    public boolean isActiveAbility(){return active;}
 }

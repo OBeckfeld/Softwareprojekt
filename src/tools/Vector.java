@@ -25,6 +25,11 @@ public class Vector {
         }
 
     }
+    public void combineVector(Vector vector){
+        dX = dX + vector.getOffsetX();
+        dY = dY + vector.getOffsetY();
+        length = Math.sqrt(dX * dX + dY * dY);
+    }
     public double getOffsetX(){
         return dX;
     }

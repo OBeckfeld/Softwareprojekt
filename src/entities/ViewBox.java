@@ -1,5 +1,6 @@
 package entities;
 import entities.components.MovementComponent;
+import entities.managers.AttackManager;
 import entities.managers.EntityRegistry;
 
 import javax.swing.*;

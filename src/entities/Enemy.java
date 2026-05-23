@@ -51,7 +51,7 @@ public class Enemy extends PlayerTypeEntity {
 
     protected void tryAttackEntity(PlayerTypeEntity targetPlayer) {
         direction = getDirectionTo(targetPlayer.getCenter()[0], targetPlayer.getCenter()[1]);
-        attackManager.newAttack(registry, this);
+        attackManager.newAttack(this);
         attackManager.attack(attack);
     }
 }

@@ -19,7 +19,7 @@ public class EntityManager implements EntityRegistry {
     public void register(Entity entity){
         if (entity != null) {
             entities.add(entity);
-            entities = bubbleSortForY(entities);
+            entities = quickSortForY(entities);
         }
     }
 
@@ -72,4 +72,52 @@ public class EntityManager implements EntityRegistry {
         }
         return new ArrayList<Entity>(Arrays.asList(entities));
     }
+    //fffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+    //fffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+    //ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+    //ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+
+    public ArrayList<Entity> quickSortForY(ArrayList<Entity> list)
+    {
+        Entity [] array = list.toArray(new Entity [list.size()]);
+        quickSort(array, 0, array.length - 1); //Länge-1 da länge bei 1 startet aber Array bei 0 startet
+        return new ArrayList<Entity>(Arrays.asList(array));
+    }
+
+    /**
+     * Quick Sort
+     */
+    public void quickSort(Entity[] daten, int start, int ende)
+    {
+        if(start<ende) //prüft, ob start kleiner ist als ende, sonst wird nicht weiter sortiert
+        {
+            int pIndex=sortiere(daten,start,ende); //Die Trennstelle zwischen größerem und kleinerem Teil wird bestimmt.
+            quickSort(daten, start,pIndex-1); //kleinerer (linker) Teilbereich wird sortiert.
+            quickSort(daten,pIndex+1,ende); //größerer (rechter) Teilbereich wird sortiert.
+        }
+    }
+
+    private int sortiere(Entity[] daten,int start,int ende)
+    {
+        double pivot= daten[ende].getY()+ daten[ende].getHeight(); //Das letzte Element dient als Vergleichswert
+        int pIndex=start; //Aktuelle Grenze für kleinere Elemente; hier landet später das Pivot.
+        for(int i=start;i<ende;i++)
+        {
+            if(daten[i].getY() +daten[i].getHeight()<pivot) //wenn Zahl an Stelle i <= pivot
+            {
+                tauschen(daten,i,pIndex); //dann wird Zahl an Stelle i mit Zahl an Stelle pIndex getauscht.
+                pIndex++; //Stelle an die später Pivot kommt, wird mit jeder kleineren Zahl, die nach links getauscht wird, um 1 erhöht.
+            }
+        }
+        tauschen(daten,pIndex,ende); //Pivot wird an richtige (Trenn-)Stelle getauscht(links kleiner, rechts größer).
+        return pIndex;
+    }
+
+    public void tauschen(Entity[] daten, int a, int b)
+    {
+        Entity i= daten[a];
+        daten[a]=daten[b];
+        daten[b]=i;
+    }
+
 }

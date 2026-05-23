@@ -1,5 +1,8 @@
 package entities;
 
+import Weapons.Gun;
+import Weapons.StarterSword;
+import Weapons.Weapon;
 import entities.components.MovementComponent;
 import entities.managers.EntityRegistry;
 import inputs.KeyboardInputs;
@@ -26,17 +29,19 @@ public class Player extends PlayerTypeEntity {
         DMGBoost dmgBoost = new DMGBoost(this);
         abilityManger.unlock(dmgBoost);
         abilityManger.equip(dmgBoost, 2);
+        weapon = new Gun(this,attackManager);
     }
 
     public void update() {
         super.update();
         movement.move(this);
         if(inputs.getHeldKeys().contains(KeyEvent.VK_J)) {
-            attackManager.newAttack(registry, this);
-            attackManager.attack(attack);
+            //attackManager.newAttack(this);
+            //attackManager.attack(attack);
+            weapon.use();
         }
         //1 ability slot
-        if(inputs.getHeldKeys().contains(KeyEvent.VK_SPACE)) {
+        if(inputs.getHeldKeys().contains(KeyEvent.VK_1)) {
             abilityManger.use(1);
         }
         //2 ability slot
@@ -50,6 +55,10 @@ public class Player extends PlayerTypeEntity {
         //4 ability slot
         if(inputs.getHeldKeys().contains(KeyEvent.VK_4)) {
             abilityManger.use(4);
+        }
+        //4 ability slot
+        if(inputs.getHeldKeys().contains(KeyEvent.VK_Q)) {
+            new FollowingProjectile(getCenter() [0], getCenter() [1], 10, 10, registry, attackManager, this, 4, direction, 300);
         }
     }
 }

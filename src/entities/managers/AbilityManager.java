@@ -26,9 +26,11 @@ public class AbilityManager {
     public void equip(Ability ability, int slot){
         slot --;//für array
         if(slot > 3 || slot < 0){ return; }//error vermeidung
-
         if (Arrays.asList(equipedAbiltities).contains(ability)){
             return;//die Ability ist schon in einem anderen slot equiped
+        }
+        if (!ability.isActiveAbility()){
+            return;//die Ability eine passive Ability
         }
         equipedAbiltities [slot] = ability;
     }

@@ -4,15 +4,17 @@ import java.util.HashMap;
 
 import entities.Attack;
 import entities.Entity;
+import entities.Player;
 import entities.PlayerTypeEntity;
 
 public class AttackManager {
     private CollisionManager collisionManager;
     private HashMap<PlayerTypeEntity, Integer> damage; //damage speichert alle Entities, die Schaden nehmen, und den entsprechenden Schaden
-
+    private EntityRegistry registry;
     public AttackManager(CollisionManager collisionManager, EntityRegistry registry) {
         this.collisionManager = collisionManager;
         this.damage = new HashMap<>();
+        this.registry = registry;
     }
 
     /**
@@ -20,7 +22,7 @@ public class AttackManager {
      *
      * @return
      */
-    public Attack newAttack(EntityRegistry registry, PlayerTypeEntity owner) {
+    public Attack newAttack(PlayerTypeEntity owner) {
         if(owner.getAttack() == null || owner.getAttack().isExpired()) { //falls der owner noch keine Attacke hat oder seine Attacke abgelaufen ist, wird eine neue Attacke erstellt
             double x;
             double y;
@@ -54,19 +56,28 @@ public class AttackManager {
                 default:
                     throw new IllegalArgumentException();
             }
-            Attack attack = new Attack(x, y, width, height, registry, owner.getHitCooldown(), owner);
+            Attack attack = new Attack(x, y, width, height, registry, owner.getHitCooldown(), owner, this);
             owner.setAttack(attack); //die Attacke wird als aktive Attacke des owners gespeichert, die alte Attacke wird überschrieben
             registry.register(attack);
         }
         return null;
     }
 
+    public Attack newAttack(PlayerTypeEntity owner,double x, double y, int height,int width, int timeToLive, int damage) {
+            Attack attack = new Attack(x, y, width, height, registry, timeToLive, owner, this, damage);
+            registry.register(attack);
+            owner.setAttack(attack);
+        return attack;
+    }
+
+
     /**
      * attack überprüft falls eine Attacke gültig ist alle getroffenen entities, danach wird der zugefügte Schaden berechnet und gespeichert
      */
     public void attack(Attack attack) {
         if (!attack.isExpired()) { //die Gültigkeit der Attacke wird überprüft, falls sie ungültig ist, geschieht nichts
-            for (Entity entity : collisionManager.getEntities(attack)) { //durchläuft alle Entities, die von der Attacke getroffen werden
+            collisionManager.checkCollisions();
+            for (Entity entity : collisionManager.getEntities(attack)) {//durchläuft alle Entities, die von der Attacke getroffen werden
                 if (!attack.getHitList().contains(entity) && entity instanceof PlayerTypeEntity && entity.getClass() != attack.getOwner().getClass()) { //überprüft, ob die Entity bereits bekannt ist und ob sie überhaupt Schaden nehmen kann
                     attack.getHitList().add(entity); //fügt die Entity der hitlist in der Attacke hinzu
                     int newDamage = attack.getDamage() - ((PlayerTypeEntity) entity).getDefense(); //berechnet den zugefügten Schaden

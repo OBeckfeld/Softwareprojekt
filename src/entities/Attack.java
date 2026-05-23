@@ -1,6 +1,8 @@
 package entities;
 
 import java.util.*;
+
+import entities.managers.AttackManager;
 import entities.managers.EntityRegistry;
 
 public class Attack extends Entity{
@@ -10,8 +12,8 @@ public class Attack extends Entity{
     private ArrayList<Entity> hitList; //hitList speichert alle Entities, die von der Attacke getroffen werden
     private PlayerTypeEntity owner; //Referenz auf Verursacher der Attacke, macht 'Rückschlüsse' möglich
 
-    public Attack(double x, double y, int width, int height, EntityRegistry registry, int timeToLive, PlayerTypeEntity owner) {
-    super(x, y, width, height, registry);
+    public Attack(double x, double y, int width, int height, EntityRegistry registry, int timeToLive, PlayerTypeEntity owner, AttackManager attackManager) {
+    super(x, y, width, height, registry, attackManager);
     this.expired = false;
     this.visible = true;
     this.hitList = new ArrayList<>();
@@ -20,6 +22,18 @@ public class Attack extends Entity{
     this.damage = owner.getDamage()+owner.getDamage()* owner.getDamageModifier()/100;
 
     this.owner = owner;
+    }
+    public Attack(double x, double y, int width, int height, EntityRegistry registry, int timeToLive, PlayerTypeEntity owner, AttackManager attackManager, int damage) {
+        super(x, y, width, height, registry, attackManager);
+        this.expired = false;
+        this.visible = true;
+        this.hitList = new ArrayList<>();
+        this.timeToLive = timeToLive;
+        this.timeToSee = 120; //Zeit, die eine Attacke sichtbar ist
+        this.damage = damage* owner.getDamageModifier()/100;
+
+        this.owner = owner;
+
     }
 
     /**
