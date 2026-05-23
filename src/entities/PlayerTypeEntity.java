@@ -16,6 +16,7 @@ public abstract class PlayerTypeEntity extends Entity {
     protected int damage  = 34;
     protected int defense = 5;
     protected int direction = 0; //0 = rechts, 1 = unten, 2 = links, 3 = oben
+    protected boolean isAttacking = false;
     protected int viewRange;
     protected int mass;
     protected int damageModifier;
@@ -68,6 +69,8 @@ public abstract class PlayerTypeEntity extends Entity {
     public void setDamageModifier(int mod){damageModifier = mod;}
 
     public int getHorizontalRange() { return horizontalRange; }
+
+    public void setAttacking(boolean attacking){isAttacking = attacking;}
 
     public void update(){
         abilityManger.update();

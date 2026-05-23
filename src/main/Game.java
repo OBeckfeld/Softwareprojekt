@@ -53,6 +53,8 @@ public class Game implements Runnable {
         startGameLoop();
     }
 
+    public EntityManager getEntityManager(){return entities;}
+
     private void startGameLoop() {
         gameThread = new Thread(this);
         gameThread.start(); // Startet die run() Methode in einem neuen Thread
@@ -81,6 +83,5 @@ public class Game implements Runnable {
             }
         }
     }
-    public ArrayList<Entity> getEntities(){ return entities.getEntities();}//nur zum Testen, muss noch entfernt werden
 
     }

@@ -28,13 +28,25 @@ public class Player extends PlayerTypeEntity {
         abilityManger.equip(dmgBoost, 2);
     }
 
+    private void attack(){
+        if(inputs.getHeldKeys().contains(KeyEvent.VK_J)){
+            attackManager.newAttack(this);
+            attackManager.attack(attack);
+            isAttacking = true;
+        }
+    }
+
     public void update() {
         super.update();
-        movement.move(this);
-        if(inputs.getHeldKeys().contains(KeyEvent.VK_J)) {
-            attackManager.newAttack(registry, this);
-            attackManager.attack(attack);
+        if(isAttacking){
+            speed = 0;
         }
+        else{
+            speed = defaultSpeed;
+        }
+        movement.move(this);
+        attack();
+
         //1 ability slot
         if(inputs.getHeldKeys().contains(KeyEvent.VK_SPACE)) {
             abilityManger.use(1);
@@ -53,4 +65,5 @@ public class Player extends PlayerTypeEntity {
         }
     }
 }
+
 

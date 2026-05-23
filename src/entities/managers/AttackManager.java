@@ -9,9 +9,11 @@ import entities.PlayerTypeEntity;
 public class AttackManager {
     private CollisionManager collisionManager;
     private HashMap<PlayerTypeEntity, Integer> damage; //damage speichert alle Entities, die Schaden nehmen, und den entsprechenden Schaden
+    private EntityRegistry registry;
 
     public AttackManager(CollisionManager collisionManager, EntityRegistry registry) {
         this.collisionManager = collisionManager;
+        this.registry = registry;
         this.damage = new HashMap<>();
     }
 
@@ -26,6 +28,7 @@ public class AttackManager {
             double y;
             int height;
             int width;
+            owner.setAttacking(true);//sagt dem owner, dass er angreift
             switch (owner.getDirection()) { //die Position der Attacke wird abhängig von der Richtung des owners gesetzt
                 case 0: //rechts
                     x = Math.round(owner.getX() + owner.getWidth());

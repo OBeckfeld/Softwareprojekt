@@ -10,14 +10,15 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public abstract class Entity {
-    public static final int NORTH = 3;
-    public static final int EAST = 0;
-    public static final int SOUTH = 1;
-    public static final int WEST = 2;
+    protected static final int NORTH = 3;//das muss noch geändert werden leute!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    protected static final int EAST = 0;
+    protected static final int SOUTH = 1;
+    protected static final int WEST = 2;
 
     protected int height, width;
     protected double x, y;
-
+    protected double speed = 5;
+    protected double defaultSpeed = 5;
     protected MovementComponent movement;
     protected Hitbox hurtbox;
     protected EntityRegistry registry;
@@ -74,7 +75,7 @@ public abstract class Entity {
 
 
     protected void applyVector(Vector vector){movement.applyVector(this, vector);}
-    
+
     protected void move(Vector vector){
         movement.applyVector(this, vector);
     }

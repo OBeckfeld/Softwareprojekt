@@ -33,6 +33,7 @@ public class Attack extends Entity{
         if (timeAlive >= timeToLive) {
             expired = true;
             registry.unregister(this);
+            owner.setAttacking(false);//sagt dem owner, dass die attacke vorbei ist
         }
     }
 
