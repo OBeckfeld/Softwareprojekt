@@ -22,7 +22,7 @@ public class AttackManager {
      *
      * @return
      */
-    public Attack newAttack(EntityRegistry registry, PlayerTypeEntity owner) {
+    public Attack newAttack(PlayerTypeEntity owner) {
         if(owner.getAttack() == null || owner.getAttack().isExpired()) { //falls der owner noch keine Attacke hat oder seine Attacke abgelaufen ist, wird eine neue Attacke erstellt
             double x;
             double y;
@@ -57,7 +57,7 @@ public class AttackManager {
                 default:
                     throw new IllegalArgumentException();
             }
-            Attack attack = new Attack(x, y, width, height, registry, owner.getHitCooldown(), owner);
+            Attack attack = new Attack(x, y, width, height, registry, owner.getAttackDuration(), owner);
             owner.setAttack(attack); //die Attacke wird als aktive Attacke des owners gespeichert, die alte Attacke wird überschrieben
             registry.register(attack);
         }

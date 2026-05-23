@@ -14,7 +14,7 @@ public class Player extends PlayerTypeEntity {
     protected KeyboardInputs inputs;
 
     public Player(int x, int y, int width, int height, EntityRegistry registry, KeyboardInputs keyboardInputs, AttackManager attackManager) {
-        super(x, y, width, height, 180, registry, attackManager);
+        super(x, y, width, height, 60, registry, attackManager);
         this.inputs = keyboardInputs;
         movement = new MovementComponent(keyboardInputs);
         mass = 3;
@@ -38,12 +38,7 @@ public class Player extends PlayerTypeEntity {
 
     public void update() {
         super.update();
-        if(isAttacking){
-            speed = 0;
-        }
-        else{
-            speed = defaultSpeed;
-        }
+
         movement.move(this);
         attack();
 
