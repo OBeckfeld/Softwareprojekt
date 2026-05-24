@@ -9,6 +9,7 @@ public class Gun extends  Weapon{
     public Gun (PlayerTypeEntity owner, AttackManager attackManager){
         super(owner,attackManager);
         attackCooldown = 500;//inMilli Sekunden
+        attackDuration = 5;//in ticks
     }
     @Override
     public boolean use(){

@@ -11,11 +11,13 @@ public abstract class Weapon {
     protected PlayerTypeEntity owner;
     protected AttackManager attackManager;
     protected long lastUsed;
+    public int attackDuration;
 
     public Weapon(PlayerTypeEntity owner, AttackManager attackManager){
         this.owner = owner;
         this.attackManager = attackManager;
         lastUsed = System.currentTimeMillis();
+        attackDuration = 100;//in ticks
     }
     public boolean use(){
         System.out.println(System.currentTimeMillis() - lastUsed);
@@ -26,6 +28,7 @@ public abstract class Weapon {
         }
 
         lastUsed = System.currentTimeMillis();
+        owner.setAttacking(attackDuration);
         return true;//ability kann benutzt werden
     }
 }

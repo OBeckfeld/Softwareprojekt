@@ -46,7 +46,7 @@ public class Projectile extends Entity {
     }
     protected void hit(){
 
-        Attack attack = attackManager.newAttack(owner, x, y, width+1, width+1, 2, 20);
+        Attack attack = attackManager.newAttack(owner, x, y, width+1, width+1, 2, 40);
         System.out.println(attackManager);
         attackManager.attack(attack);
         unregister();

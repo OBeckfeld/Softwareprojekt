@@ -17,7 +17,7 @@ public class Player extends PlayerTypeEntity {
     protected KeyboardInputs inputs;
 
     public Player(int x, int y, int width, int height, EntityRegistry registry, KeyboardInputs keyboardInputs, AttackManager attackManager) {
-        super(x, y, width, height, 60, registry, attackManager);
+        super(x, y, width, height, 20, 60, registry, attackManager);
         this.inputs = keyboardInputs;
         movement = new MovementComponent(keyboardInputs);
         mass = 3;

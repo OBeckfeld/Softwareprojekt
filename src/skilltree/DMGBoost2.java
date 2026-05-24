@@ -25,5 +25,4 @@ public class DMGBoost2 extends Ability {
     }
     public void end(){}
 
-    public void end(){}
 }

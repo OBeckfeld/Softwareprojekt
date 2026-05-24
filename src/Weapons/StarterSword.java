@@ -9,6 +9,7 @@ public class StarterSword extends Weapon {
         super(owner,attackManager);
         damage = 10;
         attackCooldown = 1000;//inMilli Sekunden
+        attackDuration = 100;//in ticks
     }
     @Override
     public boolean use(){
@@ -47,7 +48,7 @@ public class StarterSword extends Weapon {
                     throw new IllegalArgumentException();
 
             }
-            Attack attack = attackManager.newAttack(owner, x, y, height, width,100,damage);
+            Attack attack = attackManager.newAttack(owner, x, y, height, width,attackDuration,damage);
             attackManager.attack(attack);
 
         }

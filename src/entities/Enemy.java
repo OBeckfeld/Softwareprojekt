@@ -10,7 +10,7 @@ public class Enemy extends PlayerTypeEntity {
     protected Player player;
 
     public Enemy(int x, int y, int width, int height, int hitCooldown, EntityRegistry registry, AttackManager attackManager) {
-        super(x, y, width, height, hitCooldown, registry, attackManager);
+        super(x, y, width, height, 100,100, registry, attackManager);
         defaultSpeed = 2;
         speed = defaultSpeed;
         viewRange = 500;
@@ -51,9 +51,10 @@ public class Enemy extends PlayerTypeEntity {
     }
 
     protected void tryAttackEntity(PlayerTypeEntity targetPlayer) {
-        isAttacking = true;
+        //attacking = 100;
         direction = getDirectionTo(targetPlayer.getCenter()[0], targetPlayer.getCenter()[1]);
-        attackManager.newAttack(this);
-        attackManager.attack(attack);
+        //attackManager.newAttack(this);
+        //attackManager.attack(attack);
+        weapon.use();
     }
 }

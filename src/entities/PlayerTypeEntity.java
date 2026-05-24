@@ -18,7 +18,7 @@ public abstract class PlayerTypeEntity extends Entity {
     protected int damage  = 34;
     protected int defense = 5;
     protected int direction = 0; //0 = rechts, 1 = unten, 2 = links, 3 = oben
-    protected boolean isAttacking = false;
+    protected int attacking = 0;
     protected int viewRange;
     protected int mass;
     protected int damageModifier ;
@@ -26,6 +26,7 @@ public abstract class PlayerTypeEntity extends Entity {
     protected double speed = 5;
     protected Weapon weapon;
     protected double defaultSpeed = 5;
+    protected int hitCooldown;
 
     public PlayerTypeEntity(int x, int y, int width, int height, int attackDuration,int hitCooldown, EntityRegistry registry, AttackManager attackManager) {
         super(x, y, width, height, registry, attackManager);
@@ -77,11 +78,12 @@ public abstract class PlayerTypeEntity extends Entity {
 
     public int getHorizontalRange() { return horizontalRange; }
 
-    public void setAttacking(boolean attacking){isAttacking = attacking;}
+    public void setAttacking(int attacking){this.attacking = attacking;}
 
     public void update(){
-        if(isAttacking){
+        if(attacking >0){
             speed = 0;
+            attacking --;
         }
         else{
             speed = defaultSpeed;
