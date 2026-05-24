@@ -37,6 +37,7 @@ public class MapLoader {
         try {
             //Nächste Datei wird aus der Liste der Dateien entnommen und der Inhalt wird als String gespeichert
             String jsonContent = Files.readString(Path.of("src", "tools", "mapData", "room_" +  mapIndex + ".json"));
+            System.out.println(jsonContent);
 
             //Der Inhalt der Arrays aus der JSON Datei werden in den Attributen gespeichert
             entityMap = parseJsonArray(jsonContent, "entityMap");
@@ -52,37 +53,38 @@ public class MapLoader {
      * Methode, welche aus einem in einem String gespeicherten Array ein reguläres Array macht
      */
     public int[][] parseJsonArray(String json, String key) {
-        
+        // Enterzeichen, Carriage Returns und Leerzeichen entfernen, damit die Verarbeitung einfacher ist
+        String oneLineJson = json.replace("\r", "").replace("\n", "").replace(" ", "");
+
         //Position des keys im String finden
-        int startIndex = json.indexOf("\"" + key + "\"");
+        int startIndex = oneLineJson.indexOf(key);
 
         //falls der key nicht vorhanden ist, wird eine Exception geworfen
         if (startIndex == -1) {
-            throw new IllegalArgumentException("Key " + key + " not fonud in JSON.");
+            throw new IllegalArgumentException("Key " + key + " not found in JSON.");
         }
 
         //Start und Ende des Arrays im String werden gefunden, dabei wird alles vor dem Start des Arrays ignoriert
-        int arrayStart = json.indexOf("[[", startIndex);
-        int arrayEnd = json.indexOf("]]", arrayStart);
+        int arrayStart = oneLineJson.indexOf("[[", startIndex);
+        int arrayEnd = oneLineJson.indexOf("]]", arrayStart);
         
         //falls das Array nicht gefunden wird, wird eine Exception geworfen
         if(arrayStart == -1 || arrayEnd == -1) {
-            throw new IllegalArgumentException("Array " + key + " has wrongf ormat");
+            throw new IllegalArgumentException("Array " + key + " has wrong format");
         }
 
         //Inhalt des Arrays wird in einem String gespeichert
-        String arrayContent = json.substring(arrayStart + 2, arrayEnd);
+        String arrayContent = oneLineJson.substring(arrayStart + 2, arrayEnd);
         //String wird in Reihen aufgeteilt
-        String[] separateRows = arrayContent.split("], [");
+        String[] separateRows = arrayContent.split("],\\[");
 
-        //Array, welches das Endergebnis entahlten soll, wird erstellt
+        //Array, welches das Endergebnis enthalten soll, wird erstellt
         int numberRows = separateRows.length;
         int[][] parsedArray = new int[numberRows][];
 
         //Einzelne Reihen werden verarbeitet
         for (int i = 0; i < numberRows; i++) {
-            //Unnötige Zeichen werden entfernt
-            String cleanRow = separateRows[i].replaceAll("[","").replaceAll("]","").replaceAll(" ","");
+            String cleanRow = separateRows[i].replace("[", "").replace("]", "");
             //Array mit einzelnen Werten wird erstellt
             String[] separateValues = cleanRow.split(",");
             //Array, welches das Endergebnis enthalten soll, erhält Wert für die Stelle i
@@ -122,13 +124,13 @@ public class MapLoader {
     public void placeTile(int tileId, int x, int y) {
         switch(tileId) {
             case 1:
-                String tile1 = "tile gespawnr"; //Platzhlater für Tile
+                String tile1 = "tile gespawnt"; //Platzhlater für Tile
                 break;
             case 2:
-                String tile2 = "tile gespawnr"; //Platzhlater für Tile
+                String tile2 = "tile gespawnt"; //Platzhlater für Tile
                 break;
             case 3:
-                String tile3 = "tile gespawnr"; //Platzhlater für Tile
+                String tile3 = "tile gespawnt"; //Platzhlater für Tile
                 break;
             default:
                 return;
