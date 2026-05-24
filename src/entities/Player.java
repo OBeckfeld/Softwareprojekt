@@ -1,8 +1,6 @@
 package entities;
 
-import Weapons.Gun;
-import Weapons.StarterSword;
-import Weapons.Weapon;
+import Weapons.*;
 import entities.components.MovementComponent;
 import entities.managers.EntityRegistry;
 import inputs.KeyboardInputs;
@@ -29,7 +27,7 @@ public class Player extends PlayerTypeEntity {
         DMGBoost dmgBoost = new DMGBoost(this);
         abilityManger.unlock(dmgBoost);
         abilityManger.equip(dmgBoost, 2);
-        weapon = new Gun(this,attackManager);
+        weapon = new MiniGun(this,attackManager);
     }
 
     public void update() {

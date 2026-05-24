@@ -86,10 +86,7 @@ public abstract class Entity {
         return centerCoords;
     }
 
-
-    protected void applyVector(Vector vector){movement.applyVector(this, vector);}
-
-    protected void move(Vector vector){
+    public void move(Vector vector){
         movement.applyVector(this, vector);
     }
 
@@ -121,5 +118,12 @@ public abstract class Entity {
         if (dir == EAST){return new int[]{1, 0};}
         if (dir == SOUTH){return new int[]{0, 1};}
         return new int[]{-1, 0};
+    }
+    public int getOppDirection(int dir){
+        if(dir == NORTH){return SOUTH;}
+        if(dir == SOUTH){return NORTH;}
+        if(dir == EAST){return WEST;}
+        return EAST;
+
     }
 }

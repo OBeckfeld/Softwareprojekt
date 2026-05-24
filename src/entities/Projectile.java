@@ -11,7 +11,8 @@ public class Projectile extends Entity {
     protected int timeToLive;
     protected int timeAlive = 0;
     protected Vector moveVector;
-    public Projectile(double x, double y, int width, int height, EntityRegistry registry, AttackManager attackManager, PlayerTypeEntity owner, double speed, int direction, int timeToLive){
+    protected int damage;
+    public Projectile(double x, double y, int width, int height, EntityRegistry registry, AttackManager attackManager, PlayerTypeEntity owner, double speed, int direction, int timeToLive, int damage){
         super(x, y, width, height, registry, attackManager);
         this.owner = owner;
         this.speed = speed;
@@ -19,9 +20,17 @@ public class Projectile extends Entity {
         this.timeToLive = timeToLive;
         moveVector = new Vector(x, y, x+getOffsetCoords(direction)[0], y+getOffsetCoords(direction)[1]);
         moveVector.setLength(speed);
+        this.damage = damage;
     }
-    public Projectile(double x, double y, int width, int height, PlayerTypeEntity owner, double speed, int direction, int timeToLive){
-        super(x, y, width, height, owner.registry, owner.attackManager);
+    public Projectile(double x, double y, int width, int height, EntityRegistry registry, AttackManager attackManager, PlayerTypeEntity owner, double speed, Vector vector, int timeToLive, int damage){
+        super(x, y, width, height, registry, attackManager);
+        this.owner = owner;
+        this.speed = speed;
+        this.direction = direction;
+        this.timeToLive = timeToLive;
+        moveVector = vector;
+        moveVector.setLength(speed);
+        this.damage = damage;
     }
     @Override
     public void update(){
@@ -46,7 +55,7 @@ public class Projectile extends Entity {
     }
     protected void hit(){
 
-        Attack attack = attackManager.newAttack(owner, x, y, width+1, width+1, 2, 40);
+        Attack attack = attackManager.newAttack(owner, x, y, height+1, width+1, 2, damage);
         System.out.println(attackManager);
         attackManager.attack(attack);
         unregister();
