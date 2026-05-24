@@ -75,7 +75,7 @@ public class MapLoader {
 
         //Inhalt des Arrays wird in einem String gespeichert
         String arrayContent = oneLineJson.substring(arrayStart + 2, arrayEnd);
-        //String wird in Reihen aufgeteilt
+        //String wird in Reihen aufgeteilt, Verwendung von "\\[", da "[" kein reguläres Zeichen ist, sondern eine Funktion verkörpert
         String[] separateRows = arrayContent.split("],\\[");
 
         //Array, welches das Endergebnis enthalten soll, wird erstellt
