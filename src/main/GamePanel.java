@@ -10,12 +10,15 @@ import entities.ViewBox;
 import javax.swing.JPanel;
 import java.awt.*;
 import java.util.ArrayList;
+import tools.TileManager;
 
 public class GamePanel extends JPanel {
     private Game game;
+    private TileManager tileManager;
 
-    public GamePanel(Game game) {
+    public GamePanel(Game game, TileManager tileManager) {
         this.game = game;
+        this.tileManager = tileManager;
 
         setPanelSize();
     }
@@ -28,6 +31,8 @@ public class GamePanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        tileManager.draw(g);
 
         for (Entity entity : new ArrayList<Entity>(game.getEntityManager().getEntities())) {
             g.setColor(Color.BLUE);

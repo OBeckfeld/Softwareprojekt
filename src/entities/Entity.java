@@ -6,9 +6,11 @@ import entities.managers.AttackManager;
 import entities.managers.EntityRegistry;
 import tools.Hitbox;
 import tools.Vector;
+import tools.TileManager;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Set;
 
 public abstract class Entity {
     public static final int NORTH = 3;//das muss noch geändert werden leute!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -22,8 +24,9 @@ public abstract class Entity {
     protected MovementComponent movement;
     protected Hitbox hurtbox;
     public EntityRegistry registry;
+    private TileManager tileManager;
 
-    public Entity(double x, double y, int width, int height, EntityRegistry registry, AttackManager attackManager) {
+    public Entity(double x, double y, int width, int height, EntityRegistry registry, AttackManager attackManager, TileManager tileManager) {
         this.attackManager = attackManager;
         this.x = x;
         this.y = y;
@@ -33,6 +36,7 @@ public abstract class Entity {
         hurtbox = new Hitbox(x, y, width, height);
         registry.register(this);
         this.registry = registry;
+        this.tileManager = tileManager;
 
     }
     public Entity(double x, double y, int width, int height, EntityRegistry registry) {

@@ -1,16 +1,22 @@
 package entities;
 
 import entities.managers.EntityRegistry;
+import entities.Entity;
+import entities.components.MovementComponent;
+import entities.entityRegistry;
+import tools.TileManager;
 import tools.Vector;
 import entities.managers.AttackManager;
-
+import javax.swing.*;
+import java.awt.event.KeyEvent;
+import java.util.Set;
 import java.util.ArrayList;
 
 public class Enemy extends PlayerTypeEntity {
     protected Player player;
 
-    public Enemy(int x, int y, int width, int height, int hitCooldown, EntityRegistry registry, AttackManager attackManager) {
-        super(x, y, width, height, 100,100, registry, attackManager);
+    public Enemy(int x, int y, int width, int height, int hitCooldown, EntityRegistry registry, AttackManager attackManager, TileManager tileManager) {
+        super(x, y, width, height, 100,100, registry, attackManager, tileManager);
         defaultSpeed = 2;
         speed = defaultSpeed;
         viewRange = 500;

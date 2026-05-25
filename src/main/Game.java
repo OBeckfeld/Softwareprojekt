@@ -5,9 +5,11 @@ import entities.Player;
 import entities.Enemy;
 import entities.managers.CollisionManager;
 import entities.managers.EntityRegistry;
+import entities.*;
 import inputs.KeyboardInputs;
 import entities.managers.EntityManager;
 import entities.managers.AttackManager;
+import tools.TileManager;
 
 import java.util.ArrayList;
 
@@ -22,10 +24,11 @@ public class Game implements Runnable {
     private EntityManager entities;
     private CollisionManager collisions;
     private AttackManager attackManager;
-
+    private TileManager tileManager;
     public Game() {
         // Initialisierung der Kern-Komponenten
-        gamePanel = new GamePanel(this);
+        tileManager = new TileManager();
+        gamePanel = new GamePanel(this, tileManager);
         gameWindow = new GameWindow(gamePanel);
         keyboardInputs = new KeyboardInputs(this);
         entities = new EntityManager();
@@ -33,14 +36,14 @@ public class Game implements Runnable {
         entities.setCollisions(collisions);
         attackManager = new AttackManager(collisions, entities);
         Player player = new Player(200, 200, 40, 80, entities, keyboardInputs, attackManager);
-        new Enemy(500, 500, 40, 40, 360, entities, attackManager);
+        new Enemy(500, 500, 40, 40, 360, entities, attackManager, tileManager);
 
-        new Enemy(700, 700, 40, 40, 360, entities, attackManager);//provisorisch
-        new Enemy(700, 700, 40, 40, 360, entities, attackManager);//provisorisch
-        new Enemy(700, 700, 40, 40, 360, entities, attackManager);//provisorisch
-        new Enemy(700, 700, 40, 40, 360, entities, attackManager);//provisorisch
-        new Enemy(700, 700, 40, 40, 360, entities, attackManager);//provisorisch
-        new Enemy(700, 700, 40, 40, 360, entities, attackManager);//provisorisch
+        new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
+        new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
+        new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
+        new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
+        new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
+        new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
 
 
         // Wichtig: Das Panel muss den Fokus haben, um Tastatureingaben zu erkennen

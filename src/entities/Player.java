@@ -2,11 +2,15 @@ package entities;
 
 import Weapons.*;
 import entities.components.MovementComponent;
+import tools.TileManager;
 import entities.managers.EntityRegistry;
 import inputs.KeyboardInputs;
 import entities.managers.AttackManager;
 import skilltree.DMGBoost;
 import skilltree.Dash;
+import javax.swing.*;
+import java.awt.event.KeyEvent;
+import java.util.Set;
 
 import java.awt.event.KeyEvent;
 
@@ -14,10 +18,10 @@ public class Player extends PlayerTypeEntity {
 
     protected KeyboardInputs inputs;
 
-    public Player(int x, int y, int width, int height, EntityRegistry registry, KeyboardInputs keyboardInputs, AttackManager attackManager) {
-        super(x, y, width, height, 20, 60, registry, attackManager);
+    public Player(int x, int y, int width, int height, EntityRegistry registry, KeyboardInputs keyboardInputs, AttackManager attackManager, TileManager tileManager) {
+        super(x, y, width, height, 20, 60, registry, attackManager, tileManager);
         this.inputs = keyboardInputs;
-        movement = new MovementComponent(keyboardInputs);
+        movement = new MovementComponent(keyboardInputs, tileManager);
         mass = 3;
         //nur zum TESTENNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
         Dash dash = new Dash(this);
