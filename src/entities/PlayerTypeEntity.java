@@ -14,10 +14,10 @@ import java.util.ArrayList;
 public abstract class PlayerTypeEntity extends Entity {
 
     protected Attack attack;
-    protected int attackDuration, verticalRange, horizontalRange;
-    protected int health  = 100;
-    protected int damage  = 34;
-    protected int defense = 5;
+    protected int hitCooldown, verticalRange, horizontalRange;
+    protected int health;
+    protected int damage;
+    protected int defense;
     protected int direction = 0; //0 = rechts, 1 = unten, 2 = links, 3 = oben
     protected int attacking = 0;
     protected int viewRange;
@@ -27,13 +27,11 @@ public abstract class PlayerTypeEntity extends Entity {
     protected double speed = 5;
     protected Weapon weapon;
     protected double defaultSpeed = 5;
-    protected int hitCooldown;
 
-    public PlayerTypeEntity(int x, int y, int width, int height, int attackDuration,int hitCooldown, EntityRegistry registry, AttackManager attackManager, TileManager tileManager) {
+    public PlayerTypeEntity(int x, int y, int width, int height, int hitCooldown, EntityRegistry registry, AttackManager attackManager, TileManager tileManager) {
         super(x, y, width, height, registry, attackManager, tileManager);
         this.hitCooldown = hitCooldown;
         this.attackManager = attackManager;
-        this.attackDuration = attackDuration;
         verticalRange = 120;
         horizontalRange = 60;
         abilityManger = new AbilityManager(this);
@@ -63,8 +61,6 @@ public abstract class PlayerTypeEntity extends Entity {
 
     public int getDirection()         { return direction; }
     public void setDirection(int direction) { this.direction = direction; }
-
-    public int getAttackDuration() { return attackDuration; }
 
     public int getVerticalRange () { return verticalRange; }
 

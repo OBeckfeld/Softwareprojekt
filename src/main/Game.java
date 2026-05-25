@@ -3,10 +3,12 @@ package main;
 import entities.Entity;
 import entities.Player;
 import entities.Enemy;
+import entities.Door;
 import entities.managers.CollisionManager;
 import entities.managers.EntityRegistry;
 import entities.*;
 import inputs.KeyboardInputs;
+import tools.MapLoader;
 import entities.managers.EntityManager;
 import entities.managers.AttackManager;
 import tools.TileManager;
@@ -25,6 +27,7 @@ public class Game implements Runnable {
     private CollisionManager collisions;
     private AttackManager attackManager;
     private TileManager tileManager;
+    private MapLoader mapLoader;
 
     public Game() {
         // Initialisierung der Kern-Komponenten
@@ -37,6 +40,7 @@ public class Game implements Runnable {
         entities.setCollsisons(collisions);//temporär bis ihr diese absolut gekochten Abhängigkeiten gefixt habt
 
         attackManager = new AttackManager(collisions, entities, tileManager);
+        mapLoader = new MapLoader(entities, keyboardInputs, attackManager, collisions);
         Player player = new Player(200, 200, 40, 80, entities, keyboardInputs, attackManager, tileManager);
         new Enemy(500, 500, 40, 40, 360, entities, attackManager, tileManager);
 
@@ -47,6 +51,7 @@ public class Game implements Runnable {
         new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
         new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
 
+        new Door(1000, 500, entities);
 
         // Wichtig: Das Panel muss den Fokus haben, um Tastatureingaben zu erkennen
         gamePanel.setFocusable(true);
@@ -84,6 +89,7 @@ public class Game implements Runnable {
                 }
                 attackManager.damageDistribution();
                 gamePanel.repaint();
+                mapLoader.checkMapUpdate();
                 lastFrame = now;
             }
         }

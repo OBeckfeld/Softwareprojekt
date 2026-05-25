@@ -1,9 +1,6 @@
 package entities;
 
 import entities.managers.EntityRegistry;
-import entities.Entity;
-import entities.components.MovementComponent;
-import entities.managers.EntityRegistry;
 import tools.TileManager;
 import tools.Vector;
 import entities.managers.AttackManager;
@@ -16,13 +13,24 @@ public class Enemy extends PlayerTypeEntity {
     protected Player player;
 
     public Enemy(int x, int y, int width, int height, int hitCooldown, EntityRegistry registry, AttackManager attackManager, TileManager tileManager) {
-        super(x, y, width, height, 100,100, registry, attackManager, tileManager);
+        super(x, y, width, height, 180, registry, attackManager, tileManager);
         defaultSpeed = 2;
         speed = defaultSpeed;
         viewRange = 500;
         mass = 1;
         health = 100; //zu Testzwecken, für spätere Version unbedingt anpassen!!!
         player = null;
+    }
+
+    public Enemy(int x, int y, int width, int height, int health, int damage, int defense, int verticalRange, int horizontalRange, int hitCooldown, EntityRegistry registry, AttackManager attackManager, TileManager tileManager) {
+        super(x, y, width, height, hitCooldown, registry, attackManager, tileManager);
+        this.attackManager = attackManager;
+        this.hitCooldown = hitCooldown;
+        this.health = health;
+        this.damage = damage;
+        this.defense = defense;
+        this.verticalRange = verticalRange;
+        this.horizontalRange = horizontalRange;
     }
 
     public void update() {

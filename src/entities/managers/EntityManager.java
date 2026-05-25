@@ -6,7 +6,6 @@ import tools.TileManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
 public class EntityManager implements EntityRegistry {
     private ArrayList<Entity> entities;
     private CollisionManager collisionManager;
@@ -28,8 +27,9 @@ public class EntityManager implements EntityRegistry {
         }
     }
 
-    public void unregister(Entity entity){entities.remove(entity);
-    }
+    public void unregister(Entity entity){ entities.remove(entity); }
+
+    public boolean collidesWith(Entity entity1, Entity entity2){ return collisionManager.getEntities(entity1).contains(entity2);}
 
     public ArrayList<Entity> getEntities(){return new ArrayList<>(entities);}//damit die eigentliche Liste nicht von anderen Klassen bearbeitet werden kann
 
@@ -44,11 +44,7 @@ public class EntityManager implements EntityRegistry {
 
         return colls;
     }
-
-    public boolean collidesWith(Entity entity1, Entity entity2){ return collisionManager.getEntities(entity1).contains(entity2);}
     
-    public ArrayList<Entity> getCollisions(Entity entity){ return collisionManager.getEntities(entity); }
-
     private ArrayList<Entity> bubbleSortForY(ArrayList<Entity> entityList)
     {
         Entity [] entities = entityList.toArray(new Entity [entityList.size()]);
