@@ -2,11 +2,9 @@ package main;
 
 import entities.Entity;
 import entities.Player;
-import entities.Enemy;
+import entities.enemies.Enemy;
 import entities.Door;
 import entities.managers.CollisionManager;
-import entities.managers.EntityRegistry;
-import entities.*;
 import inputs.KeyboardInputs;
 import tools.MapLoader;
 import entities.managers.EntityManager;
@@ -18,15 +16,15 @@ import java.util.ArrayList;
 
 public class Game implements Runnable {
 
-    private GameWindow gameWindow;
-    private GamePanel gamePanel;
+    private final GameWindow gameWindow;
+    private final GamePanel gamePanel;
     private Thread gameThread;
     private final int FPS_SET = 120; // Wir zielen auf 120 Bilder pro Sekunde ab;
-    private KeyboardInputs keyboardInputs;
-    private EntityManager entities;
-    private CollisionManager collisions;
-    private AttackManager attackManager;
-    private TileManager tileManager;
+    private final KeyboardInputs keyboardInputs;
+    private final EntityManager entities;
+    private CollisionManager collisions;//müsste Final aber geht nicht
+    private final AttackManager attackManager;
+    private final TileManager tileManager;
     private MapLoader mapLoader;
 
     public Game() {
@@ -51,7 +49,7 @@ public class Game implements Runnable {
         new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
         new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
 
-        new Door(1000, 500, entities);
+        new Door(1000, 500, entities, attackManager, tileManager);//provisorisch
 
         // Wichtig: Das Panel muss den Fokus haben, um Tastatureingaben zu erkennen
         gamePanel.setFocusable(true);
@@ -87,7 +85,7 @@ public class Game implements Runnable {
                 for (Entity entity : new ArrayList<>(entities.getEntities())){
                     entity.update();
                 }
-                attackManager.damageDistribution();
+                attackManager.distributeDamage();
                 gamePanel.repaint();
                 mapLoader.checkMapUpdate();
                 lastFrame = now;

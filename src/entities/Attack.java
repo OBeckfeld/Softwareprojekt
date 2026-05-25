@@ -3,23 +3,24 @@ package entities;
 import java.util.*;
 
 import entities.managers.AttackManager;
+import entities.managers.AttackRegistry;
 import entities.managers.EntityRegistry;
 import tools.TileManager;
 
 public class Attack extends Entity{
-    private int damage, duration, timeToSee; // gibt den Schaden und die Dauer einer Attacke an
+    private final int damage;
+    private final int duration; // gibt den Schaden und die Dauer einer Attacke an
     private int timeAlive = 0; //gibt an, wie lange eine Attacke schon aktiv ist
     private boolean expired, visible; //expired gibt an, ob eine Attacke noch aktiv ist
-    private ArrayList<Entity> hitList; //hitList speichert alle Entities, die von der Attacke getroffen werden
-    private PlayerTypeEntity owner; //Referenz auf Verursacher der Attacke, macht 'Rückschlüsse' möglich
+    private final ArrayList<Entity> hitList; //hitList speichert alle Entities, die von der Attacke getroffen werden
+    private final PlayerTypeEntity owner; //Referenz auf Verursacher der Attacke, macht 'Rückschlüsse' möglich
 
-    public Attack(double x, double y, int width, int height, EntityRegistry registry,int duration, PlayerTypeEntity owner, AttackManager attackManager, TileManager tileManager) {
-        super(x, y, width, height, registry, attackManager, tileManager);
+    public Attack(double x, double y, int width, int height, EntityRegistry registry, int duration, PlayerTypeEntity owner, AttackRegistry attackRegistry, TileManager tileManager) {
+        super(x, y, width, height, registry, attackRegistry, tileManager);
         this.expired = false;
         this.visible = true;
         this.hitList = new ArrayList<>();
         this.duration = duration;
-        this.timeToSee = duration; //Zeit, die eine Attacke sichtbar ist
         this.damage = owner.getDamage()+owner.getDamage()* owner.getDamageModifier()/100;
         this.owner = owner;
     }
@@ -28,11 +29,9 @@ public class Attack extends Entity{
         this.expired = false;
         this.visible = true;
         this.hitList = new ArrayList<>();
-        this.timeToSee = duration; //Zeit, die eine Attacke sichtbar ist
         this.duration = duration;
         this.damage = damage* owner.getDamageModifier()/100;
         this.owner = owner;
-
     }
 
     /**
@@ -40,17 +39,18 @@ public class Attack extends Entity{
      */
     public void update() {
         timeAlive ++;
-        if (timeAlive >= timeToSee) {
+        if (timeAlive >= duration) {
             visible = false;
         }
         if (timeAlive >= duration) {
             expired = true;
             registry.unregister(this);
-            //owner.setAttacking(0);//sagt dem owner, dass die attacke vorbei ist
+            //owner.setAttacking(false);//sagt dem owner, dass die attacke vorbei ist
+            //owner.setAttack(null);
         }
     }
 
-    public int duration() {
+    public int getDuration() {
         return duration;
     }
 

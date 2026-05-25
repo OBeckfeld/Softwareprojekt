@@ -3,14 +3,14 @@ package Weapons;
 import entities.Entity;
 import entities.PlayerTypeEntity;
 import entities.Projectile;
-import entities.managers.AttackManager;
+import entities.managers.AttackRegistry;
 import tools.TileManager;
 import tools.Vector;
 
 import java.util.Random;
 public class MiniGun extends Weapon{
-    public MiniGun(PlayerTypeEntity owner, AttackManager attackManager, TileManager tileManager) {
-        super(owner,attackManager, tileManager);
+    public MiniGun(PlayerTypeEntity owner, AttackRegistry attackRegistry, TileManager tileManager) {
+        super(owner, attackRegistry, tileManager);
         damage = 10;
         attackCooldown = 50;//inMilli Sekunden
         attackDuration = 10;//in ticks
@@ -53,7 +53,7 @@ public class MiniGun extends Weapon{
         normalVector.setLength(10);
         offsetVector.setLength(5);
         normalVector.combineVector(offsetVector);
-        new Projectile(x, y, 10, 10, owner.registry, attackManager, owner, 5, normalVector, 50, damage, tileManager);
+        new Projectile(x, y, 10, 10, owner.registry, attackRegistry, owner, 5, normalVector, 50, damage, tileManager);
 
         int dir = owner.getOppDirection(owner.getDirection());
         Vector kbVector = new Vector(x, y, x+owner.getOffsetCoords(dir)[0], y+owner.getOffsetCoords(dir)[1]);
