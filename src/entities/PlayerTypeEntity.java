@@ -3,24 +3,24 @@ package entities;
 import Weapons.StarterSword;
 import Weapons.Weapon;
 import entities.managers.AbilityManager;
-import entities.managers.AttackManager;
 import entities.managers.AttackRegistry;
 import entities.managers.EntityRegistry;
+import tools.HealthBar;
 import tools.TileManager;
 import tools.Vector;
 
-import java.awt.event.KeyEvent;
+import java.awt.*;
 import java.util.ArrayList;
 
 public abstract class PlayerTypeEntity extends Entity {
 
     protected Attack attack;
     protected int attackDuration, verticalRange, horizontalRange;
-    protected int health  = 100;
-    protected int damage  = 34;
+    protected int maxHealth = 100;
+    protected int currentHealth = maxHealth;
+    protected int damage  = 20;
     protected int defense = 5;
     protected int direction = 0; //0 = rechts, 1 = unten, 2 = links, 3 = oben
-    protected int attacking = 0;
     protected int viewRange;
     protected int mass;
     protected int damageModifier ;
@@ -29,7 +29,8 @@ public abstract class PlayerTypeEntity extends Entity {
     protected Weapon weapon;
     protected double defaultSpeed = 5;
     protected int hitCooldown;
-    protected boolean isAttacking = false;
+    protected boolean isAttacking;
+    protected HealthBar healthBar;
 
     public PlayerTypeEntity(int x, int y, int width, int height, int attackDuration, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager) {
         super(x, y, width, height, registry, attackRegistry, tileManager);
@@ -40,21 +41,26 @@ public abstract class PlayerTypeEntity extends Entity {
         abilityManger = new AbilityManager(this);
         viewRange = 300;
         mass = 2;
-        damageModifier = 100;
+        damageModifier = 1;
         weapon = new StarterSword(this, attackRegistry, tileManager);
+        healthBar = new HealthBar(this);
+        isAttacking = false;
     }
 
     public void gainLife(int amount) {
-        health = Math.min(health + amount, 100);
+        currentHealth = Math.min(currentHealth + amount, 100);
     }
 
-    public boolean isAlive() { return health > 0; }
+    public boolean isAlive() { return currentHealth > 0; }
 
     public Attack getAttack() { return attack; }
     public void setAttack(Attack attack) { this.attack = attack; }
 
-    public int getHealth() { return health; }
-    public void setHealth(int health) { this.health = health; }
+    public int getCurrentHealth() { return currentHealth; }
+    public void setCurrentHealth(int currentHealth) { this.currentHealth = currentHealth; }
+
+    public int getMaxHealth() { return maxHealth; }
+    public void setMaxHealth(int maxHealth) { this.maxHealth = maxHealth; }
 
     public int getDamage() { return damage; }
 
@@ -82,10 +88,14 @@ public abstract class PlayerTypeEntity extends Entity {
     public boolean isAttacking() { return isAttacking; }
     public void setAttacking(boolean isAttacking) { this.isAttacking = isAttacking; }
 
+    public void draw(Graphics2D g){
+        healthBar.draw(g);
+    }
+
     public void takeDamage(int damage) {
         damage -= defense;
         if (damage > 0){
-            health -= damage;
+            currentHealth -= damage;
         }
     }
 
@@ -94,16 +104,22 @@ public abstract class PlayerTypeEntity extends Entity {
     }
 
     public void update(){
-        if(health <= 0){unregister();}//wenn die Entity tod ist, macht sie nichts mehr, außer sich zu unregistern
+        if(currentHealth <= 0){unregister();}//wenn die Entity tod ist, macht sie nichts mehr, außer sich zu unregistern
             else {
                 if (isAttacking) {
                     speed = 0;
 
+                    try{//falls es vorkommt, dass isAttacking true ist, obwohl die Entity keine Attacke hat
                     //falls die Attacke vorbei ist, wird sie gelöscht
                     if (attack.isExpired()) {
                         isAttacking = false;
                         attack = null;
                     }
+                    }
+                    catch (NullPointerException e){
+                        isAttacking = false;
+                    }
+
                 } else {
                     speed = defaultSpeed;
                 }

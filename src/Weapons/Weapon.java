@@ -22,6 +22,7 @@ public abstract class Weapon {
         attackDuration = 100;//in ticks
         this.tileManager = tileManager;
     }
+
     public boolean use(){
         System.out.println(System.currentTimeMillis() - lastUsed);//Testmethode
         if (System.currentTimeMillis() - lastUsed < attackCooldown){

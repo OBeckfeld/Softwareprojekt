@@ -18,7 +18,7 @@ public class ExplodeEnemy extends Enemy {
     public ExplodeEnemy(int x, int y, int width, int height,
                         EntityRegistry registry, AttackManager attackManager, TileManager tileManager) {
         super(x, y, width, height, 0, registry, attackManager, tileManager);
-        health = 20;
+        currentHealth = 20;
         setSpeed(3);
         viewRange = 300;
     }
@@ -41,8 +41,8 @@ public class ExplodeEnemy extends Enemy {
         ArrayList<Entity> inRange = registry.getInRange(this, BLAST_RADIUS);
         for (Entity entity : inRange) {
             if (entity instanceof PlayerTypeEntity && !(entity instanceof ExplodeEnemy)) {
-                ((PlayerTypeEntity) entity).setHealth(
-                        ((PlayerTypeEntity) entity).getHealth() - EXPLODE_DMG
+                ((PlayerTypeEntity) entity).setCurrentHealth(
+                        ((PlayerTypeEntity) entity).getCurrentHealth() - EXPLODE_DMG
                 );
             }
         }

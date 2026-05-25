@@ -1,11 +1,7 @@
 package main;
 
-import entities.Attack;
-import entities.Entity;
+import entities.*;
 import entities.enemies.Enemy;
-import entities.Player;
-import entities.Door;
-import entities.ViewBox;
 
 import javax.swing.JPanel;
 import java.awt.*;
@@ -31,8 +27,9 @@ public class GamePanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
 
-        tileManager.draw(g);
+        tileManager.draw(g2d);
 
         for (Entity entity : new ArrayList<Entity>(game.getEntityManager().getEntities())) {
             g.setColor(Color.BLUE);
@@ -40,10 +37,12 @@ public class GamePanel extends JPanel {
                 continue;
             }
             if (entity instanceof Player){
-                g.setColor(Color.BLUE);
+                g2d.setColor(Color.BLUE);
+                ((Player)entity).draw(g2d);
             }
             else if (entity instanceof Enemy){
                 g.setColor(Color.RED);
+                ((Enemy)entity).draw(g2d);
             }
             else if (entity instanceof Attack){
                 if(((Attack)entity).isVisible()) {

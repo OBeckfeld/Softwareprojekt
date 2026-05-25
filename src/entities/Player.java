@@ -21,7 +21,7 @@ public class Player extends PlayerTypeEntity {
         this.inputs = keyboardInputs;
         movement = new MovementComponent(keyboardInputs, tileManager);
         mass = 3;
-        //nur zum TESTENNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+        //nur zum TESTEN
         Dash dash = new Dash(this);
         abilityManger.unlock(dash);
         abilityManger.equip(dash, 1);

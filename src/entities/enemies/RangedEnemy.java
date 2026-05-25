@@ -13,7 +13,7 @@ public class RangedEnemy extends Enemy {
     public RangedEnemy(int x, int y, int width, int height,
                        EntityRegistry registry, AttackManager attackManager, TileManager tileManager) {
         super(x, y, width, height, 60, registry, attackManager, tileManager);
-        health = 30;
+        currentHealth = 30;
         setSpeed(3);
         viewRange = 400;
     }

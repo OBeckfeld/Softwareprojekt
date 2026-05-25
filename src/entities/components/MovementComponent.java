@@ -1,6 +1,7 @@
 package entities.components;
 
 import entities.Entity;
+import entities.Player;
 import entities.PlayerTypeEntity;
 import inputs.KeyboardInputs;
 import tools.Vector;
@@ -20,7 +21,7 @@ public class MovementComponent {
         this.inputs = inputs;
     }
 
-    public void move(PlayerTypeEntity entity) {
+    public void move(Player entity) {
         if (inputs == null) {
             return;
         }
@@ -30,19 +31,19 @@ public class MovementComponent {
 
         if (inputs.getHeldKeys().contains(KeyEvent.VK_W)) {
             dy -= entity.getSpeed();
-            (entity).setDirection(3);
+            entity.setDirection(3);
         }
         if (inputs.getHeldKeys().contains(KeyEvent.VK_S)) {
             dy += entity.getSpeed();
-            (entity).setDirection(1);
+            entity.setDirection(1);
         }
         if (inputs.getHeldKeys().contains(KeyEvent.VK_A)) {
             dx -= entity.getSpeed();
-            ((PlayerTypeEntity) entity).setDirection(2);
+            entity.setDirection(2);
         }
         if (inputs.getHeldKeys().contains(KeyEvent.VK_D)) {
             dx += entity.getSpeed();
-            (entity).setDirection(0);
+            entity.setDirection(0);
         }
 
         //für diagonale Bewegung
@@ -101,7 +102,6 @@ public class MovementComponent {
                 newY = tileRow * tileSize + entity.getSpeed();
             }
         }
-
 
         entity.setX(newX);
 

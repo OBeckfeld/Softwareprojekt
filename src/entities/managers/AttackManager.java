@@ -12,15 +12,13 @@ import javax.accessibility.AccessibleTable;
 
 public class AttackManager implements AttackRegistry {
 
-    private CollisionManager collisionManager;
-    private HashMap<PlayerTypeEntity, Integer> totalDamage; //totalDamage speichert alle Entities, die Schaden nehmen, und den entsprechenden Schaden
+    private final CollisionManager collisionManager;
     private final EntityRegistry registry;
     private final TileManager tileManager;
-    private ArrayList<Attack> attacks;
+    private final ArrayList<Attack> attacks;
 
     public AttackManager(CollisionManager collisionManager, EntityRegistry registry, TileManager tileManager) {
         this.collisionManager = collisionManager;
-        this.totalDamage = new HashMap<>();
         this.registry = registry;
         this.tileManager = tileManager;
         attacks = new ArrayList<>();
@@ -74,7 +72,7 @@ public class AttackManager implements AttackRegistry {
 
     public void attack(PlayerTypeEntity owner, double x, double y, int height, int width, int duration, int damage) {
         if (!owner.isAttacking()) { //die Gültigkeit der Attacke wird überprüft, falls sie ungültig ist, geschieht nichts
-            Attack attack = new Attack(x, y, width, height, registry, duration, owner, this, tileManager);
+            Attack attack = new Attack(x, y, width, height, registry, duration, owner, this, damage, tileManager);
             owner.setAttack(attack);
             owner.setAttacking(true);
             attacks.add(attack);

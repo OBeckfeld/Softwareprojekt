@@ -8,7 +8,7 @@ import entities.managers.EntityRegistry;
 import tools.TileManager;
 
 public class Attack extends Entity{
-    private final int damage;
+    private final int damage;//schon mit multiplier vom Besitzer multipliziert
     private final int duration; // gibt den Schaden und die Dauer einer Attacke an
     private int timeAlive = 0; //gibt an, wie lange eine Attacke schon aktiv ist
     private boolean expired, visible; //expired gibt an, ob eine Attacke noch aktiv ist
@@ -21,7 +21,7 @@ public class Attack extends Entity{
         this.visible = true;
         this.hitList = new ArrayList<>();
         this.duration = duration;
-        this.damage = owner.getDamage()+owner.getDamage()* owner.getDamageModifier()/100;
+        this.damage = owner.getDamage() + owner.getDamage() * owner.getDamageModifier()/100;//why der Wert ist viel zu hoch, weil der Damage doppelt genommen wird
         this.owner = owner;
     }
     public Attack(double x, double y, int width, int height, EntityRegistry registry, int duration, PlayerTypeEntity owner, AttackManager attackManager, int damage, TileManager tileManager) {
@@ -30,7 +30,7 @@ public class Attack extends Entity{
         this.visible = true;
         this.hitList = new ArrayList<>();
         this.duration = duration;
-        this.damage = damage* owner.getDamageModifier()/100;
+        this.damage = damage * owner.getDamageModifier();
         this.owner = owner;
     }
 
@@ -39,14 +39,11 @@ public class Attack extends Entity{
      */
     public void update() {
         timeAlive ++;
+
         if (timeAlive >= duration) {
             visible = false;
-        }
-        if (timeAlive >= duration) {
             expired = true;
             registry.unregister(this);
-            //owner.setAttacking(false);//sagt dem owner, dass die attacke vorbei ist
-            //owner.setAttack(null);
         }
     }
 

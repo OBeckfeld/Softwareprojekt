@@ -7,7 +7,6 @@ import entities.managers.EntityRegistry;
 import entities.Entity;
 import tools.TileManager;
 import tools.Vector;
-import entities.managers.AttackManager;
 
 import java.util.ArrayList;
 
@@ -20,13 +19,13 @@ public class Enemy extends PlayerTypeEntity {
         speed = defaultSpeed;
         viewRange = 500;
         mass = 1;
-        health = 100; //zu Testzwecken, für spätere Version unbedingt anpassen!!!
+        currentHealth = 100; //zu Testzwecken, für spätere Version unbedingt anpassen!!!
         player = null;
     }
 
     public void update() {
         super.update();
-        if (health <= 0) {
+        if (currentHealth <= 0) {
             registry.unregister(this);
             int triggerAnimation = 1;
             return;

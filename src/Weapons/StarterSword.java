@@ -50,7 +50,7 @@ public class StarterSword extends Weapon {
 
             }
 
-            attackRegistry.attack(owner, x, y, height, width,attackDuration,damage);
+            attackRegistry.attack(owner, x, y, height, width, attackDuration, damage);
 
         }
         return true;
