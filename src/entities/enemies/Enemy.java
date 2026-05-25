@@ -1,22 +1,21 @@
-package entities;
+package entities.enemies;
 
+import entities.Player;
+import entities.PlayerTypeEntity;
+import entities.managers.AttackRegistry;
 import entities.managers.EntityRegistry;
 import entities.Entity;
-import entities.components.MovementComponent;
-import entities.managers.EntityRegistry;
 import tools.TileManager;
 import tools.Vector;
 import entities.managers.AttackManager;
-import javax.swing.*;
-import java.awt.event.KeyEvent;
-import java.util.Set;
+
 import java.util.ArrayList;
 
 public class Enemy extends PlayerTypeEntity {
     protected Player player;
 
-    public Enemy(int x, int y, int width, int height, int hitCooldown, EntityRegistry registry, AttackManager attackManager, TileManager tileManager) {
-        super(x, y, width, height, 100,100, registry, attackManager, tileManager);
+    public Enemy(int x, int y, int width, int height, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager) {
+        super(x, y, width, height, 100,100, registry, attackRegistry, tileManager);
         defaultSpeed = 2;
         speed = defaultSpeed;
         viewRange = 500;
@@ -59,8 +58,8 @@ public class Enemy extends PlayerTypeEntity {
     protected void tryAttackEntity(PlayerTypeEntity targetPlayer) {
         //attacking = 100;
         direction = getDirectionTo(targetPlayer.getCenter()[0], targetPlayer.getCenter()[1]);
-        //attackManager.newAttack(this);
-        //attackManager.attack(attack);
+        //attackRegistry.newAttack(this);
+        //attackRegistry.attack(attack);
         weapon.use();
     }
 }

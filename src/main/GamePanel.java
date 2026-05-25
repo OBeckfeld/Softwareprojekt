@@ -2,7 +2,7 @@ package main;
 
 import entities.Attack;
 import entities.Entity;
-import entities.Enemy;
+import entities.enemies.Enemy;
 import entities.Player;
 import entities.Door;
 import entities.ViewBox;

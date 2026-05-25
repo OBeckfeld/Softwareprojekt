@@ -1,16 +1,16 @@
 package Weapons;
 
-import entities.Attack;
 import entities.PlayerTypeEntity;
 import entities.managers.AttackManager;
+import entities.managers.AttackRegistry;
 import tools.TileManager;
 
 public class IronSword extends Weapon {
-    public IronSword(PlayerTypeEntity owner, AttackManager attackManager, TileManager tileManager) {
-        super(owner,attackManager, tileManager);
+    public IronSword(PlayerTypeEntity owner, AttackRegistry attackRegistry, TileManager tileManager) {
+        super(owner,attackRegistry, tileManager);
         damage = 40;
         attackCooldown = 1100;//inMilli Sekunden
-        attackDuration = 200;//in ticks
+        attackDuration = 20;//in ticks
     }
     @Override
     public boolean use(){
@@ -49,8 +49,7 @@ public class IronSword extends Weapon {
                     throw new IllegalArgumentException();
 
             }
-            Attack attack = attackManager.newAttack(owner, x, y, height, width,attackDuration,damage);
-            attackManager.attack(attack);
+            attackRegistry.attack(owner, x, y, height, width, attackDuration, damage);
 
         }
         return true;

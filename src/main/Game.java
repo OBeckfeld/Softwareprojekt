@@ -2,10 +2,8 @@ package main;
 
 import entities.Entity;
 import entities.Player;
-import entities.Enemy;
+import entities.enemies.Enemy;
 import entities.managers.CollisionManager;
-import entities.managers.EntityRegistry;
-import entities.*;
 import inputs.KeyboardInputs;
 import entities.managers.EntityManager;
 import entities.managers.AttackManager;
@@ -16,15 +14,15 @@ import java.util.ArrayList;
 
 public class Game implements Runnable {
 
-    private GameWindow gameWindow;
-    private GamePanel gamePanel;
+    private final GameWindow gameWindow;
+    private final GamePanel gamePanel;
     private Thread gameThread;
     private final int FPS_SET = 120; // Wir zielen auf 120 Bilder pro Sekunde ab;
-    private KeyboardInputs keyboardInputs;
-    private EntityManager entities;
-    private CollisionManager collisions;
-    private AttackManager attackManager;
-    private TileManager tileManager;
+    private final KeyboardInputs keyboardInputs;
+    private final EntityManager entities;
+    private CollisionManager collisions;//müsste Final aber geht nicht
+    private final AttackManager attackManager;
+    private final TileManager tileManager;
 
     public Game() {
         // Initialisierung der Kern-Komponenten
@@ -82,7 +80,7 @@ public class Game implements Runnable {
                 for (Entity entity : new ArrayList<>(entities.getEntities())){
                     entity.update();
                 }
-                attackManager.damageDistribution();
+                attackManager.distributeDamage();
                 gamePanel.repaint();
                 lastFrame = now;
             }

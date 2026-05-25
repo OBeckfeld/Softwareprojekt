@@ -1,5 +1,6 @@
 package entities;
 
+import entities.enemies.Enemy;
 import entities.managers.AttackManager;
 import entities.managers.EntityRegistry;
 import tools.TileManager;

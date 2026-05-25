@@ -1,6 +1,7 @@
 package entities;
 
-import entities.managers.AttackManager;
+import entities.enemies.Enemy;
+import entities.managers.AttackRegistry;
 import entities.managers.EntityRegistry;
 import tools.TileManager;
 import tools.Vector;
@@ -13,8 +14,8 @@ public class Projectile extends Entity {
     protected int timeAlive = 0;
     protected Vector moveVector;
     protected int damage;
-    public Projectile(double x, double y, int width, int height, EntityRegistry registry, AttackManager attackManager, PlayerTypeEntity owner, double speed, int direction, int timeToLive, int damage, TileManager tileManager) {
-        super(x, y, width, height, registry, attackManager, tileManager);
+    public Projectile(double x, double y, int width, int height, EntityRegistry registry, AttackRegistry attackRegistry, PlayerTypeEntity owner, double speed, int direction, int timeToLive, int damage, TileManager tileManager) {
+        super(x, y, width, height, registry, attackRegistry, tileManager);
         this.owner = owner;
         this.speed = speed;
         this.direction = direction;
@@ -23,8 +24,8 @@ public class Projectile extends Entity {
         moveVector.setLength(speed);
         this.damage = damage;
     }
-    public Projectile(double x, double y, int width, int height, EntityRegistry registry, AttackManager attackManager, PlayerTypeEntity owner, double speed, Vector vector, int timeToLive, int damage,  TileManager tileManager) {
-        super(x, y, width, height, registry, attackManager, tileManager);
+    public Projectile(double x, double y, int width, int height, EntityRegistry registry, AttackRegistry attackRegistry, PlayerTypeEntity owner, double speed, Vector vector, int timeToLive, int damage,  TileManager tileManager) {
+        super(x, y, width, height, registry, attackRegistry, tileManager);
         this.owner = owner;
         this.speed = speed;
         this.direction = direction;
@@ -44,7 +45,7 @@ public class Projectile extends Entity {
     }
     protected void logic(){
         for (Entity entity : registry.getInRange(this, width)) {
-            if (!(entity instanceof  Enemy)) {
+            if (!(entity instanceof Enemy)) {
                 continue;
             }
             hit();
@@ -56,9 +57,8 @@ public class Projectile extends Entity {
     }
     protected void hit(){
 
-        Attack attack = attackManager.newAttack(owner, x, y, height+1, width+1, 2, damage);
-        System.out.println(attackManager);
-        attackManager.attack(attack);
+        attackRegistry.attack(owner, x, y, height+1, width+1, 2, damage);
         unregister();
+
     }
 }

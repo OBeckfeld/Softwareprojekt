@@ -3,14 +3,14 @@ package Weapons;
 import entities.Entity;
 import entities.PlayerTypeEntity;
 import entities.Projectile;
-import entities.managers.AttackManager;
+import entities.managers.AttackRegistry;
 import tools.TileManager;
 
 import static java.lang.Math.round;
 
 public class Rifle extends Weapon{
-    public Rifle (PlayerTypeEntity owner, AttackManager attackManager, TileManager tileManager){
-        super(owner,attackManager, tileManager);
+    public Rifle (PlayerTypeEntity owner, AttackRegistry attackRegistry, TileManager tileManager){
+        super(owner, attackRegistry, tileManager);
         attackCooldown = 1000;//inMilli Sekunden
         attackDuration = 50;//in ticks
         damage = 80;
@@ -39,7 +39,7 @@ public class Rifle extends Weapon{
                 width = (int) Math.round(scale*3);
                 break;
         }
-        new Projectile(owner.getCenter() [0], owner.getCenter() [1], width, height, owner.registry, attackManager, owner, 10, owner.getDirection(), 300, damage, tileManager);
+        new Projectile(owner.getCenter() [0], owner.getCenter() [1], width, height, owner.registry, attackRegistry, owner, 10, owner.getDirection(), 300, damage, tileManager);
         return true;
     }
 }
