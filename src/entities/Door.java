@@ -19,11 +19,6 @@ public class Door extends Entity{
             }
         }
         open = true;
-        for (Entity entity : registry.getCollisions(this)) {
-            if (entity instanceof Player) {
-                registry.getMapLoader().buildMap();
-            }
-        }
     }
 
     public boolean isOpen() {

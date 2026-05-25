@@ -31,11 +31,11 @@ public class Game implements Runnable {
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
         keyboardInputs = new KeyboardInputs(this);
-        entities = new EntityManager(this);
+        entities = new EntityManager();
         collisions = new CollisionManager(entities);
         entities.setCollisions(collisions);
         attackManager = new AttackManager(collisions, entities);
-        mapLoader = new MapLoader((EntityRegistry)entities, keyboardInputs, attackManager);
+        mapLoader = new MapLoader(entities, keyboardInputs, attackManager, collisions);
         Player player = new Player(200, 200, 40, 80, entities, keyboardInputs, attackManager);
         new Enemy(500, 500, 40, 40, 360, entities, attackManager);
 
@@ -82,12 +82,11 @@ public class Game implements Runnable {
                 }
                 attackManager.damageDistribution();
                 gamePanel.repaint();
+                mapLoader.checkMapUpdate();
                 lastFrame = now;
             }
         }
     }
     
     public ArrayList<Entity> getEntities(){ return entities.getEntities();}//nur zum Testen, muss noch entfernt werden
-
-    public MapLoader getMapLoader() { return mapLoader; }
 }

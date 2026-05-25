@@ -2,6 +2,7 @@ package tools;
 
 import entities.managers.EntityRegistry;
 import entities.managers.AttackManager;
+import entities.managers.CollisionManager;
 import inputs.KeyboardInputs;
 import entities.Entity;
 import entities.Player;
@@ -15,29 +16,47 @@ import java.nio.file.Path;
 public class MapLoader {
     //Legt die aktuelle Map fest, welche geladen werden soll
     private int mapIndex = 1;
+    //Anzahl an vorhandenen Datensätzen für die Maps
+    private int indexLimit = 2;
     //Arrays, welche die Informationen über die Map enthalten
     private int[][] entityMap;
     private int[][] tileMap;
     //Referenzen von Klassen, die zum generieren der Entities benötigt werden
     private EntityRegistry registry;
-    private KeyboardInputs inputs;
+    private KeyboardInputs keyboardInputs;
     private AttackManager attackManager;
+    private CollisionManager collisionManager;
 
-    public MapLoader(EntityRegistry registry, KeyboardInputs inputs, AttackManager attackManager) {
+    public MapLoader(EntityRegistry registry, KeyboardInputs keyboardInputs, AttackManager attackManager, CollisionManager collisionManager) {
         this.registry = registry;
-        this.inputs = inputs;
+        this.keyboardInputs = keyboardInputs;
         this.attackManager = attackManager;
+        this.collisionManager = collisionManager;
+    }
+
+    public void checkMapUpdate() {
+        for (Entity entity : registry.getEntities()) {
+            if (entity instanceof Door) {
+                if (((Door) entity).isOpen()) {
+                    for (Entity e : collisionManager.getEntities(entity)) {
+                        if (e instanceof Player) {
+                            buildMap();
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
      * Methode, welche die Daten der Map aus der angegebenen Datei entnimmt
      */
     public void fetchMapData() {
+        if (mapIndex > indexLimit) { mapIndex = indexLimit; }
         //try-catch block, um Fehler zu vermeiden und gegebenenfalls auszugeben
         try {
             //Nächste Datei wird aus der Liste der Dateien entnommen und der Inhalt wird als String gespeichert
-            String jsonContent = Files.readString(Path.of("src", "tools", "mapData", "room_" +  mapIndex + ".json"));
-            System.out.println(jsonContent);
+            String jsonContent = Files.readString(Path.of("src", "data", "mapData", "room_" +  mapIndex + ".json"));
 
             //Der Inhalt der Arrays aus der JSON Datei werden in den Attributen gespeichert
             entityMap = parseJsonArray(jsonContent, "entityMap");
@@ -105,7 +124,7 @@ public class MapLoader {
     public void spawnEntity(int entityId, int x, int y) {
         switch(entityId) {
             case 1:
-                Player player = new Player(x, y, 40, 80, registry, inputs, attackManager);
+                Player player = new Player(x, y, 40, 80, registry, keyboardInputs, attackManager);
                 registry.register(player);
                 break;
             case 2:

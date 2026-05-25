@@ -1,7 +1,6 @@
 package entities.managers;
 
 import entities.Entity;
-import tools.MapLoader;
 
 import java.util.ArrayList;
 
@@ -12,6 +11,4 @@ public interface EntityRegistry {
     ArrayList<Entity> getInRange(Entity entity, int range);
     boolean collidesWith(Entity entity1, Entity entity2);
     ArrayList<Entity> getEntities();
-    ArrayList<Entity> getCollisions(Entity entity);
-    MapLoader getMapLoader();
 }
