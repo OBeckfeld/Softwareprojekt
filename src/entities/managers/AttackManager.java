@@ -4,15 +4,16 @@ import java.util.HashMap;
 
 import entities.Attack;
 import entities.Entity;
-import entities.Player;
 import entities.PlayerTypeEntity;
+import tools.TileManager;
 
 public class AttackManager {
     private CollisionManager collisionManager;
     private HashMap<PlayerTypeEntity, Integer> damage; //damage speichert alle Entities, die Schaden nehmen, und den entsprechenden Schaden
     private EntityRegistry registry;
+    private TileManager tileManager;
 
-    public AttackManager(CollisionManager collisionManager, EntityRegistry registry) {
+    public AttackManager(CollisionManager collisionManager, EntityRegistry registry, TileManager tileManager) {
         this.collisionManager = collisionManager;
         this.damage = new HashMap<>();
         this.registry = registry;
@@ -58,7 +59,7 @@ public class AttackManager {
                 default:
                     throw new IllegalArgumentException();
             }
-            Attack attack = new Attack(x, y, width, height, registry, owner.getAttackDuration(), owner, this, owner.getDamage());
+            Attack attack = new Attack(x, y, width, height, registry, owner.getAttackDuration(), owner, this, owner.getDamage(), tileManager);
             owner.setAttack(attack); //die Attacke wird als aktive Attacke des owners gespeichert, die alte Attacke wird überschrieben
             registry.register(attack);
         }
@@ -66,7 +67,7 @@ public class AttackManager {
     }
 
     public Attack newAttack(PlayerTypeEntity owner,double x, double y, int height,int width, int timeToLive, int damage) {
-            Attack attack = new Attack(x, y, width, height, registry, timeToLive, owner, this, damage);
+            Attack attack = new Attack(x, y, width, height, registry, timeToLive, owner, this, damage, tileManager);
             registry.register(attack);
             owner.setAttack(attack);
         return attack;

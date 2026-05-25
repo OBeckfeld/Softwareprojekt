@@ -24,19 +24,18 @@ public class Dash extends Ability {
     @Override
     public void effect() {
         int dir = owner.getDirection();
-        MovementComponent movementComponent = new MovementComponent();
         double force = 7;
         if (dir == owner.NORTH ){
-            movementComponent.move(owner, 0, -force);
+            owner.move(0, -force);
         }
         if (dir == owner.EAST ){
-            movementComponent.move(owner, force, 0);
+            owner.move(force, 0);
         }
         if (dir == owner.SOUTH ){
-            movementComponent.move(owner, 0, force);
+            owner.move(0, force);
         }
         if (dir == owner.WEST ){
-            movementComponent.move(owner, -force, 0);
+            owner.move(-force, 0);
         }
     }
     public void end(){}

@@ -2,12 +2,13 @@ package entities;
 
 import entities.managers.AttackManager;
 import entities.managers.EntityRegistry;
+import tools.TileManager;
 import tools.Vector;
 
 public class FollowingProjectile extends Projectile{
     private PlayerTypeEntity target;
-    public FollowingProjectile(double x, double y, int width, int height, EntityRegistry registry, AttackManager attackManager, PlayerTypeEntity owner, double speed, int direction, int timeToLive, int damage){
-        super(x,y,width,height,registry,attackManager,owner,speed,direction,timeToLive, damage);
+    public FollowingProjectile(double x, double y, int width, int height, EntityRegistry registry, AttackManager attackManager, PlayerTypeEntity owner, double speed, int direction, int timeToLive, int damage, TileManager tileManager) {
+        super(x,y,width,height,registry,attackManager,owner,speed,direction,timeToLive, damage, tileManager);
     }
     @Override
     protected void logic(){

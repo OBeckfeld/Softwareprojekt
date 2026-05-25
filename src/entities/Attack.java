@@ -4,6 +4,7 @@ import java.util.*;
 
 import entities.managers.AttackManager;
 import entities.managers.EntityRegistry;
+import tools.TileManager;
 
 public class Attack extends Entity{
     private int damage, duration, timeToSee; // gibt den Schaden und die Dauer einer Attacke an
@@ -12,8 +13,8 @@ public class Attack extends Entity{
     private ArrayList<Entity> hitList; //hitList speichert alle Entities, die von der Attacke getroffen werden
     private PlayerTypeEntity owner; //Referenz auf Verursacher der Attacke, macht 'Rückschlüsse' möglich
 
-    public Attack(double x, double y, int width, int height, EntityRegistry registry,int duration, PlayerTypeEntity owner, AttackManager attackManager) {
-        super(x, y, width, height, registry, attackManager);
+    public Attack(double x, double y, int width, int height, EntityRegistry registry,int duration, PlayerTypeEntity owner, AttackManager attackManager, TileManager tileManager) {
+        super(x, y, width, height, registry, attackManager, tileManager);
         this.expired = false;
         this.visible = true;
         this.hitList = new ArrayList<>();
@@ -22,8 +23,8 @@ public class Attack extends Entity{
         this.damage = owner.getDamage()+owner.getDamage()* owner.getDamageModifier()/100;
         this.owner = owner;
     }
-    public Attack(double x, double y, int width, int height, EntityRegistry registry, int duration, PlayerTypeEntity owner, AttackManager attackManager, int damage) {
-        super(x, y, width, height, registry, attackManager);
+    public Attack(double x, double y, int width, int height, EntityRegistry registry, int duration, PlayerTypeEntity owner, AttackManager attackManager, int damage, TileManager tileManager) {
+        super(x, y, width, height, registry, attackManager, tileManager);
         this.expired = false;
         this.visible = true;
         this.hitList = new ArrayList<>();

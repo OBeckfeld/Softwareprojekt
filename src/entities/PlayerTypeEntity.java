@@ -5,6 +5,7 @@ import Weapons.Weapon;
 import entities.managers.AbilityManager;
 import entities.managers.AttackManager;
 import entities.managers.EntityRegistry;
+import tools.TileManager;
 import tools.Vector;
 
 import java.awt.event.KeyEvent;
@@ -28,8 +29,8 @@ public abstract class PlayerTypeEntity extends Entity {
     protected double defaultSpeed = 5;
     protected int hitCooldown;
 
-    public PlayerTypeEntity(int x, int y, int width, int height, int attackDuration,int hitCooldown, EntityRegistry registry, AttackManager attackManager) {
-        super(x, y, width, height, registry, attackManager);
+    public PlayerTypeEntity(int x, int y, int width, int height, int attackDuration,int hitCooldown, EntityRegistry registry, AttackManager attackManager, TileManager tileManager) {
+        super(x, y, width, height, registry, attackManager, tileManager);
         this.hitCooldown = hitCooldown;
         this.attackManager = attackManager;
         this.attackDuration = attackDuration;
@@ -39,8 +40,7 @@ public abstract class PlayerTypeEntity extends Entity {
         viewRange = 300;
         mass = 2;
         damageModifier = 100;
-
-        weapon = new StarterSword(this, attackManager);
+        weapon = new StarterSword(this, attackManager, tileManager);
     }
 
     public void gainLife(int amount) {
@@ -79,6 +79,10 @@ public abstract class PlayerTypeEntity extends Entity {
     public int getHorizontalRange() { return horizontalRange; }
 
     public void setAttacking(int attacking){this.attacking = attacking;}
+
+    public void move(double dx, double dy) {
+        movement.move(this, dx, dy);
+    }
 
     public void update(){
         if(attacking >0){

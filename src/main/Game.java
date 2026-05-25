@@ -25,17 +25,19 @@ public class Game implements Runnable {
     private CollisionManager collisions;
     private AttackManager attackManager;
     private TileManager tileManager;
+
     public Game() {
         // Initialisierung der Kern-Komponenten
         tileManager = new TileManager();
         gamePanel = new GamePanel(this, tileManager);
         gameWindow = new GameWindow(gamePanel);
         keyboardInputs = new KeyboardInputs(this);
-        entities = new EntityManager();
+        entities = new EntityManager(collisions, tileManager);
         collisions = new CollisionManager(entities);
-        entities.setCollisions(collisions);
-        attackManager = new AttackManager(collisions, entities);
-        Player player = new Player(200, 200, 40, 80, entities, keyboardInputs, attackManager);
+        entities.setCollsisons(collisions);//temporär bis ihr diese absolut gekochten Abhängigkeiten gefixt habt
+
+        attackManager = new AttackManager(collisions, entities, tileManager);
+        Player player = new Player(200, 200, 40, 80, entities, keyboardInputs, attackManager, tileManager);
         new Enemy(500, 500, 40, 40, 360, entities, attackManager, tileManager);
 
         new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch

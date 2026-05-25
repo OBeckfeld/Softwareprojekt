@@ -3,10 +3,11 @@ package Weapons;
 import entities.Attack;
 import entities.PlayerTypeEntity;
 import entities.managers.AttackManager;
+import tools.TileManager;
 
 public class IronSword extends Weapon {
-    public IronSword(PlayerTypeEntity owner, AttackManager attackManager){
-        super(owner,attackManager);
+    public IronSword(PlayerTypeEntity owner, AttackManager attackManager, TileManager tileManager) {
+        super(owner,attackManager, tileManager);
         damage = 40;
         attackCooldown = 1100;//inMilli Sekunden
         attackDuration = 200;//in ticks

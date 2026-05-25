@@ -3,10 +3,11 @@ package Weapons;
 import entities.Attack;
 import entities.PlayerTypeEntity;
 import entities.managers.AttackManager;
+import tools.TileManager;
 
 public class StarterSword extends Weapon {
-    public StarterSword(PlayerTypeEntity owner, AttackManager attackManager){
-        super(owner,attackManager);
+    public StarterSword(PlayerTypeEntity owner, AttackManager attackManager, TileManager tileManager) {
+        super(owner,attackManager, tileManager);
         damage = 10;
         attackCooldown = 1000;//inMilli Sekunden
         attackDuration = 100;//in ticks

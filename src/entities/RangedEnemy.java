@@ -1,6 +1,7 @@
 package entities;
 import entities.managers.EntityRegistry;
 import entities.managers.AttackManager;
+import tools.TileManager;
 import tools.Vector;
 
 public class RangedEnemy extends Enemy {
@@ -9,8 +10,8 @@ public class RangedEnemy extends Enemy {
     private static final int ATTACK_RANGE = 300;
 
     public RangedEnemy(int x, int y, int width, int height,
-                       EntityRegistry registry, AttackManager attackManager) {
-        super(x, y, width, height, 60, registry, attackManager);
+                       EntityRegistry registry, AttackManager attackManager, TileManager tileManager) {
+        super(x, y, width, height, 60, registry, attackManager, tileManager);
         health = 30;
         setSpeed(3);
         viewRange = 400;

@@ -3,7 +3,7 @@ package entities;
 import entities.managers.EntityRegistry;
 import entities.Entity;
 import entities.components.MovementComponent;
-import entities.entityRegistry;
+import entities.managers.EntityRegistry;
 import tools.TileManager;
 import tools.Vector;
 import entities.managers.AttackManager;

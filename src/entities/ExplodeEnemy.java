@@ -2,6 +2,7 @@ package entities;
 
 import entities.managers.EntityRegistry;
 import entities.managers.AttackManager;
+import tools.TileManager;
 import tools.Vector;
 import java.util.ArrayList;
 
@@ -13,8 +14,8 @@ public class ExplodeEnemy extends Enemy {
     private boolean exploded = false;
 
     public ExplodeEnemy(int x, int y, int width, int height,
-                        EntityRegistry registry, AttackManager attackManager) {
-        super(x, y, width, height, 0, registry, attackManager);
+                        EntityRegistry registry, AttackManager attackManager, TileManager tileManager) {
+        super(x, y, width, height, 0, registry, attackManager, tileManager);
         health = 20;
         setSpeed(3);
         viewRange = 300;
