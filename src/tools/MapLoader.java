@@ -8,6 +8,7 @@ import entities.Entity;
 import entities.Player;
 import entities.enemies.Enemy;
 import entities.Door;
+import main.Game;
 
 import java.util.ArrayList;
 import java.nio.file.Files;
@@ -68,8 +69,8 @@ public class MapLoader {
         Rectangle screenBounds = gc.getBounds();
 
         AffineTransform at = new AffineTransform();
-        double screenWidth = Math.round(screenBounds.width / at.getScaleX());
-        double screenHeight = Math.round(screenBounds.height / at.getScaleY());
+        double screenWidth = Game.WIDTH;//Math.round(screenBounds.width / at.getScaleX());
+        double screenHeight = Game.HEIGHT;//Math.round(screenBounds.height / at.getScaleY());
 
         scaleX = (int) (screenWidth / map[0].length);
         scaleY = (int) (screenHeight / map.length);
