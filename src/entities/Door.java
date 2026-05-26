@@ -10,7 +10,7 @@ public class Door extends Entity{
     private boolean open;
 
     public Door(int x, int y, EntityRegistry registry, AttackManager attackManager, TileManager tileManager) {
-        super(x, y, 10, 120, registry, attackManager, tileManager);
+        super(x, y, 10, 120, registry, tileManager);
         this.open = false;
     }
 

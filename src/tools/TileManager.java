@@ -11,31 +11,49 @@ import tools.GameMaps;
 public class TileManager {
 
     public Tile[] tiles;
-    private GameMaps gameMaps;
-    public GameMaps.GameMap currentMap;
+    private int[][] tileMap;
+    private int scaleX;
+    private int scaleY;
 
-//tileSize muss doppeltes von der echten TileSize sein
+    //tileSize muss doppeltes von der echten TileSize sein
     int tileSize = 120;
     int size = 512;
 
-    public int getTileSize(){return tileSize;}
-
+    public int getTileSize(){return tileSize;}  
 
     public TileManager() {
         tiles = new Tile[10];
-        gameMaps = new GameMaps();
-        currentMap = gameMaps.getMap(0);
-
         loadTiles();
     }
 
+    public void setTileMap(int[][] tileMap) {
+        this.tileMap = tileMap;
+    }
 
+    public int[][] getTileMap() {
+        return tileMap;
+    }
 
-//definiert die Tiles aus dem Spritesheet
+    public void setScale(int scaleX, int scaleY) {
+        this.scaleX = scaleX;
+        this.scaleY = scaleY;
+    }
+
+    public int getScaleX() {
+        return scaleX;
+    }
+
+    public int getScaleY() {
+        return scaleY;
+    }
+
+    /**
+     * definiert die Tiles aus dem Spritesheet
+     */
     private void loadTiles() {
         try {
             BufferedImage sheet = ImageIO.read(
-                    getClass().getResource("/res/pipeWallSpriteSheet.png")
+                    getClass().getResource("/data/sprites/pipeWallSpriteSheet.png")
             );
 
             SpriteSheet ss = new SpriteSheet(sheet);
@@ -74,25 +92,20 @@ public class TileManager {
 
     //zeichnet die currentMap
     public void draw(Graphics g) {
-        int[][] map = currentMap.getLayout();
-        for(int row = 0; row < map.length; row++) {
-            for(int col = 0; col < map[0].length; col++) {
+        for(int row = 0; row < tileMap.length; row++) {
+            for(int col = 0; col < tileMap[0].length; col++) {
 
-                int tileNum = map[row][col];
+                int tileNum = tileMap[row][col];
 
                 g.drawImage(
                         tiles[tileNum].image,
-                        col * tileSize,
-                        row * tileSize,
-                        tileSize,
-                        tileSize,
+                        col * scaleX,
+                        row * scaleY,
+                        scaleX,
+                        scaleY,
                         null
                 );
             }
         }
-    }
-
-    public GameMaps.GameMap getCurrentMap() {
-        return currentMap;
     }
 }

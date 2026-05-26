@@ -26,7 +26,8 @@ public class MovementComponent {
         }
 
         double dx = 0, dy = 0;
-        int tileSize = tileManager.getTileSize();
+        double scaleX = tileManager.getScaleX();
+        double scaleY = tileManager.getScaleY();
 
         if (inputs.getHeldKeys().contains(KeyEvent.VK_W)) {
             dy -= entity.getSpeed();
@@ -59,22 +60,22 @@ public class MovementComponent {
         double newY = entity.getY() + dy;
         if (dx > 0) {
             double right = newX + playerWidth;
-            double tileCol = right / tileSize;
-            double tileRowTop = entity.getY() / tileSize;
-            double tileRowBottom = (entity.getY() + playerHeight) / tileSize;
+            double tileCol = right / scaleX;
+            double tileRowTop = entity.getY() / scaleY;
+            double tileRowBottom = (entity.getY() + playerHeight) / scaleY;
             if (isWall((int) tileRowTop, (int) tileCol) ||
                     isWall((int) tileRowBottom, (int) tileCol)) {
-                newX = tileCol * tileSize - playerWidth - entity.getSpeed();//ich denke, dass man den speed abziehen muss hat etwas mit der suboptimalen Auflösung der Tiles zu tun.
+                newX = tileCol * scaleX - playerWidth - entity.getSpeed();//ich denke, dass man den speed abziehen muss hat etwas mit der suboptimalen Auflösung der Tiles zu tun.
             }
         } else if (dx < 0) {
             // links prüfen
-            double tileCol = newX / tileSize;
-            double tileRowTop = entity.getY() / tileSize;
-            double tileRowBottom = (entity.getY() + playerHeight - 1) / tileSize;
+            double tileCol = newX / scaleX;
+            double tileRowTop = entity.getY() / scaleY;
+            double tileRowBottom = (entity.getY() + playerHeight - 1) / scaleY;
 
             if (isWall((int) tileRowTop, (int) tileCol) ||
                     isWall((int) tileRowBottom, (int) tileCol)) {
-                newX = tileCol * tileSize + entity.getSpeed();
+                newX = tileCol * scaleX + entity.getSpeed();
             }
         }
 
@@ -82,23 +83,23 @@ public class MovementComponent {
         if (dy > 0) {
             // unten prüfen
             double bottomEdge = newY + playerHeight;
-            double tileRow = bottomEdge / tileSize;
-            double tileColLeft = entity.getX() / tileSize;
-            double tileColRight = (entity.getX() + playerWidth - 1) / tileSize;
+            double tileRow = bottomEdge / scaleY;
+            double tileColLeft = entity.getX() / scaleX;
+            double tileColRight = (entity.getX() + playerWidth - 1) / scaleX;
 
             if (isWall((int) tileRow, (int) tileColLeft) ||
                     isWall((int) tileRow, (int) tileColRight)) {
-                newY = tileRow * tileSize - playerHeight - entity.getSpeed();
+                newY = tileRow * scaleY - playerHeight - entity.getSpeed();
             }
         } else if (dy < 0) {
             // oben prüfen
-            double tileRow = newY / tileSize;
-            double tileColLeft = entity.getX() / tileSize;
-            double tileColRight = (entity.getX() + playerWidth - 1) / tileSize;
+            double tileRow = newY / scaleY;
+            double tileColLeft = entity.getX() / scaleX;
+            double tileColRight = (entity.getX() + playerWidth - 1) / scaleX;
 
             if (isWall((int) tileRow, (int) tileColLeft) ||
                     isWall((int) tileRow, (int) tileColRight)) {
-                newY = tileRow * tileSize + entity.getSpeed();
+                newY = tileRow * scaleY + entity.getSpeed();
             }
         }
 
@@ -178,7 +179,7 @@ public class MovementComponent {
     }
 
     private boolean isWall(int row, int col) {
-        int[][] map = tileManager.getCurrentMap().getLayout();
+        int[][] map = tileManager.getTileMap();
 
         if (row < 0 || row >= map.length || col < 0 || col >= map[0].length) {
             return true;

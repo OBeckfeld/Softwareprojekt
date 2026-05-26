@@ -17,7 +17,6 @@ public abstract class Entity {
     public static final int EAST = 0;
     public static final int SOUTH = 1;
     public static final int WEST = 2;
-    protected AttackRegistry attackRegistry;
     protected int height, width;
     protected double x, y;
     protected double defaultSpeed = 5;
@@ -26,8 +25,7 @@ public abstract class Entity {
     public EntityRegistry registry;
     protected TileManager tileManager;
 
-    public Entity(double x, double y, int width, int height, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager) {
-        this.attackRegistry = attackRegistry;
+    public Entity(double x, double y, int width, int height, EntityRegistry registry, TileManager tileManager) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -39,18 +37,6 @@ public abstract class Entity {
         this.tileManager = tileManager;
 
     }
-    public Entity(double x, double y, int width, int height, EntityRegistry registry, TileManager tileManager) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        movement = new MovementComponent(tileManager);
-        hurtbox = new Hitbox(x, y, width, height);
-        registry.register(this);
-        this.registry = registry;
-
-    }
-
 
     public Hitbox getHurtbox() {return hurtbox;}
 

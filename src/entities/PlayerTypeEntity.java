@@ -23,7 +23,9 @@ public abstract class PlayerTypeEntity extends Entity {
     protected int attacking = 0;
     protected int viewRange;
     protected int mass;
-    protected int damageModifier ;
+    protected AttackRegistry attackRegistry;
+    protected int attackDuration;
+    protected int damageModifier;
     protected AbilityManager abilityManger;
     protected double speed = 5;
     protected Weapon weapon;
@@ -31,7 +33,8 @@ public abstract class PlayerTypeEntity extends Entity {
     protected boolean isAttacking = false;
 
     public PlayerTypeEntity(int x, int y, int width, int height, int attackDuration, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager) {
-        super(x, y, width, height, registry, attackRegistry, tileManager);
+        super(x, y, width, height, registry, tileManager);
+        this.attackRegistry = attackRegistry;
         this.hitCooldown = hitCooldown;
         verticalRange = 120;
         horizontalRange = 60;
@@ -77,6 +80,8 @@ public abstract class PlayerTypeEntity extends Entity {
 
     public boolean isAttacking() { return isAttacking; }
     public void setAttacking(boolean isAttacking) { this.isAttacking = isAttacking; }
+
+    public int getAttackDuration() { return attackDuration; }
 
     public void takeDamage(int damage) {
         damage -= defense;

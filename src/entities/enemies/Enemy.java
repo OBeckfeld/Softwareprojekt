@@ -24,9 +24,8 @@ public class Enemy extends PlayerTypeEntity {
         player = null;
     }
 
-    public Enemy(int x, int y, int width, int height, int health, int damage, int defense, int verticalRange, int horizontalRange, int hitCooldown, EntityRegistry registry, AttackManager attackManager, TileManager tileManager) {
-        super(x, y, width, height, hitCooldown, registry, attackManager, tileManager);
-        this.attackManager = attackManager;
+    public Enemy(int x, int y, int width, int height, int health, int damage, int defense, int verticalRange, int horizontalRange, int attackDuration, int hitCooldown, EntityRegistry registry, AttackManager attackManager, TileManager tileManager) {
+        super(x, y, width, height, attackDuration, hitCooldown, registry, attackManager, tileManager);
         this.hitCooldown = hitCooldown;
         this.health = health;
         this.damage = damage;

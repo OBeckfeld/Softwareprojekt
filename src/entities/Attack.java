@@ -16,7 +16,7 @@ public class Attack extends Entity{
     private final PlayerTypeEntity owner; //Referenz auf Verursacher der Attacke, macht 'Rückschlüsse' möglich
 
     public Attack(double x, double y, int width, int height, EntityRegistry registry, int duration, PlayerTypeEntity owner, AttackRegistry attackRegistry, TileManager tileManager) {
-        super(x, y, width, height, registry, attackRegistry, tileManager);
+        super(x, y, width, height, registry, tileManager);
         this.expired = false;
         this.visible = true;
         this.hitList = new ArrayList<>();
@@ -25,7 +25,7 @@ public class Attack extends Entity{
         this.owner = owner;
     }
     public Attack(double x, double y, int width, int height, EntityRegistry registry, int duration, PlayerTypeEntity owner, AttackManager attackManager, int damage, TileManager tileManager) {
-        super(x, y, width, height, registry, attackManager, tileManager);
+        super(x, y, width, height, registry, tileManager);
         this.expired = false;
         this.visible = true;
         this.hitList = new ArrayList<>();

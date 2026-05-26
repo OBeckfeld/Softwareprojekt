@@ -6,12 +6,17 @@ import entities.managers.CollisionManager;
 import inputs.KeyboardInputs;
 import entities.Entity;
 import entities.Player;
-import entities.Enemy;
+import entities.enemies.Enemy;
 import entities.Door;
 
 import java.util.ArrayList;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.geom.AffineTransform;
+import java.awt.Rectangle;
 
 public class MapLoader {
     //Legt die aktuelle Map fest, welche geladen werden soll
@@ -21,19 +26,27 @@ public class MapLoader {
     //Arrays, welche die Informationen über die Map enthalten
     private int[][] entityMap;
     private int[][] tileMap;
+    //Maße jedes Tiles auf der Map, Hilfe für das Platzieren der Entities
+    private int scaleX;
+    private int scaleY;
     //Referenzen von Klassen, die zum generieren der Entities benötigt werden
     private EntityRegistry registry;
     private KeyboardInputs keyboardInputs;
     private AttackManager attackManager;
     private CollisionManager collisionManager;
+    private TileManager tileManager;
 
-    public MapLoader(EntityRegistry registry, KeyboardInputs keyboardInputs, AttackManager attackManager, CollisionManager collisionManager) {
+    public MapLoader(EntityRegistry registry, KeyboardInputs keyboardInputs, AttackManager attackManager, CollisionManager collisionManager, TileManager tileManager) {
         this.registry = registry;
         this.keyboardInputs = keyboardInputs;
         this.attackManager = attackManager;
         this.collisionManager = collisionManager;
+        this.tileManager = tileManager;
     }
 
+    /**
+     * Überprüft, ob der Player eine geöffnete Tür berührt hat, und lädt gegebenenfalls die nächste Map
+     */
     public void checkMapUpdate() {
         for (Entity entity : registry.getEntities()) {
             if (entity instanceof Door) {
@@ -46,6 +59,20 @@ public class MapLoader {
                 }
             }
         }
+    }
+
+    public void scaleMap(int[][] map) {
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        GraphicsConfiguration gc = gd.getDefaultConfiguration();
+
+        Rectangle screenBounds = gc.getBounds();
+
+        AffineTransform at = new AffineTransform();
+        double screenWidth = Math.round(screenBounds.width / at.getScaleX());
+        double screenHeight = Math.round(screenBounds.height / at.getScaleY());
+
+        scaleX = (int) (screenWidth / map[0].length);
+        scaleY = (int) (screenHeight / map.length);
     }
 
     /**
@@ -124,32 +151,16 @@ public class MapLoader {
     public void spawnEntity(int entityId, int x, int y) {
         switch(entityId) {
             case 1:
-                Player player = new Player(x, y, 40, 80, registry, keyboardInputs, attackManager);
+                Player player = new Player(x, y, 40, 80, registry, keyboardInputs, attackManager, tileManager);
                 registry.register(player);
                 break;
             case 2:
-                Door door = new Door(x, y, registry);
+                Door door = new Door(x, y, registry, attackManager, tileManager);
                 registry.register(door);
                 break;
             case 3:
-                Enemy enemy = new Enemy(x, y , 40, 40, 100, 10, 5, 120, 60, 360,registry, attackManager);
+                Enemy enemy = new Enemy(x, y , 40, 40, 1, 10, 5, 120, 60, 20, 360, registry, attackManager, tileManager);
                 registry.register(enemy);
-                break;
-            default:
-                return;
-        }
-    }
-
-    public void placeTile(int tileId, int x, int y) {
-        switch(tileId) {
-            case 1:
-                String tile1 = "tile gespawnt"; //Platzhlater für Tile
-                break;
-            case 2:
-                String tile2 = "tile gespawnt"; //Platzhlater für Tile
-                break;
-            case 3:
-                String tile3 = "tile gespawnt"; //Platzhlater für Tile
                 break;
             default:
                 return;
@@ -160,34 +171,33 @@ public class MapLoader {
      * Methode, welche die Map aufbaut
      */
     public void buildMap() {
+        Player player = null;
         //Entities werden von der Map entfernt
         ArrayList<Entity> previousEntities = new ArrayList<>(registry.getEntities());
+        //Mapdaten werden eingeholt
+        fetchMapData();
         for (Entity entity : previousEntities) {
             if (entity instanceof Player) {
-                entity.setX(200);
-                entity.setY(200);
+                player = (Player) entity;
                 continue;
             }
             registry.unregister(entity);
         }
-        //Mapdaten werden eingeholt
-        fetchMapData();
-        //Berechnung später einfügen
-        int x = 700;
-        int y = 700;
+        // Zu verwendende Skalierung der Map ermitteln
+        scaleMap(tileMap);
         //Entities werden gespawnt
         for (int i = 0; i < entityMap.length; i++) {
             for (int j = 0; j < entityMap[i].length; j++) {
-                if(entityMap[i][j] == 1) { continue; }
-                spawnEntity(entityMap[i][j], j*50, i*50);
+                if(entityMap[i][j] == 1) {
+                    player.setX(j * scaleX);
+                    player.setY(i * scaleY);
+                    continue;}
+                spawnEntity(entityMap[i][j], j*scaleX, i*scaleY);
             }
         }
-        //Tiles wreden platuiert
-        for (int i = 0; i < tileMap.length; i++) {
-            for (int j = 0; j < tileMap[i].length; j++) {
-                placeTile(tileMap[i][j], j*50, i*50);
-            }
-        }
+        //Werte aus der JSON Datei werden an TileManager übergeben
+        tileManager.setTileMap(tileMap);
+        tileManager.setScale(scaleX, scaleY);
 
         //Index wird hochgezählt, damit beim nächsten Aufrauf der nächste Raum geladen wird
         mapIndex++;

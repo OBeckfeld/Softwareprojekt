@@ -14,8 +14,9 @@ public class Projectile extends Entity {
     protected int timeAlive = 0;
     protected Vector moveVector;
     protected int damage;
+    protected AttackRegistry attackRegistry;
     public Projectile(double x, double y, int width, int height, EntityRegistry registry, AttackRegistry attackRegistry, PlayerTypeEntity owner, double speed, int direction, int timeToLive, int damage, TileManager tileManager) {
-        super(x, y, width, height, registry, attackRegistry, tileManager);
+        super(x, y, width, height, registry, tileManager);
         this.owner = owner;
         this.speed = speed;
         this.direction = direction;
@@ -25,7 +26,8 @@ public class Projectile extends Entity {
         this.damage = damage;
     }
     public Projectile(double x, double y, int width, int height, EntityRegistry registry, AttackRegistry attackRegistry, PlayerTypeEntity owner, double speed, Vector vector, int timeToLive, int damage,  TileManager tileManager) {
-        super(x, y, width, height, registry, attackRegistry, tileManager);
+        super(x, y, width, height, registry, tileManager);
+        this.attackRegistry = attackRegistry;
         this.owner = owner;
         this.speed = speed;
         this.direction = direction;
