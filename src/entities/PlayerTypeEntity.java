@@ -77,7 +77,7 @@ public abstract class PlayerTypeEntity extends Entity {
 
     public int getViewRange(){return viewRange;}
 
-    protected ArrayList<Entity> getInView(){ return registry.getInRange(this, getViewRange()); }
+    protected ArrayList<Entity> getInView(){ return registry.getInRange(this, getViewRange(), getViewRange()); }
 
     public double getSpeed() { return speed; }
     public void setSpeed(double speed) { this.speed = speed; }

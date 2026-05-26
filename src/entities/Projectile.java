@@ -21,6 +21,8 @@ public class Projectile extends Entity {
         moveVector = new Vector(x, y, x+getOffsetCoords(direction)[0], y+getOffsetCoords(direction)[1]);
         moveVector.setLength(speed);
         this.damage = damage;
+
+
     }
     public Projectile(double x, double y, int width, int height, EntityRegistry registry, AttackRegistry attackRegistry, PlayerTypeEntity owner, double speed, Vector vector, int timeToLive, int damage,  TileManager tileManager) {
         super(x, y, width, height, registry, attackRegistry, tileManager);
@@ -33,22 +35,25 @@ public class Projectile extends Entity {
     }
     @Override
     public void update(){
+
         timeAlive++;
         if (timeAlive>= timeToLive){
-            registry.unregister(this);
+            hit();
             return;
         }
         logic();
     }
     protected void logic(){
-        for (Entity entity : registry.getInRange(this, width)) {
+        for (Entity entity : registry.getInRange(this, width,height)) {
             if (!(entity instanceof Enemy)) {
                 continue;
             }
             hit();
+            return;
         }
         if (movement.collidesWithWall(this, moveVector.getOffsetX(), moveVector.getOffsetY())){
             hit();
+            return;
         }
         move();
     }
@@ -56,9 +61,7 @@ public class Projectile extends Entity {
         move(moveVector);
     }
     protected void hit(){
-
-        attackRegistry.attack(owner, x, y, height+1, width+1, 2, damage);
+        attackRegistry.attack(owner, x, y, height+2, width+2, 2, damage);
         unregister();
-
     }
 }

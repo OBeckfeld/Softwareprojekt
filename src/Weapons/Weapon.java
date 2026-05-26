@@ -3,6 +3,7 @@ package Weapons;
 import entities.PlayerTypeEntity;
 import entities.managers.AttackRegistry;
 import tools.TileManager;
+import tools.Vector;
 
 public abstract class Weapon {
     protected int damage;
@@ -24,7 +25,6 @@ public abstract class Weapon {
     }
 
     public boolean use(){
-        System.out.println(System.currentTimeMillis() - lastUsed);//Testmethode
         if (System.currentTimeMillis() - lastUsed < attackCooldown){
             return false; //kann nicht benutzt werden
         }
@@ -32,5 +32,13 @@ public abstract class Weapon {
         lastUsed = System.currentTimeMillis();
         owner.setAttacking(attackDuration);
         return true;//ability kann benutzt werden
+    }
+    protected void applyKnockback(double kb){
+        int dir = owner.getOppDirection(owner.getDirection());
+        double x = owner.getX();
+        double y = owner.getY();
+        Vector kbVector = new Vector(owner.getX(), y, x+owner.getOffsetCoords(dir)[0], y+owner.getOffsetCoords(dir)[1]);
+        kbVector.setLength(kb);
+        owner.move(kbVector);
     }
 }

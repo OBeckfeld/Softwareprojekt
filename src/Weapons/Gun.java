@@ -16,6 +16,7 @@ public class Gun extends  Weapon{
     public boolean use(){
         if (!super.use()){return false;}//on cooldown
         new Projectile(owner.getCenter() [0], owner.getCenter() [1], 20, 20, owner.registry, attackRegistry, owner, 4, owner.getDirection(), 300, damage, tileManager);
+        applyKnockback(2);
         return true;
     }
 }

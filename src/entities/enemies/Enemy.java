@@ -47,7 +47,7 @@ public class Enemy extends PlayerTypeEntity {
         if (vector.getLength() > speed) {
             vector.setLength(speed);
         }
-        if (registry.getInRange(this, 100).contains(player)) {
+        if (registry.getInRange(this, 100, 100).contains(player)) {
             vector.setLength(0);
             tryAttackEntity((PlayerTypeEntity) player);
         }

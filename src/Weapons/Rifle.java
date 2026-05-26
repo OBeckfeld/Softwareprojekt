@@ -40,6 +40,7 @@ public class Rifle extends Weapon{
                 break;
         }
         new Projectile(owner.getCenter() [0], owner.getCenter() [1], width, height, owner.registry, attackRegistry, owner, 10, owner.getDirection(), 300, damage, tileManager);
+        applyKnockback(10);
         return true;
     }
 }

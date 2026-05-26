@@ -38,7 +38,7 @@ public class ExplodeEnemy extends Enemy {
 
     private void explode() {
         exploded = true;
-        ArrayList<Entity> inRange = registry.getInRange(this, BLAST_RADIUS);
+        ArrayList<Entity> inRange = registry.getInRange(this, BLAST_RADIUS, BLAST_RADIUS);
         for (Entity entity : inRange) {
             if (entity instanceof PlayerTypeEntity && !(entity instanceof ExplodeEnemy)) {
                 ((PlayerTypeEntity) entity).setCurrentHealth(

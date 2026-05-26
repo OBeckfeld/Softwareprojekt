@@ -23,14 +23,14 @@ public class FollowingProjectile extends Projectile{
             if (range > 500){
                 range = 500;
             }
-            for (Entity entity : registry.getInRange(this, range)) {
+            for (Entity entity : registry.getInRange(this, range, range)) {
                 if ((entity instanceof Enemy)) {
                     target = (PlayerTypeEntity) entity;
                     break;
                 }
             }
         }
-        for (Entity entity : registry.getInRange(this, width)) {
+        for (Entity entity : registry.getInRange(this, width, height)) {
             if (!(entity instanceof  Enemy)) {
                 continue;
             }

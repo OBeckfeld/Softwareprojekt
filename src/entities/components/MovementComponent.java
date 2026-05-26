@@ -213,9 +213,6 @@ public class MovementComponent {
                 return true;
             }
         }
-
-        entity.setX(newX);
-
         // Y-Bewegung prüfen
         if (dy > 0) {
             // unten prüfen
