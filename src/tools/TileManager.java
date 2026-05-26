@@ -16,7 +16,8 @@ public class TileManager {
     public GameMaps.GameMap currentMap;
 
     //tileSize muss doppeltes von der echten TileSize sein
-    private int tileSize;
+    //muss aufpassen, dass tileSize / 2 * currentMap.getWidth größer als die Width der Kamera ist. Gleiches gilt für die Höhe
+    private int tileSize = 120;
     private int size = 512;
 
     public int getTileSize(){return tileSize;}
@@ -26,7 +27,6 @@ public class TileManager {
         tiles = new Tile[10];
         gameMaps = new GameMaps();
         currentMap = gameMaps.getMap(1);//zu Testzwecken wird hier eine der Vorgefertigten Maps geladen
-        tileSize = Game.WIDTH / currentMap.getWidth();
 
         loadTiles();
     }

@@ -26,12 +26,14 @@ public class Game implements Runnable {
     private final TileManager tileManager;
     private final Camera camera;
     private final Player player;
-    public static final int WIDTH = 5760;
-    public static final int HEIGHT = 3240;
+    private static int WIDTH;
+    private static int HEIGHT;
 
     public Game() {
         // Initialisierung der Kern-Komponenten
         tileManager = new TileManager();
+        WIDTH = tileManager.getCurrentMap().getWidth() * tileManager.getTileSize();
+        HEIGHT = tileManager.getCurrentMap().getHeight() * tileManager.getTileSize();
         gamePanel = new GamePanel(this, tileManager);
         gameWindow = new GameWindow(gamePanel);
         keyboardInputs = new KeyboardInputs(this);
@@ -40,8 +42,9 @@ public class Game implements Runnable {
         entities.setCollsisons(collisions);//temporär bis ihr diese absolut gekochten Abhängigkeiten gefixt habt
 
         attackManager = new AttackManager(collisions, entities, tileManager);
-        player = new Player(2000, 2000, 40, 80, entities, keyboardInputs, attackManager, tileManager);
+        player = new Player(tileManager.getTileSize() * 2 + 5, tileManager.getTileSize() * 2 + 5, 40, 80, entities, keyboardInputs, attackManager, tileManager);
         camera = new Camera(player.getX(), player.getY());
+
         new Enemy(500, 500, 40, 40, 360, entities, attackManager, tileManager);
 
         new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
@@ -50,7 +53,6 @@ public class Game implements Runnable {
         new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
         new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
         new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
-
 
         // Wichtig: Das Panel muss den Fokus haben, um Tastatureingaben zu erkennen
         gamePanel.setFocusable(true);
@@ -61,6 +63,9 @@ public class Game implements Runnable {
 
         startGameLoop();
     }
+
+    public static int getWIDTH() {return WIDTH;}
+    public static int getHEIGHT() {return HEIGHT;}
 
     public EntityManager getEntityManager(){return entities;}
 
