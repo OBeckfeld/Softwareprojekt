@@ -1,24 +1,20 @@
 package main;
 
-import entities.Attack;
-import entities.Entity;
-import entities.Enemy;
-import entities.Player;
-import entities.Door;
-import entities.ViewBox;
-import java.awt.image.BufferedImage;
-import entities.ExplodeEnemy;
-import entities.RangedEnemy;
+import entities.*;
+import entities.enemies.Enemy;
 
 import javax.swing.JPanel;
 import java.awt.*;
 import java.util.ArrayList;
+import tools.TileManager;
 
 public class GamePanel extends JPanel {
     private Game game;
+    private TileManager tileManager;
 
-    public GamePanel(Game game) {
+    public GamePanel(Game game, TileManager tileManager) {
         this.game = game;
+        this.tileManager = tileManager;
 
         setPanelSize();
     }
@@ -31,34 +27,44 @@ public class GamePanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+
+        tileManager.draw(g2d);
 
         for (Entity entity : new ArrayList<Entity>(game.getEntityManager().getEntities())) {
-            if (entity == null || entity instanceof ViewBox) continue;
-
+            g.setColor(Color.BLUE);
+            if (entity == null || entity instanceof ViewBox){
+                continue;
+            }
+            if (entity instanceof Player){
+                g2d.setColor(Color.BLUE);
+                ((Player)entity).draw(g2d);
+            }
+            else if (entity instanceof Enemy){
+                g.setColor(Color.RED);
+                ((Enemy)entity).draw(g2d);
+            }
+            else if (entity instanceof Attack){
+                if(((Attack)entity).isVisible()) {
+                    g.setColor(Color.ORANGE);
+                }
+                else {
+                    continue;
+                }
+            }
+            else if (entity instanceof Door){
+                if(((Door)entity).isOpen()) {
+                    g.setColor(Color.GREEN);
+                }
+                else {
+                    g.setColor(Color.GRAY);
+                }
+            }
             double x = entity.getX();
             double y = entity.getY();
             int width = entity.getWidth();
             int height = entity.getHeight();
 
-            // Sprite zeichnen wenn vorhanden
-            BufferedImage sprite = entity.getSprite();
-            if (sprite != null) {
-                g.drawImage(sprite, (int) Math.round(x), (int) Math.round(y), width, height, null);
-                continue;
-            }
-            // Fallback – farbige Box
-            if (entity instanceof Player) g.setColor(Color.BLUE);
-            else if (entity instanceof Enemy) g.setColor(Color.RED);
-            else if (entity instanceof Attack){
-                if(((Attack)entity).isVisible() && !(((Attack)entity).getOwner() instanceof ExplodeEnemy)) {
-                    g.setColor(Color.ORANGE);
-                } else {
-                    continue;
-                }
-            }
-            else if (entity instanceof Door) {
-                g.setColor(((Door) entity).isOpen() ? Color.GREEN : Color.GRAY);
-            }
             g.fillRect((int) Math.round(x), (int) Math.round(y), width, height);
         }
     }

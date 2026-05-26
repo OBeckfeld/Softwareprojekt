@@ -2,18 +2,23 @@ package entities.managers;
 
 import entities.Entity;
 import entities.ViewBox;
+import tools.TileManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class EntityManager implements EntityRegistry {
     private ArrayList<Entity> entities;
-    CollisionManager collisionManager;
+    private CollisionManager collisionManager;
+    private TileManager tileManager;
 
-    public EntityManager(){
-
+    public EntityManager(CollisionManager collisions, TileManager tileManager) {
         entities = new ArrayList<>();
+        collisionManager = collisions;
+        this.tileManager =  tileManager;
     }
+
+    public void setCollsisons(CollisionManager collisionManager) {this.collisionManager = collisionManager;}//temporär bis ihr euer Zeug gefixt habt
 
     @Override
     public void register(Entity entity){
@@ -28,8 +33,8 @@ public class EntityManager implements EntityRegistry {
 
     public ArrayList<Entity> getEntities(){return new ArrayList<>(entities);}//damit die eigentliche Liste nicht von anderen Klassen bearbeitet werden kann
 
-    public ArrayList<Entity> getInRange(Entity entity, int range){//gibt alle entities zurück, die im sichtfeld von entity sind
-        ViewBox viewBox = new ViewBox((entity.getCenter() [0]-range/2), (entity.getCenter() [1]-range/2), range, range,  this);//viewBox wird zentriert
+    public ArrayList<Entity> getInRange(Entity entity, int rangeX, int rangeY){//gibt alle entities zurück, die im sichtfeld von entity sind
+        ViewBox viewBox = new ViewBox((entity.getCenter() [0]-rangeX/2), (entity.getCenter() [1]-rangeY/2), rangeY, rangeX,  this, tileManager);//viewBox wird zentriert
         collisionManager.checkCollisions();//collisions werden geupdatet, da die viewbox am anfang nicht da war | könnte das gameplay langsamer machen
         ArrayList<Entity> colls = collisionManager.getEntities(viewBox);//Entities checken, die in range sind
 
@@ -40,42 +45,10 @@ public class EntityManager implements EntityRegistry {
         return colls;
     }
 
-    public void setCollisions(CollisionManager collisionManager){
-        this.collisionManager = collisionManager;
-    }
-
     public boolean collidesWith(Entity entity1, Entity entity2){ return collisionManager.getEntities(entity1).contains(entity2);}
     
     public ArrayList<Entity> getCollisions(Entity entity){ return collisionManager.getEntities(entity); }
 
-    private ArrayList<Entity> bubbleSortForY(ArrayList<Entity> entityList)
-    {
-        Entity [] entities = entityList.toArray(new Entity [entityList.size()]);
-        int n = entities.length;                 //die Länge (n) der Datenliste  wird ermittelt
-        for (int k = 0; k < n; k++)           //Die Schleife wird n mal ausgeführt
-        {
-            boolean flag=false;               //Eine flag wird Erstellt
-            for (int i =0; i < n-k-1; i++)    //Der unsortierte Teil der Schleife wird durchgegangen
-            {
-                if (entities[i].getY()+ entities[i].getHeight()> entities[i+1].getY() + entities[i+1].getHeight())    //Das Datenelement wird mit dem nächsten verglichen
-                {
-                    Entity temp = entities[i];
-                    entities[i] = entities[i+1];    //Die Elemente werden getauscht
-                    entities[i+1] = temp;
-                    flag = true;
-                }
-            }
-            if (!flag)                        //Falls die Liste schon sortiert ist wird abgebrochen
-            {
-                return new ArrayList<Entity>(Arrays.asList(entities));
-            }
-        }
-        return new ArrayList<Entity>(Arrays.asList(entities));
-    }
-    //fffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-    //fffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-    //ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-    //ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
 
     public ArrayList<Entity> quickSortForY(ArrayList<Entity> list)
     {

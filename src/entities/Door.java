@@ -1,14 +1,16 @@
 package entities;
 
+import entities.enemies.Enemy;
 import entities.managers.AttackManager;
 import entities.managers.EntityRegistry;
+import tools.TileManager;
 
 public class Door extends Entity{
     
     private boolean open;
 
-    public Door(double x, double y, EntityRegistry registry, AttackManager attackManager) {
-        super(x, y, 10, 120, registry, attackManager);
+    public Door(double x, double y, EntityRegistry registry, AttackManager attackManager, TileManager tileManager) {
+        super(x, y, 10, 120, registry, attackManager, tileManager);
         this.open = false;
     }
 

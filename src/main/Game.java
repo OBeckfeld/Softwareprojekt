@@ -1,41 +1,49 @@
 package main;
 
-import entities.*;
+import entities.Entity;
+import entities.Player;
+import entities.enemies.Enemy;
 import entities.managers.CollisionManager;
-import entities.managers.EntityRegistry;
 import inputs.KeyboardInputs;
 import entities.managers.EntityManager;
 import entities.managers.AttackManager;
+import tools.TileManager;
 
 import java.util.ArrayList;
 
 
 public class Game implements Runnable {
 
-    private GameWindow gameWindow;
-    private GamePanel gamePanel;
+    private final GameWindow gameWindow;
+    private final GamePanel gamePanel;
     private Thread gameThread;
     private final int FPS_SET = 120; // Wir zielen auf 120 Bilder pro Sekunde ab;
-    private KeyboardInputs keyboardInputs;
-    private EntityManager entities;
-    private CollisionManager collisions;
-    private AttackManager attackManager;
+    private final KeyboardInputs keyboardInputs;
+    private final EntityManager entities;
+    private CollisionManager collisions;//müsste Final aber geht nicht
+    private final AttackManager attackManager;
+    private final TileManager tileManager;
 
     public Game() {
         // Initialisierung der Kern-Komponenten
-        gamePanel = new GamePanel(this);
+        tileManager = new TileManager();
+        gamePanel = new GamePanel(this, tileManager);
         gameWindow = new GameWindow(gamePanel);
         keyboardInputs = new KeyboardInputs(this);
-        entities = new EntityManager();
+        entities = new EntityManager(collisions, tileManager);
         collisions = new CollisionManager(entities);
-        entities.setCollisions(collisions);
-        attackManager = new AttackManager(collisions, entities);
-        Player player = new Player(200, 200, 40, 80, entities, keyboardInputs, attackManager);
-        new Enemy(900,400,80,80,100,entities,attackManager);
-        new Enemy(800,400,80,80,100,entities,attackManager);
-        new Enemy(700,400,80,80,100,entities,attackManager);
-        new Enemy(1000,400,80,80,100,entities,attackManager);
+        entities.setCollsisons(collisions);//temporär bis ihr diese absolut gekochten Abhängigkeiten gefixt habt
 
+        attackManager = new AttackManager(collisions, entities, tileManager);
+        Player player = new Player(200, 200, 40, 80, entities, keyboardInputs, attackManager, tileManager);
+        new Enemy(500, 500, 40, 40, 360, entities, attackManager, tileManager);
+
+        new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
+        new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
+        new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
+        new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
+        new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
+        new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
 
 
         // Wichtig: Das Panel muss den Fokus haben, um Tastatureingaben zu erkennen
@@ -72,7 +80,7 @@ public class Game implements Runnable {
                 for (Entity entity : new ArrayList<>(entities.getEntities())){
                     entity.update();
                 }
-                attackManager.damageDistribution();
+                attackManager.distributeDamage();
                 gamePanel.repaint();
                 lastFrame = now;
             }

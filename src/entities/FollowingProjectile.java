@@ -1,13 +1,15 @@
 package entities;
 
+import entities.enemies.Enemy;
 import entities.managers.AttackManager;
 import entities.managers.EntityRegistry;
+import tools.TileManager;
 import tools.Vector;
 
 public class FollowingProjectile extends Projectile{
     private PlayerTypeEntity target;
-    public FollowingProjectile(double x, double y, int width, int height, EntityRegistry registry, AttackManager attackManager, PlayerTypeEntity owner, double speed, int direction, int timeToLive, int damage){
-        super(x,y,width,height,registry,attackManager,owner,speed,direction,timeToLive, damage);
+    public FollowingProjectile(double x, double y, int width, int height, EntityRegistry registry, AttackManager attackManager, PlayerTypeEntity owner, double speed, int direction, int timeToLive, int damage, TileManager tileManager) {
+        super(x,y,width,height,registry,attackManager,owner,speed,direction,timeToLive, damage, tileManager);
     }
     @Override
     protected void logic(){
@@ -21,14 +23,14 @@ public class FollowingProjectile extends Projectile{
             if (range > 500){
                 range = 500;
             }
-            for (Entity entity : registry.getInRange(this, range)) {
+            for (Entity entity : registry.getInRange(this, range, range)) {
                 if ((entity instanceof Enemy)) {
                     target = (PlayerTypeEntity) entity;
                     break;
                 }
             }
         }
-        for (Entity entity : registry.getInRange(this, width)) {
+        for (Entity entity : registry.getInRange(this, width, height)) {
             if (!(entity instanceof  Enemy)) {
                 continue;
             }
