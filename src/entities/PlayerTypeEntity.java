@@ -105,7 +105,8 @@ public abstract class PlayerTypeEntity extends Entity {
                         isAttacking = false;
                         attack = null;
                     }
-                } else {
+                }
+                else {
                     speed = defaultSpeed;
                 }
 

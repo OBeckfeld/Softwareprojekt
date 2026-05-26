@@ -8,6 +8,7 @@ import entities.Entity;
 import entities.Player;
 import entities.enemies.Enemy;
 import entities.Door;
+import entities.Attack;
 import main.Game;
 
 import java.util.ArrayList;
@@ -69,8 +70,10 @@ public class MapLoader {
         Rectangle screenBounds = gc.getBounds();
 
         AffineTransform at = new AffineTransform();
-        double screenWidth = Game.WIDTH;//Math.round(screenBounds.width / at.getScaleX());
-        double screenHeight = Game.HEIGHT;//Math.round(screenBounds.height / at.getScaleY());
+        //double screenWidth = Math.round(screenBounds.width / at.getScaleX());
+        //double screenHeight = Math.round(screenBounds.height / at.getScaleY());
+        double screenWidth = Game.WIDTH;
+        double screenHeight = Game.HEIGHT;
 
         scaleX = (int) (screenWidth / map[0].length);
         scaleY = (int) (screenHeight / map.length);
@@ -180,6 +183,10 @@ public class MapLoader {
         for (Entity entity : previousEntities) {
             if (entity instanceof Player) {
                 player = (Player) entity;
+                continue;
+            }
+            if (entity instanceof Attack) {
+                ((Attack) entity).expire();
                 continue;
             }
             registry.unregister(entity);

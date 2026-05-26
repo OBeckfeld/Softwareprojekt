@@ -58,6 +58,10 @@ public class Attack extends Entity{
         return expired;
     }
 
+    public void expire() {
+        timeAlive = duration;
+    }
+
     public PlayerTypeEntity getOwner() {
         return owner;
     }
