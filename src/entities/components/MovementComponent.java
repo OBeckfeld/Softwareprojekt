@@ -114,65 +114,137 @@ public class MovementComponent {
 
         int tileSize = tileManager.getTileSize();
 
-        //geht durch Wände durch, wenn oben und unten keine Wand ist
-        // rechts prüfen
         int playerWidth = entity.getWidth();
         int playerHeight = entity.getHeight();
+
         double newX = entity.getX() + dx;
         double newY = entity.getY() + dy;
+
+        // X-Bewegung prüfen
         if (dx > 0) {
-            double right = newX + playerWidth;
-            double tileCol = right / tileSize;
-            double tileRowTop = entity.getY() / tileSize;
-            double tileRowBottom = (entity.getY() + playerHeight) / tileSize;
-            if (isWall((int) tileRowTop, (int) tileCol) ||
-                    isWall((int) tileRowBottom, (int) tileCol)) {
+            // rechts prüfen
+            double right = newX + playerWidth - 1;
+
+            int tileCol = (int) (right / tileSize);
+            int tileRowTop = (int) (entity.getY() / tileSize);
+            int tileRowBottom = (int) ((entity.getY() + playerHeight - 1) / tileSize);
+
+            if (isWall(tileRowTop, tileCol) || isWall(tileRowBottom, tileCol)) {
                 newX = tileCol * tileSize - playerWidth;
             }
+
         } else if (dx < 0) {
             // links prüfen
-            double tileCol = newX / tileSize;
-            double tileRowTop = entity.getY() / tileSize;
-            double tileRowBottom = (entity.getY() + playerHeight - 1) / tileSize;
+            double left = newX;
 
-            if (isWall((int) tileRowTop, (int) tileCol) ||
-                    isWall((int) tileRowBottom, (int) tileCol)) {
-                newX = tileCol * tileSize;
+            int tileCol = (int) (left / tileSize);
+            int tileRowTop = (int) (entity.getY() / tileSize);
+            int tileRowBottom = (int) ((entity.getY() + playerHeight - 1) / tileSize);
+
+            if (isWall(tileRowTop, tileCol) || isWall(tileRowBottom, tileCol)) {
+                newX = (tileCol + 1) * tileSize;
             }
         }
-
-
-        if (dy > 0) {
-            // unten prüfen
-            double bottomEdge = newY + playerHeight;
-            double tileRow = bottomEdge / tileSize;
-            double tileColLeft = entity.getX() / tileSize;
-            double tileColRight = (entity.getX() + playerWidth - 1) / tileSize;
-
-            if (isWall((int) tileRow, (int) tileColLeft) ||
-                    isWall((int) tileRow, (int) tileColRight)) {
-                newY = tileRow * tileSize - playerHeight;
-            }
-        } else if (dy < 0) {
-            // oben prüfen
-            double tileRow = newY / tileSize;
-            double tileColLeft = entity.getX() / tileSize;
-            double tileColRight = (entity.getX() + playerWidth - 1) / tileSize;
-
-            if (isWall((int) tileRow, (int) tileColLeft) ||
-                    isWall((int) tileRow, (int) tileColRight)) {
-                newY = tileRow * tileSize;
-            }
-        }
-
 
         entity.setX(newX);
 
+        // Y-Bewegung prüfen
+        if (dy > 0) {
+            // unten prüfen
+            double bottom = newY + playerHeight - 1;
+
+            int tileRow = (int) (bottom / tileSize);
+            int tileColLeft = (int) (newX / tileSize);
+            int tileColRight = (int) ((newX + playerWidth - 1) / tileSize);
+
+            if (isWall(tileRow, tileColLeft) || isWall(tileRow, tileColRight)) {
+                newY = tileRow * tileSize - playerHeight;
+            }
+
+        } else if (dy < 0) {
+            // oben prüfen
+            double top = newY;
+
+            int tileRow = (int) (top / tileSize);
+            int tileColLeft = (int) (newX / tileSize);
+            int tileColRight = (int) ((newX + playerWidth - 1) / tileSize);
+
+            if (isWall(tileRow, tileColLeft) || isWall(tileRow, tileColRight)) {
+                newY = (tileRow + 1) * tileSize;
+            }
+        }
+
         entity.setY(newY);
-
         entity.getHurtbox().setLocation(newX, newY);
-
     }
+
+    public boolean collidesWithWall(Entity entity, double dx, double dy) {
+
+        int tileSize = tileManager.getTileSize();
+
+        int playerWidth = entity.getWidth();
+        int playerHeight = entity.getHeight();
+
+        double newX = entity.getX() + dx;
+        double newY = entity.getY() + dy;
+
+        // X-Bewegung prüfen
+        if (dx > 0) {
+            // rechts prüfen
+            double right = newX + playerWidth - 1;
+
+            int tileCol = (int) (right / tileSize);
+            int tileRowTop = (int) (entity.getY() / tileSize);
+            int tileRowBottom = (int) ((entity.getY() + playerHeight - 1) / tileSize);
+
+            if (isWall(tileRowTop, tileCol) || isWall(tileRowBottom, tileCol)) {
+                return true;
+            }
+
+        } else if (dx < 0) {
+            // links prüfen
+            double left = newX;
+
+            int tileCol = (int) (left / tileSize);
+            int tileRowTop = (int) (entity.getY() / tileSize);
+            int tileRowBottom = (int) ((entity.getY() + playerHeight - 1) / tileSize);
+
+            if (isWall(tileRowTop, tileCol) || isWall(tileRowBottom, tileCol)) {
+                return true;
+            }
+        }
+
+        entity.setX(newX);
+
+        // Y-Bewegung prüfen
+        if (dy > 0) {
+            // unten prüfen
+            double bottom = newY + playerHeight - 1;
+
+            int tileRow = (int) (bottom / tileSize);
+            int tileColLeft = (int) (newX / tileSize);
+            int tileColRight = (int) ((newX + playerWidth - 1) / tileSize);
+
+            if (isWall(tileRow, tileColLeft) || isWall(tileRow, tileColRight)) {
+                return true;
+            }
+
+        } else if (dy < 0) {
+            // oben prüfen
+            double top = newY;
+
+            int tileRow = (int) (top / tileSize);
+            int tileColLeft = (int) (newX / tileSize);
+            int tileColRight = (int) ((newX + playerWidth - 1) / tileSize);
+
+            if (isWall(tileRow, tileColLeft) || isWall(tileRow, tileColRight)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public void applyVector(Entity entity, Vector vector) {
         move(entity, vector.getOffsetX(), vector.getOffsetY());
     }

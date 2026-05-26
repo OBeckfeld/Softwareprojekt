@@ -30,6 +30,7 @@ public abstract class Weapon {
         }
 
         lastUsed = System.currentTimeMillis();
+        owner.setAttacking(attackDuration);
         return true;//ability kann benutzt werden
     }
 }

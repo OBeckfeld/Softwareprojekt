@@ -74,7 +74,6 @@ public class AttackManager implements AttackRegistry {
         if (!owner.isAttacking()) { //die Gültigkeit der Attacke wird überprüft, falls sie ungültig ist, geschieht nichts
             Attack attack = new Attack(x, y, width, height, registry, duration, owner, this, damage, tileManager);
             owner.setAttack(attack);
-            owner.setAttacking(true);
             attacks.add(attack);
         }
     }

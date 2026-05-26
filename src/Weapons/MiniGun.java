@@ -19,30 +19,30 @@ public class MiniGun extends Weapon{
     public boolean use(){
         if (!super.use()){return false;}//on cooldown
         Random random = new Random();
-        double xOffset = random.nextInt(1)-0.5;
-        double yOffset = random.nextInt(1)-0.5;
+        double xOffset = random.nextDouble(1)-0.5;
+        double yOffset = random.nextDouble(1)-0.5;
         double y = 0;
         double x = 0;
-
+        double spawnDistance = Math.max(owner.getWidth(), owner.getHeight()) / 2.0;
         switch (owner.getDirection()) { //die Position der Attacke wird abhängig von der Richtung des owners gesetzt
             case Entity.NORTH:
                 xOffset = random.nextDouble(1)-0.5;
-                y = y -owner.getHeight()/2;
+                y =- spawnDistance;
                 yOffset = random.nextDouble(1)-1;
                 break;
             case Entity.EAST:
                 yOffset = random.nextDouble(1)-0.5;
-                x = x+owner.getWidth()/2;
+                x =+spawnDistance;
                 xOffset = random.nextDouble(1);
                 break;
             case Entity.SOUTH:
                 xOffset = random.nextDouble(1)-0.5;
-                y = y+owner.getHeight()/2;
+                y = y+spawnDistance;
                 yOffset = random.nextDouble(1);
                 break;
             case Entity.WEST:
                 yOffset = random.nextDouble(1)-0.5;
-                x = x-owner.getWidth()/2;
+                x = x-spawnDistance;
                 xOffset = random.nextDouble(1)-1;
                 break;
         }

@@ -9,7 +9,6 @@ import tools.Vector;
 public class Projectile extends Entity {
     protected PlayerTypeEntity owner;
     protected double speed;
-    protected int direction;
     protected int timeToLive;
     protected int timeAlive = 0;
     protected Vector moveVector;
@@ -18,7 +17,6 @@ public class Projectile extends Entity {
         super(x, y, width, height, registry, attackRegistry, tileManager);
         this.owner = owner;
         this.speed = speed;
-        this.direction = direction;
         this.timeToLive = timeToLive;
         moveVector = new Vector(x, y, x+getOffsetCoords(direction)[0], y+getOffsetCoords(direction)[1]);
         moveVector.setLength(speed);
@@ -28,7 +26,6 @@ public class Projectile extends Entity {
         super(x, y, width, height, registry, attackRegistry, tileManager);
         this.owner = owner;
         this.speed = speed;
-        this.direction = direction;
         this.timeToLive = timeToLive;
         moveVector = vector;
         moveVector.setLength(speed);
@@ -48,6 +45,9 @@ public class Projectile extends Entity {
             if (!(entity instanceof Enemy)) {
                 continue;
             }
+            hit();
+        }
+        if (movement.collidesWithWall(this, moveVector.getOffsetX(), moveVector.getOffsetY())){
             hit();
         }
         move();

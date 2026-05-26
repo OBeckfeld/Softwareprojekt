@@ -29,7 +29,7 @@ public abstract class PlayerTypeEntity extends Entity {
     protected Weapon weapon;
     protected double defaultSpeed = 5;
     protected int hitCooldown;
-    protected boolean isAttacking;
+    protected int attacking;
     protected HealthBar healthBar;
 
     public PlayerTypeEntity(int x, int y, int width, int height, int attackDuration, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager) {
@@ -44,7 +44,7 @@ public abstract class PlayerTypeEntity extends Entity {
         damageModifier = 1;
         weapon = new StarterSword(this, attackRegistry, tileManager);
         healthBar = new HealthBar(this);
-        isAttacking = false;
+        attacking = 0;
     }
 
     public void gainLife(int amount) {
@@ -85,8 +85,8 @@ public abstract class PlayerTypeEntity extends Entity {
 
     public int getHorizontalRange() { return horizontalRange; }
 
-    public boolean isAttacking() { return isAttacking; }
-    public void setAttacking(boolean isAttacking) { this.isAttacking = isAttacking; }
+    public boolean isAttacking() { return attacking <= 0; }
+    public void setAttacking(int attackDuration) { this.attacking = attackDuration; }
 
     public void draw(Graphics2D g){
         healthBar.draw(g);
@@ -106,19 +106,9 @@ public abstract class PlayerTypeEntity extends Entity {
     public void update(){
         if(currentHealth <= 0){unregister();}//wenn die Entity tod ist, macht sie nichts mehr, außer sich zu unregistern
             else {
-                if (isAttacking) {
+                if (attacking > 0) {
                     speed = 0;
-
-                    try{//falls es vorkommt, dass isAttacking true ist, obwohl die Entity keine Attacke hat
-                    //falls die Attacke vorbei ist, wird sie gelöscht
-                    if (attack.isExpired()) {
-                        isAttacking = false;
-                        attack = null;
-                    }
-                    }
-                    catch (NullPointerException e){
-                        isAttacking = false;
-                    }
+                    attacking --;
 
                 } else {
                     speed = defaultSpeed;
