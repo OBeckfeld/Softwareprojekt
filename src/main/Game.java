@@ -7,6 +7,7 @@ import entities.managers.CollisionManager;
 import inputs.KeyboardInputs;
 import entities.managers.EntityManager;
 import entities.managers.AttackManager;
+import tools.Camera;
 import tools.TileManager;
 
 import java.util.ArrayList;
@@ -23,6 +24,10 @@ public class Game implements Runnable {
     private CollisionManager collisions;//müsste Final aber geht nicht
     private final AttackManager attackManager;
     private final TileManager tileManager;
+    private final Camera camera;
+    private final Player player;
+    public static final int WIDTH = 5760;
+    public static final int HEIGHT = 3240;
 
     public Game() {
         // Initialisierung der Kern-Komponenten
@@ -35,7 +40,8 @@ public class Game implements Runnable {
         entities.setCollsisons(collisions);//temporär bis ihr diese absolut gekochten Abhängigkeiten gefixt habt
 
         attackManager = new AttackManager(collisions, entities, tileManager);
-        Player player = new Player(200, 200, 40, 80, entities, keyboardInputs, attackManager, tileManager);
+        player = new Player(2000, 2000, 40, 80, entities, keyboardInputs, attackManager, tileManager);
+        camera = new Camera(player.getX(), player.getY());
         new Enemy(500, 500, 40, 40, 360, entities, attackManager, tileManager);
 
         new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
@@ -57,6 +63,8 @@ public class Game implements Runnable {
     }
 
     public EntityManager getEntityManager(){return entities;}
+
+    public Camera getCamera(){return camera;}
 
     private void startGameLoop() {
         gameThread = new Thread(this);
@@ -81,6 +89,7 @@ public class Game implements Runnable {
                     entity.update();
                 }
                 attackManager.distributeDamage();
+                camera.update(player);
                 gamePanel.repaint();
                 lastFrame = now;
             }

@@ -29,7 +29,11 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
+        //verschiebt alles um die Kamera ab diesem Zeitpunkt
+        g2d.translate(-game.getCamera().getX(), -game.getCamera().getY());
+
         tileManager.draw(g2d);
+
 
         for (Entity entity : new ArrayList<Entity>(game.getEntityManager().getEntities())) {
             g.setColor(Color.BLUE);

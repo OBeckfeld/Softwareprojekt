@@ -1,5 +1,6 @@
 package tools;
 
+import main.Game;
 import tools.SpriteSheet;
 
 import javax.imageio.ImageIO;
@@ -14,9 +15,9 @@ public class TileManager {
     private GameMaps gameMaps;
     public GameMaps.GameMap currentMap;
 
-//tileSize muss doppeltes von der echten TileSize sein
-    int tileSize = 120;
-    int size = 512;
+    //tileSize muss doppeltes von der echten TileSize sein
+    private int tileSize;
+    private int size = 512;
 
     public int getTileSize(){return tileSize;}
 
@@ -24,12 +25,11 @@ public class TileManager {
     public TileManager() {
         tiles = new Tile[10];
         gameMaps = new GameMaps();
-        currentMap = gameMaps.getMap(0);
+        currentMap = gameMaps.getMap(1);//zu Testzwecken wird hier eine der Vorgefertigten Maps geladen
+        tileSize = Game.WIDTH / currentMap.getWidth();
 
         loadTiles();
     }
-
-
 
 //definiert die Tiles aus dem Spritesheet
     private void loadTiles() {
