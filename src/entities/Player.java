@@ -19,6 +19,7 @@ public class Player extends PlayerTypeEntity {
         this.inputs = keyboardInputs;
         movement = new MovementComponent(keyboardInputs);
         mass = 3;
+        health = 100;
         //nur zum TESTENNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
         Dash dash = new Dash(this);
         abilityManger.unlock(dash);
@@ -27,11 +28,16 @@ public class Player extends PlayerTypeEntity {
         DMGBoost dmgBoost = new DMGBoost(this);
         abilityManger.unlock(dmgBoost);
         abilityManger.equip(dmgBoost, 2);
-        weapon = new MiniGun(this,attackManager);
+        weapon = new Rifle(this,attackManager);
     }
 
     public void update() {
         super.update();
+        if (health <= 0) {
+            registry.unregister(this);
+            int triggerAnimation = 1;
+            return;
+        }
         movement.move(this);
         if(inputs.getHeldKeys().contains(KeyEvent.VK_J)) {
             //attackManager.newAttack(this);

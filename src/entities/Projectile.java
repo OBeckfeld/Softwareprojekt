@@ -31,6 +31,7 @@ public class Projectile extends Entity {
         moveVector = vector;
         moveVector.setLength(speed);
         this.damage = damage;
+
     }
     @Override
     public void update(){

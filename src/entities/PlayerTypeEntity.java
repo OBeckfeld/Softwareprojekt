@@ -14,9 +14,9 @@ public abstract class PlayerTypeEntity extends Entity {
 
     protected Attack attack;
     protected int attackDuration, verticalRange, horizontalRange;
-    protected int health  = 100;
+    protected int health  = 10;
     protected int damage  = 34;
-    protected int defense = 5;
+    protected int defense = 0;
     protected int direction = 0; //0 = rechts, 1 = unten, 2 = links, 3 = oben
     protected int attacking = 0;
     protected int viewRange;

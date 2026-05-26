@@ -1,8 +1,6 @@
 package main;
 
-import entities.Entity;
-import entities.Player;
-import entities.Enemy;
+import entities.*;
 import entities.managers.CollisionManager;
 import entities.managers.EntityRegistry;
 import inputs.KeyboardInputs;
@@ -33,14 +31,11 @@ public class Game implements Runnable {
         entities.setCollisions(collisions);
         attackManager = new AttackManager(collisions, entities);
         Player player = new Player(200, 200, 40, 80, entities, keyboardInputs, attackManager);
-        new Enemy(500, 500, 40, 40, 360, entities, attackManager);
+        new Enemy(900,400,80,80,100,entities,attackManager);
+        new Enemy(800,400,80,80,100,entities,attackManager);
+        new Enemy(700,400,80,80,100,entities,attackManager);
+        new Enemy(1000,400,80,80,100,entities,attackManager);
 
-        new Enemy(700, 700, 40, 40, 360, entities, attackManager);//provisorisch
-        new Enemy(700, 700, 40, 40, 360, entities, attackManager);//provisorisch
-        new Enemy(700, 700, 40, 40, 360, entities, attackManager);//provisorisch
-        new Enemy(700, 700, 40, 40, 360, entities, attackManager);//provisorisch
-        new Enemy(700, 700, 40, 40, 360, entities, attackManager);//provisorisch
-        new Enemy(700, 700, 40, 40, 360, entities, attackManager);//provisorisch
 
 
         // Wichtig: Das Panel muss den Fokus haben, um Tastatureingaben zu erkennen

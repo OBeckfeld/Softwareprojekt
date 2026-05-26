@@ -77,13 +77,16 @@ public class AttackManager {
      * attack überprüft falls eine Attacke gültig ist alle getroffenen entities, danach wird der zugefügte Schaden berechnet und gespeichert
      */
     public void attack(Attack attack) {
-        if (!attack.isExpired()) { //die Gültigkeit der Attacke wird überprüft, falls sie ungültig ist, geschieht nichts
+        if (!attack.isExpired()) {
             collisionManager.checkCollisions();
-            for (Entity entity : collisionManager.getEntities(attack)) {//durchläuft alle Entities, die von der Attacke getroffen werden
-                if (!attack.getHitList().contains(entity) && entity instanceof PlayerTypeEntity && entity.getClass() != attack.getOwner().getClass()) { //überprüft, ob die Entity bereits bekannt ist und ob sie überhaupt Schaden nehmen kann
-                    attack.getHitList().add(entity); //fügt die Entity der hitlist in der Attacke hinzu
-                    int newDamage = attack.getDamage() - ((PlayerTypeEntity) entity).getDefense(); //berechnet den zugefügten Schaden
-                    if (newDamage > 0) { //falls der Schaden positiv ist, wird er gespeichert
+            for (Entity entity : collisionManager.getEntities(attack)) {
+                System.out.println("getroffen: " + entity.getClass().getSimpleName());
+                if (!attack.getHitList().contains(entity) && entity instanceof PlayerTypeEntity && entity.getClass() != attack.getOwner().getClass()) {
+                    System.out.println("Schaden an: " + entity.getClass().getSimpleName());
+                    attack.getHitList().add(entity);
+                    int newDamage = attack.getDamage() - ((PlayerTypeEntity) entity).getDefense();
+                    System.out.println("newDamage: " + newDamage);
+                    if (newDamage > 0) {
                         damage.put((PlayerTypeEntity) entity, newDamage);
                     }
                 }

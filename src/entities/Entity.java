@@ -6,6 +6,7 @@ import entities.managers.AttackManager;
 import entities.managers.EntityRegistry;
 import tools.Hitbox;
 import tools.Vector;
+import java.awt.image.BufferedImage;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -125,5 +126,8 @@ public abstract class Entity {
         if(dir == EAST){return WEST;}
         return EAST;
 
+    }
+    public BufferedImage getSprite() {
+        return null;
     }
 }
