@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import java.awt.*;
 import java.util.ArrayList;
 import tools.TileManager;
+import java.awt.image.BufferedImage;
 
 public class GamePanel extends JPanel {
     private Game game;
@@ -27,6 +28,8 @@ public class GamePanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, getWidth(), getHeight());
         Graphics2D g2d = (Graphics2D) g;
 
         tileManager.draw(g2d);
@@ -37,12 +40,31 @@ public class GamePanel extends JPanel {
                 continue;
             }
             if (entity instanceof Player){
-                g2d.setColor(Color.BLUE);
-                ((Player)entity).draw(g2d);
+                BufferedImage sprite = ((Player)entity).getSprite();
+                if (sprite != null) {
+                    g2d.drawImage(sprite, (int) Math.round(entity.getX()), (int) Math.round(entity.getY()),
+                            entity.getWidth(), entity.getHeight(), null);
+                } else {
+                    g2d.setColor(Color.BLUE);
+                    g2d.fillRect((int) Math.round(entity.getX()), (int) Math.round(entity.getY()),
+                            entity.getWidth(), entity.getHeight());
+                }
+                ((Player)entity).draw(g2d); // Healthbar
+                continue;
             }
             else if (entity instanceof Enemy){
-                g.setColor(Color.RED);
-                ((Enemy)entity).draw(g2d);
+                BufferedImage sprite = ((Enemy)entity).getSprite();
+                if (sprite != null) {
+                    g2d.drawImage(sprite, (int) Math.round(entity.getX()), (int) Math.round(entity.getY()),
+                            entity.getWidth(), entity.getHeight(), null);
+                } else {
+                    g.setColor(Color.RED);
+                    g.fillRect((int) Math.round(entity.getX()), (int) Math.round(entity.getY()),
+                            entity.getWidth(), entity.getHeight());
+                }
+                ((Enemy)entity).draw(g2d); // Healthbar zeichnen
+                continue;
+
             }
             else if (entity instanceof Attack){
                 if(((Attack)entity).isVisible()) {

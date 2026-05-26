@@ -1,8 +1,9 @@
 package main;
-
+import entities.enemies.Enemy;
+import entities.enemies.RangedEnemy;
+import entities.enemies.ExplodeEnemy;
 import entities.Entity;
 import entities.Player;
-import entities.enemies.Enemy;
 import entities.managers.CollisionManager;
 import inputs.KeyboardInputs;
 import entities.managers.EntityManager;
@@ -35,15 +36,11 @@ public class Game implements Runnable {
         entities.setCollsisons(collisions);//temporär bis ihr diese absolut gekochten Abhängigkeiten gefixt habt
 
         attackManager = new AttackManager(collisions, entities, tileManager);
-        Player player = new Player(200, 200, 40, 80, entities, keyboardInputs, attackManager, tileManager);
-        new Enemy(500, 500, 40, 40, 360, entities, attackManager, tileManager);
+        Player player = new Player(200, 200, 130, 130, entities, keyboardInputs, attackManager, tileManager);
+        new Enemy(1200, 500, 80, 80, 360, entities, attackManager, tileManager);
+        new RangedEnemy(1000, 800, 80, 80, entities, attackManager, tileManager);
+        new ExplodeEnemy(300, 300, 80, 80, entities, attackManager, tileManager);
 
-        new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
-        new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
-        new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
-        new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
-        new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
-        new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
 
 
         // Wichtig: Das Panel muss den Fokus haben, um Tastatureingaben zu erkennen
