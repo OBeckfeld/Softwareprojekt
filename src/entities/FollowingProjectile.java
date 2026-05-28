@@ -2,14 +2,18 @@ package entities;
 
 import entities.enemies.Enemy;
 import entities.managers.AttackManager;
+import entities.managers.AttackRegistry;
 import entities.managers.EntityRegistry;
 import tools.TileManager;
 import tools.Vector;
 
 public class FollowingProjectile extends Projectile{
     private PlayerTypeEntity target;
-    public FollowingProjectile(double x, double y, int width, int height, EntityRegistry registry, AttackManager attackManager, PlayerTypeEntity owner, double speed, int direction, int timeToLive, int damage, TileManager tileManager) {
+    public FollowingProjectile(double x, double y, int width, int height, EntityRegistry registry, AttackRegistry attackManager, PlayerTypeEntity owner, double speed, int direction, int timeToLive, int damage, TileManager tileManager) {
         super(x,y,width,height,registry,attackManager,owner,speed,direction,timeToLive, damage, tileManager);
+    }
+    public FollowingProjectile(double x, double y, int width, int height, EntityRegistry registry, AttackRegistry attackManager, PlayerTypeEntity owner, double speed, Vector vector, int timeToLive, int damage, TileManager tileManager) {
+        super(x,y,width,height,registry,attackManager,owner,speed,vector,timeToLive, damage, tileManager);
     }
     @Override
     protected void logic(){
@@ -19,7 +23,7 @@ public class FollowingProjectile extends Projectile{
             }
         }
         if (target == null) {
-            int range = timeAlive*5+100;
+            int range = timeAlive*5+200;
             if (range > 500){
                 range = 500;
             }
@@ -35,6 +39,10 @@ public class FollowingProjectile extends Projectile{
                 continue;
             }
             hit();
+        }
+        if (movement.collidesWithWall(this, moveVector.getOffsetX(), moveVector.getOffsetY())){
+            hit();
+            return;
         }
         move();
     }

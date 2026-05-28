@@ -71,11 +71,9 @@ public class AttackManager implements AttackRegistry {
      */
 
     public void attack(PlayerTypeEntity owner, double x, double y, int height, int width, int duration, int damage) {
-        if (!owner.isAttacking()) { //die Gültigkeit der Attacke wird überprüft, falls sie ungültig ist, geschieht nichts
-            Attack attack = new Attack(x, y, width, height, registry, duration, owner, this, damage, tileManager);
-            owner.setAttack(attack);
-            attacks.add(attack);
-        }
+        Attack attack = new Attack(x, y, width, height, registry, duration, owner, this, damage, tileManager);
+        owner.setAttack(attack);
+        attacks.add(attack);
     }
 
     /**

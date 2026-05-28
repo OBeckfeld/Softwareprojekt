@@ -29,7 +29,7 @@ public class Player extends PlayerTypeEntity {
         DMGBoost dmgBoost = new DMGBoost(this);
         abilityManger.unlock(dmgBoost);
         abilityManger.equip(dmgBoost, 2);
-        weapon = new Rifle(this, attackRegistry, tileManager);
+        weapon = new ShotGun(this, attackRegistry, tileManager);
     }
 
     public void update() {
