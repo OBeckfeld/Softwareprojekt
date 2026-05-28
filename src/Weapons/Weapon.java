@@ -33,6 +33,7 @@ public abstract class Weapon {
         owner.setAttacking(attackDuration);
         return true;//ability kann benutzt werden
     }
+
     protected void applyKnockback(double kb){
         int dir = owner.getOppDirection(owner.getDirection());
         double x = owner.getX();

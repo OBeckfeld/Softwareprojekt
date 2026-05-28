@@ -10,15 +10,26 @@ import tools.Vector;
 
 import java.util.Random;
 public class MiniGun extends Weapon{
+    int ammo = 100; // Nummer an Schüssen, bevor die MiniGun reloaden muss
+    int reloadTime = 360; // Zeit in Ticks, die zum reloaden benötigt wird
+    int shotsSinceLastReload = 0;
+    int reloadTimer = 0;
+    
     public MiniGun(PlayerTypeEntity owner, AttackRegistry attackRegistry, TileManager tileManager) {
         super(owner, attackRegistry, tileManager);
         damage = 10;
-        attackCooldown = 0;//inMilli Sekunden
+        attackCooldown = 20;//inMilli Sekunden
         attackDuration = 10;//in ticks
     }
+
     @Override
     public boolean use(){
         if (!super.use()){return false;}//on cooldown
+        if (reloadTimer > 0){
+            reloadTimer--;
+            return false; // weapon is temporarily disabled after too many shots
+        }
+
         Random random = new Random();
         double xOffset = random.nextDouble(1)-0.5;
         double yOffset = random.nextDouble(1)-0.5;
@@ -57,6 +68,25 @@ public class MiniGun extends Weapon{
         new Projectile(x, y, 10, 10, owner.registry, attackRegistry, owner, 5, normalVector, 50, damage,tileManager);
 
         applyKnockback(5);
+
+        shotsSinceLastReload++;
+        if (shotsSinceLastReload >= ammo){
+            reloadTimer = reloadTime;
+            shotsSinceLastReload = 0;
+        }
+
         return true;
+    }
+
+    public void setShotsBeforeBlock(int ammo) {
+        this.ammo = ammo;
+    }
+
+    public void setShotBlockFrames(int reloadTime) {
+        this.reloadTime = reloadTime;
+    }
+
+    public int getShotBlockTimer() {
+        return reloadTimer;
     }
 }
