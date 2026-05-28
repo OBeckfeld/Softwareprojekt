@@ -10,8 +10,8 @@ import tools.Vector;
 
 import java.util.Random;
 public class MiniGun extends Weapon{
-    int ammo = 100; // Nummer an Schüssen, bevor die MiniGun reloaden muss
-    int reloadTime = 360; // Zeit in Ticks, die zum reloaden benötigt wird
+    int ammo = 200; // Nummer an Schüssen, bevor die MiniGun reloaden muss
+    int reloadTime = 120; // Zeit in Ticks, die zum reloaden benötigt wird
     int shotsSinceLastReload = 0;
     int reloadTimer = 0;
     
