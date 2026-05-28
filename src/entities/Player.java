@@ -33,13 +33,14 @@ public class Player extends PlayerTypeEntity {
         mass = 3;
         currentHealth = 100;
 
+        damage = 50;
         Dash dash = new Dash(this);
         abilityManger.unlock(dash);
         abilityManger.equip(dash, 1);
         DMGBoost dmgBoost = new DMGBoost(this);
         abilityManger.unlock(dmgBoost);
         abilityManger.equip(dmgBoost, 2);
-        weapon = new StarterSword(this, attackRegistry, tileManager);
+        weapon = new MiniGun(this, attackRegistry, tileManager);
 
         sheet = new SpriteSheet("src/sprites/playerCrawler.png", 833, 833);
 

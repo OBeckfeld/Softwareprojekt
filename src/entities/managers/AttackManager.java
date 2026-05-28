@@ -78,7 +78,7 @@ public class AttackManager implements AttackRegistry {
 
     @Override
     public void distributeDamage() {
-        System.out.println("distributeDamage läuft, attacks: " + attacks.size());
+
         for (Attack attack : attacks) {
             for (Entity entity : collisionManager.getEntities(attack)) {
                 if (!attack.getHitList().contains(entity)

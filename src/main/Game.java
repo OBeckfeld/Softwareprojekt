@@ -37,9 +37,9 @@ public class Game implements Runnable {
 
         attackManager = new AttackManager(collisions, entities, tileManager);
         Player player = new Player(200, 200, 130, 130, entities, keyboardInputs, attackManager, tileManager);
-        new Enemy(1200, 500, 80, 80, 360, entities, attackManager, tileManager);
-        new RangedEnemy(1000, 800, 80, 80, entities, attackManager, tileManager);
-        new ExplodeEnemy(300, 300, 80, 80, entities, attackManager, tileManager);
+        new Enemy(300, 500, 80, 80, 360, entities, attackManager, tileManager);
+        new RangedEnemy(1300, 300, 80, 80, entities, attackManager, tileManager);
+        new ExplodeEnemy(1300, 800, 80, 80, entities, attackManager, tileManager);
 
 
 
