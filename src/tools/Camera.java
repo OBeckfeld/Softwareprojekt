@@ -8,16 +8,18 @@ public class Camera {
     private double x, y;
 
     //camera dimensions
-    private final int viewWidth = 1920;
-    private final int viewHeight = 1080;
+    private final int viewWidth;
+    private final int viewHeight;
 
     //gameWorld boundaries
     private final int worldWidth = Game.getWIDTH();
     private final int worldHeight = Game.getHEIGHT();
 
-    public Camera(double startX, double startY) {
+    public Camera(double startX, double startY, int screenWidth, int screenHeight) {
         this.x = startX;
         this.y = startY;
+        viewWidth = screenWidth;
+        viewHeight = screenHeight;
     }
 
     public void update(Player player) {

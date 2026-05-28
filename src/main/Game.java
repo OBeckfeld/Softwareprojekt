@@ -8,10 +8,15 @@ import inputs.KeyboardInputs;
 import entities.managers.EntityManager;
 import entities.managers.AttackManager;
 import tools.Camera;
+import tools.MapLoader;
 import tools.TileManager;
 
 import java.util.ArrayList;
-
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.geom.AffineTransform;
+import java.awt.Rectangle;
 
 public class Game implements Runnable {
 
@@ -24,18 +29,18 @@ public class Game implements Runnable {
     private CollisionManager collisions;//müsste Final aber geht nicht
     private final AttackManager attackManager;
     private final TileManager tileManager;
+    private final MapLoader mapLoader;
     private final Camera camera;
     private final Player player;
     private static int WIDTH;
     private static int HEIGHT;
+    private static int screenWidth;
+    private static int screenHeight;
 
     public Game() {
         // Initialisierung der Kern-Komponenten
+        getScreenSize();
         tileManager = new TileManager();
-        WIDTH = tileManager.getCurrentMap().getWidth() * tileManager.getTileSize();
-        HEIGHT = tileManager.getCurrentMap().getHeight() * tileManager.getTileSize();
-        gamePanel = new GamePanel(this, tileManager);
-        gameWindow = new GameWindow(gamePanel);
         keyboardInputs = new KeyboardInputs(this);
         entities = new EntityManager(collisions, tileManager);
         collisions = new CollisionManager(entities);
@@ -43,17 +48,15 @@ public class Game implements Runnable {
 
         attackManager = new AttackManager(collisions, entities, tileManager);
         player = new Player(tileManager.getTileSize() * 2 + 5, tileManager.getTileSize() * 2 + 5, 40, 80, entities, keyboardInputs, attackManager, tileManager);
-        camera = new Camera(player.getX(), player.getY());
+        mapLoader = new MapLoader(tileManager.getTileSize(), entities, keyboardInputs, attackManager, collisions, tileManager);
+        mapLoader.buildMap();
 
-        new Enemy(500, 500, 40, 40, 360, entities, attackManager, tileManager);
+        WIDTH = tileManager.getTileMap()[0].length * tileManager.getTileSize();
+        HEIGHT = tileManager.getTileMap().length * tileManager.getTileSize();
 
-        new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
-        new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
-        new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
-        new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
-        new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
-        new Enemy(700, 700, 40, 40, 360, entities, attackManager, tileManager);//provisorisch
-
+        camera = new Camera(player.getX(), player.getY(), screenWidth, screenHeight);
+        gamePanel = new GamePanel(this, tileManager);
+        gameWindow = new GameWindow(gamePanel);
         // Wichtig: Das Panel muss den Fokus haben, um Tastatureingaben zu erkennen
         gamePanel.setFocusable(true);
         gamePanel.requestFocus();
@@ -70,6 +73,17 @@ public class Game implements Runnable {
     public EntityManager getEntityManager(){return entities;}
 
     public Camera getCamera(){return camera;}
+
+    public void getScreenSize() {
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        GraphicsConfiguration gc = gd.getDefaultConfiguration();
+
+        Rectangle screenBounds = gc.getBounds();
+
+        AffineTransform at = new AffineTransform();
+        screenWidth = Math.toIntExact(Math.round(screenBounds.width / at.getScaleX()));
+        screenHeight = Math.toIntExact(Math.round(screenBounds.height / at.getScaleY()));    
+    }
 
     private void startGameLoop() {
         gameThread = new Thread(this);
@@ -95,6 +109,7 @@ public class Game implements Runnable {
                 }
                 attackManager.distributeDamage();
                 camera.update(player);
+                mapLoader.checkMapUpdate();
                 gamePanel.repaint();
                 lastFrame = now;
             }

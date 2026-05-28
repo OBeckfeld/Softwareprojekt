@@ -6,7 +6,6 @@ import entities.managers.AttackRegistry;
 import tools.TileManager;
 import entities.managers.EntityRegistry;
 import inputs.KeyboardInputs;
-import entities.managers.AttackManager;
 import skilltree.DMGBoost;
 import skilltree.Dash;
 
@@ -29,7 +28,7 @@ public class Player extends PlayerTypeEntity {
         DMGBoost dmgBoost = new DMGBoost(this);
         abilityManger.unlock(dmgBoost);
         abilityManger.equip(dmgBoost, 2);
-        weapon = new Rifle(this, attackRegistry, tileManager);
+        weapon = new MiniGun(this, attackRegistry, tileManager);
     }
 
     public void update() {

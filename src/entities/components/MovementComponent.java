@@ -247,7 +247,7 @@ public class MovementComponent {
     }
 
     private boolean isWall(int row, int col) {
-        int[][] map = tileManager.getCurrentMap().getLayout();
+        int[][] map = tileManager.getTileMap();
 
         if (row < 0 || row >= map.length || col < 0 || col >= map[0].length) {
             return true;
