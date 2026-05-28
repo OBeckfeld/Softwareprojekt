@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class Enemy extends PlayerTypeEntity {
     protected Player player;
-
+    private int attackDelay = 20;
     public Enemy(int x, int y, int width, int height, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager) {
         super(x, y, width, height, 100,100, registry, attackRegistry, tileManager);
         defaultSpeed = 2;
@@ -60,16 +60,22 @@ public class Enemy extends PlayerTypeEntity {
         }
         if (registry.getInRange(this, 100, 100).contains(player)) {
             vector.setLength(0);
-            tryAttackEntity((PlayerTypeEntity) player);
+            if (attackDelay == 0) {
+                tryAttackEntity((PlayerTypeEntity) player);
+            }
+            else{
+                attackDelay--;
+            }
+        }
+        else{
+            attackDelay = 50;
         }
         move(vector);
     }
 
     protected void tryAttackEntity(PlayerTypeEntity targetPlayer) {
-        //attacking = 100;
         direction = getDirectionTo(targetPlayer.getCenter()[0], targetPlayer.getCenter()[1]);
-        //attackRegistry.newAttack(this);
-        //attackRegistry.attack(attack);
+
         weapon.use();
     }
 }
