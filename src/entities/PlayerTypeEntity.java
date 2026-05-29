@@ -25,6 +25,7 @@ public abstract class PlayerTypeEntity extends Entity {
     protected int viewRange;
     protected int mass;
     protected int crit;
+    protected int critChance;
     protected int damageModifier ;
     protected AbilityManager abilityManger;
     protected double speed = 3;
@@ -64,6 +65,8 @@ public abstract class PlayerTypeEntity extends Entity {
     public int getCurrentHealth() { return currentHealth; }
     public void setCurrentHealth(int currentHealth) { this.currentHealth = currentHealth; }
 
+    public int getCritChance(){return critChance;}
+    public void setCritChance(int chance){critChance = chance;}
     public int getMaxHealth() { return maxHealth; }
     public void setMaxHealth(int maxHealth) { this.maxHealth = maxHealth; }
 

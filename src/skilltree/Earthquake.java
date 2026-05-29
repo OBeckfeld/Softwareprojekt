@@ -12,7 +12,7 @@ public class Earthquake extends Ability {
 
     }
     @Override
-    public String getDescription(){ return "heal 15 life";}
+    public String getDescription(){ return "big AOE attack";}
     @Override
     public void unlock(){
         unlocked = true;
