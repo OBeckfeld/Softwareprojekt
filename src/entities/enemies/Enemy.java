@@ -15,7 +15,7 @@ public class Enemy extends PlayerTypeEntity {
     private int attackDelay = 20;
     public Enemy(int x, int y, int width, int height, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager) {
         super(x, y, width, height, 100,100, registry, attackRegistry, tileManager);
-        defaultSpeed = 2;
+        defaultSpeed = 1.7;
         speed = defaultSpeed;
         viewRange = 500;
         mass = 1;
@@ -35,21 +35,23 @@ public class Enemy extends PlayerTypeEntity {
     }
 
     public void update() {
-        super.update();
-        if (currentHealth <= 0) {
-            registry.unregister(this);
-            int triggerAnimation = 1;
-            return;
-        }
-        if (player == null) {
-            ArrayList<Entity> inView = getInView();
-            for (Entity entity : inView) {
-                if (entity instanceof Player) {
-                    player = (Player) entity;
+        if (!skillTree.isActive) {
+            super.update();
+            if (currentHealth <= 0) {
+                registry.unregister(this);
+                int triggerAnimation = 1;
+                return;
+            }
+            if (player == null) {
+                ArrayList<Entity> inView = getInView();
+                for (Entity entity : inView) {
+                    if (entity instanceof Player) {
+                        player = (Player) entity;
+                    }
                 }
             }
+            handleMovement();
         }
-        handleMovement();
     }
 
     protected void handleMovement() {

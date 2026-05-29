@@ -28,30 +28,48 @@ public class Player extends PlayerTypeEntity {
         DMGBoost dmgBoost = new DMGBoost(this);
         abilityManger.unlock(dmgBoost);
         abilityManger.equip(dmgBoost, 2);
-        weapon = new MiniGun(this, attackRegistry, tileManager);
+        weapon = new Rifle(this, attackRegistry, tileManager);
     }
 
     public void update() {
-        super.update();
-        movement.move(this);
-        if(inputs.getHeldKeys().contains(KeyEvent.VK_J)) {
-            weapon.use();
+        if(inputs.getHeldKeys().contains(KeyEvent.VK_P)){
+            if(!skillTree.isActive) {
+                skillTree.open();
+            }
+            else {
+                skillTree.close();
+            }
+            try {
+                Thread.sleep(250);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
-        //1 ability slot
-        if(inputs.getHeldKeys().contains(KeyEvent.VK_1)) {
-            abilityManger.use(1);
-        }
-        //2 ability slot
-        if(inputs.getHeldKeys().contains(KeyEvent.VK_2)) {
-            abilityManger.use(2);
-        }
-        //3 ability slot
-        if(inputs.getHeldKeys().contains(KeyEvent.VK_3)) {
-            abilityManger.use(3);
-        }
-        //4 ability slot
-        if(inputs.getHeldKeys().contains(KeyEvent.VK_4)) {
-            abilityManger.use(4);
+        if(!skillTree.isActive) {
+            super.update();
+            movement.move(this);
+            if (inputs.getHeldKeys().contains(KeyEvent.VK_J)) {
+                weapon.use();
+            }
+            //1 ability slot
+            if (inputs.getHeldKeys().contains(KeyEvent.VK_1)) {
+                abilityManger.use(1);
+            }
+            //2 ability slot
+            if (inputs.getHeldKeys().contains(KeyEvent.VK_2)) {
+                abilityManger.use(2);
+            }
+            //3 ability slot
+            if (inputs.getHeldKeys().contains(KeyEvent.VK_3)) {
+                abilityManger.use(3);
+            }
+            //4 ability slot
+            if (inputs.getHeldKeys().contains(KeyEvent.VK_4)) {
+                abilityManger.use(4);
+            }
+            if (inputs.getHeldKeys().contains(KeyEvent.VK_5)) {
+                abilityManger.use(5);
+            }
         }
     }
 }

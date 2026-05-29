@@ -3,6 +3,7 @@ import entities.PlayerTypeEntity;
 
 public abstract class Ability {
     protected boolean unlocked;
+    protected boolean accessible;
     protected int cost;
     protected double cooldown;
     protected double lastUsed;
@@ -31,6 +32,14 @@ public abstract class Ability {
         lastUsed = System.currentTimeMillis();
         return true;//ability kann benutzt werden
     }
+    public void setAccessible(){accessible = true;}
+    public boolean isUnlocked(){
+        return unlocked;
+    }
+    public boolean isAccessible() {
+        return accessible;
+    }
+
     public void effect(){}
     public void update(){
         if (System.currentTimeMillis() - lastUsed < duration){

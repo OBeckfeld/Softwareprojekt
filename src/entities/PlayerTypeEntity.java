@@ -5,6 +5,7 @@ import Weapons.Weapon;
 import entities.managers.AbilityManager;
 import entities.managers.AttackRegistry;
 import entities.managers.EntityRegistry;
+import skilltree.SkillTree;
 import tools.HealthBar;
 import tools.TileManager;
 import tools.Vector;
@@ -19,18 +20,20 @@ public abstract class PlayerTypeEntity extends Entity {
     protected int maxHealth = 100;
     protected int currentHealth = maxHealth;
     protected int damage  = 20;
-    protected int defense = 5;
+    protected int defense = 0;
     protected int direction = 0; //0 = rechts, 1 = unten, 2 = links, 3 = oben
     protected int viewRange;
     protected int mass;
+    protected int crit;
     protected int damageModifier ;
     protected AbilityManager abilityManger;
-    protected double speed = 5;
+    protected double speed = 3;
     protected Weapon weapon;
-    protected double defaultSpeed = 5;
+    protected double defaultSpeed = 3;
     protected int hitCooldown;
     protected int attacking;
     protected HealthBar healthBar;
+    protected SkillTree skillTree;
 
     public PlayerTypeEntity(int x, int y, int width, int height, int attackDuration, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager) {
         super(x, y, width, height, registry, attackRegistry, tileManager);
@@ -45,6 +48,8 @@ public abstract class PlayerTypeEntity extends Entity {
         weapon = new StarterSword(this, attackRegistry, tileManager);
         healthBar = new HealthBar(this);
         attacking = 0;
+        skillTree = new SkillTree(this);
+
     }
 
     public void gainLife(int amount) {
@@ -65,7 +70,10 @@ public abstract class PlayerTypeEntity extends Entity {
     public int getDamage() { return damage; }
 
     public int getDefense() { return defense; }
-
+    public int getCrit(){
+        return crit;
+    }
+    public void setCrit(int quote){crit = quote;}
     public int getDamageModifier() {return damageModifier;}
 
     public int getDirection() { return direction; }
@@ -79,10 +87,22 @@ public abstract class PlayerTypeEntity extends Entity {
 
     protected ArrayList<Entity> getInView(){ return registry.getInRange(this, getViewRange(), getViewRange()); }
 
+    public int getDefence(){
+        return defense;
+    }
+    public void setDefense(int def){
+        defense = def;
+    }
     public double getSpeed() { return speed; }
     public void setSpeed(double speed) { this.speed = speed; }
     public void setDamageModifier(int mod){damageModifier = mod;}
-
+    public void setHealth(int life){if(life>maxHealth){
+            currentHealth = maxHealth;
+        }
+        else {
+            currentHealth = life;
+    }
+    }
     public int getHorizontalRange() { return horizontalRange; }
 
     public boolean isAttacking() { return attacking <= 0; }
@@ -103,12 +123,15 @@ public abstract class PlayerTypeEntity extends Entity {
         movement.move(this, dx, dy);
     }
 
-    public void update(){
-        if(currentHealth <= 0){unregister();}//wenn die Entity tod ist, macht sie nichts mehr, außer sich zu unregistern
+    public void update() {
+        if (!skillTree.getActive()) {
+            if (currentHealth <= 0) {
+                unregister();
+            }//wenn die Entity tod ist, macht sie nichts mehr, außer sich zu unregistern
             else {
                 if (attacking > 0) {
                     speed = 0;
-                    attacking --;
+                    attacking--;
 
                 } else {
                     speed = defaultSpeed;
@@ -129,6 +152,6 @@ public abstract class PlayerTypeEntity extends Entity {
                     }
                 }
             }
+        }
     }
-
 }

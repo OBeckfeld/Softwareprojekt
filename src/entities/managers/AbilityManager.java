@@ -13,7 +13,7 @@ public class AbilityManager {
     public AbilityManager(PlayerTypeEntity entity){
         this.entity = entity;
         abilities = new ArrayList<>();
-        equipedAbiltities = new Ability [4];//man kann 4 Abilties equipen
+        equipedAbiltities = new Ability [5];//man kann 5 Abilties equipen
     }
     public boolean unlock (Ability ability){
         if (abilities.contains(ability)) {
