@@ -15,6 +15,7 @@ import java.awt.event.KeyEvent;
 public class Player extends PlayerTypeEntity {
 
     protected KeyboardInputs inputs;
+    private int skillpoints = 0;
 
     public Player(int x, int y, int width, int height, EntityRegistry registry, KeyboardInputs keyboardInputs, AttackRegistry attackRegistry, TileManager tileManager) {
         super(x, y, width, height, 20, 60, registry, attackRegistry, tileManager);//attackDuration und cooldown machen nichts. Beides wird von Waffe bestimmt
@@ -23,12 +24,12 @@ public class Player extends PlayerTypeEntity {
         mass = 3;
         //nur zum TESTEN
         Dash dash = new Dash(this);
-        abilityManger.unlock(dash);
-        abilityManger.equip(dash, 1);
+        abilityManger.unlock(skillTree.getAbilityReference("Dash"));
+        abilityManger.equip(skillTree.getAbilityReference("Dash"), 1);
         //---------------------------------------------------------------
         DMGBoost dmgBoost = new DMGBoost(this);
-        abilityManger.unlock(dmgBoost);
-        abilityManger.equip(dmgBoost, 2);
+        abilityManger.unlock(skillTree.getAbilityReference("DMGBoost"));
+        abilityManger.equip(skillTree.getAbilityReference("DMGBoost"), 2);
         weapon = new MiniGun(this, attackRegistry, tileManager);
     }
 
@@ -75,12 +76,12 @@ public class Player extends PlayerTypeEntity {
         }
     }
 
-    public Weapon getWeapon() {
-        return weapon;
+    public int getSkillpoints() {
+        return skillpoints;
     }
 
-    public SkillTree getSkillTree() {
-        return skillTree;
+    public void setSkillpoints(int number) {
+        skillpoints = number;
     }
 }
 

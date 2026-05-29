@@ -157,4 +157,37 @@ public abstract class PlayerTypeEntity extends Entity {
             }
         }
     }
+
+    public Weapon getWeapon() {
+        return weapon;
+    }
+
+    public void setWeapon(String weapon) {
+        switch (weapon) {
+            case "Gun":
+                this.weapon = new Weapons.Gun(this, attackRegistry, tileManager);
+                break;
+            case "MiniGun":
+                this.weapon = new Weapons.MiniGun(this, attackRegistry, tileManager);
+                break;
+            case "ShotGun":
+                this.weapon = new Weapons.ShotGun(this, attackRegistry, tileManager);
+                break;
+            case "Rifle":
+                this.weapon = new Weapons.Rifle(this, attackRegistry, tileManager);
+                break;
+            case "StarterSword":
+                this.weapon = new StarterSword(this, attackRegistry, tileManager);
+                break;
+            case "IronSword":
+                this.weapon = new Weapons.IronSword(this, attackRegistry, tileManager);
+                break;
+            default:
+                this.weapon = new StarterSword(this, attackRegistry, tileManager);
+        }
+    }
+
+    public SkillTree getSkillTree() {
+        return skillTree;
+    }
 }

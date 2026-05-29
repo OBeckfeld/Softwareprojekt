@@ -8,6 +8,7 @@ import entities.Entity;
 import entities.Player;
 import entities.enemies.Enemy;
 import entities.Door;
+import entities.Waypoint;
 import entities.Attack;
 
 import java.util.ArrayList;
@@ -78,7 +79,7 @@ public class MapLoader {
     }
 
     /**
-     * Methode, welche aus einem in einem String gespeicherten Array ein reguläres Array macht
+     * Methode, welche aus einem in einem String gespeicherten zweidimensionalen Array vom Typ int ein reguläres Array macht
      */
     public int[][] parseJsonArray(String json, String key) {
         // Enterzeichen, Carriage Returns und Leerzeichen entfernen, damit die Verarbeitung einfacher ist
@@ -133,16 +134,16 @@ public class MapLoader {
     public void spawnEntity(int entityId, int x, int y) {
         switch(entityId) {
             case 1:
-                Player player = new Player(x, y, 40, 80, registry, keyboardInputs, attackRegistry, tileManager);
-                registry.register(player);
+                new Player(x, y, 40, 80, registry, keyboardInputs, attackRegistry, tileManager);
                 break;
             case 2:
-                Door door = new Door(x, y, registry, attackRegistry, tileManager);
-                registry.register(door);
+                new Door(x, y, registry, attackRegistry, tileManager);
                 break;
             case 3:
-                Enemy enemy = new Enemy(x, y , 40, 40, 100, 10, 5, 120, 60, 20, 360, registry, attackRegistry, tileManager);
-                registry.register(enemy);
+                new Waypoint(x, y, registry, attackRegistry, tileManager);
+                break;
+            case 4:
+                new Enemy(x, y , 40, 40, 100, 10, 5, 120, 60, 20, 360, registry, attackRegistry, tileManager);
                 break;
             default:
                 return;

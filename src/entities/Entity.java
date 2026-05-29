@@ -50,7 +50,6 @@ public abstract class Entity {
         hurtbox = new Hitbox(x, y, width, height);
         registry.register(this);
         this.registry = registry;
-
     }
 
 
@@ -74,8 +73,9 @@ public abstract class Entity {
         return width;
     }
 
-
-
+    public EntityRegistry getRegistry() {
+        return registry;
+    }
 
     public void update(){
 

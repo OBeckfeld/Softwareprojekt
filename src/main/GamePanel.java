@@ -39,7 +39,7 @@ public class GamePanel extends JPanel {
             if (entity == null || entity instanceof ViewBox){
                 continue;
             }
-            if (entity instanceof Player){
+            else if (entity instanceof Player){
                 g2d.setColor(Color.BLUE);
                 ((Player)entity).draw(g2d);
             }
@@ -62,6 +62,9 @@ public class GamePanel extends JPanel {
                 else {
                     g.setColor(Color.GRAY);
                 }
+            }
+            else if (entity instanceof Waypoint){
+                g.setColor(Color.MAGENTA);
             }
             double x = entity.getX();
             double y = entity.getY();

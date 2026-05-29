@@ -132,6 +132,39 @@ public class SkillTree {
         return unlockedAbilities.toArray(new String[unlockedAbilities.size()]);
     }
 
+    public Ability getAbilityReference(String abilityName) {
+        switch(abilityName){
+            case "Dash": 
+                return dash;
+            case "DMGBoost": 
+                return dmgBoost;
+            case "DMGBoost2": 
+                return dmgBoost2;
+            case "DMGNegation": 
+                return dmgNegation;
+            case "DMGNegation2": 
+                return dmgNegation2;
+            case "Earthquake":
+                return earthquake;
+            case "Heal":
+                return heal;
+            case "Krit":
+                return krit;
+            case "Krit2":
+                return krit2;
+            case "Lifesteal":
+                return lifesteal;
+            case "Parry":
+                return parry;
+            case "PoisonCloud":
+                return poisonCloud;
+            case "SpeedBoost":
+                return speedBoost;
+            default:
+                throw new IllegalArgumentException("Ability name not found: " + abilityName);
+        }
+    }
+
     public boolean getActive(){
         return isActive;
     }

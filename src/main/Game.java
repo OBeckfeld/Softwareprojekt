@@ -4,9 +4,10 @@ import entities.Entity;
 import entities.Player;
 import entities.enemies.Enemy;
 import entities.managers.CollisionManager;
-import inputs.KeyboardInputs;
 import entities.managers.EntityManager;
 import entities.managers.AttackManager;
+import entities.managers.ProgressManager;
+import inputs.KeyboardInputs;
 import tools.Camera;
 import tools.MapLoader;
 import tools.TileManager;
@@ -30,6 +31,7 @@ public class Game implements Runnable {
     private final AttackManager attackManager;
     private final TileManager tileManager;
     private final MapLoader mapLoader;
+    private final ProgressManager progressManager;
     private final Camera camera;
     private final Player player;
     private static int WIDTH;
@@ -50,6 +52,7 @@ public class Game implements Runnable {
         player = new Player(tileManager.getTileSize() * 2 + 5, tileManager.getTileSize() * 2 + 5, 40, 80, entities, keyboardInputs, attackManager, tileManager);
         mapLoader = new MapLoader(tileManager.getTileSize(), entities, keyboardInputs, attackManager, collisions, tileManager);
         mapLoader.buildMap();
+        progressManager = new ProgressManager(player, mapLoader, collisions);
 
         WIDTH = tileManager.getTileMap()[0].length * tileManager.getTileSize();
         HEIGHT = tileManager.getTileMap().length * tileManager.getTileSize();
@@ -109,6 +112,7 @@ public class Game implements Runnable {
                 }
                 attackManager.distributeDamage();
                 camera.update(player);
+                progressManager.checkSaveRequests();
                 mapLoader.checkMapUpdate();
                 gamePanel.repaint();
                 lastFrame = now;
