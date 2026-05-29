@@ -8,8 +8,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import tools.TileManager;
 
-import static sun.swing.SwingUtilities2.drawRect;
-
 public class GamePanel extends JPanel {
     private Game game;
     private TileManager tileManager;
