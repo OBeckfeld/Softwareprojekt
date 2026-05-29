@@ -80,6 +80,9 @@ public class MapLoader {
 
     /**
      * Methode, welche aus einem in einem String gespeicherten zweidimensionalen Array vom Typ int ein reguläres Array macht
+     * @param json String, welcher das JSON Array enthält
+     * @param key Key, welcher vor dem Array liegt
+     * @return Array mit den Werten des JSON Arrays
      */
     public int[][] parseJsonArray(String json, String key) {
         // Enterzeichen, Carriage Returns und Leerzeichen entfernen, damit die Verarbeitung einfacher ist
@@ -130,6 +133,9 @@ public class MapLoader {
 
     /**
      * Mithilfe angegebener ID und Koordinaten wird eine entsprechende Entity gespanwt
+     * @param entityId ID, welche die Art der Entity festlegt
+     * @param x x-Koordinate, an welcher die Entity gespawnt werden soll
+     * @param y y-Koordinate, an welcher die Entity gespawnt werden soll
      */
     public void spawnEntity(int entityId, int x, int y) {
         switch(entityId) {

@@ -132,6 +132,10 @@ public class SkillTree {
         return unlockedAbilities.toArray(new String[unlockedAbilities.size()]);
     }
 
+    /**
+     * Gibt auf Angabe des Namens einer Ability eine Referenz auf das im SkillTree hinterlegte Ability-Objekt zurück
+     * @param abilityName
+     */
     public Ability getAbilityReference(String abilityName) {
         switch(abilityName){
             case "Dash": 

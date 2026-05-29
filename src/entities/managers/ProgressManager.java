@@ -25,11 +25,6 @@ public class ProgressManager {
         this.collisionManager = collisionManager;
     }
 
-    public ProgressManager() {
-        EntityRegistry entityRegistry = new EntityManager(null, null);
-        player = new Player(400, 600, 40, 80, entityRegistry, null, null, null);
-    }
-
     /**
      * Interaktion des Spielers mit Waypoint wird geprüft
      * Falls der Spieler einen Waypoint berührt, wird gespeichert
@@ -78,6 +73,7 @@ public class ProgressManager {
 
     /**
      * Fortschritt wird aus einer spezifischen Speicherdatei geladen
+     * @param savingIndex Index der Speicherdatei, welche geladen werden soll
      */
     public void loadSpecificProgress(int savingIndex) {
         try {
@@ -143,6 +139,9 @@ public class ProgressManager {
 
     /**
      * Methode, um aus einem JSON int (welcher in einem String vorliegt) einen regulären Java int zu machen
+     * @param json String, welcher den JSON int enthält
+     * @param key Key, welcher vor dem int liegt
+     * @return int, welcher den Wert des JSON ints enthält
      */
     public int parseJsonInt(String json, String key) {
         // Position des keys im String wird ermittelt
@@ -160,6 +159,9 @@ public class ProgressManager {
 
     /**
      * Methode, um aus einem JSON String (welcher in einem String vorliegt) einen regulären Java String zu machen
+     * @param json String, welcher den JSON String enthält
+     * @param key Key, welcher vor dem String liegt
+     * @return String, welcher den Wert des JSON Strings enthält
      */
     public String parseJsonString(String json, String key) {
         // Position des keys im String wird ermittelt
@@ -178,6 +180,9 @@ public class ProgressManager {
     /**
      * Abgeänderte Kopie aus MapLoader
      * Macht aus einem in einem String vorliegenden eindimensionalen JSON Array vom Typ String ein reguläres Java Array
+     * @param json String, welcher das JSON Array enthält
+     * @param key Key, welcher vor dem Array liegt
+     * @return Array mit den Werten des JSON Arrays
      */
     public String[] parseJsonArray(String json, String key) {
         // Enterzeichen, Carriage Returns und Leerzeichen entfernen, damit die Verarbeitung einfacher ist
