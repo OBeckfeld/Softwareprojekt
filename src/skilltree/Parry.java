@@ -12,7 +12,7 @@ public class Parry extends Ability {
 
     }
     @Override
-    public String getDescription(){ return "heal 15 life";}
+    public String getDescription(){ return "use to block attacks and stun close range enemy";}
     @Override
     public void unlock(){
         unlocked = true;

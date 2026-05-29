@@ -16,7 +16,8 @@ public class Krit2 extends Ability {
     @Override
     public void unlock(){
         unlocked = true;
-        owner.setCrit(owner.getCrit()+250);
+        owner.setCrit(owner.getCrit()+100);
+        owner.setCritChance(owner.getCritChance()+5);
 
     }
 

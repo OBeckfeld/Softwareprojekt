@@ -12,7 +12,7 @@ public class Lifesteal extends Ability {
 
     }
     @Override
-    public String getDescription(){ return "heal 15 life";}
+    public String getDescription(){ return "heal life when you deal damage";}
     @Override
     public void unlock(){
         unlocked = true;

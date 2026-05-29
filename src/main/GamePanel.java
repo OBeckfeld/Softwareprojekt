@@ -8,6 +8,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import tools.TileManager;
 
+import static sun.swing.SwingUtilities2.drawRect;
+
 public class GamePanel extends JPanel {
     private Game game;
     private TileManager tileManager;
@@ -28,7 +30,6 @@ public class GamePanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-
         //verschiebt alles um die Kamera ab diesem Zeitpunkt
         g2d.translate(-game.getCamera().getX(), -game.getCamera().getY());
 

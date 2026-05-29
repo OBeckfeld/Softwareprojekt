@@ -12,7 +12,7 @@ public class PoisonCloud extends Ability {
 
     }
     @Override
-    public String getDescription(){ return "heal 15 life";}
+    public String getDescription(){ return "create a cloud which poisons enemies";}
     @Override
     public void unlock(){
         unlocked = true;

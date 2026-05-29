@@ -75,7 +75,7 @@ public class SkillTree {
         if(dmgBoost.isUnlocked() && speedBoost.isUnlocked()){
             earthquake.setAccessible();
         }
-        if(parry.isUnlocked() && speedBoost.isUnlocked()){
+        if(speedBoost.isUnlocked()){
             poisonCloud.setAccessible();
         }
     }

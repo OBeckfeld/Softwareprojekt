@@ -17,6 +17,7 @@ public class Krit extends Ability {
     public void unlock(){
         unlocked = true;
         owner.setCrit(owner.getCrit()+150);
+        owner.setCritChance(owner.getCritChance()+5);
 
     }
 
