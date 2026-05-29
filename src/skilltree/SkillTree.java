@@ -2,6 +2,8 @@ package skilltree;
 
 import entities.PlayerTypeEntity;
 
+import java.util.ArrayList;
+
 public class SkillTree {
 
 
@@ -78,6 +80,56 @@ public class SkillTree {
         if(parry.isUnlocked() && speedBoost.isUnlocked()){
             poisonCloud.setAccessible();
         }
+    }
+
+    /**
+     * Gibt ein Array mit den Namen aller freigeschalteten Fähigkeiten zurück
+     * @return
+     */
+    public String[] getUnlockedAbilities() {
+        ArrayList<String> unlockedAbilities = new ArrayList<>();
+        // "Stapelung" nach accessibility der abilities, um die Effizienz zu erhöhen
+        if (dash.isUnlocked()) {
+            unlockedAbilities.add("Dash");
+            if (speedBoost.isUnlocked()) {
+                unlockedAbilities.add("SpeedBoost");
+                if (earthquake.isUnlocked()) {
+                    unlockedAbilities.add("Earthquake");
+                }
+                if (poisonCloud.isUnlocked()) {
+                    unlockedAbilities.add("PoisonCloud");
+                }
+                if (lifesteal.isUnlocked()) {
+                    unlockedAbilities.add("Lifesteal");
+                }
+            }
+        }
+        if (dmgBoost.isUnlocked()) {
+            unlockedAbilities.add("DMGBoost");
+            if (dmgBoost2.isUnlocked()) {
+                unlockedAbilities.add("DMGBoost2");
+            }
+            if (krit.isUnlocked()) {
+                unlockedAbilities.add("Krit");
+                if (krit2.isUnlocked()) {
+                    unlockedAbilities.add("Krit2");
+                }
+            }
+        }
+        if (dmgNegation.isUnlocked()) {
+            unlockedAbilities.add("DMGNegation");
+            if (dmgNegation2.isUnlocked()) {
+                unlockedAbilities.add("DMGNegation2");
+                if(parry.isUnlocked()){
+                    unlockedAbilities.add("Parry");
+                }
+            }
+            if (heal.isUnlocked()) {
+            unlockedAbilities.add("Heal");
+            }
+        }
+
+        return unlockedAbilities.toArray(new String[unlockedAbilities.size()]);
     }
 
     public boolean getActive(){

@@ -189,4 +189,8 @@ public class MapLoader {
     public void setMapIndex(int mapIndex) {
         this.mapIndex = mapIndex;
     }
+
+    public int getMapIndex() {
+        return mapIndex;
+    }
 }

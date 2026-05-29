@@ -8,6 +8,7 @@ import entities.managers.EntityRegistry;
 import inputs.KeyboardInputs;
 import skilltree.DMGBoost;
 import skilltree.Dash;
+import skilltree.SkillTree;
 
 import java.awt.event.KeyEvent;
 
@@ -28,7 +29,7 @@ public class Player extends PlayerTypeEntity {
         DMGBoost dmgBoost = new DMGBoost(this);
         abilityManger.unlock(dmgBoost);
         abilityManger.equip(dmgBoost, 2);
-        weapon = new Rifle(this, attackRegistry, tileManager);
+        weapon = new MiniGun(this, attackRegistry, tileManager);
     }
 
     public void update() {
@@ -45,6 +46,7 @@ public class Player extends PlayerTypeEntity {
                 throw new RuntimeException(e);
             }
         }
+
         if(!skillTree.isActive) {
             super.update();
             movement.move(this);
@@ -71,6 +73,14 @@ public class Player extends PlayerTypeEntity {
                 abilityManger.use(5);
             }
         }
+    }
+
+    public Weapon getWeapon() {
+        return weapon;
+    }
+
+    public SkillTree getSkillTree() {
+        return skillTree;
     }
 }
 
