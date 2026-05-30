@@ -2,12 +2,13 @@ package skilltree;
 
 import entities.PlayerTypeEntity;
 import entities.components.MovementComponent;
+import main.GamePanel;
 
 import java.awt.image.BufferedImage;
 
 public class Dash extends Ability {
-    public Dash(PlayerTypeEntity owner, int x, int y, BufferedImage icon){
-        super(owner, x, y, icon);
+    public Dash(PlayerTypeEntity owner, int x, int y, BufferedImage icon, GamePanel gamePanel, SkillTree skillTree){
+        super(owner, x, y, icon, gamePanel, skillTree);
         cost = 1; //wird in den unter klassen überschrieben
         cooldown = 1500; //in Millisekunden
         duration = 100; //in Millisekunden

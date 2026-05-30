@@ -2,12 +2,13 @@ package skilltree;
 
 import entities.PlayerTypeEntity;
 import entities.components.MovementComponent;
+import main.GamePanel;
 
 import java.awt.image.BufferedImage;
 
 public class Earthquake extends Ability {
-    public Earthquake(PlayerTypeEntity owner, int x, int y, BufferedImage icon){
-        super(owner, x, y, icon);
+    public Earthquake(PlayerTypeEntity owner, int x, int y, BufferedImage icon, GamePanel gamePanel, SkillTree skillTree){
+        super(owner, x, y, icon, gamePanel, skillTree);
         cost = 1; //wird in den unter klassen überschrieben
         cooldown = 4000; //in Millisekunden
         duration = 1; //in Millisekunden

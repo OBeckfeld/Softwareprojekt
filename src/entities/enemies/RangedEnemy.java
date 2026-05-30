@@ -2,6 +2,7 @@ package entities.enemies;
 import entities.PlayerTypeEntity;
 import entities.managers.EntityRegistry;
 import entities.managers.AttackManager;
+import main.GamePanel;
 import tools.TileManager;
 import tools.Vector;
 
@@ -11,8 +12,8 @@ public class RangedEnemy extends Enemy {
     private static final int ATTACK_RANGE = 300;
 
     public RangedEnemy(int x, int y, int width, int height,
-                       EntityRegistry registry, AttackManager attackManager, TileManager tileManager) {
-        super(x, y, width, height, 60, registry, attackManager, tileManager);
+                       EntityRegistry registry, AttackManager attackManager, TileManager tileManager, GamePanel gamePanel) {
+        super(x, y, width, height, 60, registry, attackManager, tileManager, gamePanel);
         currentHealth = 30;
         setSpeed(3);
         viewRange = 400;

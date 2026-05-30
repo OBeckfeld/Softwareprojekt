@@ -43,14 +43,19 @@ public class Game implements Runnable {
         // Initialisierung der Kern-Komponenten
         getScreenSize();
         tileManager = new TileManager();
+        gamePanel = new GamePanel(this, tileManager);
         keyboardInputs = new KeyboardInputs(this);
         entities = new EntityManager(collisions, tileManager);
         collisions = new CollisionManager(entities);
         entities.setCollsisons(collisions);//temporär bis ihr diese absolut gekochten Abhängigkeiten gefixt habt
 
         attackManager = new AttackManager(collisions, entities, tileManager);
-        player = new Player(tileManager.getTileSize() * 2 + 5, tileManager.getTileSize() * 2 + 5, 40, 80, entities, keyboardInputs, attackManager, tileManager);
-        mapLoader = new MapLoader(tileManager.getTileSize(), entities, keyboardInputs, attackManager, collisions, tileManager);
+
+
+
+
+        player = new Player(tileManager.getTileSize() * 2 + 5, tileManager.getTileSize() * 2 + 5, 40, 80, entities, keyboardInputs, attackManager, tileManager, gamePanel);
+        mapLoader = new MapLoader(tileManager.getTileSize(), entities, keyboardInputs, attackManager, collisions, tileManager, gamePanel);
         mapLoader.buildMap();
         progressManager = new ProgressManager(player, mapLoader, collisions);
 
@@ -58,7 +63,7 @@ public class Game implements Runnable {
         HEIGHT = tileManager.getTileMap().length * tileManager.getTileSize();
 
         camera = new Camera(player.getX(), player.getY(), screenWidth, screenHeight);
-        gamePanel = new GamePanel(this, tileManager, player);
+
         gameWindow = new GameWindow(gamePanel);
         // Wichtig: Das Panel muss den Fokus haben, um Tastatureingaben zu erkennen
         gamePanel.setFocusable(true);

@@ -1,6 +1,7 @@
 package skilltree;
 
 import entities.PlayerTypeEntity;
+import main.GamePanel;
 import tools.SpriteSheet;
 
 import javax.imageio.ImageIO;
@@ -38,25 +39,27 @@ public class SkillTree {
     private final int r3 = 350;
     private final int r4 = 500;
     private final int r5 = 650;
+    private GamePanel gamePanel;
 
 
-    public SkillTree(PlayerTypeEntity owner) {
+    public SkillTree(PlayerTypeEntity owner, GamePanel gamePanel) {
         loadIcons();
+        this.gamePanel = gamePanel;
 
         abilities = new Ability[]{
-            dash = new Dash(owner, lv1, r3, abilityIcons[11]),
-            dmgBoost = new DMGBoost(owner, lv1, (r1+r2)/2, abilityIcons[0]),
-            dmgBoost2 = new DMGBoost2(owner, lv2, r2, abilityIcons[1]),
-            dmgNegation = new DMGNegation(owner, lv1, (r4+r5)/2, abilityIcons[5]),
-            dmgNegation2 = new DMGNegation2(owner, lv2, r5, abilityIcons[6]),
-            earthquake = new Earthquake(owner, lv3, r2, abilityIcons[9]),
-            heal = new Heal(owner, lv2, r4, abilityIcons[4]),
-            krit = new Krit(owner, lv2, r1, abilityIcons[2]),
-            krit2 = new Krit2(owner, lv3, r1, abilityIcons[3]),
-            lifesteal = new Lifesteal(owner, lv3, r4, abilityIcons[8]),
-            parry = new Parry(owner, lv3, r5, abilityIcons[7]),
-            poisonCloud = new PoisonCloud(owner, lv3, r3, abilityIcons[12]),
-            speedBoost = new SpeedBoost(owner, lv2, r3, abilityIcons[10])
+            dash = new Dash(owner, lv1, r3, abilityIcons[11], gamePanel, this),
+            dmgBoost = new DMGBoost(owner, lv1, (r1+r2)/2, abilityIcons[0], gamePanel, this),
+            dmgBoost2 = new DMGBoost2(owner, lv2, r2, abilityIcons[1], gamePanel, this),
+            dmgNegation = new DMGNegation(owner, lv1, (r4+r5)/2, abilityIcons[5], gamePanel, this),
+            dmgNegation2 = new DMGNegation2(owner, lv2, r5, abilityIcons[6], gamePanel, this),
+            earthquake = new Earthquake(owner, lv3, r2, abilityIcons[9], gamePanel, this),
+            heal = new Heal(owner, lv2, r4, abilityIcons[4], gamePanel, this),
+            krit = new Krit(owner, lv2, r1, abilityIcons[2], gamePanel, this),
+            krit2 = new Krit2(owner, lv3, r1, abilityIcons[3], gamePanel, this),
+            lifesteal = new Lifesteal(owner, lv3, r4, abilityIcons[8], gamePanel, this),
+            parry = new Parry(owner, lv3, r5, abilityIcons[7], gamePanel, this),
+            poisonCloud = new PoisonCloud(owner, lv3, r3, abilityIcons[12], gamePanel, this),
+            speedBoost = new SpeedBoost(owner, lv2, r3, abilityIcons[10], gamePanel, this)
         };
         dash.setAccessible();
         dmgBoost.setAccessible();
@@ -64,6 +67,21 @@ public class SkillTree {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         width = (int)screenSize.getWidth();
         height = (int)screenSize.getHeight();
+
+        gamePanel.addAbility(dash);
+        gamePanel.addAbility(dmgBoost);
+        gamePanel.addAbility(dmgBoost2);
+        gamePanel.addAbility(dmgNegation);
+        gamePanel.addAbility(dmgNegation2);
+        gamePanel.addAbility(earthquake);
+        gamePanel.addAbility(heal);
+        gamePanel.addAbility(krit);
+        gamePanel.addAbility(krit2);
+        gamePanel.addAbility(lifesteal);
+        gamePanel.addAbility(parry);
+        gamePanel.addAbility(poisonCloud);
+        gamePanel.addAbility(speedBoost);
+
 
     }
 

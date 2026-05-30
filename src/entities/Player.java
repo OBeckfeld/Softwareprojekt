@@ -3,6 +3,7 @@ package entities;
 import Weapons.*;
 import entities.components.MovementComponent;
 import entities.managers.AttackRegistry;
+import main.GamePanel;
 import skilltree.SpeedBoost;
 import tools.TileManager;
 import entities.managers.EntityRegistry;
@@ -18,12 +19,13 @@ public class Player extends PlayerTypeEntity {
     protected KeyboardInputs inputs;
     private int skillpoints = 0;
 
-    public Player(int x, int y, int width, int height, EntityRegistry registry, KeyboardInputs keyboardInputs, AttackRegistry attackRegistry, TileManager tileManager) {
-        super(x, y, width, height, 20, 60, registry, attackRegistry, tileManager);//attackDuration und cooldown machen nichts. Beides wird von Waffe bestimmt
+    public Player(int x, int y, int width, int height, EntityRegistry registry, KeyboardInputs keyboardInputs, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
+        super(x, y, width, height, 20, 60, registry, attackRegistry, tileManager, gamePanel);//attackDuration und cooldown machen nichts. Beides wird von Waffe bestimmt
         this.inputs = keyboardInputs;
         movement = new MovementComponent(keyboardInputs, tileManager);
         mass = 3;
-
+        weapon = new ShotGun(this, attackRegistry, tileManager);
+        gamePanel.assignPlayer(this);
     }
 
     public void update() {

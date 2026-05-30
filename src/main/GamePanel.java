@@ -5,20 +5,30 @@ import entities.enemies.Enemy;
 
 import javax.swing.JPanel;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.List;
+
+import skilltree.Ability;
 import tools.TileManager;
 
-public class GamePanel extends JPanel {
+public class GamePanel extends JPanel implements MouseListener {
     private Game game;
     private TileManager tileManager;
     private Player player;
+    private List<Ability> abilities = new ArrayList<>();
 
-    public GamePanel(Game game, TileManager tileManager, Player player) {
+    public GamePanel(Game game, TileManager tileManager) {
         this.game = game;
         this.tileManager = tileManager;
-        this.player = player;
+        addMouseListener(this);
 
         setPanelSize();
+    }
+
+    public void assignPlayer(Player player){
+        this.player = player;
     }
 
     private void setPanelSize() {
@@ -80,5 +90,39 @@ public class GamePanel extends JPanel {
         if(player.getSkillTree().getActive()){
             player.getSkillTree().draw(g);
         }
+    }
+
+    public void addAbility(Ability ability) {
+        abilities.add(ability);
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        for (Ability ability : abilities) {
+            if (e.getX() >= ability.iconX && e.getX() <= ability.iconX + ability.iconSize
+                    && e.getY() >= ability.iconY && e.getY() <= ability.iconY + ability.iconSize) {
+                ability.mouseClicked(e);
+            }
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }

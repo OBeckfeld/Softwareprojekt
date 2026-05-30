@@ -5,6 +5,7 @@ import entities.managers.AbilityManager;
 import entities.managers.AttackManager;
 import entities.managers.AttackRegistry;
 import entities.managers.EntityRegistry;
+import main.GamePanel;
 import skilltree.SkillTree;
 import tools.Hitbox;
 import tools.Vector;

@@ -5,6 +5,7 @@ import Weapons.Weapon;
 import entities.managers.AbilityManager;
 import entities.managers.AttackRegistry;
 import entities.managers.EntityRegistry;
+import main.GamePanel;
 import skilltree.SkillTree;
 import tools.HealthBar;
 import tools.TileManager;
@@ -36,7 +37,7 @@ public abstract class PlayerTypeEntity extends Entity {
     protected HealthBar healthBar;
     protected SkillTree skillTree;
 
-    public PlayerTypeEntity(int x, int y, int width, int height, int attackDuration, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager) {
+    public PlayerTypeEntity(int x, int y, int width, int height, int attackDuration, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
         super(x, y, width, height, registry, attackRegistry, tileManager);
         this.hitCooldown = hitCooldown;
         this.attackDuration = attackDuration;
@@ -49,7 +50,7 @@ public abstract class PlayerTypeEntity extends Entity {
         weapon = new StarterSword(this, attackRegistry, tileManager);
         healthBar = new HealthBar(this);
         attacking = 0;
-        skillTree = new SkillTree(this);
+        skillTree = new SkillTree(this, gamePanel);
 
     }
 
