@@ -15,7 +15,7 @@ public class Enemy extends PlayerTypeEntity {
     private int attackDelay = 20;
     public Enemy(int x, int y, int width, int height, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager) {
         super(x, y, width, height, 100,100, registry, attackRegistry, tileManager);
-        defaultSpeed = 1.7;
+        defaultSpeed = 1.4;
         speed = defaultSpeed;
         viewRange = 20000;
         mass = 1;
@@ -55,24 +55,25 @@ public class Enemy extends PlayerTypeEntity {
     }
 
     protected void handleMovement() {
-        if (player == null) return;
-        Vector vector = new Vector(getX(), getY(), player.getX(), player.getY());
-        if (vector.getLength() > speed) {
-            vector.setLength(speed);
-        }
-        if (registry.getInRange(this, 100, 100).contains(player)) {
-            vector.setLength(0);
-            if (attackDelay == 0) {
-                tryAttackEntity((PlayerTypeEntity) player);
+        if(!skillTree.isActive) {
+            if (player == null) return;
+            Vector vector = new Vector(getX(), getY(), player.getX(), player.getY());
+            if (vector.getLength() > speed) {
+                vector.setLength(speed);
             }
-            else{
-                attackDelay--;
+            if (registry.getInRange(this, 100, 100).contains(player) || attackDelay != 40) {
+                vector.setLength(0);
+                if (attackDelay == 0) {
+                    tryAttackEntity((PlayerTypeEntity) player);
+                    attackDelay = 40;
+                } else {
+                    attackDelay--;
+                }
+            } else {
+                attackDelay = 40;
             }
+            move(vector);
         }
-        else{
-            attackDelay = 50;
-        }
-        move(vector);
     }
 
     protected void tryAttackEntity(PlayerTypeEntity targetPlayer) {
