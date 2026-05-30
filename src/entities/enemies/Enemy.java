@@ -17,7 +17,7 @@ public class Enemy extends PlayerTypeEntity {
         super(x, y, width, height, 100,100, registry, attackRegistry, tileManager);
         defaultSpeed = 1.7;
         speed = defaultSpeed;
-        viewRange = 500;
+        viewRange = 20000;
         mass = 1;
         currentHealth = 100; //zu Testzwecken, für spätere Version unbedingt anpassen!!!
         player = null;

@@ -30,7 +30,7 @@ public class Attack extends Entity{
         this.visible = true;
         this.hitList = new ArrayList<>();
         this.duration = duration;
-        this.damage = damage * owner.getDamageModifier();
+        this.damage = damage + (damage * owner.getDamageModifier())/100;
         this.owner = owner;
     }
 

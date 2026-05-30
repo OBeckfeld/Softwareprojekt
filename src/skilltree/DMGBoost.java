@@ -15,6 +15,7 @@ public class DMGBoost extends Ability {
     public String getDescription(){ return "+ 10% damage";}
     @Override
     public void unlock(){
+        owner.setDamageModifier(owner.getDamageModifier()+10);
         unlocked = true;
 
 
@@ -23,7 +24,7 @@ public class DMGBoost extends Ability {
     @Override
     public boolean use(){
         if (!super.use()){ return false; } //offcooldown check
-        owner.setDamageModifier(owner.getDamageModifier()+10000);
+
         return true;
     }
 
@@ -31,6 +32,6 @@ public class DMGBoost extends Ability {
     public void effect() {
     }
 
-    public void end(){owner.setDamageModifier(owner.getDamageModifier()-100);}
+    public void end(){}
 
 }

@@ -3,6 +3,7 @@ package entities;
 import Weapons.*;
 import entities.components.MovementComponent;
 import entities.managers.AttackRegistry;
+import skilltree.SpeedBoost;
 import tools.TileManager;
 import entities.managers.EntityRegistry;
 import inputs.KeyboardInputs;
@@ -30,7 +31,11 @@ public class Player extends PlayerTypeEntity {
         DMGBoost dmgBoost = new DMGBoost(this);
         abilityManger.unlock(skillTree.getAbilityReference("DMGBoost"));
         abilityManger.equip(skillTree.getAbilityReference("DMGBoost"), 2);
-        weapon = new MiniGun(this, attackRegistry, tileManager);
+        //---------------------------------------------------------------
+        SpeedBoost speedBoost = new SpeedBoost(this);
+        abilityManger.unlock(skillTree.getAbilityReference("SpeedBoost"));
+        abilityManger.equip(skillTree.getAbilityReference("SpeedBoost"), 2);
+        weapon = new IronSword(this, attackRegistry, tileManager);
     }
 
     public void update() {

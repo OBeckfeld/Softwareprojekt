@@ -74,7 +74,7 @@ public class SkillTree {
         if(dmgNegation2.isUnlocked()){
             parry.setAccessible();
         }
-        if(dmgBoost.isUnlocked() && speedBoost.isUnlocked()){
+        if(dmgBoost2.isUnlocked() && speedBoost.isUnlocked()){
             earthquake.setAccessible();
         }
         if(speedBoost.isUnlocked()){
