@@ -97,6 +97,7 @@ public class SkillTree {
 
     public void unlock(Ability ability){
         if(owner.getSkillPoints() >= ability.getCost()) {
+            owner.setSkillPoints((owner.getSkillPoints())-ability.getCost());
             ability.unlock();
             if (dmgBoost.isUnlocked()) {  //Welche Fähigkeiten werden wodurch freigeschaltet
                 dmgBoost2.setAccessible();

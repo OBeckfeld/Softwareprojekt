@@ -26,11 +26,10 @@ public class Player extends PlayerTypeEntity {
         mass = 3;
         weapon = new ShotGun(this, attackRegistry, tileManager);
         gamePanel.assignPlayer(this);
+        setSkillPoints(5);
     }
 
-    public int getSkillPoints(){
-        return skillpoints;
-    }
+
 
     public void update() {
         if(skillTree.isActive){

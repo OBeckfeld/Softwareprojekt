@@ -196,4 +196,8 @@ public abstract class PlayerTypeEntity extends Entity {
     public int getSkillPoints() {
         return skillPoints;
     }
+
+    public void setSkillPoints(int points) {
+        skillPoints = points;
+    }
 }
