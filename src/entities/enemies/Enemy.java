@@ -35,27 +35,30 @@ public class Enemy extends PlayerTypeEntity {
     }
 
     public void update() {
-        if (!skillTree.isActive) {
-            super.update();
-            if (currentHealth <= 0) {
-                registry.unregister(this);
-                int triggerAnimation = 1;
-                return;
-            }
-            if (player == null) {
-                ArrayList<Entity> inView = getInView();
-                for (Entity entity : inView) {
-                    if (entity instanceof Player) {
-                        player = (Player) entity;
+
+                super.update();
+                if (currentHealth <= 0) {
+                    registry.unregister(this);
+                    int triggerAnimation = 1;
+                    return;
+                }
+                if (player == null) {
+                    ArrayList<Entity> inView = getInView();
+                    for (Entity entity : inView) {
+                        if (entity instanceof Player) {
+                            player = (Player) entity;
+                        }
                     }
                 }
+        if(player != null) {
+            if (!player.getSkillTree().getActive()) {
+                handleMovement();
             }
-            handleMovement();
         }
     }
 
     protected void handleMovement() {
-        if(!skillTree.isActive) {
+
             if (player == null) return;
             Vector vector = new Vector(getX(), getY(), player.getX(), player.getY());
             if (vector.getLength() > speed) {
@@ -73,7 +76,7 @@ public class Enemy extends PlayerTypeEntity {
                 attackDelay = 40;
             }
             move(vector);
-        }
+
     }
 
     protected void tryAttackEntity(PlayerTypeEntity targetPlayer) {
