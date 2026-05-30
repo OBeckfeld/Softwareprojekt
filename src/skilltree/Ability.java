@@ -66,6 +66,14 @@ public abstract class Ability {
         int iconX = x - iconSize/2;
         int iconY = y - iconSize/2;
         g.drawImage(icon, iconX, iconY, iconSize, iconSize, null);
+        if(accessible &! unlocked){
+            g.setColor(new Color(0,0,0,100));
+            g.fillRect(iconX, iconY, iconSize, iconSize);
+        }
+        if(!accessible){
+            g.setColor(new Color(15,0,0,200));
+            g.fillRect(iconX, iconY, iconSize, iconSize);
+        }
     }
 
     public void end(){}
