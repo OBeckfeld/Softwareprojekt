@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 public class Heal extends Ability {
     public Heal(PlayerTypeEntity owner, int x, int y, BufferedImage icon, GamePanel gamePanel, SkillTree skillTree){
         super(owner, x, y, icon, gamePanel, skillTree);
-        cost = 1; //wird in den unter klassen überschrieben
+        cost = 12; //wird in den unter klassen überschrieben
         cooldown = 4000; //in Millisekunden
         duration = 1; //in Millisekunden
 

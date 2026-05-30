@@ -82,6 +82,10 @@ public abstract class Ability implements MouseListener {
         }
     }
 
+    public int getCost(){
+        return cost;
+    }
+
     public void draw(Graphics g){
 
         g.drawImage(icon, iconX, iconY, iconSize, iconSize, null);

@@ -28,6 +28,10 @@ public class Player extends PlayerTypeEntity {
         gamePanel.assignPlayer(this);
     }
 
+    public int getSkillPoints(){
+        return skillpoints;
+    }
+
     public void update() {
         if(skillTree.isActive){
             skillTree.update();

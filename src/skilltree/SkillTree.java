@@ -40,11 +40,13 @@ public class SkillTree {
     private final int r4 = 500;
     private final int r5 = 650;
     private GamePanel gamePanel;
+    private PlayerTypeEntity owner;
 
 
     public SkillTree(PlayerTypeEntity owner, GamePanel gamePanel) {
         loadIcons();
         this.gamePanel = gamePanel;
+        this.owner=owner;
 
         abilities = new Ability[]{
             dash = new Dash(owner, lv1, r3, abilityIcons[11], gamePanel, this),
@@ -94,32 +96,34 @@ public class SkillTree {
     }
 
     public void unlock(Ability ability){
-        ability.unlock();
-        if(dmgBoost.isUnlocked()){  //Welche Fähigkeiten werden wodurch freigeschaltet
-            dmgBoost2.setAccessible();
-            krit.setAccessible();
-        }
-        if(krit.isUnlocked()){
-            krit2.setAccessible();
-        }
-        if(dmgNegation.isUnlocked()){
-            dmgNegation2.setAccessible();
-            heal.setAccessible();
-        }
-        if(dash.isUnlocked()){
-            speedBoost.setAccessible();
-        }
-        if(speedBoost.isUnlocked() && heal.isUnlocked()){
-            lifesteal.setAccessible();
-        }
-        if(dmgNegation2.isUnlocked()){
-            parry.setAccessible();
-        }
-        if(dmgBoost2.isUnlocked() && speedBoost.isUnlocked()){
-            earthquake.setAccessible();
-        }
-        if(speedBoost.isUnlocked()){
-            poisonCloud.setAccessible();
+        if(owner.getSkillPoints() >= ability.getCost()) {
+            ability.unlock();
+            if (dmgBoost.isUnlocked()) {  //Welche Fähigkeiten werden wodurch freigeschaltet
+                dmgBoost2.setAccessible();
+                krit.setAccessible();
+            }
+            if (krit.isUnlocked()) {
+                krit2.setAccessible();
+            }
+            if (dmgNegation.isUnlocked()) {
+                dmgNegation2.setAccessible();
+                heal.setAccessible();
+            }
+            if (dash.isUnlocked()) {
+                speedBoost.setAccessible();
+            }
+            if (speedBoost.isUnlocked() && heal.isUnlocked()) {
+                lifesteal.setAccessible();
+            }
+            if (dmgNegation2.isUnlocked()) {
+                parry.setAccessible();
+            }
+            if (dmgBoost2.isUnlocked() && speedBoost.isUnlocked()) {
+                earthquake.setAccessible();
+            }
+            if (speedBoost.isUnlocked()) {
+                poisonCloud.setAccessible();
+            }
         }
     }
 

@@ -36,6 +36,7 @@ public abstract class PlayerTypeEntity extends Entity {
     protected int attacking;
     protected HealthBar healthBar;
     protected SkillTree skillTree;
+    protected int skillPoints = 0;
 
     public PlayerTypeEntity(int x, int y, int width, int height, int attackDuration, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
         super(x, y, width, height, registry, attackRegistry, tileManager);
@@ -190,5 +191,9 @@ public abstract class PlayerTypeEntity extends Entity {
 
     public SkillTree getSkillTree() {
         return skillTree;
+    }
+
+    public int getSkillPoints() {
+        return skillPoints;
     }
 }
