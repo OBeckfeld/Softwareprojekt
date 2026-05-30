@@ -23,25 +23,17 @@ public class Player extends PlayerTypeEntity {
         this.inputs = keyboardInputs;
         movement = new MovementComponent(keyboardInputs, tileManager);
         mass = 3;
-        //nur zum TESTEN
-        Dash dash = new Dash(this);
-        abilityManger.unlock(skillTree.getAbilityReference("Dash"));
-        abilityManger.equip(skillTree.getAbilityReference("Dash"), 1);
-        //---------------------------------------------------------------
-        DMGBoost dmgBoost = new DMGBoost(this);
-        abilityManger.unlock(skillTree.getAbilityReference("DMGBoost"));
-        abilityManger.equip(skillTree.getAbilityReference("DMGBoost"), 2);
-        //---------------------------------------------------------------
-        SpeedBoost speedBoost = new SpeedBoost(this);
-        abilityManger.unlock(skillTree.getAbilityReference("SpeedBoost"));
-        abilityManger.equip(skillTree.getAbilityReference("SpeedBoost"), 2);
-        weapon = new IronSword(this, attackRegistry, tileManager);
+
     }
 
     public void update() {
+        if(skillTree.isActive){
+            skillTree.update();
+        }
         if(inputs.getHeldKeys().contains(KeyEvent.VK_P)){
             if(!skillTree.isActive) {
                 skillTree.open();
+                skillTree.update();
             }
             else {
                 skillTree.close();

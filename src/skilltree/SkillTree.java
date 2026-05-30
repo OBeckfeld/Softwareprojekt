@@ -1,7 +1,12 @@
 package skilltree;
 
 import entities.PlayerTypeEntity;
+import tools.SpriteSheet;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class SkillTree {
@@ -21,26 +26,44 @@ public class SkillTree {
     private Ability parry;
     private Ability poisonCloud;
     private Ability speedBoost;
+    private int height;
+    private int width;
+    private BufferedImage[] abilityIcons;
+    private Ability[] abilities;
+    private final int lv1 = 350;
+    private final int lv2 = 600;
+    private final int lv3 = 850;
+    private final int r1 = 50;
+    private final int r2 = 200;
+    private final int r3 = 350;
+    private final int r4 = 500;
+    private final int r5 = 650;
 
 
+    public SkillTree(PlayerTypeEntity owner) {
+        loadIcons();
 
-    public SkillTree(PlayerTypeEntity owner){
-        dash = new Dash(owner);
+        abilities = new Ability[]{
+            dash = new Dash(owner, lv1, r3, abilityIcons[11]),
+            dmgBoost = new DMGBoost(owner, lv1, (r1+r2)/2, abilityIcons[0]),
+            dmgBoost2 = new DMGBoost2(owner, lv2, r2, abilityIcons[1]),
+            dmgNegation = new DMGNegation(owner, lv1, (r4+r5)/2, abilityIcons[5]),
+            dmgNegation2 = new DMGNegation2(owner, lv2, r5, abilityIcons[6]),
+            earthquake = new Earthquake(owner, lv3, r2, abilityIcons[9]),
+            heal = new Heal(owner, lv2, r4, abilityIcons[4]),
+            krit = new Krit(owner, lv2, r1, abilityIcons[2]),
+            krit2 = new Krit2(owner, lv3, r1, abilityIcons[3]),
+            lifesteal = new Lifesteal(owner, lv3, r4, abilityIcons[8]),
+            parry = new Parry(owner, lv3, r5, abilityIcons[7]),
+            poisonCloud = new PoisonCloud(owner, lv3, r3, abilityIcons[12]),
+            speedBoost = new SpeedBoost(owner, lv2, r3, abilityIcons[10])
+        };
         dash.setAccessible();
-        dmgBoost = new DMGBoost(owner);
         dmgBoost.setAccessible();
-        dmgBoost2 = new DMGBoost2(owner);
-        dmgNegation = new DMGNegation(owner);
         dmgNegation.setAccessible();
-        dmgNegation2 = new DMGNegation2(owner);
-        earthquake = new Earthquake(owner);
-        heal = new Heal(owner);
-        krit = new Krit(owner);
-        krit2 = new Krit2(owner);
-        lifesteal = new Lifesteal(owner);
-        parry = new Parry(owner);
-        poisonCloud = new PoisonCloud(owner);
-        speedBoost = new SpeedBoost(owner);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        width = (int)screenSize.getWidth();
+        height = (int)screenSize.getHeight();
 
     }
 
@@ -171,5 +194,57 @@ public class SkillTree {
 
     public boolean getActive(){
         return isActive;
+    }
+    public void update(){
+
+    }
+    public void draw(Graphics g){
+        g.setColor(new Color(0,0,0,180));
+        g.drawRect(0,0,width,height);
+        g.fillRect(0,0,width,height);
+        g.drawLine(lv1, (r1+r2)/2, lv2, r1);
+        g.drawLine(lv1, (r1+r2)/2, lv2, r2);
+        g.drawLine(lv1, r3, lv2, r3);
+        g.drawLine(lv1, (r4+r5)/2, lv2, r4);
+        g.drawLine(lv1, (r4+r5)/2, lv2, r5);
+        g.drawLine(lv2, r1, lv3, r1);
+        g.drawLine(lv2, r2, lv3, r2);
+        g.drawLine(lv2, r3, lv3, r2);
+        g.drawLine(lv2, r3, lv3, r3);
+        g.drawLine(lv2, r3, lv3, r4);
+        g.drawLine(lv2, r4, lv3, r4);
+        g.drawLine(lv2, r5, lv3, r5);
+
+        for (Ability node : abilities) {    // zeichnet die Skills
+                node.draw(g);
+        }
+    }
+
+    private void loadIcons() {
+        try {
+            BufferedImage sheet = ImageIO.read(
+                    getClass().getResource("../data/sprites/AbilitySpritesheet.png")
+            );
+            SpriteSheet ss = new SpriteSheet(sheet);
+            int size = 512;
+            abilityIcons = new BufferedImage[]{
+                    ss.getSprite(0,   0, size, size),
+                    ss.getSprite(size,  0, size, size),
+                    ss.getSprite(size*2, 0, size, size),
+                    ss.getSprite(size*3, 0, size, size),
+                    ss.getSprite(size*4, 0, size, size),
+                    ss.getSprite(size*5, 0, size, size),
+                    ss.getSprite(size*6, 0, size, size),
+                    ss.getSprite(size*7, 0, size, size),
+                    ss.getSprite(size*8, 0, size, size),
+                    ss.getSprite(size*9, 0, size, size),
+                    ss.getSprite(size*10, 0, size, size),
+                    ss.getSprite(size*11, 0, size, size),
+                    ss.getSprite(size*12, 0, size, size)
+
+            };
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

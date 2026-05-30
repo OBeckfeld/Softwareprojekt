@@ -1,6 +1,9 @@
 package skilltree;
 import entities.PlayerTypeEntity;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
 public abstract class Ability {
     protected boolean unlocked;
     protected boolean accessible;
@@ -11,7 +14,9 @@ public abstract class Ability {
     protected double duration;
     protected boolean isRunning;
     protected boolean active = true;
-    public Ability(PlayerTypeEntity owner){
+    public BufferedImage icon;
+    protected int x, y;
+    public Ability(PlayerTypeEntity owner, int x, int y, BufferedImage icon){
         unlocked = false; //freigeschaltet
         cost = 0; //wird in den unter klassen überschrieben
         cooldown = 0; //in Millisekunden
@@ -19,7 +24,12 @@ public abstract class Ability {
         this.owner = owner;
         duration = 10; //in Millisekunden (wie lange die ability ihre effect() Methode aufrufen kann)
         isRunning = false;
+        this.icon = icon;
+        this.x = x;
+        this.y = y;
     }
+    public int getX(){return x;}
+    public int getY(){return y;}
     public abstract String getDescription();
     public abstract void unlock();
     public boolean use() {
@@ -45,11 +55,19 @@ public abstract class Ability {
         if (System.currentTimeMillis() - lastUsed < duration){
             effect();
         }
-        else if (isRunning == true){//tick nachdem sie ihre duration überschritten hat
+        else if (isRunning){//tick nachdem sie ihre duration überschritten hat
             isRunning = false;
             end();
         }
     }
+
+    public void draw(Graphics g){
+        int iconSize = 75;
+        int iconX = x - iconSize/2;
+        int iconY = y - iconSize/2;
+        g.drawImage(icon, iconX, iconY, iconSize, iconSize, null);
+    }
+
     public void end(){}
     public boolean isActiveAbility(){return active;}
 }

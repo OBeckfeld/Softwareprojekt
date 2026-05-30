@@ -11,10 +11,12 @@ import tools.TileManager;
 public class GamePanel extends JPanel {
     private Game game;
     private TileManager tileManager;
+    private Player player;
 
-    public GamePanel(Game game, TileManager tileManager) {
+    public GamePanel(Game game, TileManager tileManager, Player player) {
         this.game = game;
         this.tileManager = tileManager;
+        this.player = player;
 
         setPanelSize();
     }
@@ -32,6 +34,7 @@ public class GamePanel extends JPanel {
         g2d.translate(-game.getCamera().getX(), -game.getCamera().getY());
 
         tileManager.draw(g2d);
+
 
 
         for (Entity entity : new ArrayList<Entity>(game.getEntityManager().getEntities())) {
@@ -72,6 +75,10 @@ public class GamePanel extends JPanel {
             int height = entity.getHeight();
 
             g.fillRect((int) Math.round(x), (int) Math.round(y), width, height);
+        }
+        g2d.translate(+game.getCamera().getX(), +game.getCamera().getY()); //zeichnet den Skill tree über den rest ohne verschoben zu sein
+        if(player.getSkillTree().getActive()){
+            player.getSkillTree().draw(g);
         }
     }
 }

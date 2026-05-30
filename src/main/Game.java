@@ -58,7 +58,7 @@ public class Game implements Runnable {
         HEIGHT = tileManager.getTileMap().length * tileManager.getTileSize();
 
         camera = new Camera(player.getX(), player.getY(), screenWidth, screenHeight);
-        gamePanel = new GamePanel(this, tileManager);
+        gamePanel = new GamePanel(this, tileManager, player);
         gameWindow = new GameWindow(gamePanel);
         // Wichtig: Das Panel muss den Fokus haben, um Tastatureingaben zu erkennen
         gamePanel.setFocusable(true);
