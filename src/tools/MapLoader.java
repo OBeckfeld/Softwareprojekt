@@ -1,8 +1,6 @@
 package tools;
 
 import Weapons.Gun;
-import Weapons.ShotGun;
-import entities.enemies.Boss;
 import entities.enemies.ExplodeEnemy;
 import entities.enemies.RangedEnemy;
 import entities.managers.EntityRegistry;

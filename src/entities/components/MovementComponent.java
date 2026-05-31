@@ -15,14 +15,28 @@ public class MovementComponent {
     private KeyboardInputs inputs;
     private TileManager tileManager;
 
+    /**
+     * Erstellt eine neue MovementComponent ohne Tastatureingaben
+     * und speichert den TileManager für die Kollisionsprüfung mit der Karte.
+     */
     public MovementComponent(TileManager tileManager) {
         this.tileManager = tileManager;
     }
+
+    /**
+     * Erstellt eine neue MovementComponent mit Tastatureingaben
+     * und speichert den TileManager für die Kollisionsprüfung mit der Karte.
+     */
     public MovementComponent(KeyboardInputs inputs, TileManager tileManager) {
         this.tileManager = tileManager;
         this.inputs = inputs;
     }
 
+    /**
+     * Bewegt den Spieler anhand der aktuell gedrückten Tasten.
+     * Dabei werden Richtung, diagonale Bewegung, Wandkollisionen
+     * und die Hurtbox-Position aktualisiert.
+     */
     public void move(Player entity) {
         if (inputs == null) {
             return;
@@ -114,6 +128,11 @@ public class MovementComponent {
         entity.getHurtbox().setLocation(hitboxX, hitboxY);
     }
 
+    /**
+     * Bewegt eine beliebige Entity um die angegebenen X- und Y-Werte.
+     * Dabei werden Wandkollisionen getrennt für X- und Y-Richtung geprüft
+     * und die Hurtbox-Position aktualisiert.
+     */
     public void move(Entity entity, double dx, double dy) {
 
         int tileSize = tileManager.getTileSize();
@@ -182,6 +201,10 @@ public class MovementComponent {
         entity.getHurtbox().setLocation(newX, newY);
     }
 
+    /**
+     * Prüft, ob eine Entity bei einer Bewegung um die angegebenen
+     * X- und Y-Werte mit einer Wand kollidieren würde.
+     */
     public boolean collidesWithWall(Entity entity, double dx, double dy) {
 
         int tileSize = tileManager.getTileSize();
@@ -246,10 +269,17 @@ public class MovementComponent {
         return false;
     }
 
+    /**
+     * Wendet einen Bewegungsvektor auf eine Entity an.
+     */
     public void applyVector(Entity entity, Vector vector) {
         move(entity, vector.getOffsetX(), vector.getOffsetY());
     }
 
+    /**
+     * Prüft, ob sich an der angegebenen Zeile und Spalte eine Wand befindet.
+     * Positionen außerhalb der TileMap gelten ebenfalls als Wand.
+     */
     private boolean isWall(int row, int col) {
         int[][] map = tileManager.getTileMap();
 

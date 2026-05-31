@@ -34,11 +34,14 @@ public class Player extends PlayerTypeEntity {
     private Animation currentAnimation;
     private int lastDirection = -1;
 
+
     public Player(int x, int y, int width, int height, EntityRegistry registry, KeyboardInputs keyboardInputs, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
         super(x, y, width, height, 20, 60, registry, attackRegistry, tileManager, gamePanel);
         this.inputs = Objects.requireNonNull(keyboardInputs, "keyboardInputs must not be null");
+
         movement = new MovementComponent(keyboardInputs, tileManager);
         mass = 3;
+        speed = 3;
         currentHealth = 100;
         skillTree = new SkillTree(this, gamePanel);
         weapon = new Rifle(this, attackRegistry, tileManager);
@@ -46,6 +49,10 @@ public class Player extends PlayerTypeEntity {
         loadWeaponAnimations();
     }
 
+    /**
+     * Lädt abhängig von der aktuell ausgerüsteten Waffe die passenden
+     * Lauf- und Angriffsanimationen aus dem SpriteSheet.
+     */
     private void loadWeaponAnimations() {
         walkAnimations = new Animation[4];
         attackAnimation = new Animation[4];
@@ -67,6 +74,8 @@ public class Player extends PlayerTypeEntity {
         } else {
             walkRow = 1; attackRow = 0;
         }
+
+
 
         walkAnimations[0] = new Animation(new BufferedImage[]{
                 sheet.getFrame(walkRow, 0), sheet.getFrame(walkRow, 1), sheet.getFrame(walkRow, 2)
@@ -97,12 +106,24 @@ public class Player extends PlayerTypeEntity {
         currentAnimation = walkAnimations[0];
     }
 
+    /**
+     * Setzt eine neue Waffe für den Spieler und lädt anschließend
+     * die dazugehörigen Animationen neu.
+     */
     public void setWeapon(Weapon newWeapon) {
         this.weapon = newWeapon;
         loadWeaponAnimations();
     }
 
+    /**
+     * Aktualisiert den Spieler pro Tick.
+     * Dabei werden SkillTree-Eingaben, Bewegung, Tod, Animationen,
+     * Angriffe und das Benutzen von Fähigkeiten verarbeitet.
+     */
     public void update() {
+        if (walkAnimations == null || attackAnimation == null || currentAnimation == null) {
+            return;
+        }
         if (inputs == null) {
             return;
         }
@@ -165,12 +186,24 @@ public class Player extends PlayerTypeEntity {
         if (inputs.getHeldKeys().contains(KeyEvent.VK_4)) { abilityManger.use(4); }
     }
 
+    /**
+     * Gibt den aktuell darzustellenden Sprite des Spielers zurück.
+     * Während eines Angriffs wird der Angriffsframe genutzt,
+     * ansonsten der aktuelle Laufanimationsframe.
+     */
     public BufferedImage getSprite() {
         if (isAnimatingAttack) return attackAnimation[direction].getCurrentFrame();
         if (currentAnimation == null) return null;
         return currentAnimation.getCurrentFrame();
     }
 
+    /**
+     * Gibt die aktuellen Skillpoints des Spielers zurück.
+     */
     public int getSkillpoints() { return skillpoints; }
+
+    /**
+     * Setzt die Skillpoints des Spielers auf den angegebenen Wert.
+     */
     public void setSkillpoints(int number) { skillpoints = number; }
 }
