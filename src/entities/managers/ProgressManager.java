@@ -44,11 +44,23 @@ public class ProgressManager {
         }
     }
 
+    public void setPlayer(Player player) {
+        this.player = player;
+        this.skillTree = player.getSkillTree();
+    }
+
+    public int getSavingIndex() {
+        return currentSavingIndex;
+    }
+
     /**
      * Fortschritt wird aus der neuesten Speicherdatei geladen
      */
     public void loadNewestProgress() {
         try {
+            if(currentSavingIndex == 1) {
+                return;
+            }
             // Inhalt der JSON Datei wird gelesen und gespeichert
             // Von currentSavingIndex muss 1 abgezogen werden, da dieser Index immer auf die nächste zu speichernde Datei zeigt
             // Somit muss für den Zugriff auf die zuletzt gespeicherte Datei 1 abgezogen werden
@@ -63,32 +75,10 @@ public class ProgressManager {
             player.setWeapon(weaponClass);
             player.setSkillpoints(skillPoints);
             for (String abilityName : unlockedAbilities) {
-                skillTree.unlock(skillTree.getAbilityReference(abilityName));
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Fortschritt wird aus einer spezifischen Speicherdatei geladen
-     * @param savingIndex Index der Speicherdatei, welche geladen werden soll
-     */
-    public void loadSpecificProgress(int savingIndex) {
-        try {
-            // Inhalt der JSON Datei wird gelesen und gespeichert
-            String jsonContent = Files.readString(Path.of("src", "data", "progressdata", "save_" +  savingIndex + ".json"));
-            int mapIndex = parseJsonInt(jsonContent, "mapIndex");
-            String weaponClass = parseJsonString(jsonContent, "weapon");
-            int skillPoints = parseJsonInt(jsonContent, "skillPoints");
-            String[] unlockedAbilities = parseJsonArray(jsonContent, "skillTreeData");
-            // Werte aus der datei werden in die entsprechenden Klassen eingespeist
-            mapLoader.setMapIndex(mapIndex);
-            mapLoader.buildMap();
-            player.setWeapon(weaponClass);
-            player.setSkillpoints(skillPoints);
-            for (String abilityName : unlockedAbilities) {
+                // Falls der name der ability existiert, wird sie unlocked
+                if (abilityName == null || abilityName.isBlank()) {
+                    continue;
+                }
                 skillTree.unlock(skillTree.getAbilityReference(abilityName));
             }
         }
@@ -209,6 +199,9 @@ public class ProgressManager {
         String arrayContent = oneLineJson.substring(arrayStart + 1, arrayEnd).replace("\"", "");
 
         //Inhalt des Arrays wird aufgeteilt, in ein Array eingespeist und zurückgegeben
+        if (arrayContent.isEmpty()) {
+            return new String[0];
+        }
         String[] parsedArray = arrayContent.split(",");
         return parsedArray;
     }

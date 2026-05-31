@@ -49,11 +49,13 @@ public class AttackManager implements AttackRegistry {
 
                     Random random = new Random();
                     int rand = random.nextInt(100);
-                    if(rand < ((PlayerTypeEntity) entity).getCritChance()){
-                        if(!entity.isDead()) {
-                            ((PlayerTypeEntity) entity).takeDamage(attack.getDamage() * (((PlayerTypeEntity) entity).getCrit() / 100), owner);//fügt kritischen Schaden zu
-                            if (entity.isDead()) {
-                                owner.setSkillPoints(owner.getSkillPoints() + entity.getPointsOnDeath());
+                    PlayerTypeEntity attacker = attack.getOwner(); // ← Owner von der Attack holen statt von owner Feld
+
+                    if (rand < attacker.getCritChance()) {
+                        if (!entity.isDead()) {
+                            ((PlayerTypeEntity) entity).takeDamage(attack.getDamage() * (attacker.getCrit() / 100), attacker);
+                            if (entity.isDead() && attacker != null) {
+                                attacker.setSkillPoints(attacker.getSkillPoints() + entity.getPointsOnDeath());
                             }
                         }
                     }

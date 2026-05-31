@@ -3,9 +3,9 @@ package tools;
 import entities.Entity;
 
 public class Vector {
-    double dX;
-    double dY;
-    double length;
+    private double dX;
+    private double dY;
+    private double length;
     public Vector(double fromX, double fromY, double toX, double toY){
         dX = toX - fromX;
         dY = toY - fromY;

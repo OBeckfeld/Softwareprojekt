@@ -12,8 +12,8 @@ public class Camera {
     private final int viewHeight;
 
     //gameWorld boundaries
-    private final int worldWidth = Game.getWIDTH();
-    private final int worldHeight = Game.getHEIGHT();
+    private int worldWidth = Game.getWIDTH();
+    private int worldHeight = Game.getHEIGHT();
 
     public Camera(double startX, double startY, int screenWidth, int screenHeight) {
         this.x = startX;
@@ -23,6 +23,8 @@ public class Camera {
     }
 
     public void update(Player player) {
+        worldWidth = Game.getWIDTH();
+        worldHeight = Game.getHEIGHT();
         //center of player - half view width = new x position of camera, same for y
         double targetX = (player.getX() + (double) player.getWidth() / 2) - (double) viewWidth / 2;
         double targetY = (player.getY() + (double) player.getHeight() / 2) - (double) viewHeight / 2;
@@ -39,5 +41,7 @@ public class Camera {
     }
 
     public double getX() {return x;}
+    public void setX(double x) {this.x = x;}
     public double getY() {return y;}
+    public void setY(double y) {this.y = y;}
 }
