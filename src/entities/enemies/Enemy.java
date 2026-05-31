@@ -122,48 +122,48 @@ public class Enemy extends PlayerTypeEntity {
     public void update() {
         if (player != null && player.getSkillTree().isActive) return;
 
-        if(skillTree != null && !skillTree.isActive){
+        if (skillTree != null && !skillTree.isActive) {
             super.update();
             if (currentHealth <= 0) {
                 registry.unregister(this);
                 return;
             }
 
-        if ((double) currentHealth / maxHealth < FLEE_HEALTH) {
-            fleeMode = true;
-        }
+            if ((double) currentHealth / maxHealth < FLEE_HEALTH) {
+                fleeMode = true;
+            }
 
-        if (player == null) {
-            ArrayList<Entity> inView = getInView();
-            for (Entity entity : inView) {
-                if (entity instanceof Player) {
-                    player = (Player) entity;
+            if (player == null) {
+                ArrayList<Entity> inView = getInView();
+                for (Entity entity : inView) {
+                    if (entity instanceof Player) {
+                        player = (Player) entity;
+                    }
                 }
             }
-        }
 
-        handleMovement();
+            handleMovement();
 
-        if (idleAnimation == null) {
-            return;
-        }
-
-        if (isAttacking) {
-            attackAnimation.update();
-            if (attackAnimation.isFinished()) {
-                isAttacking = false;
+            if (idleAnimation == null) {
+                return;
             }
-        } else if (isMoving) {
-            if (direction != lastDirection) {
-                currentAnimation = animations[direction];
-                lastDirection = direction;
+
+            if (isAttacking) {
+                attackAnimation.update();
+                if (attackAnimation.isFinished()) {
+                    isAttacking = false;
+                }
+            } else if (isMoving) {
+                if (direction != lastDirection) {
+                    currentAnimation = animations[direction];
+                    lastDirection = direction;
+                }
+                currentAnimation.update();
+            } else {
+                idleAnimation.update();
             }
-            currentAnimation.update();
-        } else {
-            idleAnimation.update();
         }
     }
-
     /**
      * Steuert die Bewegung und das Angriffsverhalten des Gegners.
      * Der Gegner verfolgt den Spieler, greift in Reichweite an
