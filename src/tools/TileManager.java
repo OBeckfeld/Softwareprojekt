@@ -43,7 +43,7 @@ public class TileManager {
 
             for (int i = 0; i < tiles.length - 1; i++) {
                 tiles[i] = new Tile();
-                tiles[i].image = ss.getSprite(size * i * 2, 0, size, size);
+                tiles[i].image = ss.getFrame(size * i * 2, 0, size, size);
             }
         } catch (IOException e) {
             e.printStackTrace();

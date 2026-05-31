@@ -108,19 +108,21 @@ public abstract class PlayerTypeEntity extends Entity {
     }
 
     public void takeDamage(int damage, PlayerTypeEntity source) {
-        damage = damage- (int)(damage*defense)/100;
-        if (damage > 0){
+        damage = damage - (int)(damage * defense) / 100;
+        if (damage > 0) {
             currentHealth -= damage;
         }
-        if (currentHealth < 1){
+        if (currentHealth < 1) {
             dead = true;
         }
-        source.dealtDamage(damage);
+        if (source != null) { // ← null check
+            source.dealtDamage(damage);
+        }
     }
 
     public void dealtDamage(int dmg){
-        if(Arrays.asList(skillTree.getUnlockedAbilities()).contains("LifeSteal")){
-            setHealth(getCurrentHealth()+(int)(dmg/4));
+        if(Arrays.asList(skillTree.getUnlockedAbilities()).contains("Lifesteal")){
+            setHealth(getCurrentHealth()+(int)(dmg/6));
         }
     }
 

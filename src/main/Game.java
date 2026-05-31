@@ -39,8 +39,8 @@ public class Game implements Runnable {
     private Player player;
     private static int WIDTH;
     private static int HEIGHT;
-    private static int screenWidth;
-    private static int screenHeight;
+    public static int screenWidth;
+    public static int screenHeight;
 
     public Game() {
         // Initialisierung der Kern-Komponenten
@@ -54,7 +54,8 @@ public class Game implements Runnable {
         entities.setCollsisons(collisions);//temporär bis ihr diese absolut gekochten Abhängigkeiten gefixt habt
 
         attackManager = new AttackManager(collisions, entities, tileManager);
-        player = new Player(tileManager.getTileSize() * 2 + 5, tileManager.getTileSize() * 2 + 5, 40, 80, entities, keyboardInputs, attackManager, tileManager, gamePanel);
+        player = new Player(tileManager.getTileSize() * 2 + 5, tileManager.getTileSize() * 2 + 5, 80,80 , entities, keyboardInputs, attackManager, tileManager, gamePanel);
+        gamePanel.assignPlayer(player);
 
         mapLoader = new MapLoader(tileManager.getTileSize(), entities, keyboardInputs, attackManager, collisions, tileManager, gamePanel);
         mapLoader.buildMap();
@@ -146,6 +147,11 @@ public class Game implements Runnable {
         gameThread.start(); // Startet die run() Methode in einem neuen Thread
     }
 
+    public void updateMapSize(){
+        WIDTH = tileManager.getTileMap()[0].length * tileManager.getTileSize();
+        HEIGHT = tileManager.getTileMap().length * tileManager.getTileSize();
+    }
+
     //Game Loop
     @Override
     public void run() {
@@ -163,6 +169,7 @@ public class Game implements Runnable {
                 for (Entity entity : new ArrayList<>(entities.getEntities())){
                     entity.update();
                 }
+                updateMapSize();
                 attackManager.distributeDamage();
                 camera.update(player);
                 progressManager.checkSaveRequests();

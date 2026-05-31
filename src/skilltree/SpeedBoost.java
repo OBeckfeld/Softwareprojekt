@@ -16,7 +16,7 @@ public class SpeedBoost extends Ability {
 
     }
     @Override
-    public String getDescription(){ return "Plus 1 Speed (sehr viel)";}
+    public String getDescription(){ return "Plus 1 Speed (viel)";}
     @Override
     public void unlock(){
         unlocked = true;
@@ -35,6 +35,6 @@ public class SpeedBoost extends Ability {
     public void effect() {
     }
 
-    public void end(){owner.setSpeed(owner.getSpeed()-1);}
+    public void end(){owner.setSpeed(owner.getSpeed()-3);}
 
 }

@@ -23,17 +23,21 @@ public class AbilityManager {
         entity.getSkillTree().unlock(ability);
         return true;//feedback
     }
-    public void equip(Ability ability){
-        int slot = 0;
-        for(int i=0;i==4;i++){if(equipedAbiltities[i]!= null){slot = i;}};//für array
-        if(slot > 4 || slot < 0){ return; }//error vermeidung
-        if (Arrays.asList(equipedAbiltities).contains(ability)){
-            return;//die Ability ist schon in einem anderen slot equiped
+    public void equip(Ability ability) {
+        int slot = -1;
+        for (int i = 0; i < equipedAbiltities.length; i++) {//für array
+            if (equipedAbiltities[i] == null) {
+                slot = i;
+                break;
+            }
+            if (Arrays.asList(equipedAbiltities).contains(ability)) {
+                return;//die Ability ist schon in einem anderen slot equiped
+            }
+            if (!ability.isActiveAbility()) {
+                return;//die Ability eine passive Ability
+            }
+            equipedAbiltities[slot] = ability;
         }
-        if (!ability.isActiveAbility()){
-            return;//die Ability eine passive Ability
-        }
-        equipedAbiltities [slot] = ability;
     }
     public void update (){
 

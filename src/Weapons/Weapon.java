@@ -13,7 +13,7 @@ public abstract class Weapon {
     protected PlayerTypeEntity owner;
     protected AttackRegistry attackRegistry;
     protected long lastUsed;
-    public int attackDuration;
+    protected int attackDuration;
     protected TileManager tileManager;
 
     public Weapon(PlayerTypeEntity owner, AttackRegistry attackRegistry, TileManager tileManager){

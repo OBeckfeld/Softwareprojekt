@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
         setPanelSize();
     }
 
-    public void assignPlayer(Player player){
+    public void assignPlayer(Player player) {
         this.player = player;
     }
 
@@ -49,55 +50,63 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        //verschiebt alles um die Kamera ab diesem Zeitpunkt
+
         g2d.translate(-game.getCamera().getX(), -game.getCamera().getY());
 
         tileManager.draw(g2d);
 
-        for (Entity entity : new ArrayList<Entity>(game.getEntityManager().getEntities())) {
-            g.setColor(Color.BLUE);
-            if (entity == null || entity instanceof ViewBox){
-                continue;
-            }
-            else if (entity instanceof Player){
-                g2d.setColor(Color.BLUE);
-                ((Player)entity).draw(g2d);
-            }
-            else if (entity instanceof Enemy){
-                g.setColor(Color.RED);
-                ((Enemy)entity).draw(g2d);
-            }
-            else if (entity instanceof Attack){
-                if(((Attack)entity).isVisible()) {
-                    g.setColor(Color.ORANGE);
-                }
-                else {
-                    continue;
-                }
-            }
-            else if (entity instanceof Door){
-                if(((Door)entity).isOpen()) {
-                    g.setColor(Color.GREEN);
-                }
-                else {
-                    g.setColor(Color.GRAY);
-                }
-            }
-            else if (entity instanceof Waypoint){
-                g.setColor(Color.MAGENTA);
-            }
+        for (Entity entity : new ArrayList<>(game.getEntityManager().getEntities())) {
+            if (entity == null || entity instanceof ViewBox) continue;
+
             double x = entity.getX();
             double y = entity.getY();
             int width = entity.getWidth();
             int height = entity.getHeight();
+
+            if (entity instanceof Player){
+                BufferedImage sprite = ((Player)entity).getSprite();
+                if (sprite != null) {
+                    g2d.drawImage(sprite, (int) Math.round(entity.getX()), (int) Math.round(entity.getY()),
+                            entity.getWidth(), entity.getHeight(), null);
+                } else {
+                    g2d.setColor(Color.BLUE);
+                    g2d.fillRect((int) Math.round(entity.getX()), (int) Math.round(entity.getY()),
+                            entity.getWidth(), entity.getHeight());
+                }
+                ((Player)entity).draw(g2d); // Healthbar
+                continue;
+
+            }  else if (entity instanceof Enemy) {
+            BufferedImage sprite = ((Enemy) entity).getSprite();
+            if (sprite != null) {
+                g2d.drawImage(sprite, (int) Math.round(x), (int) Math.round(y), width, height, null);
+            } else {
+                g.setColor(Color.RED);
+                g.fillRect((int) Math.round(x), (int) Math.round(y), width, height);
+            }
+            ((Enemy) entity).draw(g2d); //
+            continue;
+
+            } else if (entity instanceof Attack) {
+                if (((Attack) entity).isVisible()) {
+                    g.setColor(Color.ORANGE);
+                } else {
+                    continue;
+                }
+            } else if (entity instanceof Door) {
+                g.setColor(((Door) entity).isOpen() ? Color.GREEN : Color.GRAY);
+            } else if (entity instanceof Waypoint) {
+                g.setColor(Color.MAGENTA);
+            }
 
             g.fillRect((int) Math.round(x), (int) Math.round(y), width, height);
         }
 
         textBoxManager.draw(g2d);
 
-        g2d.translate(+game.getCamera().getX(), +game.getCamera().getY()); //zeichnet den Skill tree über den rest ohne verschoben zu sein
-        if(player.getSkillTree().getActive()){
+        g2d.translate(+game.getCamera().getX(), +game.getCamera().getY());
+
+        if (player != null && player.getSkillTree() != null && player.getSkillTree().getActive()) {
             player.getSkillTree().draw(g);
         }
 
