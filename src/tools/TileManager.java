@@ -32,7 +32,7 @@ public class TileManager {
         return tileMap;
     }
 
-    //definiert die Tiles aus dem Spritesheet
+    // Lädt die Tiles aus dem SpriteSheet und speichert sie im Array tiles
     private void loadTiles() {
         try {
             BufferedImage sheet = ImageIO.read(
@@ -41,33 +41,10 @@ public class TileManager {
 
             SpriteSheet ss = new SpriteSheet(sheet);
 
-            tiles[0] = new Tile();
-            tiles[0].image = ss.getSprite(0, 0, size, size);
-
-            tiles[1] = new Tile();
-            tiles[1].image = ss.getSprite(size*2, 0,  size, size);
-
-            tiles[2] = new Tile();
-            tiles[2].image = ss.getSprite(size*4, 0, size, size);
-
-            tiles[3] = new Tile();
-            tiles[3].image = ss.getSprite(size*6, 0, size, size);
-
-            tiles[4] = new Tile();
-            tiles[4].image = ss.getSprite(size*8, 0, size, size);
-
-            tiles[5] = new Tile();
-            tiles[5].image = ss.getSprite(size*10, 0, size, size);
-
-            tiles[6] = new Tile();
-            tiles[6].image = ss.getSprite(size*12, 0, size, size);
-
-            tiles[7] = new Tile();
-            tiles[7].image = ss.getSprite(size*14, 0, size, size);
-
-            tiles[8] = new Tile();
-            tiles[8].image = ss.getSprite(size*16, 0, size, size);
-
+            for (int i = 0; i < tiles.length - 1; i++) {
+                tiles[i] = new Tile();
+                tiles[i].image = ss.getSprite(size * i * 2, 0, size, size);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

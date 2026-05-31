@@ -11,6 +11,8 @@ import inputs.KeyboardInputs;
 import tools.Camera;
 import tools.MapLoader;
 import tools.TileManager;
+import tools.TextBoxManager;
+import tools.TextBox;
 
 import java.util.ArrayList;
 import java.awt.GraphicsConfiguration;
@@ -32,6 +34,7 @@ public class Game implements Runnable {
     private final TileManager tileManager;
     private final MapLoader mapLoader;
     private final ProgressManager progressManager;
+    private final TextBoxManager textBoxManager;
     private final Camera camera;
     private final Player player;
     private static int WIDTH;
@@ -53,12 +56,14 @@ public class Game implements Runnable {
         mapLoader = new MapLoader(tileManager.getTileSize(), entities, keyboardInputs, attackManager, collisions, tileManager);
         mapLoader.buildMap();
         progressManager = new ProgressManager(player, mapLoader, collisions);
+        textBoxManager = new TextBoxManager();
+        new TextBox("Hi! Glad you found this text box... (PS: It is completely useless) You can remove it by deleting its constructor in Game (line 60)", 200, 200, 400, 200, 1000, textBoxManager);
 
         WIDTH = tileManager.getTileMap()[0].length * tileManager.getTileSize();
         HEIGHT = tileManager.getTileMap().length * tileManager.getTileSize();
 
         camera = new Camera(player.getX(), player.getY(), screenWidth, screenHeight);
-        gamePanel = new GamePanel(this, tileManager);
+        gamePanel = new GamePanel(this, tileManager, textBoxManager);
         gameWindow = new GameWindow(gamePanel);
         // Wichtig: Das Panel muss den Fokus haben, um Tastatureingaben zu erkennen
         gamePanel.setFocusable(true);

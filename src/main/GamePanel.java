@@ -2,6 +2,7 @@ package main;
 
 import entities.*;
 import entities.enemies.Enemy;
+import tools.TextBoxManager;
 
 import javax.swing.JPanel;
 import java.awt.*;
@@ -11,10 +12,12 @@ import tools.TileManager;
 public class GamePanel extends JPanel {
     private Game game;
     private TileManager tileManager;
+    private TextBoxManager textBoxManager;
 
-    public GamePanel(Game game, TileManager tileManager) {
+    public GamePanel(Game game, TileManager tileManager, TextBoxManager textBoxManager) {
         this.game = game;
         this.tileManager = tileManager;
+        this.textBoxManager = textBoxManager;
 
         setPanelSize();
     }
@@ -32,7 +35,6 @@ public class GamePanel extends JPanel {
         g2d.translate(-game.getCamera().getX(), -game.getCamera().getY());
 
         tileManager.draw(g2d);
-
 
         for (Entity entity : new ArrayList<Entity>(game.getEntityManager().getEntities())) {
             g.setColor(Color.BLUE);
@@ -73,5 +75,7 @@ public class GamePanel extends JPanel {
 
             g.fillRect((int) Math.round(x), (int) Math.round(y), width, height);
         }
+
+        textBoxManager.draw(g2d);
     }
 }

@@ -35,7 +35,7 @@ public class Player extends PlayerTypeEntity {
         SpeedBoost speedBoost = new SpeedBoost(this);
         abilityManger.unlock(skillTree.getAbilityReference("SpeedBoost"));
         abilityManger.equip(skillTree.getAbilityReference("SpeedBoost"), 2);
-        weapon = new IronSword(this, attackRegistry, tileManager);
+        weapon = new MiniGun(this, attackRegistry, tileManager);
     }
 
     public void update() {
