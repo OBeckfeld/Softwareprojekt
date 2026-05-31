@@ -2,11 +2,14 @@ package skilltree;
 
 import entities.PlayerTypeEntity;
 import entities.components.MovementComponent;
+import main.GamePanel;
+
+import java.awt.image.BufferedImage;
 
 public class PoisonCloud extends Ability {
-    public PoisonCloud(PlayerTypeEntity owner){
-        super(owner);
-        cost = 1; //wird in den unter klassen überschrieben
+    public PoisonCloud(PlayerTypeEntity owner, int x, int y, BufferedImage icon, GamePanel gamePanel, SkillTree skillTree){
+        super(owner, x, y, icon, gamePanel, skillTree);
+        cost = 25; //wird in den unter klassen überschrieben
         cooldown = 4000; //in Millisekunden
         duration = 1; //in Millisekunden
 

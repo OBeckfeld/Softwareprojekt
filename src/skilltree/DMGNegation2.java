@@ -2,11 +2,14 @@ package skilltree;
 
 import entities.PlayerTypeEntity;
 import entities.components.MovementComponent;
+import main.GamePanel;
+
+import java.awt.image.BufferedImage;
 
 public class DMGNegation2 extends Ability {
-    public DMGNegation2(PlayerTypeEntity owner){
-        super(owner);
-        cost = 1; //wird in den unter klassen überschrieben
+    public DMGNegation2(PlayerTypeEntity owner, int x, int y, BufferedImage icon, GamePanel gamePanel, SkillTree skillTree){
+        super(owner, x, y, icon, gamePanel, skillTree);
+        cost = 12; //wird in den unter klassen überschrieben
         cooldown = 1500; //in Millisekunden
         duration = 2000; //in Millisekunden
 

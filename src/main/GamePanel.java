@@ -6,20 +6,32 @@ import tools.TextBoxManager;
 
 import javax.swing.JPanel;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.List;
+
+import skilltree.Ability;
 import tools.TileManager;
 
-public class GamePanel extends JPanel {
+public class GamePanel extends JPanel implements MouseListener {
     private Game game;
     private TileManager tileManager;
     private TextBoxManager textBoxManager;
+    private Player player;
+    private List<Ability> abilities = new ArrayList<>();
 
     public GamePanel(Game game, TileManager tileManager, TextBoxManager textBoxManager) {
         this.game = game;
         this.tileManager = tileManager;
         this.textBoxManager = textBoxManager;
+        addMouseListener(this);
 
         setPanelSize();
+    }
+
+    public void assignPlayer(Player player){
+        this.player = player;
     }
 
     private void setPanelSize() {
@@ -77,5 +89,43 @@ public class GamePanel extends JPanel {
         }
 
         textBoxManager.draw(g2d);
+        g2d.translate(+game.getCamera().getX(), +game.getCamera().getY()); //zeichnet den Skill tree über den rest ohne verschoben zu sein
+        if(player.getSkillTree().getActive()){
+            player.getSkillTree().draw(g);
+        }
+    }
+
+    public void addAbility(Ability ability) {
+        abilities.add(ability);
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        for (Ability ability : abilities) {
+            if (e.getX() >= ability.iconX && e.getX() <= ability.iconX + ability.iconSize
+                    && e.getY() >= ability.iconY && e.getY() <= ability.iconY + ability.iconSize) {
+                ability.mouseClicked(e);
+            }
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }

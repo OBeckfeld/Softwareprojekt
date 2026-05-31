@@ -10,6 +10,7 @@ import entities.enemies.Enemy;
 import entities.Door;
 import entities.Waypoint;
 import entities.Attack;
+import main.GamePanel;
 
 import java.util.ArrayList;
 import java.nio.file.Files;
@@ -31,14 +32,16 @@ public class MapLoader {
     private AttackRegistry attackRegistry;
     private CollisionManager collisionManager;
     private TileManager tileManager;
+    private GamePanel gamePanel;
 
-    public MapLoader(int tileSize, EntityRegistry registry, KeyboardInputs keyboardInputs, AttackRegistry attackRegistry, CollisionManager collisionManager, TileManager tileManager) {
+    public MapLoader(int tileSize, EntityRegistry registry, KeyboardInputs keyboardInputs, AttackRegistry attackRegistry, CollisionManager collisionManager, TileManager tileManager, GamePanel gamePanel) {
         this.tileSize = tileSize;
         this.registry = registry;
         this.keyboardInputs = keyboardInputs;
         this.attackRegistry = attackRegistry;
         this.collisionManager = collisionManager;
         this.tileManager = tileManager;
+        this.gamePanel=gamePanel;
     }
 
     /**
@@ -140,7 +143,7 @@ public class MapLoader {
     public void spawnEntity(int entityId, int x, int y) {
         switch(entityId) {
             case 1:
-                new Player(x, y, 40, 80, registry, keyboardInputs, attackRegistry, tileManager);
+                new Player(x, y, 40, 80, registry, keyboardInputs, attackRegistry, tileManager, gamePanel);
                 break;
             case 2:
                 new Door(x, y, registry, attackRegistry, tileManager);
@@ -149,7 +152,7 @@ public class MapLoader {
                 new Waypoint(x, y, registry, attackRegistry, tileManager);
                 break;
             case 4:
-                new Enemy(x, y , 40, 40, 100, 10, 5, 120, 60, 20, 360, registry, attackRegistry, tileManager);
+                new Enemy(x, y , 40, 40, 100, 10, 5, 120, 60, 20, 360, registry, attackRegistry, tileManager, gamePanel);
                 break;
             default:
                 return;
