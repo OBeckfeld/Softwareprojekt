@@ -6,21 +6,21 @@ import main.GamePanel;
 
 import java.awt.image.BufferedImage;
 
-public class Krit2 extends Ability {
-    public Krit2(PlayerTypeEntity owner, int x, int y, BufferedImage icon, GamePanel gamePanel, SkillTree skillTree){
+public class Crit extends Ability {
+    public Crit(PlayerTypeEntity owner, int x, int y, BufferedImage icon, GamePanel gamePanel, SkillTree skillTree){
         super(owner, x, y, icon, gamePanel, skillTree);
-        cost = 25; //wird in den unter klassen überschrieben
+        cost = 12; //wird in den unter klassen überschrieben
         cooldown = 1500; //in Millisekunden
         duration = 2000; //in Millisekunden
         active = false;
 
     }
     @Override
-    public String getDescription(){ return "10 prozentige Chance, plus 200 Prozent Schaden zu verursachen";}
+    public String getDescription(){ return "5 prozentige Chance, plus 150 Prozent Schaden zu verursachen";}
     @Override
     public void unlock(){
         unlocked = true;
-        owner.setCrit(owner.getCrit()+100);
+        owner.setCrit(owner.getCrit()+150);
         owner.setCritChance(owner.getCritChance()+5);
 
     }
@@ -36,6 +36,6 @@ public class Krit2 extends Ability {
     public void effect() {
     }
 
-    public void end(){owner.setCrit(owner.getCrit()-200);}
+    public void end(){owner.setCrit(owner.getCrit()-150);}
 
 }
