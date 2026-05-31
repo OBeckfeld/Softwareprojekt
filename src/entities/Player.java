@@ -2,14 +2,20 @@ package entities;
 
 import Weapons.*;
 import entities.components.MovementComponent;
+import entities.managers.AttackManager;
 import entities.managers.AttackRegistry;
 import main.GamePanel;
+import skilltree.SpeedBoost;
+import skilltree.PoisonCloud;
 import skilltree.SkillTree;
 import tools.Animation;
 import tools.SpriteSheet;
 import tools.TileManager;
 import entities.managers.EntityRegistry;
 import inputs.KeyboardInputs;
+import skilltree.DMGBoost;
+import skilltree.Dash;
+import skilltree.SkillTree;
 
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -27,11 +33,8 @@ public class Player extends PlayerTypeEntity {
     private Animation currentAnimation;
     private int lastDirection = -1;
 
-
-    public Player(int x, int y, int width, int height, EntityRegistry registry,
-                  KeyboardInputs keyboardInputs, AttackRegistry attackRegistry,
-                  TileManager tileManager, GamePanel gamePanel) {
-        super(x, y, width, height, 20, 60, registry, attackRegistry, tileManager);
+    public Player(int x, int y, int width, int height, EntityRegistry registry, KeyboardInputs keyboardInputs, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
+        super(x, y, width, height, 20, 60, registry, attackRegistry, tileManager, gamePanel);//attackDuration und cooldown machen nichts. Beides wird von Waffe bestimmt
         this.inputs = keyboardInputs;
         movement = new MovementComponent(keyboardInputs, tileManager);
         mass = 3;
@@ -71,12 +74,13 @@ public class Player extends PlayerTypeEntity {
                 skillTree.close();
             }
             try {
-                Thread.sleep(250);
+                Thread.sleep(250); //damit mit einem Tastendruck der skillTree sich nicht öffnet und direkt wieder schließt
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
-        if(!skillTree.isActive){
+
+        if(!skillTree.isActive) {
             super.update();
             if (currentHealth <= 0) {
                 registry.unregister(this);

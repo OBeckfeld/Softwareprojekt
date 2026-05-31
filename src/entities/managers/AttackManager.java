@@ -42,9 +42,10 @@ public class AttackManager implements AttackRegistry {
      */
     public void distributeDamage() {
         for (Attack attack : attacks) {
-            for (Entity entity : collisionManager.getEntities(attack)) {
-                if (!attack.getHitList().contains(entity) && entity instanceof PlayerTypeEntity && entity.getClass() != attack.getOwner().getClass()) {
-                    attack.getHitList().add(entity);
+            for (Entity entity : collisionManager.getEntities(attack)) {//durchläuft alle Entities, die von der Attacke getroffen werden
+                if (!attack.getHitList().contains(entity) && entity instanceof PlayerTypeEntity && entity.getClass() != attack.getOwner().getClass()) { //überprüft, ob die Entity bereits bekannt ist und ob sie überhaupt Schaden nehmen kann
+
+                    attack.getHitList().add(entity); //fügt die Entity der hitlist in der Attacke hinzu
 
                     Random random = new Random();
                     int rand = random.nextInt(100);
@@ -57,11 +58,12 @@ public class AttackManager implements AttackRegistry {
                                 attacker.setSkillPoints(attacker.getSkillPoints() + entity.getPointsOnDeath());
                             }
                         }
-                    } else {
-                        if (!entity.isDead()) {
-                            ((PlayerTypeEntity) entity).takeDamage(attack.getDamage(), attacker);
-                            if (entity.isDead() && attacker != null) {
-                                attacker.setSkillPoints(attacker.getSkillPoints() + entity.getPointsOnDeath());
+                    }
+                    else{
+                        if(!entity.isDead()) {
+                            ((PlayerTypeEntity) entity).takeDamage(attack.getDamage(), owner);//macht den Schaden. Rüstung etc. wird bei der Entity selbst abgezogen. Das gilt auch für "negativen Schaden"
+                            if (entity.isDead()) {
+                                owner.setSkillPoints(owner.getSkillPoints() + entity.getPointsOnDeath());//wenn gegner getötet wird, erhällt player skill points
                             }
                         }
                     }

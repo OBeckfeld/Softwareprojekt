@@ -36,10 +36,7 @@ public abstract class PlayerTypeEntity extends Entity {
     protected int skillPoints = 0;
     protected int pointsOnDeath = 1;
 
-
-    public PlayerTypeEntity(int x, int y, int width, int height, int attackDuration,
-                            int hitCooldown, EntityRegistry registry,
-                            AttackRegistry attackRegistry, TileManager tileManager) {
+    public PlayerTypeEntity(int x, int y, int width, int height, int attackDuration, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
         super(x, y, width, height, registry, attackRegistry, tileManager);
         abilityManger = new AbilityManager(this);
         viewRange = 500;
@@ -122,9 +119,9 @@ public abstract class PlayerTypeEntity extends Entity {
         }
     }
 
-    public void dealtDamage(int dmg) {
-        if (skillTree != null && Arrays.asList(skillTree.getUnlockedAbilities()).contains("LifeSteal")) {
-            setHealth(getCurrentHealth() + (int)(dmg / 4));
+    public void dealtDamage(int dmg){
+        if(Arrays.asList(skillTree.getUnlockedAbilities()).contains("Lifesteal")){
+            setHealth(getCurrentHealth()+(int)(dmg/6));
         }
     }
 
@@ -137,12 +134,11 @@ public abstract class PlayerTypeEntity extends Entity {
     }
 
     public void update() {
-        boolean skillTreeActive = skillTree != null && skillTree.getActive();
-        if (!skillTreeActive)
+        if (!skillTree.getActive()) {
             if (currentHealth <= 0) {
                 unregister();
-
-             {
+            }//wenn die Entity tod ist, macht sie nichts mehr, außer sich zu unregistern
+            else {
                 if (attacking > 0) {
                     speed = 0;
                     attacking--;

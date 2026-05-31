@@ -39,8 +39,8 @@ public class Game implements Runnable {
     private final Player player;
     private static int WIDTH;
     private static int HEIGHT;
-    private static int screenWidth;
-    private static int screenHeight;
+    public static int screenWidth;
+    public static int screenHeight;
 
     public Game() {
         // Initialisierung der Kern-Komponenten

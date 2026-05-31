@@ -1,5 +1,7 @@
 package tools;
 
+import Weapons.ShotGun;
+import entities.enemies.Boss;
 import entities.managers.EntityRegistry;
 import entities.managers.AttackRegistry;
 import entities.managers.CollisionManager;
@@ -149,6 +151,9 @@ public class MapLoader {
             case 4:
                 new Enemy(x, y, 80, 80, 360, registry, attackRegistry, tileManager,gamePanel); //
                 break;
+            case 40:
+                Boss firstBoss = new Boss(x, y , 80, 80, 1000, 20, 40, 800, 2500, registry, attackRegistry, tileManager, gamePanel);
+                firstBoss.setWeapon(new ShotGun(firstBoss, attackRegistry, tileManager));
             default:
                 return;
         }

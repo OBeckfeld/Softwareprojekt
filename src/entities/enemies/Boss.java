@@ -1,5 +1,7 @@
 package entities.enemies;
+import Weapons.Weapon;
 import entities.PlayerTypeEntity;
+import entities.managers.AttackRegistry;
 import entities.managers.EntityRegistry;
 import entities.managers.AttackManager;
 import main.GamePanel;
@@ -10,6 +12,8 @@ public class Boss extends Enemy {
 
     private static final int FLEE_RANGE = 150;
     private static final int ATTACK_RANGE = 300;
+    private int attackDelay;
+
 
     public Boss(int x, int y, int width, int height, EntityRegistry registry, AttackManager attackManager, TileManager tileManager, GamePanel gamePanel) {
         super(x, y, width, height, 60, registry, attackManager, tileManager, gamePanel);
@@ -19,6 +23,23 @@ public class Boss extends Enemy {
         pointsOnDeath = 10;
         skillPoints = 4;
         skillTree.unlock(skillTree.getAbilityReference("dash"));
+        attackDelay = 40;
+    }
+
+    public Boss(int x, int y, int width, int height, int health, int damage, int defense, int viewrange, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
+        super(x, y, width, height, 60, registry, attackRegistry, tileManager, gamePanel);
+        this.maxHealth = health;
+        this.currentHealth = health;
+        this.damage = damage;
+        this.defense = defense;
+        setSpeed(2);
+        this.viewRange = viewRange;
+        pointsOnDeath = 10;
+    }
+
+    public void setWeapon(Weapon weapon) {
+        this.weapon = weapon;
+        this.weapon.setDamage(damage);
     }
 
     @Override

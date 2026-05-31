@@ -5,6 +5,7 @@ import entities.Player;
 import entities.PlayerTypeEntity;
 import entities.managers.AttackRegistry;
 import entities.managers.EntityRegistry;
+import entities.Entity;
 import main.GamePanel;
 import skilltree.SkillTree;
 import tools.Animation;
@@ -26,6 +27,7 @@ public class Enemy extends PlayerTypeEntity {
     private boolean isMoving = false;
     private boolean isAttacking = false;
     private int lastDirection = -1;
+    private int health;
 
     // Flucht-Logik
     protected boolean fleeMode = false;
@@ -34,7 +36,7 @@ public class Enemy extends PlayerTypeEntity {
     public Enemy(int x, int y, int width, int height, int hitCooldown,
                  EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager,
     GamePanel gamePanel) {
-        super(x, y, width, height, 100, hitCooldown, registry, attackRegistry, tileManager);
+        super(x, y, width, height, 100, hitCooldown, registry, attackRegistry, tileManager, gamePanel);
         defaultSpeed = 2;
         speed = defaultSpeed;
         viewRange = 500;
@@ -73,6 +75,12 @@ public class Enemy extends PlayerTypeEntity {
         }, 15, true);
 
         currentAnimation = animations[0];
+        this.maxHealth = health;
+        this.currentHealth = health;
+        this.weapon.setDamage(damage);
+        this.weapon.setHitCooldown(hitCooldown);
+        this.defense = defense;
+        pointsOnDeath = 1;
     }
 
     @Override
@@ -190,7 +198,11 @@ public class Enemy extends PlayerTypeEntity {
 
     }
 
-
+    @Override
+    public void takeDamage(int damage, PlayerTypeEntity source){ //wenn gegner Schaden nimmt, sieht er den Player
+        player = (Player)source;
+        super.takeDamage(damage, source);
+    }
 
     protected void tryAttackEntity(PlayerTypeEntity targetPlayer) {
         direction = getDirectionTo(targetPlayer.getCenter()[0], targetPlayer.getCenter()[1]);
