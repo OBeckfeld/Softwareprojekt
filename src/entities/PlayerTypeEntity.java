@@ -79,7 +79,6 @@ public abstract class PlayerTypeEntity extends Entity {
 
     public int getDamage() { return damage; }
 
-    public int getDefense() { return defense; }
     public int getCrit(){
         return crit;
     }
@@ -97,7 +96,7 @@ public abstract class PlayerTypeEntity extends Entity {
 
     protected ArrayList<Entity> getInView(){ return registry.getInRange(this, getViewRange(), getViewRange()); }
 
-    public int getDefence(){
+    public int getDefense(){
         return defense;
     }
     public void setDefense(int def){

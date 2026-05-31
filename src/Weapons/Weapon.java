@@ -42,4 +42,12 @@ public abstract class Weapon {
         kbVector.setLength(kb);
         owner.move(kbVector);
     }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+
+    public void setHitCooldown(int cooldown) {
+        this.attackCooldown = cooldown;
+    }
 }

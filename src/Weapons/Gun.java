@@ -9,7 +9,7 @@ import tools.TileManager;
 public class Gun extends  Weapon{
     public Gun (PlayerTypeEntity owner, AttackRegistry attackRegistry, TileManager tileManager){
         super(owner,attackRegistry, tileManager);
-        attackCooldown = 500;//inMilli Sekunden
+        attackCooldown = 750;//inMilli Sekunden
         attackDuration = 5;//in ticks
         damage = 15;
     }

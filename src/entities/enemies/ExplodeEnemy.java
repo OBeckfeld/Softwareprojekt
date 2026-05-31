@@ -3,7 +3,7 @@ package entities.enemies;
 import entities.Entity;
 import entities.PlayerTypeEntity;
 import entities.managers.EntityRegistry;
-import entities.managers.AttackManager;
+import entities.managers.AttackRegistry;
 import main.GamePanel;
 import tools.TileManager;
 import tools.Vector;
@@ -12,16 +12,28 @@ import java.util.ArrayList;
 public class ExplodeEnemy extends Enemy {
 
     private static final int EXPLODE_RANGE = 50;
-    private static final int BLAST_RADIUS  = 100;
-    private static final int EXPLODE_DMG   = 50;
+    private final int blastRadius;
+    private final int explodeDamage;
     private boolean exploded = false;
 
     public ExplodeEnemy(int x, int y, int width, int height,
-                        EntityRegistry registry, AttackManager attackManager, TileManager tileManager, GamePanel gamePanel) {
-        super(x, y, width, height, 0, registry, attackManager, tileManager, gamePanel);
+                        EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
+        super(x, y, width, height, 0, registry, attackRegistry, tileManager, gamePanel);
         currentHealth = 20;
+        blastRadius = 100;
+        explodeDamage = 50;
         setSpeed(3);
         viewRange = 300;
+        pointsOnDeath = 3;
+    }
+
+    public ExplodeEnemy(int x, int y, int width, int height, int damage, int blastRadius, int viewRange, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
+        super(x, y, width, height, 0, registry, attackRegistry, tileManager, gamePanel);
+        currentHealth = 20;
+        this.blastRadius = blastRadius;
+        this.explodeDamage = damage;
+        this.viewRange = viewRange;
+        setSpeed(3);
         pointsOnDeath = 3;
     }
 
@@ -40,11 +52,11 @@ public class ExplodeEnemy extends Enemy {
 
     private void explode() {
         exploded = true;
-        ArrayList<Entity> inRange = registry.getInRange(this, BLAST_RADIUS, BLAST_RADIUS);
+        ArrayList<Entity> inRange = registry.getInRange(this, blastRadius, blastRadius);
         for (Entity entity : inRange) {
             if (entity instanceof PlayerTypeEntity && !(entity instanceof ExplodeEnemy)) {
                 ((PlayerTypeEntity) entity).setCurrentHealth(
-                        ((PlayerTypeEntity) entity).getCurrentHealth() - EXPLODE_DMG
+                        ((PlayerTypeEntity) entity).getCurrentHealth() - explodeDamage
                 );
             }
         }

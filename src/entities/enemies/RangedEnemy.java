@@ -1,10 +1,11 @@
 package entities.enemies;
 import entities.PlayerTypeEntity;
 import entities.managers.EntityRegistry;
-import entities.managers.AttackManager;
+import entities.managers.AttackRegistry;
 import main.GamePanel;
 import tools.TileManager;
 import tools.Vector;
+import Weapons.Weapon;
 
 public class RangedEnemy extends Enemy {
 
@@ -12,11 +13,23 @@ public class RangedEnemy extends Enemy {
     private static final int ATTACK_RANGE = 300;
 
     public RangedEnemy(int x, int y, int width, int height,
-                       EntityRegistry registry, AttackManager attackManager, TileManager tileManager, GamePanel gamePanel) {
-        super(x, y, width, height, 60, registry, attackManager, tileManager, gamePanel);
+                       EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
+        super(x, y, width, height, 60, registry, attackRegistry, tileManager, gamePanel);
         currentHealth = 30;
         setSpeed(3);
         viewRange = 400;
+        pointsOnDeath = 2;
+    }
+
+    public RangedEnemy(int x, int y, int width, int height, int health, int damage, int defense, int viewrange, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
+        super(x, y, width, height, 60, registry, attackRegistry, tileManager, gamePanel);
+        this.maxHealth = health;
+        this.currentHealth = health;
+        this.damage = damage;
+        this.hitCooldown = hitCooldown;
+        this.defense = defense;
+        setSpeed(3);
+        this.viewRange = viewRange;
         pointsOnDeath = 2;
     }
 
@@ -35,6 +48,9 @@ public class RangedEnemy extends Enemy {
         }
     }
 
-    {
+    public void setWeapon(Weapon weapon) {
+        this.weapon = weapon;
+        this.weapon.setDamage(damage);
+        this.weapon.setHitCooldown(hitCooldown);
     }
 }

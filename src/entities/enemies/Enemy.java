@@ -30,7 +30,8 @@ public class Enemy extends PlayerTypeEntity {
         this.hitCooldown = hitCooldown;
         this.maxHealth = health;
         this.currentHealth = health;
-        this.damage = damage;
+        this.weapon.setDamage(damage);
+        this.weapon.setHitCooldown(hitCooldown);
         this.defense = defense;
         this.verticalRange = verticalRange;
         this.horizontalRange = horizontalRange;

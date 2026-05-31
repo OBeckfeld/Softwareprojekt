@@ -39,7 +39,7 @@ public class Rifle extends Weapon{
                 width = (int) Math.round(scale*3);
                 break;
         }
-        new Projectile(owner.getCenter() [0], owner.getCenter() [1], width, height, owner.registry, attackRegistry, owner, 10, owner.getDirection(), 300, damage, tileManager);
+        new Projectile(owner.getCenter() [0], owner.getCenter() [1], width, height, owner.registry, attackRegistry, owner, 10, owner.getDirection(), 600, damage, tileManager);
         applyKnockback(10);
         return true;
     }
