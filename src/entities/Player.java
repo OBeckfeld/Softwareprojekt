@@ -44,7 +44,7 @@ public class Player extends PlayerTypeEntity {
         speed = 3;
         currentHealth = 100;
         skillTree = new SkillTree(this, gamePanel);
-        weapon = new Rifle(this, attackRegistry, tileManager);
+        weapon = new MiniGun(this, attackRegistry, tileManager);
 
         sheet = new SpriteSheet("src/data/sprites/playerCrawler.png", 833, 833);
         walkAnimations = new Animation[4];
