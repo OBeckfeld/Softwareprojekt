@@ -45,7 +45,6 @@ public class Game implements Runnable {
     public Game() {
         // Initialisierung der Kern-Komponenten
         getScreenSize();
-        textBoxManager = new TextBoxManager();
         tileManager = new TileManager();
         textBoxManager = new TextBoxManager();
         gamePanel = new GamePanel(this, tileManager, textBoxManager);
