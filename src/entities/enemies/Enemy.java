@@ -13,7 +13,8 @@ import java.util.ArrayList;
 
 public class Enemy extends PlayerTypeEntity {
     protected Player player;
-    private int attackDelay = 20;
+    protected int attackDelay = 20;
+    protected int hitCooldown;
     public Enemy(int x, int y, int width, int height, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
         super(x, y, width, height, 100,100, registry, attackRegistry, tileManager, gamePanel);
         defaultSpeed = 2;

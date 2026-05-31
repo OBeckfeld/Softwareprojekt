@@ -19,7 +19,7 @@ public class ExplodeEnemy extends Enemy {
     public ExplodeEnemy(int x, int y, int width, int height,
                         EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
         super(x, y, width, height, 0, registry, attackRegistry, tileManager, gamePanel);
-        currentHealth = 20;
+        currentHealth = 5;
         blastRadius = 100;
         explodeDamage = 50;
         setSpeed(3);
@@ -29,7 +29,7 @@ public class ExplodeEnemy extends Enemy {
 
     public ExplodeEnemy(int x, int y, int width, int height, int damage, int blastRadius, int viewRange, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
         super(x, y, width, height, 0, registry, attackRegistry, tileManager, gamePanel);
-        currentHealth = 20;
+        currentHealth = 5;
         this.blastRadius = blastRadius;
         this.explodeDamage = damage;
         this.viewRange = viewRange;

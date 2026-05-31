@@ -18,6 +18,7 @@ public class RangedEnemy extends Enemy {
         currentHealth = 30;
         setSpeed(3);
         viewRange = 400;
+        hitCooldown = 5;
         pointsOnDeath = 2;
     }
 

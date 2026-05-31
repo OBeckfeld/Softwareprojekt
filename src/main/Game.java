@@ -99,6 +99,11 @@ public class Game implements Runnable {
         gameThread.start(); // Startet die run() Methode in einem neuen Thread
     }
 
+    public void updateMapSize(){
+        WIDTH = tileManager.getTileMap()[0].length * tileManager.getTileSize();
+        HEIGHT = tileManager.getTileMap().length * tileManager.getTileSize();
+    }
+
     //Game Loop
     @Override
     public void run() {
@@ -116,6 +121,7 @@ public class Game implements Runnable {
                 for (Entity entity : new ArrayList<>(entities.getEntities())){
                     entity.update();
                 }
+                updateMapSize();
                 attackManager.distributeDamage();
                 camera.update(player);
                 progressManager.checkSaveRequests();
