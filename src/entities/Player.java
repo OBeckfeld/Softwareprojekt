@@ -6,6 +6,7 @@ import entities.managers.AttackManager;
 import entities.managers.AttackRegistry;
 import main.GamePanel;
 import skilltree.SpeedBoost;
+import skilltree.PoisonCloud;
 import tools.TileManager;
 import entities.managers.EntityRegistry;
 import inputs.KeyboardInputs;
@@ -28,7 +29,7 @@ public class Player extends PlayerTypeEntity {
         mass = 3;
         defaultSpeed = 3;
         speed = defaultSpeed;
-        weapon = new Gun(this, attackRegistry, tileManager);
+        weapon = new MiniGun(this, attackRegistry, tileManager);
         gamePanel.assignPlayer(this);
         attackRegistry.grabOwner(this);
     }

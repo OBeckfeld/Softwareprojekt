@@ -27,13 +27,11 @@ public class Enemy extends PlayerTypeEntity {
 
     public Enemy(int x, int y, int width, int height, int health, int damage, int defense, int verticalRange, int horizontalRange, int attackDuration, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
         super(x, y, width, height, attackDuration, hitCooldown, registry, attackRegistry, tileManager, gamePanel);
-        this.hitCooldown = hitCooldown;
+
         this.maxHealth = health;
         this.currentHealth = health;
         this.damage = damage;
         this.defense = defense;
-        this.verticalRange = verticalRange;
-        this.horizontalRange = horizontalRange;
     }
 
     public void update() {
