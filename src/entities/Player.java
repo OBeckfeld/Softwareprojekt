@@ -42,7 +42,6 @@ public class Player extends PlayerTypeEntity {
         currentHealth = 100;
         skillTree = new SkillTree(this, gamePanel);
         weapon = new Rifle(this, attackRegistry, tileManager);
-
         sheet = new SpriteSheet("src/data/sprites/playerCrawler.png", 1024, 1024);
         loadWeaponAnimations();
     }
@@ -144,11 +143,12 @@ public class Player extends PlayerTypeEntity {
                 isAnimatingAttack = false;
             }
         } else {
-            if (direction != lastDirection) {
+            if (this.walkAnimations != null && direction != lastDirection) {
                 currentAnimation = walkAnimations[direction];
                 lastDirection = direction;
             }
-            currentAnimation.update();
+            if (currentAnimation != null){currentAnimation.update();}
+
         }
 
         if (inputs.getHeldKeys().contains(KeyEvent.VK_J)) {

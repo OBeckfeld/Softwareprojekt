@@ -3,6 +3,7 @@ package main;
 import entities.*;
 import entities.enemies.Enemy;
 import skilltree.PoisonCloud;
+import tools.Hitbox;
 import tools.TextBoxManager;
 import tools.TextBox;
 
@@ -72,18 +73,39 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
             if (entity instanceof Player){
                 BufferedImage sprite = ((Player)entity).getSprite();
+
+                int playerDrawWidth = 80;
+                int playerDrawHeight = 80;
+
+                int playerDrawX = (int) Math.round(entity.getX())
+                        + entity.getWidth() / 2
+                        - playerDrawWidth / 2;
+
+                int playerDrawY = (int) Math.round(entity.getY())
+                        + entity.getHeight()
+                        - playerDrawHeight;
+
                 if (sprite != null) {
-                    g2d.drawImage(sprite, (int) Math.round(entity.getX()), (int) Math.round(entity.getY()),
-                            entity.getWidth(), entity.getHeight(), null);
+                    g2d.drawImage(
+                            sprite,
+                            playerDrawX,
+                            playerDrawY,
+                            playerDrawWidth,
+                            playerDrawHeight,
+                            null
+                    );
                 } else {
                     g2d.setColor(Color.BLUE);
-                    g2d.fillRect((int) Math.round(entity.getX()), (int) Math.round(entity.getY()),
-                            entity.getWidth(), entity.getHeight());
+                    g2d.fillRect(
+                            playerDrawX,
+                            playerDrawY,
+                            playerDrawWidth,
+                            playerDrawHeight
+                    );
                 }
+
                 ((Player)entity).draw(g2d); // Healthbar
                 continue;
-
-
             }
             else if (entity instanceof DamageCloud){
                 Color c = ((DamageCloud) entity).getColor();

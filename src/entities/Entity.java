@@ -30,7 +30,6 @@ public abstract class Entity {
     protected TileManager tileManager;
     protected boolean dead;
     protected int z = 1;
-
     public Entity(double x, double y, int width, int height, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager) {
         this.attackRegistry = attackRegistry;
         this.x = x;
@@ -52,6 +51,18 @@ public abstract class Entity {
         this.height = height;
         movement = new MovementComponent(tileManager);
         hurtbox = new Hitbox(x, y, width, height);
+        registry.register(this);
+        this.registry = registry;
+    }
+    public Entity(double x, double y, int width, int height, EntityRegistry registry, TileManager tileManager, int hitBoxWidth, int hitBoxHeight) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        movement = new MovementComponent(tileManager);
+        double hitboxX = x + (width - hitBoxWidth) / 2.0;
+        double hitboxY = y + (height - hitBoxHeight);
+        hurtbox = new Hitbox(hitboxX, hitboxY, hitBoxWidth, hitBoxHeight);
         registry.register(this);
         this.registry = registry;
     }

@@ -108,7 +108,7 @@ public class Enemy extends PlayerTypeEntity {
     public void update() {
         if (player != null && player.getSkillTree().isActive) return;
 
-        if(!skillTree.isActive){
+        if(skillTree != null && !skillTree.isActive){
             super.update();
             if (currentHealth <= 0) {
                 registry.unregister(this);
@@ -225,7 +225,7 @@ public class Enemy extends PlayerTypeEntity {
 
     @Override
     public void takeDamage(int damage, PlayerTypeEntity source, boolean piercing){ //wenn gegner Schaden nimmt, sieht er den Player
-        player = (Player)source;
+
         super.takeDamage(damage, source, piercing);
     }
 

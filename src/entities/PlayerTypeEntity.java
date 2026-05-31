@@ -50,6 +50,18 @@ public abstract class PlayerTypeEntity extends Entity {
         skillTree = new SkillTree(this, gamePanel);
         this.gamePanel = gamePanel;
     }
+    public PlayerTypeEntity(int x, int y, int width, int height, int attackDuration, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel, int hitBoxWidth, int hitBoxHeight) {
+        super(x, y, width, height, registry, tileManager, hitBoxWidth, hitBoxHeight);
+        abilityManger = new AbilityManager(this);
+        viewRange = 500;
+        mass = 2;
+        damageModifier = 1;
+        weapon = new StarterSword(this, attackRegistry, tileManager);
+        healthBar = new HealthBar(this);
+        attacking = 0;
+        skillTree = new SkillTree(this, gamePanel);
+        this.gamePanel = gamePanel;
+    }
 
     public void gainLife(int amount) {
         currentHealth = Math.min(currentHealth + amount, 100);

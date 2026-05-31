@@ -149,7 +149,7 @@ public class MapLoader {
     public void spawnEntity(int entityId, int x, int y) {
         switch(entityId) {
             case 1:
-                new Player(x, y, 40, 80, registry, keyboardInputs, attackRegistry, tileManager, gamePanel);
+                new Player(x, y, 80, 80, registry, keyboardInputs, attackRegistry, tileManager, gamePanel);
                 break;
             case 2:
                 new Door(x, y, registry, attackRegistry, tileManager);

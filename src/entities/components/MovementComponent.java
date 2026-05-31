@@ -56,8 +56,8 @@ public class MovementComponent {
 
         //geht durch Wände durch, wenn oben und unten keine Wand ist
         // rechts prüfen
-        int playerWidth = entity.getWidth();
-        int playerHeight = entity.getHeight();
+        int playerWidth = (int)entity.getHurtbox().getWidth();
+        int playerHeight = (int)entity.getHurtbox().getHeight();
         double newX = entity.getX() + dx;
         double newY = entity.getY() + dy;
         if (dx > 0) {
@@ -108,8 +108,10 @@ public class MovementComponent {
         entity.setX(newX);
 
         entity.setY(newY);
+        double hitboxX = newX + (entity.getWidth() - entity.getHurtbox().getWidth()) / 2.0;
+        double hitboxY = newY + (entity.getHeight() - entity.getHurtbox().getHeight());
 
-        entity.getHurtbox().setLocation(newX, newY);
+        entity.getHurtbox().setLocation(hitboxX, hitboxY);
     }
 
     public void move(Entity entity, double dx, double dy) {
