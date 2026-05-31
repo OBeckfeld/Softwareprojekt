@@ -17,22 +17,39 @@ public class TileManager {
     private int tileSize = 120;
     private int size = 512;
 
+    /**
+     * Erstellt einen neuen TileManager, initialisiert das Tile-Array
+     * und lädt die einzelnen Tiles aus dem SpriteSheet.
+     */
     public TileManager() {
         tiles = new Tile[10];
         loadTiles();
     }
 
+    /**
+     * Gibt die aktuelle Größe zurück, mit der Tiles auf der Karte gezeichnet werden.
+     */
     public int getTileSize(){return tileSize;}
 
+    /**
+     * Setzt die TileMap, die bestimmt, welches Tile an welcher Position liegt.
+     */
     public void setTileMap(int[][] tileMap) {
         this.tileMap = tileMap;
     }
 
+    /**
+     * Gibt die aktuelle TileMap zurück.
+     */
     public int[][] getTileMap() {
         return tileMap;
     }
 
     // Lädt die Tiles aus dem SpriteSheet und speichert sie im Array tiles
+    /**
+     * Lädt die Tiles aus dem SpriteSheet, schneidet die einzelnen Frames aus
+     * und speichert sie im Tile-Array.
+     */
     private void loadTiles() {
         try {
             BufferedImage sheet = ImageIO.read(
@@ -51,6 +68,11 @@ public class TileManager {
     }
 
     //zeichnet die currentMap
+    /**
+     * Zeichnet die aktuelle TileMap, indem jede Zahl aus der Map
+     * dem passenden Tile-Bild zugeordnet und an der entsprechenden
+     * Position auf dem Bildschirm dargestellt wird.
+     */
     public void draw(Graphics g) {
         for(int row = 0; row < tileMap.length; row++) {
             for(int col = 0; col < tileMap[0].length; col++) {
