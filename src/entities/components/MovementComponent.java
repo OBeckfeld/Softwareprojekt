@@ -15,7 +15,9 @@ public class MovementComponent {
     private KeyboardInputs inputs;
     private TileManager tileManager;
 
-    public MovementComponent(TileManager tileManager) {this.tileManager = tileManager;}
+    public MovementComponent(TileManager tileManager) {
+        this.tileManager = tileManager;
+    }
     public MovementComponent(KeyboardInputs inputs, TileManager tileManager) {
         this.tileManager = tileManager;
         this.inputs = inputs;

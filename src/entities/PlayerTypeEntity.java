@@ -29,9 +29,9 @@ public abstract class PlayerTypeEntity extends Entity {
     protected int critChance;
     protected int damageModifier ;
     protected AbilityManager abilityManger;
-    protected double speed = 3;
+    protected double speed = 2.5;
     protected Weapon weapon;
-    protected double defaultSpeed = 3;
+    protected double defaultSpeed = 2.5;
     protected int hitCooldown;
     protected int attacking;
     protected HealthBar healthBar;
@@ -46,7 +46,7 @@ public abstract class PlayerTypeEntity extends Entity {
         verticalRange = 120;
         horizontalRange = 60;
         abilityManger = new AbilityManager(this);
-        viewRange = 300;
+        viewRange = 500;
         mass = 2;
         damageModifier = 1;
         weapon = new StarterSword(this, attackRegistry, tileManager);
@@ -119,7 +119,7 @@ public abstract class PlayerTypeEntity extends Entity {
     }
 
     public void takeDamage(int damage) {
-        damage -= defense;
+        damage = damage- (int)(damage*defense)/100;
         if (damage > 0){
             currentHealth -= damage;
         }

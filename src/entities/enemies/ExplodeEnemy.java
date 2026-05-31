@@ -22,6 +22,7 @@ public class ExplodeEnemy extends Enemy {
         currentHealth = 20;
         setSpeed(3);
         viewRange = 300;
+        pointsOnDeath = 3;
     }
 
     @Override

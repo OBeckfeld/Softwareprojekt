@@ -10,7 +10,7 @@ public class StarterSword extends Weapon {
         super(owner, attackRegistry, tileManager);
         damage = 10;
         attackCooldown = 1000;//inMilli Sekunden
-        attackDuration = 100;//in ticks
+        attackDuration = 80;//in ticks
     }
     @Override
     public boolean use(){

@@ -16,7 +16,7 @@ public class Enemy extends PlayerTypeEntity {
     private int attackDelay = 20;
     public Enemy(int x, int y, int width, int height, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
         super(x, y, width, height, 100,100, registry, attackRegistry, tileManager, gamePanel);
-        defaultSpeed = 1.4;
+        defaultSpeed = 2;
         speed = defaultSpeed;
         viewRange = 20000;
         mass = 1;

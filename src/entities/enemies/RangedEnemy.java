@@ -17,6 +17,7 @@ public class RangedEnemy extends Enemy {
         currentHealth = 30;
         setSpeed(3);
         viewRange = 400;
+        pointsOnDeath = 2;
     }
 
     @Override
