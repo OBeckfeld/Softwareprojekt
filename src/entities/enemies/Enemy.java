@@ -28,6 +28,9 @@ public class Enemy extends PlayerTypeEntity {
     private boolean isAttacking = false;
     private int lastDirection = -1;
     private int health;
+    protected int hitCooldown;
+    protected int verticalRange;
+    protected int horizontalRange;
 
     // Flucht-Logik
     protected boolean fleeMode = false;
@@ -81,6 +84,18 @@ public class Enemy extends PlayerTypeEntity {
         this.weapon.setHitCooldown(hitCooldown);
         this.defense = defense;
         pointsOnDeath = 1;
+    }
+
+    public Enemy(int x, int y, int width, int height, int health, int damage, int defense, int verticalRange, int horizontalRange, int attackDuration, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
+        super(x, y, width, height, attackDuration, hitCooldown, registry, attackRegistry, tileManager, gamePanel);
+        this.hitCooldown = hitCooldown;
+        this.maxHealth = health;
+        this.currentHealth = health;
+        this.weapon.setDamage(damage);
+        this.weapon.setHitCooldown(hitCooldown);
+        this.defense = defense;
+        this.verticalRange = verticalRange;
+        this.horizontalRange = horizontalRange;
     }
 
     @Override

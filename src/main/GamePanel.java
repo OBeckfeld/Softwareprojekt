@@ -63,6 +63,12 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
             double y = entity.getY();
             int width = entity.getWidth();
             int height = entity.getHeight();
+            int scale = 2;
+            int drawW = entity.getWidth() * scale;
+            int drawH = entity.getHeight() * scale;
+            int drawX = (int) Math.round(entity.getX()) - (drawW - entity.getWidth()) / 2;
+            int spriteOffsetY = 40;
+            int drawY = (int) Math.round(entity.getY()) - (drawH - entity.getHeight()) / 2 + spriteOffsetY;
 
             if (entity instanceof Player){
                 BufferedImage sprite = ((Player)entity).getSprite();

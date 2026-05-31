@@ -49,6 +49,10 @@ public class Animation {
             }
         }
     }
+    public void reset() {
+        currentFrame = 0;
+        finished = false;
+    }
 
     /** @return true wenn eine einmalige Animation den letzten Frame erreicht hat */
     public boolean isFinished() { return finished; }
