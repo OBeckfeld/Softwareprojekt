@@ -15,6 +15,10 @@ public class Camera {
     private int worldWidth = Game.getWIDTH();
     private int worldHeight = Game.getHEIGHT();
 
+    /**
+     * Erstellt eine neue Kamera mit Startposition und Bildschirmgröße.
+     * Speichert die linke obere Kameraposition sowie die Breite und Höhe des sichtbaren Bereichs.
+     */
     public Camera(double startX, double startY, int screenWidth, int screenHeight) {
         this.x = startX;
         this.y = startY;
@@ -22,6 +26,10 @@ public class Camera {
         viewHeight = screenHeight;
     }
 
+    /**
+     * Aktualisiert die Kameraposition anhand der aktuellen Spielerposition.
+     * Die Kamera bewegt sich weich in Richtung des Spielers und bleibt innerhalb der Weltgrenzen.
+     */
     public void update(Player player) {
         worldWidth = Game.getWIDTH();
         worldHeight = Game.getHEIGHT();
@@ -40,8 +48,23 @@ public class Camera {
         if(y > worldHeight - viewHeight) y = worldHeight - viewHeight;
     }
 
+    /**
+     * Gibt die aktuelle X-Position der Kamera zurück.
+     */
     public double getX() {return x;}
+
+    /**
+     * Setzt die X-Position der Kamera.
+     */
     public void setX(double x) {this.x = x;}
+
+    /**
+     * Gibt die aktuelle Y-Position der Kamera zurück.
+     */
     public double getY() {return y;}
+
+    /**
+     * Setzt die Y-Position der Kamera.
+     */
     public void setY(double y) {this.y = y;}
 }

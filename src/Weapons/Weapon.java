@@ -16,6 +16,10 @@ public abstract class Weapon {
     protected int attackDuration;
     protected TileManager tileManager;
 
+    /**
+     * Erstellt eine neue Waffe mit Besitzer, AttackRegistry und TileManager.
+     * Initialisiert außerdem den Zeitpunkt der letzten Nutzung und die Standard-Angriffsdauer.
+     */
     public Weapon(PlayerTypeEntity owner, AttackRegistry attackRegistry, TileManager tileManager){
         this.owner = owner;
         this.attackRegistry = attackRegistry;
@@ -24,6 +28,11 @@ public abstract class Weapon {
         this.tileManager = tileManager;
     }
 
+    /**
+     * Versucht, die Waffe zu benutzen.
+     * Prüft den Angriffscooldown, setzt bei erfolgreicher Nutzung den letzten Nutzungszeitpunkt
+     * und versetzt den Besitzer für die Angriffsdauer in den Angriffs-Zustand.
+     */
     public boolean use(){
         if (System.currentTimeMillis() - lastUsed < attackCooldown){
             return false; //kann nicht benutzt werden
@@ -34,6 +43,10 @@ public abstract class Weapon {
         return true;//ability kann benutzt werden
     }
 
+    /**
+     * Wendet Rückstoß auf den Besitzer der Waffe an.
+     * Die Rückstoßrichtung wird aus der entgegengesetzten Blickrichtung berechnet.
+     */
     protected void applyKnockback(double kb){
         int dir = owner.getOppDirection(owner.getDirection());
         double x = owner.getX();
@@ -43,10 +56,16 @@ public abstract class Weapon {
         owner.move(kbVector);
     }
 
+    /**
+     * Setzt den Schaden der Waffe.
+     */
     public void setDamage(int damage) {
         this.damage = damage;
     }
 
+    /**
+     * Setzt den Angriffscooldown der Waffe.
+     */
     public void setHitCooldown(int cooldown) {
         this.attackCooldown = cooldown;
     }

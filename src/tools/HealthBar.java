@@ -16,6 +16,10 @@ public class HealthBar {
     private final PlayerTypeEntity entity;
     private boolean bossBar = false;
 
+    /**
+     * Erstellt eine neue HealthBar für die übergebene Entity.
+     * Prüft dabei, ob es sich bei der Entity um einen Boss handelt.
+     */
     public HealthBar(PlayerTypeEntity entity) {
 
         this.entity = entity;
@@ -24,10 +28,18 @@ public class HealthBar {
         }
     }
 
+    /**
+     * Gibt zurück, ob diese HealthBar als Boss-Leiste dargestellt wird.
+     */
     public boolean getBossBar(){
         return bossBar;
     }
 
+    /**
+     * Zeichnet die Lebensanzeige der Entity.
+     * Normale Entities erhalten eine kleine HealthBar über sich,
+     * Boss-Entities erhalten eine große BossBar am unteren Bildschirmrand.
+     */
     public void draw(Graphics2D g){
 
         float healthPercent = (float) entity.getCurrentHealth() / entity.getMaxHealth();
@@ -63,6 +75,10 @@ public class HealthBar {
         }
     }
 
+    /**
+     * Bestimmt die Farbe der HealthBar anhand des aktuellen Lebensanteils.
+     * Grün steht für viel Leben, Orange für mittleres Leben und Rot für wenig Leben.
+     */
     private Color getColor(float healthPercent){
         if(healthPercent > 0.5){return Color.GREEN;}
         else if(healthPercent > 0.25){return Color.ORANGE;}

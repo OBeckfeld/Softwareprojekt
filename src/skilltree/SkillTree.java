@@ -41,6 +41,11 @@ public class SkillTree {
     private GamePanel gamePanel;
     private PlayerTypeEntity owner;
 
+    /**
+     * Erstellt einen neuen SkillTree für den angegebenen Besitzer.
+     * Lädt die Ability-Icons, erstellt alle Ability-Objekte, setzt Start-Abilities zugänglich
+     * und fügt alle Abilities dem GamePanel hinzu.
+     */
     public SkillTree(PlayerTypeEntity owner, GamePanel gamePanel) {
         loadIcons();
         this.gamePanel = gamePanel;
@@ -85,10 +90,26 @@ public class SkillTree {
         gamePanel.addAbility(speedBoost);
     }
 
+    /**
+     * Öffnet den SkillTree, indem er als aktiv markiert wird.
+     */
     public void open() { isActive = true; }
+
+    /**
+     * Gibt zurück, ob der SkillTree aktuell aktiv/geöffnet ist.
+     */
     public boolean getActive() { return isActive; }
+
+    /**
+     * Schließt den SkillTree, indem er als inaktiv markiert wird.
+     */
     public void close() { isActive = false; }
 
+    /**
+     * Schaltet eine Ability frei, wenn der Besitzer genug Skillpoints besitzt.
+     * Zieht die Kosten ab, ruft die Freischaltung der Ability auf und macht abhängig
+     * von bereits freigeschalteten Abilities weitere SkillTree-Knoten zugänglich.
+     */
     public void unlock(Ability ability) {
         if (owner.getSkillPoints() >= ability.getCost()) {
             owner.setSkillPoints(owner.getSkillPoints() - ability.getCost());
@@ -123,6 +144,10 @@ public class SkillTree {
         }
     }
 
+    /**
+     * Gibt die Namen aller aktuell freigeschalteten Abilities zurück.
+     * Die Reihenfolge richtet sich nach den Pfaden im SkillTree.
+     */
     public String[] getUnlockedAbilities() {
         ArrayList<String> unlockedAbilities = new ArrayList<>();
         if (dash.isUnlocked()) {
@@ -153,6 +178,10 @@ public class SkillTree {
         return unlockedAbilities.toArray(new String[0]);
     }
 
+    /**
+     * Gibt anhand eines Ability-Namens die passende Ability-Referenz zurück.
+     * Wirft eine Exception, wenn keine Ability mit diesem Namen existiert.
+     */
     public Ability getAbilityReference(String abilityName) {
         switch (abilityName) {
             case "Dash": return dash;
@@ -172,8 +201,17 @@ public class SkillTree {
         }
     }
 
+    /**
+     * Aktualisiert den SkillTree.
+     * Wird aktuell nicht verwendet.
+     */
     public void update() {}
 
+    /**
+     * Zeichnet den SkillTree auf den Bildschirm.
+     * Zeichnet den dunklen Hintergrund, die Verbindungslinien zwischen den Abilities
+     * und anschließend alle Ability-Knoten.
+     */
     public void draw(Graphics g) {
         g.setColor(new Color(0, 0, 0, 180));
         g.drawRect(0, 0, width, height);
@@ -196,6 +234,10 @@ public class SkillTree {
         }
     }
 
+    /**
+     * Lädt die Ability-Icons aus dem Ability-Spritesheet.
+     * Schneidet die einzelnen Icons aus dem Spritesheet aus und speichert sie im abilityIcons-Array.
+     */
     private void loadIcons() {
         try {
             BufferedImage sheet = ImageIO.read(

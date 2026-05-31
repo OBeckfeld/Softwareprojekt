@@ -39,6 +39,10 @@ public class MapLoader {
     private TileManager tileManager;
     private GamePanel gamePanel;
 
+    /**
+     * Erstellt einen neuen MapLoader mit allen benötigten Referenzen zum Laden und Erzeugen einer Map.
+     * Speichert Tile-Größe, Registries, Manager, Eingaben und GamePanel für die spätere Map-Erstellung.
+     */
     public MapLoader(int tileSize, EntityRegistry registry, KeyboardInputs keyboardInputs, AttackRegistry attackRegistry, CollisionManager collisionManager, TileManager tileManager, GamePanel gamePanel) {
         this.tileSize = tileSize;
         this.registry = registry;
@@ -50,7 +54,7 @@ public class MapLoader {
     }
 
     /**
-     * Überprüft, ob der Player eine geöffnete Tür berührt hat, und lädt gegebenenfalls die nächste Map
+     * Überprüft, ob der Player eine geöffnete Tür berührt hat, und lädt gegebenenfalls die nächste Map.
      */
     public void checkMapUpdate() {
         for (Entity entity : registry.getEntities()) {
@@ -67,7 +71,8 @@ public class MapLoader {
     }
 
     /**
-     * Methode, welche die Daten der Map aus der angegebenen Datei entnimmt
+     * Lädt die Mapdaten aus der passenden JSON-Datei.
+     * Speichert die Entity-Map und Tile-Map aus der Datei in den entsprechenden Arrays.
      */
     public void fetchMapData() {
         if (mapIndex > indexLimit) { mapIndex = indexLimit; }
@@ -87,10 +92,11 @@ public class MapLoader {
     }
 
     /**
-     * Methode, welche aus einem in einem String gespeicherten zweidimensionalen Array vom Typ int ein reguläres Array macht
-     * @param json String, welcher das JSON Array enthält
+     * Wandelt ein zweidimensionales int-Array aus einem JSON-String in ein reguläres int[][]-Array um.
+     *
+     * @param json String, welcher das JSON-Array enthält
      * @param key Key, welcher vor dem Array liegt
-     * @return Array mit den Werten des JSON Arrays
+     * @return Array mit den Werten des JSON-Arrays
      */
     public int[][] parseJsonArray(String json, String key) {
         // Enterzeichen, Carriage Returns und Leerzeichen entfernen, damit die Verarbeitung einfacher ist
@@ -141,7 +147,9 @@ public class MapLoader {
 
 
     /**
-     * Mithilfe angegebener ID und Koordinaten wird eine entsprechende Entity gespanwt
+     * Spawnt anhand einer Entity-ID die passende Entity an den angegebenen Koordinaten.
+     * Je nach ID werden Spieler, Türen, Waypoints oder verschiedene Gegnertypen erzeugt.
+     *
      * @param entityId ID, welche die Art der Entity festlegt
      * @param x x-Koordinate, an welcher die Entity gespawnt werden soll
      * @param y y-Koordinate, an welcher die Entity gespawnt werden soll
@@ -203,6 +211,11 @@ public class MapLoader {
     /*
      * Methode, welche die Map aufbaut
      */
+    /**
+     * Baut die aktuelle Map anhand der geladenen Mapdaten auf.
+     * Entfernt alte Entities, behält den Player bei, entfernt Angriffe,
+     * spawnt neue Entities und übergibt die TileMap an den TileManager.
+     */
     public void buildMap() {
         Player player = null;
         //Entities werden von der Map entfernt
@@ -237,14 +250,23 @@ public class MapLoader {
         mapIndex++;
     }
 
+    /**
+     * Setzt den aktuellen Map-Index.
+     */
     public void setMapIndex(int mapIndex) {
         this.mapIndex = mapIndex;
     }
 
+    /**
+     * Gibt den aktuellen Map-Index zurück.
+     */
     public int getMapIndex() {
         return mapIndex;
     }
 
+    /**
+     * Gibt die maximale Anzahl vorhandener Map-Indizes zurück.
+     */
     public int getMapIndexLimit() {
         return indexLimit;
     }
