@@ -44,7 +44,7 @@ public class Player extends PlayerTypeEntity {
         skillTree = new SkillTree(this, gamePanel);
         weapon = new Rifle(this, attackRegistry, tileManager);
 
-        sheet = new SpriteSheet("src/data/sprites/playerCrawler.png", 833, 833);
+        sheet = new SpriteSheet("src/data/sprites/playerCrawler.png", 1024, 1024);
 
         walkAnimations = new Animation[4];
         walkAnimations[0] = new Animation(new BufferedImage[]{ // rechts
