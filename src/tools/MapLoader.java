@@ -193,7 +193,7 @@ public class MapLoader {
                 rangedEnemyLvL5.setWeapon(new Gun(rangedEnemyLvL5, attackRegistry, tileManager));
                 break;
             case 30:
-                new ExplodeEnemy(x, y , 40, 40, 100, 80, 300, registry, attackRegistry, tileManager, gamePanel);
+                new ExplodeEnemy(x, y , 40, 40, registry, attackRegistry, tileManager, gamePanel);
                 break;
             default:
                 return;

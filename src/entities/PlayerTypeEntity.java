@@ -34,6 +34,7 @@ public abstract class PlayerTypeEntity extends Entity {
     protected int attacking = 3;
     protected HealthBar healthBar;
     protected SkillTree skillTree;
+    protected int hitCooldown;
     protected int skillPoints = 1000;
     protected int pointsOnDeath = 1;
     private boolean isParrying = false;
@@ -179,6 +180,12 @@ public abstract class PlayerTypeEntity extends Entity {
 
     public Weapon getWeapon() {
         return weapon;
+    }
+
+    public void setWeapon(Weapon weapon) {
+        this.weapon = weapon;
+        this.weapon.setDamage(damage);
+        this.weapon.setHitCooldown(hitCooldown);
     }
 
     public void setWeapon(String weapon) {
