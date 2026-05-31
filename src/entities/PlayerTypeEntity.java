@@ -304,6 +304,12 @@ public abstract class PlayerTypeEntity extends Entity {
         return weapon;
     }
 
+    public void setWeapon(Weapon weapon) {
+        this.weapon = weapon;
+        this.weapon.setDamage(damage);
+        this.weapon.setHitCooldown(hitCooldown);
+    }
+
     /**
      * Setzt die Waffe der Entity anhand eines String-Namens.
      */

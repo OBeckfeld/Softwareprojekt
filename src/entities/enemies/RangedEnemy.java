@@ -47,8 +47,45 @@ public class RangedEnemy extends Enemy {
         setSpeed(3);
         viewRange = 400;
         damage = 10;
-        skillTree = new SkillTree(this, gamePanel);
 
+        sheet = new SpriteSheet("src/data/sprites/gegnerranged.png", 161, 161);
+
+
+        // Lauf-Animationen: Reihe 0 seitlich (4 Frames), Reihe 3 oben/unten (1 Frame)
+        animations = new Animation[4];
+        animations[0] = new Animation(new BufferedImage[]{ // rechts
+                sheet.getFrame(0, 0), sheet.getFrame(0, 1),
+                sheet.getFrame(0, 2), sheet.getFrame(0, 3)
+        }, 10, true);
+        animations[2] = new Animation(new BufferedImage[]{ // links (gespiegelt)
+                sheet.getFrameMirrored(0, 0), sheet.getFrameMirrored(0, 1),
+                sheet.getFrameMirrored(0, 2), sheet.getFrameMirrored(0, 3)
+        }, 10, true);
+        animations[1] = new Animation(new BufferedImage[]{ // unten (statisch)
+                sheet.getFrame(3, 0)
+        }, 10, true);
+        animations[3] = new Animation(new BufferedImage[]{ // oben (statisch)
+                sheet.getFrame(3, 0)
+        }, 10, true);
+
+        // Schuss-Animation: Reihe 2, 4 Frames, einmalig
+        shootAnimation = new Animation(new BufferedImage[]{
+                sheet.getFrame(2, 0), sheet.getFrame(2, 1),
+                sheet.getFrame(2, 2), sheet.getFrame(2, 3)
+        }, 8, false);
+
+        currentAnimation = animations[0];
+    }
+
+    public RangedEnemy(int x, int y, int width, int height, int health, int damage, int defense, int viewrange, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
+        super(x, y, width, height, 60, registry, attackRegistry, tileManager, gamePanel);
+        this.maxHealth = health;
+        this.currentHealth = health;
+        this.damage = damage;
+        this.hitCooldown = hitCooldown;
+        this.defense = defense;
+        setSpeed(3);
+        pointsOnDeath = 2;
 
         sheet = new SpriteSheet("src/data/sprites/gegnerranged.png", 161, 161);
 
