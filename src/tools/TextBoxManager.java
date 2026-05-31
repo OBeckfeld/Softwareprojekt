@@ -7,17 +7,19 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class TextBoxManager {
+    // Array mit den Bildern der Schriftzeichen
     private BufferedImage[] characters;
     // Es wird eine CopyOnWriteArrayList verwendet, um ConcurrentModificationExceptions zu verhindern
     private final CopyOnWriteArrayList<TextBox> textBoxes;
-    private final CopyOnWriteArrayList<TextBox> textBoxesSkillTree;
+    // Separate ArrayList für Menüs, um diese im Vordergrund einzublenden
+    private final CopyOnWriteArrayList<TextBox> textBoxesMenu;
     private int imageWidth = 17;
     private int imageHeight = 19;
 
     public TextBoxManager() {
         characters = new BufferedImage[48];
         textBoxes = new CopyOnWriteArrayList<>();
-        textBoxesSkillTree = new CopyOnWriteArrayList<>();
+        textBoxesMenu = new CopyOnWriteArrayList<>();
         loadCharacters();
     }
 
@@ -29,53 +31,80 @@ public class TextBoxManager {
         textBoxes.remove(box);
     }
 
-    public void addSkillTreeTextBox(TextBox box) {
-        textBoxesSkillTree.add(box);
+    public void addMenuTextBox(TextBox box) {
+        textBoxesMenu.add(box);
     }
 
-    public void removeSkillTreeTextBox(TextBox box) {
-        textBoxesSkillTree.remove(box);
+    public void removeMenuTextBox(TextBox box) {
+        textBoxesMenu.remove(box);
     }
 
+    public void clearMenuTextBoxes() {
+        textBoxesMenu.clear();
+    }
+
+    /**
+     * Methode, welche die Textboxen updated
+     */
     public void updateBoxes() {
+        // Liste mit den zu entfernenden Boxen wird erstellt
         ArrayList<TextBox> removeList = new ArrayList<>();
+        // Alle regulären Boxen werden durchgegangen
         for (TextBox box : textBoxes) {
+            // Falls Boxen ein Zeitlimit haben, wird die zeit, die sie bereits existieren geupdated
             if (box.getTimeToLive() != null) {
                 box.increaseTimeAlive();
+                // Falls eine Box abgelaufen ist, wird sie der removeList hinzugefügt
                 if(box.getTimeAlive() >= box.getTimeToLive()) {
                     removeList.add(box);
                 }
             }
+            // Falls eine Box ohne zeitlimit als abgelaufen markiert wurde, wird sie der removeList hinzugefügt
             else if (!box.getAlive()) {
                 removeList.add(box);
             }
         }
-        for (TextBox box : textBoxesSkillTree) {
+        // Alle Boxen aus Menüs werden durchgegangen
+        for (TextBox box : textBoxesMenu) {
+            // Falls Boxen ein Zeitlimit haben, wird die zeit, die sie bereits existieren geupdated
             if (box.getTimeToLive() != null) {
                 box.increaseTimeAlive();
+                // Falls eine Box abgelaufen ist, wird sie der removeList hinzugefügt
                 if(box.getTimeAlive() >= box.getTimeToLive()) {
                     removeList.add(box);
                 }
             }
+            // Falls eine Box ohne Zeitlimit als abgelaufen markiert wurde, wird sie der removeList hinzugefügt
             else if (!box.getAlive()) {
                 removeList.add(box);
             }
         }
+        // Alle Elemente der removeList werden gelöscht
         for (TextBox box : removeList) {
             textBoxes.remove(box);
+            removeList.remove(box);
         }
     }
 
-    // Methode, welche alle normalen Boxen zeichnet
+    /**
+     * Methode, welche alle regulären Boxen zeichnet
+     * @param g Grafikobjekt, welches zum zeichnen benötigt wird
+     */
     public void draw(Graphics g) {
+        // Alle Boxen werden durchgegangen
         for (TextBox box : textBoxes) {
+            // Falls die Box nicht existiert/abgelaufen ist, wird sie nicht gezeichnet
             if (box.getAlive() != null && !box.getAlive()) {
                 continue;
             }
+            // Box wird gezeichnet
             drawBox(g, box);
+            // Indizes der Zeichen des Strings werden in Array gespeichert
             ArrayList<ArrayList<Integer>> imageIndexes = getTextIndexes(box);
+            // Position des Textes wird berechnet
             int textPosX = box.getX() + box.getPadding() + box.getBorderThickness();
             int textPosY = box.getY() + box.getPadding() + box.getBorderThickness();
+            // Alle Boxen werden durchgegangen und ihr Text wird gezeichnet
             for (int row = 0; row < imageIndexes.size(); row++) {
                 for (int col = 0; col < imageIndexes.get(row).size(); col++) {
                     g.drawImage(
@@ -91,16 +120,25 @@ public class TextBoxManager {
         }
     }
 
-    // Methode, welche alle Boxen des Skill Trees zeichnet
-    public void drawSkillTreeBoxes(Graphics g) {
-        for (TextBox box : textBoxesSkillTree) {
+    /**
+     * Methode, welche alle Boxen, die zu Menüs gehören, zeichnet
+     * @param g Grafikobjekt, welches zum zeichnen benötigt wird
+     */
+    public void drawMenuTextBoxes(Graphics g) {
+        // Alle Boxen werden durchgegangen
+        for (TextBox box : textBoxesMenu) {
+            // Falls die Box nicht existiert/abgelaufen ist, wird sie nicht gezeichnet
             if (box.getAlive() != null && !box.getAlive()) {
                 continue;
             }
+            // Box wird gezeichnet
             drawBox(g, box);
+            // Indizes der Zeichen des Strings werden in Array gespeichert
             ArrayList<ArrayList<Integer>> imageIndexes = getTextIndexes(box);
+            // Position des Textes wird berechnet
             int textPosX = box.getX() + box.getPadding() + box.getBorderThickness();
             int textPosY = box.getY() + box.getPadding() + box.getBorderThickness();
+            // Alle Boxen werden durchgegangen und ihr Text wird gezeichnet
             for (int row = 0; row < imageIndexes.size(); row++) {
                 for (int col = 0; col < imageIndexes.get(row).size(); col++) {
                     g.drawImage(
@@ -129,9 +167,12 @@ public class TextBoxManager {
     // "." - Leerzeichen: Position in der Sonderzeichenreihenfolge (siehe oben) plus 39
     public void loadCharacters() {
         try {
+            // Bild wird gelesen und gespeichert
             BufferedImage sheet = ImageIO.read(getClass().getResource("/data/sprites/CharacterSpriteSheet.png"));
+            // SpriteSheet wird mit dem Bild erstellt
             SpriteSheet ss = new SpriteSheet(sheet);
 
+            // Alle Zeichen werden im Bild durchgegangen und in das Array characters[] gespeichert
             for (int i = 0; i < 7; i++) {
                 for (int j = 0; j < 7; j++) {
                     int index = i * 7 + j;
@@ -146,14 +187,22 @@ public class TextBoxManager {
         }
     }
     
+    /**
+     * Methode, welche aus einem String die Indizes der Zeichen entnimmt
+     * @param box TextBox, aus welcher die Informationen entnommen werden sollen
+     * @return Zweidimensionale ArrayList, die die Indizes der Zeichen speichert
+     */
     public ArrayList<ArrayList<Integer>> getTextIndexes(TextBox box) {
+        // ArrayLists für Speicherung der Zeichen
         ArrayList<ArrayList<Integer>> imageIndexes = new ArrayList<>();
         ArrayList<Integer> imageIndexesRow = new ArrayList<>();
-        int rowNumber = 0;
+        //Text und dessen anfängliche Länge und Höhe werden gespeichert
         String text = box.getText();
         int textLength = 0;
         int textHeight = 0;
+        //Solange noch Zeichen im Text verbleiben
         while (!text.isEmpty()) {
+            // Indizes von Zeichen, die Worte beenden, werden gespeichert
             int[] wordEndIndexList = new int[7];
             wordEndIndexList[0] = text.indexOf(" ");
             wordEndIndexList[1] = text.indexOf(",");
@@ -162,53 +211,73 @@ public class TextBoxManager {
             wordEndIndexList[4] = text.indexOf("?");
             wordEndIndexList[5] = text.indexOf(":");
             wordEndIndexList[6] = text.indexOf(")");
+            // variable für den Index des Endes des ersten Wortes
             Integer wordEndIndex = null;
+            // Speichert einen wordEndIndex, welcher nicht -1 ist, falls vorhanden
             for (int i : wordEndIndexList) {
                 if(i != -1) {
                     wordEndIndex = i;
+                    break;
                 }
             }
+            // Falls kein Index, der nicht -1 ist, vorliegt, wird der Index -1
             if (wordEndIndex == null) {
                 wordEndIndex = -1;
             }
+            // niedrigster wordEndIndex, welcher nicht -1 ist, wird gefunden
             for (int i : wordEndIndexList) {
-                if (i >= 0 && i < wordEndIndex) {
+                if (i != -1 && i < wordEndIndex) {
                     wordEndIndex = i;
                 }
             }
+            // Wort/Zeichenkette wird aus Text entnommen
             String word;
             if (wordEndIndex == 0) {
+                // Falls das erste Zeichen ein Leerzeichen ist, wird es entfernt
                 if (text.charAt(0) == ' ') {
-                text = text.substring(1);
-                continue;
+                    text = text.substring(1);
+                    continue;
                 }
+                // Falls das erste Zeichen ein anderes Trennzeichen ist, wird es einzeln gespeichert
                 word = text.substring(0, 1);
             }
+            // Falls keine Trennzeichen existieren, wird der gesamte Text in word gespeichert
             if (wordEndIndex == -1) {
                 word = text;
             }
+            // Ansonsten wird der text bis wordEndIndex + 1 entnommen
             else {
                 word = text.substring(0, wordEndIndex + 1);
             }
+            // entscheidet, was passiert, falls das Wort nicht in die Zeile passt
             if (textLength + word.length() * imageWidth > box.getTextWidthMax()) {
+                //falls das letzte Zeichen ein Leerzeichen ist, wird geprüft, ob das Wort ohne leerzeichen passt
                 if (word.endsWith(" ") && textLength + (word.length() - 1) * imageWidth <= box.getTextWidthMax()) {
                     word = word.substring(0, word.length() - 1);
+                    // Textlänge wird erhöht
                     textLength += (word.length()) * imageWidth;
                 }
+                // Falls das Wort in die nächste Zeile passt
                 else if (textHeight + imageHeight <= box.getTextHeightMax()) {
+                    // textlänge wird zurückgesetzt, texthöhe wird erhöht
                     textLength = 0;
                     textHeight += imageHeight;
+                    // aktuelle Reihe wird gespeichert und nächste Reihe wird hinzugefügt
                     imageIndexes.add(imageIndexesRow);
                     imageIndexesRow = new ArrayList<>();
                     continue;
                 }
+                // Falls das Wort nicht in die TextBox passt, wird eine Exception geworfen
                 else {
                     throw new IllegalArgumentException("The word " + word + " is too big for the current text box size. WordEndIndex: " + wordEndIndex);
                 }
             }
+            // Falls das Wort passt, wird die textlänge erhöht
             else {
                 textLength += word.length() * imageWidth;
             }
+            // Falls das Wort den escape Code für ein enterZeichen enthält, wird eine neue zeile gestartet
+            // (Verfahren wie oben)
             if (word.contains("(e)")) {
                 textLength = 0;
                 textHeight += imageHeight;
@@ -217,17 +286,25 @@ public class TextBoxManager {
                 text = text.substring(word.length());
                 continue;
             }
+            // Indizes der zeichen werden in der ArrayList imageIndexesRow gespeichert
             for (int i = 0; i < word.length(); i++) {
                 imageIndexesRow.add(getImageIndex(word.charAt(i)));
             }
+            // Das Wort wird aus dem text entfernt
             text = text.substring(word.length());
         }
+        // falls die Reihe einen Inhalt hat, wird sie hinzugefügt
         if (!imageIndexesRow.isEmpty()) {
             imageIndexes.add(imageIndexesRow);
         }
         return imageIndexes;
     }
 
+    /**
+     * Die Box wird gezeichnet
+     * @param g Grafikobjekt, welches zum zeichnen benötigt wird
+     * @param box Die zu zeichnende Box
+     */
     public void drawBox(Graphics g, TextBox box) {
         g.setColor(Color.BLACK);
         g.fillRect(box.getX(), box.getY(), box.getBoxWidth(), box.getBoxHeight());
@@ -235,6 +312,9 @@ public class TextBoxManager {
         g.fillRect(box.getX() + box.getBorderThickness(), box.getY() + box.getBorderThickness(), box.getBoxWidth() - 2 * box.getBorderThickness(), box.getBoxHeight() - 2 * box.getBorderThickness());
     }
 
+    /**
+     * Gibt auf Angabe eines Zeichens den Index diesens wieder, falls ein solcher existiert
+     */
     public int getImageIndex(char character) {
         switch(character) {
             case 'a':

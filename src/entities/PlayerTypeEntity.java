@@ -27,7 +27,8 @@ public abstract class PlayerTypeEntity extends Entity {
     protected int critChance;
     protected int damageModifier = 1;
     protected AbilityManager abilityManger;
-    protected double speed = 3;
+    protected GamePanel gamePanel;
+    protected double speed = 2.5;
     protected Weapon weapon;
     protected double defaultSpeed = 3;
     protected int attacking = 3;
@@ -44,10 +45,9 @@ public abstract class PlayerTypeEntity extends Entity {
         damageModifier = 1;
         weapon = new StarterSword(this, attackRegistry, tileManager);
         healthBar = new HealthBar(this);
-        skillTree = new SkillTree(this,gamePanel);
         attacking = 0;
         skillTree = new SkillTree(this, gamePanel);
-
+        this.gamePanel = gamePanel;
     }
 
     public void gainLife(int amount) {
@@ -117,17 +117,19 @@ public abstract class PlayerTypeEntity extends Entity {
         if (damage > 0){
             currentHealth -= damage;
         }
-        if (currentHealth < 1){
+        if (currentHealth < 1) {
             dead = true;
         }
-        source.dealtDamage(damage);
+        if (source != null) { // ← null check
+            source.dealtDamage(damage);
+        }
     }
     public void setParrying(boolean parry){
         isParrying = parry;
     }
     public void dealtDamage(int dmg){
-        if(Arrays.asList(skillTree.getUnlockedAbilities()).contains("LifeSteal")){
-            setHealth(getCurrentHealth()+(int)(dmg/4));
+        if(Arrays.asList(skillTree.getUnlockedAbilities()).contains("Lifesteal")){
+            setHealth(getCurrentHealth()+(int)(dmg/6));
         }
     }
 
@@ -140,8 +142,12 @@ public abstract class PlayerTypeEntity extends Entity {
     }
 
     public void update() {
-        if (!skillTree.getActive()) {
+        if (skillTree != null && !skillTree.getActive()) {
             if (currentHealth <= 0) {
+                if (this instanceof Player) {
+                    gamePanel.setDeathScreen(true);
+                    return;
+                }
                 unregister();
             }//wenn die Entity tod ist, macht sie nichts mehr, außer sich zu unregistern
             else {

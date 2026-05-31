@@ -1,5 +1,7 @@
 package tools;
 
+import Weapons.ShotGun;
+import entities.enemies.Boss;
 import entities.managers.EntityRegistry;
 import entities.managers.AttackRegistry;
 import entities.managers.CollisionManager;
@@ -7,12 +9,9 @@ import inputs.KeyboardInputs;
 import entities.Entity;
 import entities.Player;
 import entities.enemies.Enemy;
-import entities.enemies.RangedEnemy;
-import entities.enemies.ExplodeEnemy;
 import entities.Door;
 import entities.Waypoint;
 import entities.Attack;
-import Weapons.Gun;
 import main.GamePanel;
 
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ public class MapLoader {
     //Legt die aktuelle Map fest, welche geladen werden soll
     private int mapIndex = 1;
     //Anzahl an vorhandenen Datensätzen für die Maps
-    private int indexLimit = 6;
+    private int indexLimit = 5;
     //Arrays, welche die Informationen über die Map enthalten
     private int[][] entityMap;
     private int[][] tileMap;
@@ -137,16 +136,11 @@ public class MapLoader {
         return parsedArray;
     }
 
-    /**
-     * Mithilfe angegebener ID und Koordinaten wird eine entsprechende Entity gespanwt
-     * @param entityId ID, welche die Art der Entity festlegt
-     * @param x x-Koordinate, an welcher die Entity gespawnt werden soll
-     * @param y y-Koordinate, an welcher die Entity gespawnt werden soll
-     */
+
     public void spawnEntity(int entityId, int x, int y) {
         switch(entityId) {
             case 1:
-                new Player(x, y, 40, 80, registry, keyboardInputs, attackRegistry, tileManager, gamePanel);
+                new Player(x, y, 80, 80, registry, keyboardInputs, attackRegistry, tileManager, gamePanel);
                 break;
             case 2:
                 new Door(x, y, registry, attackRegistry, tileManager);
@@ -154,44 +148,12 @@ public class MapLoader {
             case 3:
                 new Waypoint(x, y, registry, attackRegistry, tileManager);
                 break;
-            case 10:
-                new Enemy(x, y , 40, 40, 20, 5, 0, 120, 60, 20, 2000, registry, attackRegistry, tileManager, gamePanel);
+            case 4:
+                new Enemy(x, y, 80, 80, 360, registry, attackRegistry, tileManager,gamePanel); //
                 break;
-            case 11:
-                new Enemy(x, y , 40, 40, 60, 10, 0, 120, 60, 20, 2000, registry, attackRegistry, tileManager, gamePanel);
-                break;
-            case 12:
-                new Enemy(x, y , 40, 40, 100, 20, 0, 120, 60, 20, 2000, registry, attackRegistry, tileManager, gamePanel);
-                break;
-            case 13:
-                new Enemy(x, y , 40, 40, 100, 20, 15, 120, 60, 20, 2000, registry, attackRegistry, tileManager, gamePanel);
-                break;
-            case 14:
-                new Enemy(x, y , 40, 40, 100, 5, 80, 120, 60, 20, 3000, registry, attackRegistry, tileManager, gamePanel);
-                break;
-            case 20:
-                RangedEnemy rangedEnemyLvL1 = new RangedEnemy(x, y , 40, 40, 10, 2, 0, 300, 1000, registry, attackRegistry, tileManager, gamePanel);
-                rangedEnemyLvL1.setWeapon(new Gun(rangedEnemyLvL1, attackRegistry, tileManager));
-                break;
-            case 21:
-                RangedEnemy rangedEnemyLvL2 = new RangedEnemy(x, y , 40, 40, 60, 10, 0, 300, 2000, registry, attackRegistry, tileManager, gamePanel);
-                rangedEnemyLvL2.setWeapon(new Gun(rangedEnemyLvL2, attackRegistry, tileManager));
-                break;
-            case 22:
-                RangedEnemy rangedEnemyLvL3 = new RangedEnemy(x, y , 40, 40, 100, 20, 0, 300, 2000, registry, attackRegistry, tileManager, gamePanel);
-                rangedEnemyLvL3.setWeapon(new Gun(rangedEnemyLvL3, attackRegistry, tileManager));
-                break;
-            case 23:
-                RangedEnemy rangedEnemyLvL4 = new RangedEnemy(x, y , 40, 40, 100, 20, 15, 300, 2000, registry, attackRegistry, tileManager, gamePanel);
-                rangedEnemyLvL4.setWeapon(new Gun(rangedEnemyLvL4, attackRegistry, tileManager));
-                break;
-            case 24:
-                RangedEnemy rangedEnemyLvL5 = new RangedEnemy(x, y , 40, 40, 100, 5, 80, 300, 3000, registry, attackRegistry, tileManager, gamePanel);
-                rangedEnemyLvL5.setWeapon(new Gun(rangedEnemyLvL5, attackRegistry, tileManager));
-                break;
-            case 30:
-                new ExplodeEnemy(x, y , 40, 40, 100, 80, 300, registry, attackRegistry, tileManager, gamePanel);
-                break;
+            case 40:
+                Boss firstBoss = new Boss(x, y , 80, 80, 1000, 20, 40, 800, 2500, registry, attackRegistry, tileManager, gamePanel);
+                firstBoss.setWeapon(new ShotGun(firstBoss, attackRegistry, tileManager));
             default:
                 return;
         }
