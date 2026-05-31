@@ -11,11 +11,12 @@ public class Gun extends  Weapon{
         super(owner,attackRegistry, tileManager);
         attackCooldown = 500;//inMilli Sekunden
         attackDuration = 5;//in ticks
+        damage = 15;
     }
     @Override
     public boolean use(){
         if (!super.use()){return false;}//on cooldown
-        new Projectile(owner.getCenter() [0], owner.getCenter() [1], 20, 20, owner.registry, attackRegistry, owner, 4, owner.getDirection(), 300, damage, tileManager);
+        new Projectile(owner.getCenter() [0], owner.getCenter() [1], 20, 20, owner.registry, attackRegistry, owner, 6, owner.getDirection(), 300, damage, tileManager);
         applyKnockback(2);
         return true;
     }

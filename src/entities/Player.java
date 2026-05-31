@@ -20,14 +20,16 @@ public class Player extends PlayerTypeEntity {
     protected KeyboardInputs inputs;
     private int skillpoints = 0;
 
+
     public Player(int x, int y, int width, int height, EntityRegistry registry, KeyboardInputs keyboardInputs, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
         super(x, y, width, height, 20, 60, registry, attackRegistry, tileManager, gamePanel);//attackDuration und cooldown machen nichts. Beides wird von Waffe bestimmt
         this.inputs = keyboardInputs;
         movement = new MovementComponent(keyboardInputs, tileManager);
         mass = 3;
-        weapon = new ShotGun(this, attackRegistry, tileManager);
+        defaultSpeed = 3;
+        speed = defaultSpeed;
+        weapon = new Gun(this, attackRegistry, tileManager);
         gamePanel.assignPlayer(this);
-        setSkillPoints(5);
         attackRegistry.grabOwner(this);
     }
 
@@ -35,7 +37,7 @@ public class Player extends PlayerTypeEntity {
         if(skillTree.isActive){
             skillTree.update();
         }
-        if(inputs.getHeldKeys().contains(KeyEvent.VK_P)){
+        if(inputs.getHeldKeys().contains(KeyEvent.VK_P)){ //öffnet den SkillTree
             if(!skillTree.isActive) {
                 skillTree.open();
                 skillTree.update();
@@ -44,7 +46,7 @@ public class Player extends PlayerTypeEntity {
                 skillTree.close();
             }
             try {
-                Thread.sleep(250);
+                Thread.sleep(250); //damit mit einem Tastendruck der skillTree sich nicht öffnet und direkt wieder schließt
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

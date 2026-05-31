@@ -141,7 +141,10 @@ public abstract class Ability implements MouseListener, MouseMotionListener {
     @Override
     public void mouseClicked(MouseEvent e){
         if(accessible){
-            skillTree.unlock(this);
+            owner.getAbilityManger().unlock(this);
+            if(active){
+                owner.getAbilityManger().equip(this);
+            }
         }
     }
     

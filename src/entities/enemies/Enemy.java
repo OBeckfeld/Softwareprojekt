@@ -16,7 +16,7 @@ public class Enemy extends PlayerTypeEntity {
     private int attackDelay = 20;
     public Enemy(int x, int y, int width, int height, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
         super(x, y, width, height, 100,100, registry, attackRegistry, tileManager, gamePanel);
-        defaultSpeed = 1.4;
+        defaultSpeed = 2;
         speed = defaultSpeed;
         viewRange = 20000;
         mass = 1;
@@ -79,6 +79,12 @@ public class Enemy extends PlayerTypeEntity {
             }
             move(vector);
 
+    }
+
+    @Override
+    public void takeDamage(int damage, PlayerTypeEntity source){ //wenn gegner Schaden nimmt, sieht er den Player
+        player = (Player)source;
+        super.takeDamage(damage, source);
     }
 
     protected void tryAttackEntity(PlayerTypeEntity targetPlayer) {
