@@ -12,6 +12,7 @@ public class DMGBoost extends Ability {
         cost = 4; //wird in den unter klassen überschrieben
         cooldown = 1500; //in Millisekunden
         duration = 2000; //in Millisekunden
+        active = false;
 
     }
     @Override

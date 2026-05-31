@@ -12,6 +12,7 @@ public class DMGBoost2 extends Ability {
         cost = 12; //wird in den unter klassen überschrieben
         cooldown = 1500; //in Millisekunden
         duration = 100; //in Millisekunden
+        active = false;
     }
     @Override
     public String getDescription(){ return "+ 15% damage";}

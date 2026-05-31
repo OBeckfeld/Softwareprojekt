@@ -81,6 +81,12 @@ public class Enemy extends PlayerTypeEntity {
 
     }
 
+    @Override
+    public void takeDamage(int damage, PlayerTypeEntity source){ //wenn gegner Schaden nimmt, sieht er den Player
+        player = (Player)source;
+        super.takeDamage(damage, source);
+    }
+
     protected void tryAttackEntity(PlayerTypeEntity targetPlayer) {
         direction = getDirectionTo(targetPlayer.getCenter()[0], targetPlayer.getCenter()[1]);
 

@@ -20,6 +20,7 @@ public class Heal extends Ability {
     public void unlock(){
         unlocked = true;
 
+
     }
 
     @Override

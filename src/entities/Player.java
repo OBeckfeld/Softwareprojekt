@@ -28,7 +28,7 @@ public class Player extends PlayerTypeEntity {
         mass = 3;
         defaultSpeed = 3;
         speed = defaultSpeed;
-        weapon = new StarterSword(this, attackRegistry, tileManager);
+        weapon = new Gun(this, attackRegistry, tileManager);
         gamePanel.assignPlayer(this);
         attackRegistry.grabOwner(this);
     }

@@ -52,7 +52,7 @@ public class AttackManager implements AttackRegistry {
                     int rand = random.nextInt(100);
                     if(rand < ((PlayerTypeEntity) entity).getCritChance()){
                         if(!entity.isDead()) {
-                            ((PlayerTypeEntity) entity).takeDamage(attack.getDamage() * (((PlayerTypeEntity) entity).getCrit() / 100));//fügt kritischen Schaden zu
+                            ((PlayerTypeEntity) entity).takeDamage(attack.getDamage() * (((PlayerTypeEntity) entity).getCrit() / 100), owner);//fügt kritischen Schaden zu
                             if (entity.isDead()) {
                                 owner.setSkillPoints(owner.getSkillPoints() + entity.getPointsOnDeath());
                             }
@@ -60,10 +60,9 @@ public class AttackManager implements AttackRegistry {
                     }
                     else{
                         if(!entity.isDead()) {
-                            ((PlayerTypeEntity) entity).takeDamage(attack.getDamage());//macht den Schaden. Rüstung etc. wird bei der Entity selbst abgezogen. Das gilt auch für "negativen Schaden"
+                            ((PlayerTypeEntity) entity).takeDamage(attack.getDamage(), owner);//macht den Schaden. Rüstung etc. wird bei der Entity selbst abgezogen. Das gilt auch für "negativen Schaden"
                             if (entity.isDead()) {
-                                owner.setSkillPoints(owner.getSkillPoints() + entity.getPointsOnDeath());
-                                System.out.println(owner.getSkillPoints());
+                                owner.setSkillPoints(owner.getSkillPoints() + entity.getPointsOnDeath());//wenn gegner getötet wird, erhällt player skill points
                             }
                         }
                     }

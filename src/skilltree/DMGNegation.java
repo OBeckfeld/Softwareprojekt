@@ -12,14 +12,15 @@ public class DMGNegation extends Ability {
         cost = 4; //wird in den unter klassen überschrieben
         cooldown = 1500; //in Millisekunden
         duration = 2000; //in Millisekunden
+        active = false;
 
     }
     @Override
-    public String getDescription(){ return "damage taken reduced by 10%";}
+    public String getDescription(){ return "damage taken reduced by 15%";}
     @Override
     public void unlock(){
         unlocked = true;
-        owner.setDefense(owner.getDefence()+10);
+        owner.setDefense(owner.getDefence()+15);
 
     }
 

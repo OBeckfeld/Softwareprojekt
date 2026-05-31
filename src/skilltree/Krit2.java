@@ -12,6 +12,7 @@ public class Krit2 extends Ability {
         cost = 25; //wird in den unter klassen überschrieben
         cooldown = 1500; //in Millisekunden
         duration = 2000; //in Millisekunden
+        active = false;
 
     }
     @Override

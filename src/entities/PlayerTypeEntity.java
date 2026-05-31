@@ -59,6 +59,9 @@ public abstract class PlayerTypeEntity extends Entity {
     public void gainLife(int amount) {
         currentHealth = Math.min(currentHealth + amount, 100);
     }
+    public AbilityManager getAbilityManger(){
+        return abilityManger;
+    }
 
     public boolean isAlive() { return currentHealth > 0; }
 
@@ -118,7 +121,7 @@ public abstract class PlayerTypeEntity extends Entity {
         healthBar.draw(g);
     }
 
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage, PlayerTypeEntity source) {
         damage = damage- (int)(damage*defense)/100;
         if (damage > 0){
             currentHealth -= damage;

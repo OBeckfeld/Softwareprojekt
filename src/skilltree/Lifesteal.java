@@ -12,6 +12,7 @@ public class Lifesteal extends Ability {
         cost = 25; //wird in den unter klassen überschrieben
         cooldown = 4000; //in Millisekunden
         duration = 1; //in Millisekunden
+        active = false;
 
     }
     @Override
