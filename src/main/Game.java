@@ -23,169 +23,188 @@ import java.awt.Rectangle;
 
 public class Game implements Runnable {
 
-    private final GameWindow gameWindow;
-    private final GamePanel gamePanel;
-    private Thread gameThread;
-    private final int FPS_SET = 120; // Wir zielen auf 120 Bilder pro Sekunde ab;
-    private final KeyboardInputs keyboardInputs;
-    private final EntityManager entities;
-    private CollisionManager collisions;//müsste Final aber geht nicht
-    private final AttackManager attackManager;
-    private final TileManager tileManager;
-    private final MapLoader mapLoader;
-    private final ProgressManager progressManager;
-    private final TextBoxManager textBoxManager;
-    private final Camera camera;
-    private Player player;
-    private static int WIDTH;
-    private static int HEIGHT;
-    public static int screenWidth;
-    public static int screenHeight;
+    private final GameWindow gameWindow;       // Fenster des Spiels
+    private final GamePanel gamePanel;         // Panel, auf dem das Spiel gezeichnet wird
+    private Thread gameThread;                 // Thread, in dem der Game-Loop läuft
+    private final int FPS_SET = 120;           // Ziel-FPS
+    private final KeyboardInputs keyboardInputs; // Tastatureingaben
+    private final EntityManager entities;      // verwaltet alle Entities
+    private CollisionManager collisions;       // verwaltet Kollisionen
+    private final AttackManager attackManager; // verwaltet Angriffe und Schaden
+    private final TileManager tileManager;     // verwaltet die Tiles der Map
+    private final MapLoader mapLoader;         // lädt und baut Maps
+    private final ProgressManager progressManager; // verwaltet Spielfortschritt
+    private final TextBoxManager textBoxManager;   // verwaltet Textboxen
+    private final Camera camera;               // Kamera folgt dem Spieler
+    private Player player;                     // Referenz auf den Spieler
+    private static int WIDTH;                  // Breite der aktuellen Map
+    private static int HEIGHT;                 // Höhe der aktuellen Map
+    public static int screenWidth;             // Bildschirmbreite
+    public static int screenHeight;            // Bildschirmhöhe
 
     public Game() {
-        // Initialisierung der Kern-Komponenten
+        // Bildschirmgröße ermitteln für Kamera und SkillTree
         getScreenSize();
+
+        // Kern-Komponenten initialisieren
         tileManager = new TileManager();
         textBoxManager = new TextBoxManager();
         gamePanel = new GamePanel(this, tileManager, textBoxManager);
         keyboardInputs = new KeyboardInputs(this);
+
+        // EntityManager und CollisionManager gegenseitig verknüpfen
         entities = new EntityManager(collisions, tileManager);
         collisions = new CollisionManager(entities);
-        entities.setCollsisons(collisions);//temporär bis ihr diese absolut gekochten Abhängigkeiten gefixt habt
+        entities.setCollsisons(collisions);
 
+        // AttackManager und Spieler erstellen
         attackManager = new AttackManager(collisions, entities, tileManager);
-        player = new Player(tileManager.getTileSize() * 2 + 5, tileManager.getTileSize() * 2 + 5, 100,100 , entities, keyboardInputs, attackManager, tileManager, gamePanel);
+        player = new Player(tileManager.getTileSize() * 2 + 5, tileManager.getTileSize() * 2 + 5,
+                100, 100, entities, keyboardInputs, attackManager, tileManager, gamePanel);
         gamePanel.assignPlayer(player);
 
-        mapLoader = new MapLoader(tileManager.getTileSize(), entities, keyboardInputs, attackManager, collisions, tileManager, gamePanel);
+        // Map laden und Fortschrittsmanager initialisieren
+        mapLoader = new MapLoader(tileManager.getTileSize(), entities, keyboardInputs,
+                attackManager, collisions, tileManager, gamePanel);
         mapLoader.buildMap();
         progressManager = new ProgressManager(player, mapLoader, collisions);
-        new TextBox("Anleitung:(e)(e)Steuerung:(e)Bewegung: WASD (e) Angriff: J (e) Skilltree: P (e) Skills: 1 bis 5 (e)(e)" + 
-                    "Generelles: Es gibt drei Arten von Gegnern, die alle Skillpoints droppen, welche im Skilltree ausgegeben werden können.(e)" + 
-                    "Rote Objekte sind Waypoints, an welchen der Fortschritt gespeichert werden kann. Bei Benutzung werden sie blau.(e)" + 
-                    "Graue Objekte sind Türen, welche sich durch besiegen aller Gegner aktivieren. Interaktion mit Türen ist durch Berührung möglich." + 
-                    "Nachdem der letzte Raum erriecht ist wird auf Wiederholung geschaltet, und man kann den letzten Raum so oft wie man es schafft durchspielen.",
-                    720, 360, 600, 500, 4200, textBoxManager);
 
+        // Anleitungs-Textbox beim Start anzeigen
+        new TextBox("Anleitung:(e)(e)Steuerung:(e)Bewegung: WASD (e) Angriff: J (e) Skilltree: P (e) Skills: 1 bis 5 (e)(e)" +
+                "Generelles: Es gibt drei Arten von Gegnern, die alle Skillpoints droppen, welche im Skilltree ausgegeben werden können.(e)" +
+                "Rote Objekte sind Waypoints, an welchen der Fortschritt gespeichert werden kann. Bei Benutzung werden sie blau.(e)" +
+                "Graue Objekte sind Türen, welche sich durch besiegen aller Gegner aktivieren. Interaktion mit Türen ist durch Berührung möglich." +
+                "Nachdem der letzte Raum erriecht ist wird auf Wiederholung geschaltet, und man kann den letzten Raum so oft wie man es schafft durchspielen.",
+                0, 600, 600, 500, 1200, textBoxManager);
+
+        // Map-Größe berechnen
         WIDTH = tileManager.getTileMap()[0].length * tileManager.getTileSize();
         HEIGHT = tileManager.getTileMap().length * tileManager.getTileSize();
 
+        // Kamera und Fenster initialisieren
         camera = new Camera(player.getX(), player.getY(), screenWidth, screenHeight);
         gameWindow = new GameWindow(gamePanel);
-        // Wichtig: Das Panel muss den Fokus haben, um Tastatureingaben zu erkennen
+
+        // Tastatureingaben auf das Panel setzen
         gamePanel.setFocusable(true);
         gamePanel.requestFocus();
-
-        //Listener für die Eingaben im GamePanel registrieren
         gamePanel.addKeyListener(keyboardInputs);
 
         startGameLoop();
     }
 
-    public static int getWIDTH() {return WIDTH;}
-    public static int getHEIGHT() {return HEIGHT;}
-
-    public EntityManager getEntityManager(){return entities;}
-
-    public ProgressManager getProgressManager(){return progressManager;}
-
-    public Camera getCamera(){return camera;}
+    public static int getWIDTH() { return WIDTH; }
+    public static int getHEIGHT() { return HEIGHT; }
+    public EntityManager getEntityManager() { return entities; }
+    public ProgressManager getProgressManager() { return progressManager; }
+    public Camera getCamera() { return camera; }
 
     /**
-     * Der Spieler wird respawned und sein Fortschritt wird geladen, falls Fortschritt vorliegt
+     * Spieler wird respawned und sein letzter gespeicherter Fortschritt wird geladen.
+     * Wird aufgerufen wenn der Spieler stirbt und einen Speicherpunkt hat.
      */
     public void respawn() {
-        if(progressManager.getSavingIndex() == 1) {
-            return;
-        }
-        // alter Spieler wird entfernt
+        if (progressManager.getSavingIndex() == 1) return; // kein Fortschritt vorhanden
+
+        // alten Spieler entfernen und neuen erstellen
         entities.unregister(this.player);
-        player = new Player(tileManager.getTileSize() * 2 + 5, tileManager.getTileSize() * 2 + 5, 80, 80, entities, keyboardInputs, attackManager, tileManager, gamePanel);
+        player = new Player(tileManager.getTileSize() * 2 + 5, tileManager.getTileSize() * 2 + 5,
+                80, 80, entities, keyboardInputs, attackManager, tileManager, gamePanel);
         gamePanel.assignPlayer(player);
-        // fortschritt des neuen Spielers wird geladen
+
+        // Fortschritt laden und Kamera aktualisieren
         progressManager.setPlayer(player);
         progressManager.loadNewestProgress();
-        // kamera erhält aktuelle referenz und koordinaten
         camera.setX(player.getX());
         camera.setY(player.getY());
         camera.update(player);
-        // death screen wird ausgeblendet
+
+        // Death Screen ausblenden und Fokus zurücksetzen
         textBoxManager.clearMenuTextBoxes();
         gamePanel.setDeathScreen(false);
-        // Tastaurinput Fokus wird auf das GamePanel gelegt (oder die wird zumindest versucht)
         gamePanel.requestFocusInWindow();
     }
 
     /**
-     * Der Spieler startet vom Anfang an
+     * Spieler startet komplett von vorne.
+     * Wird aufgerufen wenn der Spieler stirbt ohne Speicherpunkt.
      */
     public void startOver() {
-        // alter Spieler wird entfernt
+        // alten Spieler entfernen und neuen erstellen
         entities.unregister(this.player);
-        player = new Player(tileManager.getTileSize() * 2 + 5, tileManager.getTileSize() * 2 + 5, 80, 80, entities, keyboardInputs, attackManager, tileManager, gamePanel);
+        player = new Player(tileManager.getTileSize() * 2 + 5, tileManager.getTileSize() * 2 + 5,
+                80, 80, entities, keyboardInputs, attackManager, tileManager, gamePanel);
         gamePanel.assignPlayer(player);
-        // fortschritt des neuen Spielers wird geladen
+
+        // Map von vorne laden
         progressManager.setPlayer(player);
         mapLoader.setMapIndex(1);
         mapLoader.buildMap();
-        // kamera erhält aktuelle referenz und koordinaten
+
+        // Kamera und Death Screen zurücksetzen
         camera.setX(player.getX());
         camera.setY(player.getY());
         camera.update(player);
-        // death screen wird ausgeblendet
         textBoxManager.clearMenuTextBoxes();
-        // Tastaurinput Fokus wird auf das GamePanel gelegt (oder die wird zumindest versucht)
         gamePanel.setDeathScreen(false);
     }
 
+    /**
+     * Ermittelt die Bildschirmgröße für Kamera und SkillTree-Darstellung.
+     */
     public void getScreenSize() {
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         GraphicsConfiguration gc = gd.getDefaultConfiguration();
-
         Rectangle screenBounds = gc.getBounds();
-
         AffineTransform at = new AffineTransform();
         screenWidth = Math.toIntExact(Math.round(screenBounds.width / at.getScaleX()));
-        screenHeight = Math.toIntExact(Math.round(screenBounds.height / at.getScaleY()));    
+        screenHeight = Math.toIntExact(Math.round(screenBounds.height / at.getScaleY()));
     }
 
     private void startGameLoop() {
         gameThread = new Thread(this);
-        gameThread.start(); // Startet die run() Methode in einem neuen Thread
+        gameThread.start(); // startet run() in einem neuen Thread
     }
 
-    public void updateMapSize(){
+    /**
+     * Aktualisiert die Map-Größe nach jedem Frame,
+     * da sich die Map beim Raumwechsel ändern kann.
+     */
+    public void updateMapSize() {
         WIDTH = tileManager.getTileMap()[0].length * tileManager.getTileSize();
         HEIGHT = tileManager.getTileMap().length * tileManager.getTileSize();
     }
 
-    //Game Loop
+    /**
+     * Game-Loop – läuft 120 mal pro Sekunde.
+     * Jeder Frame: Kollisionen prüfen → Entities updaten → Schaden verteilen → zeichnen.
+     */
     @Override
     public void run() {
-        // Die Zeitspanne pro Frame in Nanosekunden
-        double timePerFrame = 1000000000.0 / FPS_SET;
+        double timePerFrame = 1000000000.0 / FPS_SET; // Nanosekunden pro Frame
         long lastFrame = System.nanoTime();
         long now;
 
         while (true) {
             now = System.nanoTime();
-            // Wenn genug Zeit vergangen ist, zeichnen wir neu
             if (now - lastFrame >= timePerFrame) {
-                collisions.checkCollisions();
-                //erlaubt es jeder entity jeden tick etwas zu machen
-                for (Entity entity : new ArrayList<>(entities.getEntities())){
-                    entity.update();
+
+                collisions.checkCollisions();                  // Kollisionen aktualisieren
+
+                for (Entity entity : new ArrayList<>(entities.getEntities())) {
+                    entity.update();                           // jede Entity macht ihren Zug
                 }
-                updateMapSize();
-                attackManager.distributeDamage();
-                camera.update(player);
-                progressManager.checkSaveRequests();
-                textBoxManager.updateBoxes();
-                mapLoader.checkMapUpdate();
-                gamePanel.repaint();
+
+                updateMapSize();                               // Map-Größe aktualisieren
+                attackManager.distributeDamage();              // Schaden verteilen
+                camera.update(player);                         // Kamera dem Spieler folgen lassen
+                progressManager.checkSaveRequests();           // Speicheranfragen prüfen
+                textBoxManager.updateBoxes();                  // Textboxen aktualisieren
+                mapLoader.checkMapUpdate();                    // Raumwechsel prüfen
+                gamePanel.repaint();                           // Bild neu zeichnen
+
                 lastFrame = now;
             }
         }
     }
-
-    }
+}

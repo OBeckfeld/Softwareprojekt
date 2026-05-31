@@ -15,29 +15,71 @@ import tools.Vector;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+/**
+ * Standardgegner, der den Spieler verfolgt, angreift und bei niedrigem Leben flieht.
+ * Erbt von PlayerTypeEntity und besitzt einen eigenen SkillTree sowie Animationen
+ * für Laufen, Angreifen und Idle.
+ */
 public class Enemy extends PlayerTypeEntity {
 
+    /** Referenz auf den Spieler, sobald dieser in Sichtweite ist. */
     protected Player player;
 
+    /** SpriteSheet mit allen Animations-Frames des Gegners. */
     private SpriteSheet sheet;
+
+    /** Aktuell abgespielte Animation. */
     private Animation currentAnimation;
+
+    /** Lauf-Animationen für alle 4 Richtungen (rechts, unten, links, oben). */
     private Animation[] animations;
+
+    /** Angriffs-Animation. */
     private Animation attackAnimation;
+
+    /** Idle-Animation wenn der Gegner stillsteht. */
     private Animation idleAnimation;
+
+    /** Gibt an, ob der Gegner sich gerade bewegt. */
     private boolean isMoving = false;
+
+    /** Gibt an, ob der Gegner gerade angreift. */
     private boolean isAttacking = false;
+
+    /** Letzte Richtung, um unnötige Animation-Wechsel zu vermeiden. */
     private int lastDirection = -1;
+
+    /** Cooldown zwischen zwei Treffern in Ticks. */
     protected int hitCooldown;
+
+    /** Vertikale Angriffsreichweite. */
     protected int verticalRange;
+
+    /** Horizontale Angriffsreichweite. */
     protected int horizontalRange;
 
-    // Flucht-Logik
+    /** Gibt an, ob der Fluchtmodus aktiv ist. */
     protected boolean fleeMode = false;
-    private static final double FLEE_HEALTH = 0.3; // 30% Health
 
+    /** Schwellenwert für den Fluchtmodus: 30% der maximalen HP. */
+    private static final double FLEE_HEALTH = 0.3;
+
+    /**
+     * Erstellt einen Standard-Gegner mit Standardwerten.
+     *
+     * @param x              X-Koordinate
+     * @param y              Y-Koordinate
+     * @param width          Breite der Hitbox
+     * @param height         Höhe der Hitbox
+     * @param hitCooldown    Cooldown zwischen Treffern in Ticks
+     * @param registry       EntityRegistry zum Registrieren der Entity
+     * @param attackRegistry AttackRegistry für Angriffe
+     * @param tileManager    TileManager für Kollisionen
+     * @param gamePanel      GamePanel für SkillTree
+     */
     public Enemy(int x, int y, int width, int height, int hitCooldown,
                  EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager,
-    GamePanel gamePanel) {
+                 GamePanel gamePanel) {
         super(x, y, width, height, 100, hitCooldown, registry, attackRegistry, tileManager, gamePanel);
         defaultSpeed = 2;
         speed = defaultSpeed;
@@ -57,7 +99,29 @@ public class Enemy extends PlayerTypeEntity {
         pointsOnDeath = 1;
     }
 
-    public Enemy(int x, int y, int width, int height, int health, int damage, int defense, int verticalRange, int horizontalRange, int attackDuration, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
+    /**
+     * Erstellt einen Gegner mit vollständig anpassbaren Werten.
+     *
+     * @param x               X-Koordinate
+     * @param y               Y-Koordinate
+     * @param width           Breite der Hitbox
+     * @param height          Höhe der Hitbox
+     * @param health          Maximale Trefferpunkte
+     * @param damage          Schadenswert
+     * @param defense         Rüstungswert in Prozent
+     * @param verticalRange   Vertikale Angriffsreichweite
+     * @param horizontalRange Horizontale Angriffsreichweite
+     * @param attackDuration  Dauer eines Angriffs in Ticks
+     * @param hitCooldown     Cooldown zwischen Treffern in Ticks
+     * @param registry        EntityRegistry
+     * @param attackRegistry  AttackRegistry
+     * @param tileManager     TileManager
+     * @param gamePanel       GamePanel
+     */
+    public Enemy(int x, int y, int width, int height, int health, int damage, int defense,
+                 int verticalRange, int horizontalRange, int attackDuration, int hitCooldown,
+                 EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager,
+                 GamePanel gamePanel) {
         super(x, y, width, height, attackDuration, hitCooldown, registry, attackRegistry, tileManager, gamePanel);
         this.hitCooldown = hitCooldown;
         this.maxHealth = health;
@@ -72,6 +136,10 @@ public class Enemy extends PlayerTypeEntity {
         pointsOnDeath = 1;
     }
 
+    /**
+     * Lädt das SpriteSheet und initialisiert alle Animationen
+     * (Laufen in 4 Richtungen, Angriff, Idle).
+     */
     private void initAnimations() {
         sheet = new SpriteSheet("src/data/sprites/meleeenemy.png", 161, 161);
 
@@ -104,11 +172,16 @@ public class Enemy extends PlayerTypeEntity {
         currentAnimation = animations[0];
     }
 
+    /**
+     * Aktualisiert den Gegner jeden Tick.
+     * Friert ein wenn der SkillTree des Spielers aktiv ist.
+     * Verwaltet Tod, Fluchtmodus, Spielererkennung, Bewegung und Animationen.
+     */
     @Override
     public void update() {
-        if (player != null && player.getSkillTree().isActive) return;
+        if (player != null && player.getSkillTree() != null && player.getSkillTree().isActive) return;
 
-        if(skillTree != null && !skillTree.isActive){
+        if (skillTree != null && !skillTree.isActive) {
             super.update();
             if (currentHealth <= 0) {
                 registry.unregister(this);
@@ -151,6 +224,10 @@ public class Enemy extends PlayerTypeEntity {
         }
     }
 
+    /**
+     * Steuert Bewegung und Angriff des Gegners.
+     * Verfolgt den Spieler, greift in Reichweite an oder flieht bei niedrigem Leben.
+     */
     protected void handleMovement() {
         if (player == null) {
             isMoving = false;
@@ -201,17 +278,17 @@ public class Enemy extends PlayerTypeEntity {
         }
     }
 
-    // ── Flucht-Logik ─────────────────────────────────────────
+    /**
+     * Bewegt den Gegner vom Spieler weg und aktualisiert die Laufrichtung.
+     */
     private void flee() {
         isAttacking = false;
         isMoving = true;
 
-
         Vector fleeVector = new Vector(player.getX(), player.getY(), getX(), getY());
-        fleeVector.setLength(getSpeed() * 1); //
+        fleeVector.setLength(getSpeed());
         move(fleeVector);
 
-        // Richtung aktualisieren (umgekehrt weil wegrennen)
         double dx = getX() - player.getX();
         double dy = getY() - player.getY();
         if (Math.abs(dx) >= Math.abs(dy)) {
@@ -219,23 +296,38 @@ public class Enemy extends PlayerTypeEntity {
         } else {
             direction = dy > 0 ? 1 : 3;
         }
-
-
     }
 
+    /**
+     * Verarbeitet erlittenen Schaden.
+     *
+     * @param damage   Schadenswert
+     * @param source   Angreifende Entity
+     * @param piercing Gibt an ob der Angriff rüstungsdurchdringend ist
+     */
     @Override
-    public void takeDamage(int damage, PlayerTypeEntity source, boolean piercing){ //wenn gegner Schaden nimmt, sieht er den Player
-
+    public void takeDamage(int damage, PlayerTypeEntity source, boolean piercing) {
         super.takeDamage(damage, source, piercing);
     }
 
+    /**
+     * Richtet den Gegner zum Ziel aus und führt einen Angriff aus.
+     *
+     * @param targetPlayer Ziel des Angriffs
+     */
     protected void tryAttackEntity(PlayerTypeEntity targetPlayer) {
         direction = getDirectionTo(targetPlayer.getCenter()[0], targetPlayer.getCenter()[1]);
         weapon.use();
     }
 
+    /**
+     * Gibt das aktuelle Sprite des Gegners zurück.
+     * Priorität: Angriff → Laufen → Idle.
+     *
+     * @return Aktueller Animations-Frame als BufferedImage
+     */
     public BufferedImage getSprite() {
-        if(idleAnimation == null) {return null;}
+        if (idleAnimation == null) return null;
         if (isAttacking) return attackAnimation.getCurrentFrame();
         if (isMoving) return currentAnimation.getCurrentFrame();
         return idleAnimation.getCurrentFrame();
