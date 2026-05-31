@@ -125,7 +125,7 @@ public abstract class Ability implements MouseListener, MouseMotionListener {
                         gamePanel.getTextBoxManager()
                     );
                     gamePanel.getTextBoxManager().removeTextBox(description);
-                    gamePanel.getTextBoxManager().addSkillTreeTextBox(description);
+                    gamePanel.getTextBoxManager().addMenuTextBox(description);
                 }
             } else if (description != null) {
                 description.setAlive(false);

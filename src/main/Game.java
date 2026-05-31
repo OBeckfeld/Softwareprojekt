@@ -36,7 +36,7 @@ public class Game implements Runnable {
     private final ProgressManager progressManager;
     private final TextBoxManager textBoxManager;
     private final Camera camera;
-    private final Player player;
+    private Player player;
     private static int WIDTH;
     private static int HEIGHT;
     private static int screenWidth;
@@ -81,7 +81,54 @@ public class Game implements Runnable {
 
     public EntityManager getEntityManager(){return entities;}
 
+    public ProgressManager getProgressManager(){return progressManager;}
+
     public Camera getCamera(){return camera;}
+
+    /**
+     * Der Spieler wird respawned und sein Fortschritt wird geladen, falls Fortschritt vorliegt
+     */
+    public void respawn() {
+        if(progressManager.getSavingIndex() == 1) {
+            return;
+        }
+        // alter Spieler wird entfernt
+        entities.unregister(this.player);
+        player = new Player(tileManager.getTileSize() * 2 + 5, tileManager.getTileSize() * 2 + 5, 40, 80, entities, keyboardInputs, attackManager, tileManager, gamePanel);
+        // fortschritt des neuen Spielers wird geladen
+        progressManager.setPlayer(player);
+        progressManager.loadNewestProgress();
+        // kamera erhält aktuelle referenz und koordinaten
+        camera.setX(player.getX());
+        camera.setY(player.getY());
+        camera.update(player);
+        // death screen wird ausgeblendet
+        textBoxManager.clearMenuTextBoxes();
+        gamePanel.setDeathScreen(false);
+        // Tastaurinput Fokus wird auf das GamePanel gelegt (oder die wird zumindest versucht)
+        gamePanel.requestFocusInWindow();
+    }
+
+    /**
+     * Der Spieler startet vom Anfang an
+     */
+    public void startOver() {
+        // alter Spieler wird entfernt
+        entities.unregister(this.player);
+        player = new Player(tileManager.getTileSize() * 2 + 5, tileManager.getTileSize() * 2 + 5, 40, 80, entities, keyboardInputs, attackManager, tileManager, gamePanel);
+        // fortschritt des neuen Spielers wird geladen
+        progressManager.setPlayer(player);
+        mapLoader.setMapIndex(1);
+        mapLoader.buildMap();
+        // kamera erhält aktuelle referenz und koordinaten
+        camera.setX(player.getX());
+        camera.setY(player.getY());
+        camera.update(player);
+        // death screen wird ausgeblendet
+        textBoxManager.clearMenuTextBoxes();
+        // Tastaurinput Fokus wird auf das GamePanel gelegt (oder die wird zumindest versucht)
+        gamePanel.setDeathScreen(false);
+    }
 
     public void getScreenSize() {
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();

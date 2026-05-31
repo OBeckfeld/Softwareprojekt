@@ -8,9 +8,9 @@ import tools.Vector;
 import Weapons.Weapon;
 
 public class RangedEnemy extends Enemy {
-
     private static final int FLEE_RANGE = 150;
     private static final int ATTACK_RANGE = 300;
+    private int hitCooldown;
 
     public RangedEnemy(int x, int y, int width, int height,
                        EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
