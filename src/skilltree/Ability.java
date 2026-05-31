@@ -116,12 +116,13 @@ public abstract class Ability implements MouseListener, MouseMotionListener {
             if (mouseHovers && skillTree.getActive()) {
                 if (description == null) {
                     description = new TextBox(
-                        getClass().getSimpleName() + ":(e)" + getDescription() + " (e)(e)Kosten: " + cost + " Skillpoints",
+                        getClass().getSimpleName() + ":(e)" + getDescription() + " (e)(e)Kosten: " + cost + " Skillpoints (e)(e)Skillpoints:" + owner.getSkillPoints(),
                         iconX + iconSize + 30,
                         iconY,
                         400,
-                        200,
-                        true, gamePanel.getTextBoxManager()
+                        250,
+                        true,
+                        gamePanel.getTextBoxManager()
                     );
                     gamePanel.getTextBoxManager().removeTextBox(description);
                     gamePanel.getTextBoxManager().addSkillTreeTextBox(description);
