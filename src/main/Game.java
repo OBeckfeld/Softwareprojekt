@@ -46,15 +46,12 @@ public class Game implements Runnable {
         // Initialisierung der Kern-Komponenten
         getScreenSize();
         tileManager = new TileManager();
-        gamePanel = new GamePanel(this, tileManager);
+        textBoxManager = new TextBoxManager();
+        gamePanel = new GamePanel(this, tileManager, textBoxManager);
         keyboardInputs = new KeyboardInputs(this);
         entities = new EntityManager(collisions, tileManager);
         collisions = new CollisionManager(entities);
         entities.setCollsisons(collisions);//temporär bis ihr diese absolut gekochten Abhängigkeiten gefixt habt
-
-
-
-
 
         attackManager = new AttackManager(collisions, entities, tileManager);
         player = new Player(tileManager.getTileSize() * 2 + 5, tileManager.getTileSize() * 2 + 5, 40, 80, entities, keyboardInputs, attackManager, tileManager, gamePanel);
@@ -62,14 +59,12 @@ public class Game implements Runnable {
         mapLoader = new MapLoader(tileManager.getTileSize(), entities, keyboardInputs, attackManager, collisions, tileManager, gamePanel);
         mapLoader.buildMap();
         progressManager = new ProgressManager(player, mapLoader, collisions);
-        textBoxManager = new TextBoxManager();
-        new TextBox("Hi! Glad you found this text box... (PS: It is completely useless) You can remove it by deleting its constructor in Game (line 60)", 200, 200, 400, 200, 1000, textBoxManager);
+        new TextBox("Hi! Glad you found this text box... (e) (PS: It is completely useless) You can remove it by deleting its constructor in Game (line 60)", 200, 200, 400, 200, 1000, textBoxManager);
 
         WIDTH = tileManager.getTileMap()[0].length * tileManager.getTileSize();
         HEIGHT = tileManager.getTileMap().length * tileManager.getTileSize();
 
         camera = new Camera(player.getX(), player.getY(), screenWidth, screenHeight);
-        gamePanel = new GamePanel(this, tileManager, textBoxManager);
         gameWindow = new GameWindow(gamePanel);
         // Wichtig: Das Panel muss den Fokus haben, um Tastatureingaben zu erkennen
         gamePanel.setFocusable(true);
@@ -124,6 +119,7 @@ public class Game implements Runnable {
                 attackManager.distributeDamage();
                 camera.update(player);
                 progressManager.checkSaveRequests();
+                textBoxManager.updateBoxes();
                 mapLoader.checkMapUpdate();
                 gamePanel.repaint();
                 lastFrame = now;

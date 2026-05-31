@@ -15,7 +15,7 @@ public class Parry extends Ability {
 
     }
     @Override
-    public String getDescription(){ return "use to block attacks and stun close range enemy";}
+    public String getDescription(){ return "Blockiert die Attacke des Gegners und lähmt diesen";}
     @Override
     public void unlock(){
         unlocked = true;

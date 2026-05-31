@@ -15,7 +15,7 @@ public class Lifesteal extends Ability {
 
     }
     @Override
-    public String getDescription(){ return "heal life when you deal damage";}
+    public String getDescription(){ return "Regeneriert Lebenspunkte, wenn Schaden bei Gegnern verursacht wird";}
     @Override
     public void unlock(){
         unlocked = true;

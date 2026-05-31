@@ -15,7 +15,7 @@ public class PoisonCloud extends Ability {
 
     }
     @Override
-    public String getDescription(){ return "create a cloud which poisons enemies";}
+    public String getDescription(){ return "Erschafft eine Wolke, welche Gegner vergiftet";}
     @Override
     public void unlock(){
         unlocked = true;

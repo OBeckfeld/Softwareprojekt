@@ -1,19 +1,23 @@
 package tools;
 
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class TextBoxManager {
     private BufferedImage[] characters;
-    ArrayList<TextBox> textBoxes;
+    // Es wird eine CopyOnWriteArrayList verwendet, um ConcurrentModificationExceptions zu verhindern
+    private final CopyOnWriteArrayList<TextBox> textBoxes;
+    private final CopyOnWriteArrayList<TextBox> textBoxesSkillTree;
     private int imageWidth = 17;
     private int imageHeight = 19;
 
     public TextBoxManager() {
         characters = new BufferedImage[48];
-        textBoxes = new ArrayList<>();
+        textBoxes = new CopyOnWriteArrayList<>();
+        textBoxesSkillTree = new CopyOnWriteArrayList<>();
         loadCharacters();
     }
 
@@ -21,11 +25,39 @@ public class TextBoxManager {
         textBoxes.add(box);
     }
 
+    public void removeTextBox(TextBox box) {
+        textBoxes.remove(box);
+    }
+
+    public void addSkillTreeTextBox(TextBox box) {
+        textBoxesSkillTree.add(box);
+    }
+
+    public void removeSkillTreeTextBox(TextBox box) {
+        textBoxesSkillTree.remove(box);
+    }
+
     public void updateBoxes() {
         ArrayList<TextBox> removeList = new ArrayList<>();
         for (TextBox box : textBoxes) {
-            box.increaseTimeAlive();
-            if(box.getTimeAlive() >= box.getTimeToLive()) {
+            if (box.getTimeToLive() != null) {
+                box.increaseTimeAlive();
+                if(box.getTimeAlive() >= box.getTimeToLive()) {
+                    removeList.add(box);
+                }
+            }
+            else if (!box.getAlive()) {
+                removeList.add(box);
+            }
+        }
+        for (TextBox box : textBoxesSkillTree) {
+            if (box.getTimeToLive() != null) {
+                box.increaseTimeAlive();
+                if(box.getTimeAlive() >= box.getTimeToLive()) {
+                    removeList.add(box);
+                }
+            }
+            else if (!box.getAlive()) {
                 removeList.add(box);
             }
         }
@@ -34,9 +66,37 @@ public class TextBoxManager {
         }
     }
 
-    // Methode, welche alle Boxen speichert
+    // Methode, welche alle normalen Boxen zeichnet
     public void draw(Graphics g) {
         for (TextBox box : textBoxes) {
+            if (box.getAlive() != null && !box.getAlive()) {
+                continue;
+            }
+            drawBox(g, box);
+            ArrayList<ArrayList<Integer>> imageIndexes = getTextIndexes(box);
+            int textPosX = box.getX() + box.getPadding() + box.getBorderThickness();
+            int textPosY = box.getY() + box.getPadding() + box.getBorderThickness();
+            for (int row = 0; row < imageIndexes.size(); row++) {
+                for (int col = 0; col < imageIndexes.get(row).size(); col++) {
+                    g.drawImage(
+                        characters[imageIndexes.get(row).get(col)],
+                        textPosX + col * imageWidth,
+                        textPosY + row * imageHeight,
+                        imageWidth,
+                        imageHeight,
+                        null
+                    );
+                }
+            }
+        }
+    }
+
+    // Methode, welche alle Boxen des Skill Trees zeichnet
+    public void drawSkillTreeBoxes(Graphics g) {
+        for (TextBox box : textBoxesSkillTree) {
+            if (box.getAlive() != null && !box.getAlive()) {
+                continue;
+            }
             drawBox(g, box);
             ArrayList<ArrayList<Integer>> imageIndexes = getTextIndexes(box);
             int textPosX = box.getX() + box.getPadding() + box.getBorderThickness();
@@ -59,7 +119,7 @@ public class TextBoxManager {
     // Lädt die Charaktere aus dem SpriteSheet und speichert sie im Array characters
     // Ordnung der Zeichen im Array:
     // 1. Alphabet:      A-Z;
-    // 2. Sonderzeichen: Ä;  Ö;  Ü;  ß;
+    // 2. Umlaute: Ä;  Ö;  Ü;  ß;
     // 3. Zahlen:        0-9;
     // 4. Sonderzeichen: ".";  ",";  ":";  "!";  "?";  "(";  ")";  Leerzeichen
     // Index jedes Zeichens im Array:
@@ -148,6 +208,14 @@ public class TextBoxManager {
             }
             else {
                 textLength += word.length() * imageWidth;
+            }
+            if (word.contains("(e)")) {
+                textLength = 0;
+                textHeight += imageHeight;
+                imageIndexes.add(imageIndexesRow);
+                imageIndexesRow = new ArrayList<>();
+                text = text.substring(word.length());
+                continue;
             }
             for (int i = 0; i < word.length(); i++) {
                 imageIndexesRow.add(getImageIndex(word.charAt(i)));

@@ -15,7 +15,7 @@ public class Earthquake extends Ability {
 
     }
     @Override
-    public String getDescription(){ return "big AOE attack";}
+    public String getDescription(){ return "Große AOE Attacke (Flächenschaden)";}
     @Override
     public void unlock(){
         unlocked = true;

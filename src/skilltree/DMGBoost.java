@@ -15,7 +15,7 @@ public class DMGBoost extends Ability {
 
     }
     @Override
-    public String getDescription(){ return "+ 10% damage";}
+    public String getDescription(){ return "Plus 10 Prozent Schaden bei Gegnern";}
     @Override
     public void unlock(){
         owner.setDamageModifier(owner.getDamageModifier()+10);

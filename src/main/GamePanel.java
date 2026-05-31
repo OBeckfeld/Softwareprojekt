@@ -8,13 +8,14 @@ import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import skilltree.Ability;
 import tools.TileManager;
 
-public class GamePanel extends JPanel implements MouseListener {
+public class GamePanel extends JPanel implements MouseListener, MouseMotionListener {
     private Game game;
     private TileManager tileManager;
     private TextBoxManager textBoxManager;
@@ -26,7 +27,7 @@ public class GamePanel extends JPanel implements MouseListener {
         this.tileManager = tileManager;
         this.textBoxManager = textBoxManager;
         addMouseListener(this);
-
+        addMouseMotionListener(this);
         setPanelSize();
     }
 
@@ -89,15 +90,24 @@ public class GamePanel extends JPanel implements MouseListener {
         }
 
         textBoxManager.draw(g2d);
+
         g2d.translate(+game.getCamera().getX(), +game.getCamera().getY()); //zeichnet den Skill tree über den rest ohne verschoben zu sein
         if(player.getSkillTree().getActive()){
             player.getSkillTree().draw(g);
         }
+
+        textBoxManager.drawSkillTreeBoxes(g2d);
+    }
+
+    public TextBoxManager getTextBoxManager() {
+        return textBoxManager;
     }
 
     public void addAbility(Ability ability) {
         abilities.add(ability);
     }
+
+    public Game getGame(){return game;}
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -110,22 +120,15 @@ public class GamePanel extends JPanel implements MouseListener {
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
-
+    public void mouseMoved(MouseEvent e) {
+        for (Ability ability : abilities) {
+            ability.updateMouseHovering(e);
+        }
     }
 
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
+    @Override public void mousePressed(MouseEvent e) {}
+    @Override public void mouseReleased(MouseEvent e) {}
+    @Override public void mouseEntered(MouseEvent e) {}
+    @Override public void mouseExited(MouseEvent e) {}
+    @Override public void mouseDragged(MouseEvent e) {}
 }

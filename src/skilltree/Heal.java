@@ -15,7 +15,7 @@ public class Heal extends Ability {
 
     }
     @Override
-    public String getDescription(){ return "heal 15 life";}
+    public String getDescription(){ return "Heile 15 Lebenspunkte";}
     @Override
     public void unlock(){
         unlocked = true;

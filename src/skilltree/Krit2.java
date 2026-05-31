@@ -15,7 +15,7 @@ public class Krit2 extends Ability {
 
     }
     @Override
-    public String getDescription(){ return "10% Chance to deal +200% damage";}
+    public String getDescription(){ return "10 prozentige Chance, plus 200 Prozent Schaden zu verursachen";}
     @Override
     public void unlock(){
         unlocked = true;

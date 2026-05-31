@@ -14,7 +14,7 @@ public class DMGBoost2 extends Ability {
         duration = 100; //in Millisekunden
     }
     @Override
-    public String getDescription(){ return "+ 15% damage";}
+    public String getDescription(){ return "Plus 15 Prozent Schaden bei Gegnern";}
     @Override
     public void unlock(){
         unlocked = true;

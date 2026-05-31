@@ -1,14 +1,17 @@
 package skilltree;
+
 import entities.PlayerTypeEntity;
 import main.GamePanel;
+import tools.TextBox;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
-public abstract class Ability implements MouseListener {
+public abstract class Ability implements MouseListener, MouseMotionListener {
     private GamePanel gamePanel;
     protected boolean unlocked;
     protected boolean accessible;
@@ -24,6 +27,8 @@ public abstract class Ability implements MouseListener {
     public int iconSize = 75;
     public int iconX;
     public int iconY;
+    private boolean mouseHovers;
+    private TextBox description;
     JLabel label;
     private SkillTree skillTree;
     public Ability(PlayerTypeEntity owner, int x, int y, BufferedImage icon, GamePanel gamePanel, SkillTree skillTree){
@@ -99,29 +104,53 @@ public abstract class Ability implements MouseListener {
         }
     }
 
-    @Override
-    public void mouseEntered(MouseEvent e){  //code einfügen um Beschreibung der Fähigkeit anzuzeigen
+    public void updateMouseHovering(MouseEvent e) {
+        int mouseX = e.getX();
+        int mouseY = e.getY();
 
+        boolean insideNow = (mouseX >= iconX && mouseX <= iconX + iconSize) && (mouseY >= iconY && mouseY <= iconY + iconSize);
+
+        if (insideNow != mouseHovers) {
+            mouseHovers = insideNow;
+
+            if (mouseHovers && skillTree.getActive()) {
+                if (description == null) {
+                    description = new TextBox(
+                        getClass().getSimpleName() + ":(e)" + getDescription() + " (e)(e)Kosten: " + cost + " Skillpoints",
+                        iconX + iconSize + 30,
+                        iconY,
+                        400,
+                        200,
+                        true, gamePanel.getTextBoxManager()
+                    );
+                    gamePanel.getTextBoxManager().removeTextBox(description);
+                    gamePanel.getTextBoxManager().addSkillTreeTextBox(description);
+                }
+            } else if (description != null) {
+                description.setAlive(false);
+                description = null;
+            }
+        }
     }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        // Hover state is handled in updateMouseHovering() from GamePanel.
+    }
+
     @Override
     public void mouseClicked(MouseEvent e){
         if(accessible){
             skillTree.unlock(this);
         }
     }
-    @Override
-    public void mouseReleased(MouseEvent e){
-
-    }
-    @Override
-    public void mouseExited(MouseEvent e){
-
-    }
-    @Override
-    public void mousePressed(MouseEvent e){
-
-    }
-
+    
     public void end(){}
     public boolean isActiveAbility(){return active;}
+
+    @Override public void mousePressed(MouseEvent e) {}
+    @Override public void mouseReleased(MouseEvent e) {}
+    @Override public void mouseEntered(MouseEvent e) {}
+    @Override public void mouseExited(MouseEvent e) {}
+    @Override public void mouseDragged(MouseEvent e) {}
 }

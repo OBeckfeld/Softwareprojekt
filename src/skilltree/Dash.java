@@ -14,7 +14,7 @@ public class Dash extends Ability {
         duration = 100; //in Millisekunden
     }
     @Override
-    public String getDescription(){ return "Dash";}
+    public String getDescription(){ return "Schnelle Bewegung nach vorne";}
     @Override
     public void unlock(){ unlocked = true;}
 

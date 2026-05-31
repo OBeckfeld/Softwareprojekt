@@ -31,8 +31,6 @@ public class Player extends PlayerTypeEntity {
         attackRegistry.grabOwner(this);
     }
 
-
-
     public void update() {
         if(skillTree.isActive){
             skillTree.update();

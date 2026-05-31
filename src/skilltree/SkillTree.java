@@ -90,6 +90,10 @@ public class SkillTree {
     public void open(){
         isActive = true;
     }
+    
+    public boolean getActive(){
+        return isActive;
+    }
 
     public void close(){
         isActive = false;
@@ -215,12 +219,10 @@ public class SkillTree {
         }
     }
 
-    public boolean getActive(){
-        return isActive;
-    }
     public void update(){
-
+        
     }
+    
     public void draw(Graphics g){
         g.setColor(new Color(0,0,0,180));
         g.drawRect(0,0,width,height);
