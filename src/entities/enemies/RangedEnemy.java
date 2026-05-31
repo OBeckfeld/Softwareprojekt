@@ -24,11 +24,11 @@ public class RangedEnemy extends Enemy {
     private boolean isMoving = false;
     private int lastDirection = -1;
     int size = 12; // Größe des Projektils in Pixeln
-
     private static final int FLEE_RANGE    = 150;  // Abstand unter dem der Gegner flieht
     private static final int ATTACK_RANGE  = 300;  // maximale Schussreichweite
     private static final int SHOOT_COOLDOWN = 60;  // Ticks zwischen zwei Schüssen
     private int shootTimer = 0;                    // zählt Ticks seit letztem Schuss
+    
     /**
      * Erstellt einen neuen RangedEnemy.
      */    

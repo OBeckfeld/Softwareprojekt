@@ -27,7 +27,6 @@ public class Enemy extends PlayerTypeEntity {
     private boolean isMoving = false;
     private boolean isAttacking = false;
     private int lastDirection = -1;
-    private int health;
     protected int hitCooldown;
     protected int verticalRange;
     protected int horizontalRange;
@@ -49,6 +48,31 @@ public class Enemy extends PlayerTypeEntity {
         damage = 20;
         skillTree = new SkillTree(this, gamePanel);
 
+        initAnimations();
+        this.maxHealth = 100;
+        this.currentHealth = 100;
+        this.weapon.setDamage(damage);
+        this.weapon.setHitCooldown(hitCooldown);
+        this.defense = 0;
+        pointsOnDeath = 1;
+    }
+
+    public Enemy(int x, int y, int width, int height, int health, int damage, int defense, int verticalRange, int horizontalRange, int attackDuration, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
+        super(x, y, width, height, attackDuration, hitCooldown, registry, attackRegistry, tileManager, gamePanel);
+        this.hitCooldown = hitCooldown;
+        this.maxHealth = health;
+        this.currentHealth = health;
+        this.weapon.setDamage(damage);
+        this.weapon.setHitCooldown(hitCooldown);
+        this.defense = defense;
+        this.verticalRange = verticalRange;
+        this.horizontalRange = horizontalRange;
+
+        initAnimations();
+        pointsOnDeath = 1;
+    }
+
+    private void initAnimations() {
         sheet = new SpriteSheet("src/data/sprites/meleeenemy.png", 161, 161);
 
         animations = new Animation[4];
@@ -78,24 +102,6 @@ public class Enemy extends PlayerTypeEntity {
         }, 15, true);
 
         currentAnimation = animations[0];
-        this.maxHealth = health;
-        this.currentHealth = health;
-        this.weapon.setDamage(damage);
-        this.weapon.setHitCooldown(hitCooldown);
-        this.defense = defense;
-        pointsOnDeath = 1;
-    }
-
-    public Enemy(int x, int y, int width, int height, int health, int damage, int defense, int verticalRange, int horizontalRange, int attackDuration, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
-        super(x, y, width, height, attackDuration, hitCooldown, registry, attackRegistry, tileManager, gamePanel);
-        this.hitCooldown = hitCooldown;
-        this.maxHealth = health;
-        this.currentHealth = health;
-        this.weapon.setDamage(damage);
-        this.weapon.setHitCooldown(hitCooldown);
-        this.defense = defense;
-        this.verticalRange = verticalRange;
-        this.horizontalRange = horizontalRange;
     }
 
     @Override
@@ -124,6 +130,10 @@ public class Enemy extends PlayerTypeEntity {
         }
 
         handleMovement();
+
+        if (idleAnimation == null) {
+            return;
+        }
 
         if (isAttacking) {
             attackAnimation.update();
@@ -225,6 +235,7 @@ public class Enemy extends PlayerTypeEntity {
     }
 
     public BufferedImage getSprite() {
+        if(idleAnimation == null) {return null;}
         if (isAttacking) return attackAnimation.getCurrentFrame();
         if (isMoving) return currentAnimation.getCurrentFrame();
         return idleAnimation.getCurrentFrame();

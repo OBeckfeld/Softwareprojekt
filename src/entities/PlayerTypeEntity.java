@@ -35,7 +35,7 @@ public abstract class PlayerTypeEntity extends Entity {
     protected HealthBar healthBar;
     protected SkillTree skillTree;
     protected int hitCooldown;
-    protected int skillPoints = 1000;
+    protected int skillPoints = 0;
     protected int pointsOnDeath = 1;
     private boolean isParrying = false;
     public PlayerTypeEntity(int x, int y, int width, int height, int attackDuration, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {

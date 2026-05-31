@@ -101,6 +101,7 @@ public class Game implements Runnable {
         // alter Spieler wird entfernt
         entities.unregister(this.player);
         player = new Player(tileManager.getTileSize() * 2 + 5, tileManager.getTileSize() * 2 + 5, 40, 80, entities, keyboardInputs, attackManager, tileManager, gamePanel);
+        gamePanel.assignPlayer(player);
         // fortschritt des neuen Spielers wird geladen
         progressManager.setPlayer(player);
         progressManager.loadNewestProgress();
@@ -122,6 +123,7 @@ public class Game implements Runnable {
         // alter Spieler wird entfernt
         entities.unregister(this.player);
         player = new Player(tileManager.getTileSize() * 2 + 5, tileManager.getTileSize() * 2 + 5, 40, 80, entities, keyboardInputs, attackManager, tileManager, gamePanel);
+        gamePanel.assignPlayer(player);
         // fortschritt des neuen Spielers wird geladen
         progressManager.setPlayer(player);
         mapLoader.setMapIndex(1);

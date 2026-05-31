@@ -104,6 +104,9 @@ public class Player extends PlayerTypeEntity {
     }
 
     public void update() {
+        if (inputs == null) {
+            return;
+        }
         boolean skillTreeActive = skillTree != null && skillTree.isActive;
         if (skillTreeActive) {
             skillTree.update();
