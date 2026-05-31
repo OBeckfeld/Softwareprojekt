@@ -52,8 +52,7 @@ public abstract class Entity {
         this.height = height;
         movement = new MovementComponent(tileManager);
         hurtbox = new Hitbox(x, y, width, height);
-        registry.register(this);
-        this.registry = registry;
+
     }
 
 

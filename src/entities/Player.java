@@ -38,6 +38,7 @@ public class Player extends PlayerTypeEntity {
     public Player(int x, int y, int width, int height, EntityRegistry registry, KeyboardInputs keyboardInputs, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
         super(x, y, width, height, 20, 60, registry, attackRegistry, tileManager, gamePanel);
         this.inputs = Objects.requireNonNull(keyboardInputs, "keyboardInputs must not be null");
+
         movement = new MovementComponent(keyboardInputs, tileManager);
         mass = 3;
         currentHealth = 100;
@@ -45,7 +46,12 @@ public class Player extends PlayerTypeEntity {
         weapon = new Rifle(this, attackRegistry, tileManager);
 
         sheet = new SpriteSheet("src/data/sprites/playerCrawler.png", 833, 833);
+        walkAnimations = new Animation[4];
+
         loadWeaponAnimations();
+        registry.register(this);
+        this.registry = registry;
+
     }
 
     /**
@@ -120,6 +126,9 @@ public class Player extends PlayerTypeEntity {
      * Angriffe und das Benutzen von Fähigkeiten verarbeitet.
      */
     public void update() {
+        if (walkAnimations == null || attackAnimation == null || currentAnimation == null) {
+            return;
+        }
         if (inputs == null) {
             return;
         }
@@ -161,8 +170,9 @@ public class Player extends PlayerTypeEntity {
             }
         } else {
             if (direction != lastDirection) {
-                currentAnimation = walkAnimations[direction];
-                lastDirection = direction;
+                if (walkAnimations[direction] != null){currentAnimation = walkAnimations[direction];
+                    lastDirection = direction;}
+
             }
             currentAnimation.update();
         }

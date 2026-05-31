@@ -43,6 +43,8 @@ public class ExplodeEnemy extends Enemy {
                         EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
         super(x, y, width, height,0, registry, attackRegistry, tileManager,gamePanel);
         currentHealth = 1;
+        registry.register(this);
+        this.registry = registry;
         setSpeed(3);
         viewRange = 300;
 

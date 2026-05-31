@@ -47,6 +47,8 @@ public class Enemy extends PlayerTypeEntity {
                  GamePanel gamePanel) {
         super(x, y, width, height, 100, hitCooldown, registry, attackRegistry, tileManager, gamePanel);
         defaultSpeed = 2;
+        registry.register(this);
+        this.registry = registry;
         speed = defaultSpeed;
         viewRange = 500;
         mass = 1;
@@ -74,7 +76,7 @@ public class Enemy extends PlayerTypeEntity {
         this.defense = defense;
         this.verticalRange = verticalRange;
         this.horizontalRange = horizontalRange;
-
+        skillTree = new SkillTree(this, gamePanel);
         initAnimations();
         pointsOnDeath = 1;
     }
@@ -120,7 +122,7 @@ public class Enemy extends PlayerTypeEntity {
     public void update() {
         if (player != null && player.getSkillTree().isActive) return;
 
-        if(!skillTree.isActive){
+        if(skillTree != null && !skillTree.isActive){
             super.update();
             if (currentHealth <= 0) {
                 registry.unregister(this);

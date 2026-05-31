@@ -22,6 +22,8 @@ public class Boss extends Enemy {
      */
     public Boss(int x, int y, int width, int height, EntityRegistry registry, AttackManager attackManager, TileManager tileManager, GamePanel gamePanel) {
         super(x, y, width, height, 60, registry, attackManager, tileManager, gamePanel);
+        registry.register(this);
+        this.registry = registry;
         currentHealth = 1000;
         setSpeed(2);
         viewRange = 800;
@@ -29,6 +31,7 @@ public class Boss extends Enemy {
         skillPoints = 4;
         skillTree.unlock(skillTree.getAbilityReference("dash"));
         attackDelay = 40;
+
     }
 
     /**

@@ -12,5 +12,7 @@ import java.util.Set;
 public class ViewBox extends Entity {
     public ViewBox(double x, double y, int height, int width, EntityRegistry registry, TileManager tileManager) {
         super(x,y,height,width,registry, tileManager);
+        registry.register(this);
+        this.registry = registry;
     }
 }

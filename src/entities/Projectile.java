@@ -37,6 +37,8 @@ public class Projectile extends Entity {
      */
     public Projectile(double x, double y, int width, int height, EntityRegistry registry, AttackRegistry attackRegistry, PlayerTypeEntity owner, double speed, Vector vector, int timeToLive, int damage,  TileManager tileManager) {
         super(x, y, width, height, registry, attackRegistry, tileManager);
+        registry.register(this);
+        this.registry = registry;
         this.owner = owner;
         this.speed = speed;
         this.timeToLive = timeToLive;

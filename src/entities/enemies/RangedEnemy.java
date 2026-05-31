@@ -41,6 +41,8 @@ public class RangedEnemy extends Enemy {
     public RangedEnemy(int x, int y, int width, int height,
                        EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
         super(x, y, width, height, 60, registry, attackRegistry, tileManager, gamePanel);
+        registry.register(this);
+        this.registry = registry;
         currentHealth = 30;
         setSpeed(3);
         viewRange = 400;

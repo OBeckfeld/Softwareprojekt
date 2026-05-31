@@ -19,7 +19,8 @@ public class EnemyProjectile extends Projectile {
                            Vector vector, int timeToLive, int damage, TileManager tileManager) {
         super(x, y, width, height, registry, attackRegistry,
                 owner, speed, vector, timeToLive, damage, tileManager);
-
+        registry.register(this);
+        this.registry = registry;
         sprite = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = sprite.createGraphics();
         g.setColor(Color.RED);

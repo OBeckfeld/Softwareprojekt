@@ -16,6 +16,8 @@ public class DamageCloud extends Entity {
     private boolean armorPierce;
     public DamageCloud(double x, double y, int height, int width, EntityRegistry registry, TileManager tileManager, int timeToLive, int frequency, int damage, PlayerTypeEntity owner, Color color, boolean armorPierce) {
         super(x,y,height,width,registry, tileManager);
+        registry.register(this);
+        this.registry = registry;
         this.timeToLive = timeToLive;
         this.timeAlive = 0;
         this.damage = damage;
