@@ -6,6 +6,7 @@ import entities.managers.AttackManager;
 import entities.managers.AttackRegistry;
 import main.GamePanel;
 import skilltree.SpeedBoost;
+import skilltree.PoisonCloud;
 import tools.TileManager;
 import entities.managers.EntityRegistry;
 import inputs.KeyboardInputs;

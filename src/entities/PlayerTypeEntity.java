@@ -16,25 +16,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public abstract class PlayerTypeEntity extends Entity {
-
-    protected Attack attack;
-    protected int attackDuration, verticalRange, horizontalRange;
     protected int maxHealth = 100;
     protected int currentHealth = maxHealth;
     protected int damage  = 20;
     protected int defense = 0;
     protected int direction = 0; //0 = rechts, 1 = unten, 2 = links, 3 = oben
-    protected int viewRange;
-    protected int mass;
+    protected int viewRange = 300;
+    protected int mass = 2;
     protected int crit;
     protected int critChance;
-    protected int damageModifier ;
+    protected int damageModifier = 1;
     protected AbilityManager abilityManger;
     protected double speed = 2.5;
     protected Weapon weapon;
-    protected double defaultSpeed = 2.5;
-    protected int hitCooldown;
-    protected int attacking;
+    protected double defaultSpeed = 3;
+    protected int attacking = 0;
     protected HealthBar healthBar;
     protected SkillTree skillTree;
     protected int skillPoints = 0;
@@ -42,16 +38,13 @@ public abstract class PlayerTypeEntity extends Entity {
 
     public PlayerTypeEntity(int x, int y, int width, int height, int attackDuration, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
         super(x, y, width, height, registry, attackRegistry, tileManager);
-        this.hitCooldown = hitCooldown;
-        this.attackDuration = attackDuration;
-        verticalRange = 120;
-        horizontalRange = 60;
         abilityManger = new AbilityManager(this);
         viewRange = 500;
         mass = 2;
         damageModifier = 1;
         weapon = new StarterSword(this, attackRegistry, tileManager);
         healthBar = new HealthBar(this);
+        skillTree = new SkillTree(this,gamePanel);
         attacking = 0;
         skillTree = new SkillTree(this, gamePanel);
 
@@ -65,9 +58,6 @@ public abstract class PlayerTypeEntity extends Entity {
     }
 
     public boolean isAlive() { return currentHealth > 0; }
-
-    public Attack getAttack() { return attack; }
-    public void setAttack(Attack attack) { this.attack = attack; }
 
     public int getCurrentHealth() { return currentHealth; }
     public void setCurrentHealth(int currentHealth) { this.currentHealth = currentHealth; }
@@ -88,9 +78,6 @@ public abstract class PlayerTypeEntity extends Entity {
     public int getDirection() { return direction; }
     public void setDirection(int direction) { this.direction = direction; }
 
-    public int getAttackDuration() { return attackDuration; }
-
-    public int getVerticalRange () { return verticalRange; }
 
     public int getViewRange(){return viewRange;}
 
@@ -112,7 +99,6 @@ public abstract class PlayerTypeEntity extends Entity {
             currentHealth = life;
     }
     }
-    public int getHorizontalRange() { return horizontalRange; }
 
     public boolean isAttacking() { return attacking <= 0; }
     public void setAttacking(int attackDuration) { this.attacking = attackDuration; }
