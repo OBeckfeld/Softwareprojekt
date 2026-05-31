@@ -37,6 +37,7 @@ public abstract class PlayerTypeEntity extends Entity {
     protected int skillPoints = 0;
     protected int pointsOnDeath = 1;
     private boolean isParrying = false;
+    private int hitCooldown;
 
     /**
      * Erstellt eine neue PlayerTypeEntity und initialisiert grundlegende Werte
