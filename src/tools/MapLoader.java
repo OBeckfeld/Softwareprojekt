@@ -134,16 +134,11 @@ public class MapLoader {
         return parsedArray;
     }
 
-    /**
-     * Mithilfe angegebener ID und Koordinaten wird eine entsprechende Entity gespanwt
-     * @param entityId ID, welche die Art der Entity festlegt
-     * @param x x-Koordinate, an welcher die Entity gespawnt werden soll
-     * @param y y-Koordinate, an welcher die Entity gespawnt werden soll
-     */
+
     public void spawnEntity(int entityId, int x, int y) {
         switch(entityId) {
             case 1:
-                new Player(x, y, 40, 80, registry, keyboardInputs, attackRegistry, tileManager, gamePanel);
+                new Player(x, y, 80, 80, registry, keyboardInputs, attackRegistry, tileManager, gamePanel);
                 break;
             case 2:
                 new Door(x, y, registry, attackRegistry, tileManager);
@@ -152,7 +147,7 @@ public class MapLoader {
                 new Waypoint(x, y, registry, attackRegistry, tileManager);
                 break;
             case 4:
-                new Enemy(x, y , 40, 40, 100, 10, 5, 120, 60, 20, 360, registry, attackRegistry, tileManager, gamePanel);
+                new Enemy(x, y, 80, 80, 360, registry, attackRegistry, tileManager,gamePanel); //
                 break;
             default:
                 return;

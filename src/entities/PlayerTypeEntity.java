@@ -40,7 +40,10 @@ public abstract class PlayerTypeEntity extends Entity {
     protected int skillPoints = 0;
     protected int pointsOnDeath = 1;
 
-    public PlayerTypeEntity(int x, int y, int width, int height, int attackDuration, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
+
+    public PlayerTypeEntity(int x, int y, int width, int height, int attackDuration,
+                            int hitCooldown, EntityRegistry registry,
+                            AttackRegistry attackRegistry, TileManager tileManager) {
         super(x, y, width, height, registry, attackRegistry, tileManager);
         this.hitCooldown = hitCooldown;
         this.attackDuration = attackDuration;
@@ -53,8 +56,7 @@ public abstract class PlayerTypeEntity extends Entity {
         weapon = new StarterSword(this, attackRegistry, tileManager);
         healthBar = new HealthBar(this);
         attacking = 0;
-        skillTree = new SkillTree(this, gamePanel);
-
+        // ← kein skillTree hier!
     }
 
     public void gainLife(int amount) {
@@ -123,19 +125,21 @@ public abstract class PlayerTypeEntity extends Entity {
     }
 
     public void takeDamage(int damage, PlayerTypeEntity source) {
-        damage = damage- (int)(damage*defense)/100;
-        if (damage > 0){
+        damage = damage - (int)(damage * defense) / 100;
+        if (damage > 0) {
             currentHealth -= damage;
         }
-        if (currentHealth < 1){
+        if (currentHealth < 1) {
             dead = true;
         }
-        source.dealtDamage(damage);
+        if (source != null) { // ← null check
+            source.dealtDamage(damage);
+        }
     }
 
-    public void dealtDamage(int dmg){
-        if(Arrays.asList(skillTree.getUnlockedAbilities()).contains("LifeSteal")){
-            setHealth(getCurrentHealth()+(int)(dmg/4));
+    public void dealtDamage(int dmg) {
+        if (skillTree != null && Arrays.asList(skillTree.getUnlockedAbilities()).contains("LifeSteal")) {
+            setHealth(getCurrentHealth() + (int)(dmg / 4));
         }
     }
 
@@ -148,11 +152,12 @@ public abstract class PlayerTypeEntity extends Entity {
     }
 
     public void update() {
-        if (!skillTree.getActive()) {
+        boolean skillTreeActive = skillTree != null && skillTree.getActive();
+        if (!skillTreeActive)
             if (currentHealth <= 0) {
                 unregister();
-            }//wenn die Entity tod ist, macht sie nichts mehr, außer sich zu unregistern
-            else {
+
+             {
                 if (attacking > 0) {
                     speed = 0;
                     attacking--;
