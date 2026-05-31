@@ -60,7 +60,12 @@ public class Game implements Runnable {
         mapLoader = new MapLoader(tileManager.getTileSize(), entities, keyboardInputs, attackManager, collisions, tileManager, gamePanel);
         mapLoader.buildMap();
         progressManager = new ProgressManager(player, mapLoader, collisions);
-        new TextBox("Hi! Glad you found this text box... (e) (PS: It is completely useless) You can remove it by deleting its constructor in Game (line 60)", 200, 200, 400, 200, 1000, textBoxManager);
+        new TextBox("Anleitung:(e)(e)Steuerung:(e)Bewegung: WASD (e) Angriff: J (e) Skilltree: P (e) Skills: 1 bis 5 (e)(e)" + 
+                    "Generelles: Es gibt drei Arten von Gegnern, die alle Skillpoints droppen, welche im Skilltree ausgegeben werden können.(e)" + 
+                    "Rote Objekte sind Waypoints, an welchen der Fortschritt gespeichert werden kann. Bei Benutzung werden sie blau.(e)" + 
+                    "Graue Objekte sind Türen, welche sich durch besiegen aller Gegner aktivieren. Interaktion mit Türen ist durch Berührung möglich." + 
+                    "Nachdem der letzte Raum erriecht ist wird auf Wiederholung geschaltet, und man kann den letzten Raum so oft wie man es schafft durchspielen.",
+                    720, 360, 600, 500, 4200, textBoxManager);
 
         WIDTH = tileManager.getTileMap()[0].length * tileManager.getTileSize();
         HEIGHT = tileManager.getTileMap().length * tileManager.getTileSize();

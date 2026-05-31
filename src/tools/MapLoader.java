@@ -22,7 +22,7 @@ public class MapLoader {
     //Legt die aktuelle Map fest, welche geladen werden soll
     private int mapIndex = 1;
     //Anzahl an vorhandenen Datensätzen für die Maps
-    private int indexLimit = 5;
+    private int indexLimit = 6;
     //Arrays, welche die Informationen über die Map enthalten
     private int[][] entityMap;
     private int[][] tileMap;
@@ -202,5 +202,9 @@ public class MapLoader {
 
     public int getMapIndex() {
         return mapIndex;
+    }
+
+    public int getMapIndexLimit() {
+        return indexLimit;
     }
 }

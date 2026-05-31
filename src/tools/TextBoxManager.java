@@ -82,8 +82,8 @@ public class TextBoxManager {
         // Alle Elemente der removeList werden gelöscht
         for (TextBox box : removeList) {
             textBoxes.remove(box);
-            removeList.remove(box);
         }
+        removeList.clear();
     }
 
     /**

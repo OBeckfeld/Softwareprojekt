@@ -96,7 +96,12 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
             } else if (entity instanceof Door) {
                 g.setColor(((Door) entity).isOpen() ? Color.GREEN : Color.GRAY);
             } else if (entity instanceof Waypoint) {
-                g.setColor(Color.MAGENTA);
+                if (!((Waypoint)entity).isUsed()) {
+                    g.setColor(Color.RED);
+                }
+                else {
+                    g.setColor(Color.BLUE);
+                }
             }
 
             g.fillRect((int) Math.round(x), (int) Math.round(y), width, height);
