@@ -34,10 +34,7 @@ public class Player extends PlayerTypeEntity {
     private Animation currentAnimation;
     private int lastDirection = -1;
 
-    /**
-     * Erstellt einen neuen Spieler und initialisiert Eingaben, Bewegung,
-     * Werte, SkillTree, Standardwaffe, SpriteSheet und Animationen.
-     */
+
     public Player(int x, int y, int width, int height, EntityRegistry registry, KeyboardInputs keyboardInputs, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
         super(x, y, width, height, 20, 60, registry, attackRegistry, tileManager, gamePanel);
         this.inputs = Objects.requireNonNull(keyboardInputs, "keyboardInputs must not be null");
@@ -47,7 +44,7 @@ public class Player extends PlayerTypeEntity {
         skillTree = new SkillTree(this, gamePanel);
         weapon = new Rifle(this, attackRegistry, tileManager);
 
-        sheet = new SpriteSheet("src/data/sprites/playerCrawler.png", 1024, 1024);
+        sheet = new SpriteSheet("src/data/sprites/playerCrawler.png", 833, 833);
         loadWeaponAnimations();
     }
 
@@ -64,18 +61,20 @@ public class Player extends PlayerTypeEntity {
         if (weapon instanceof StarterSword) {
             walkRow = 1; attackRow = 0;
         } else if (weapon instanceof IronSword) {
-            walkRow = 3; attackRow = 2;
+            walkRow = 1; attackRow = 0; // ← gleiches Sheet bis du neue hast
         } else if (weapon instanceof Gun) {
-            walkRow = 5; attackRow = 4;
+            walkRow = 1; attackRow = 0;
         } else if (weapon instanceof Rifle) {
-            walkRow = 7; attackRow = 6;
+            walkRow = 1; attackRow = 0;
         } else if (weapon instanceof MiniGun) {
-            walkRow = 9; attackRow = 8;
+            walkRow = 1; attackRow = 0;
         } else if (weapon instanceof ShotGun) {
-            walkRow = 11; attackRow = 10;
+            walkRow = 1; attackRow = 0;
         } else {
             walkRow = 1; attackRow = 0;
         }
+
+
 
         walkAnimations[0] = new Animation(new BufferedImage[]{
                 sheet.getFrame(walkRow, 0), sheet.getFrame(walkRow, 1), sheet.getFrame(walkRow, 2)

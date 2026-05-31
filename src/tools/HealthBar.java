@@ -1,8 +1,6 @@
 package tools;
 
 import entities.PlayerTypeEntity;
-import entities.enemies.Boss;
-import main.Game;
 
 import java.awt.*;
 
@@ -23,9 +21,7 @@ public class HealthBar {
     public HealthBar(PlayerTypeEntity entity) {
 
         this.entity = entity;
-        if(entity instanceof Boss){
-            bossBar = true;
-        }
+
     }
 
     /**
@@ -40,38 +36,39 @@ public class HealthBar {
      * Bei normalen Entities wird eine kleine HealthBar über der Entity gezeichnet.
      * Bei Bossen wird stattdessen eine große BossBar am Bildschirmrand gezeichnet.
      */
-    public void draw(Graphics2D g){
-
+    public void draw(Graphics2D g) {
         float healthPercent = (float) entity.getCurrentHealth() / entity.getMaxHealth();
-        int x = (int) entity.getX() + entity.getWidth() / 2 - WIDTH / 2;
-        int y = (int) entity.getY() - HEIGHT - Y_OFFSET;
 
+        if (bossBar) {
+            // BossBar am unteren Bildschirmrand
+            // Background
+            g.setColor(Color.DARK_GRAY);
+            g.fillRect(10, screenHeight - 10, screenWidth - 20, 20);
 
-        if(!(entity instanceof Boss)) {
-            //Background
+            // Foreground
+            g.setColor(Color.RED);
+            g.fillRect(12, screenHeight - 12, (int) ((screenWidth - 20) * healthPercent), 16);
+
+            // Border
+            g.setColor(Color.BLACK);
+            g.drawRect(10, screenHeight - 10, screenWidth - 20, 20);
+
+        } else {
+            // Normale HealthBar über der Entity
+            int x = (int) entity.getX() + entity.getWidth() / 2 - WIDTH / 2;
+            int y = (int) entity.getY() - HEIGHT - Y_OFFSET;
+
+            // Background
             g.setColor(Color.DARK_GRAY);
             g.fillRect(x, y, WIDTH, HEIGHT);
 
-            //Foreground
+            // Foreground
             g.setColor(getColor(healthPercent));
             g.fillRect(x, y, (int) (WIDTH * healthPercent), HEIGHT);
 
-            //Border
+            // Border
             g.setColor(Color.BLACK);
             g.drawRect(x, y, WIDTH, HEIGHT);
-        }
-        else{
-            //Background
-            g.setColor(Color.DARK_GRAY);
-            g.fillRect(10, screenHeight-10, screenWidth -20, 20);
-
-            //Foreground
-            g.setColor(Color.RED);
-            g.fillRect(12, screenHeight-12, (int) (screenWidth * healthPercent)-20, 16);
-
-            //Border
-            g.setColor(Color.BLACK);
-            g.drawRect(10, screenHeight-10, screenWidth-20, 20);
         }
     }
 
