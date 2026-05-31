@@ -23,7 +23,6 @@ public abstract class Entity {
     protected AttackRegistry attackRegistry;
     protected int height, width;
     protected double x, y;
-    protected double defaultSpeed = 5;
     protected MovementComponent movement;
     protected Hitbox hurtbox;
     public EntityRegistry registry;
@@ -39,7 +38,6 @@ public abstract class Entity {
         this.height = height;
         movement = new MovementComponent(tileManager);
         hurtbox = new Hitbox(x, y, width, height);
-        registry.register(this);
         this.registry = registry;
         this.tileManager = tileManager;
         dead = false;

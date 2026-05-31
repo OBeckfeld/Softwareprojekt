@@ -22,8 +22,8 @@ public class Attack extends Entity{
      */
     public Attack(double x, double y, int width, int height, EntityRegistry registry, int duration, PlayerTypeEntity owner, AttackRegistry attackRegistry, TileManager tileManager) {
         super(x, y, width, height, registry, attackRegistry, tileManager);
-        registry.register(this);
         this.registry = registry;
+        registry.register(this);
         this.expired = false;
         this.visible = true;
         this.hitList = new ArrayList<>();
@@ -38,6 +38,8 @@ public class Attack extends Entity{
      */
     public Attack(double x, double y, int width, int height, EntityRegistry registry, int duration, PlayerTypeEntity owner, AttackManager attackManager, int damage, TileManager tileManager) {
         super(x, y, width, height, registry, attackManager, tileManager);
+        this.registry = registry;
+        registry.register(this);
         this.expired = false;
         this.visible = true;
         this.hitList = new ArrayList<>();

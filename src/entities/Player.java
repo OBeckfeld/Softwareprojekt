@@ -41,6 +41,7 @@ public class Player extends PlayerTypeEntity {
 
         movement = new MovementComponent(keyboardInputs, tileManager);
         mass = 3;
+        speed = 3;
         currentHealth = 100;
         skillTree = new SkillTree(this, gamePanel);
         weapon = new Rifle(this, attackRegistry, tileManager);

@@ -28,9 +28,9 @@ public abstract class PlayerTypeEntity extends Entity {
     protected int damageModifier = 1;
     protected AbilityManager abilityManger;
     protected GamePanel gamePanel;
-    protected double speed = 2.5;
+    protected double speed = 2;
     protected Weapon weapon;
-    protected double defaultSpeed = 3;
+    protected double defaultSpeed = 2;
     protected int attacking = 3;
     protected HealthBar healthBar;
     protected SkillTree skillTree;
