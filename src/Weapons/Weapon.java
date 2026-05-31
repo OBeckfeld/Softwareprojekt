@@ -13,7 +13,7 @@ public abstract class Weapon {
     protected PlayerTypeEntity owner;
     protected AttackRegistry attackRegistry;
     protected long lastUsed;
-    public int attackDuration;
+    protected int attackDuration;
     protected TileManager tileManager;
 
     public Weapon(PlayerTypeEntity owner, AttackRegistry attackRegistry, TileManager tileManager){
@@ -41,5 +41,13 @@ public abstract class Weapon {
         Vector kbVector = new Vector(owner.getX(), y, x+owner.getOffsetCoords(dir)[0], y+owner.getOffsetCoords(dir)[1]);
         kbVector.setLength(kb);
         owner.move(kbVector);
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+
+    public void setHitCooldown(int cooldown) {
+        this.attackCooldown = cooldown;
     }
 }

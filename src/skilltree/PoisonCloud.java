@@ -5,6 +5,7 @@ import entities.components.MovementComponent;
 import main.GamePanel;
 
 import java.awt.image.BufferedImage;
+import tools.TileManager;
 
 public class PoisonCloud extends Ability {
     public PoisonCloud(PlayerTypeEntity owner, int x, int y, BufferedImage icon, GamePanel gamePanel, SkillTree skillTree){
@@ -26,6 +27,7 @@ public class PoisonCloud extends Ability {
     public boolean use(){
         if (!super.use()){ return false; } //offcooldown check
         owner.gainLife(15);
+        new entities.DamageCloud(owner.getCenter()[0]-50,owner.getCenter()[1]-50,100,100, owner.registry, new TileManager(),600,10,owner);
         return true;
     }
 

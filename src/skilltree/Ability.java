@@ -29,7 +29,7 @@ public abstract class Ability implements MouseListener, MouseMotionListener {
     public int iconY;
     private boolean mouseHovers;
     private TextBox description;
-    JLabel label;
+    protected JLabel label;
     private SkillTree skillTree;
     public Ability(PlayerTypeEntity owner, int x, int y, BufferedImage icon, GamePanel gamePanel, SkillTree skillTree){
         this.gamePanel = gamePanel;

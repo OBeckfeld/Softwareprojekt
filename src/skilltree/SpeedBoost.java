@@ -35,6 +35,6 @@ public class SpeedBoost extends Ability {
     public void effect() {
     }
 
-    public void end(){owner.setSpeed(owner.getSpeed()-1);}
+    public void end(){owner.setSpeed(owner.getSpeed()-3);}
 
 }

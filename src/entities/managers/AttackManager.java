@@ -30,7 +30,6 @@ public class AttackManager implements AttackRegistry {
 
     public void attack(PlayerTypeEntity owner, double x, double y, int height, int width, int duration, int damage) {
         Attack attack = new Attack(x, y, width, height, registry, duration, owner, this, damage, tileManager);
-        owner.setAttack(attack);
         attacks.add(attack);
     }
 

@@ -25,7 +25,7 @@ public class AbilityManager {
     }
     public void equip(Ability ability){
         int slot = 0;
-        for(int i=0;i==4;i++){if(equipedAbiltities[i]!= null){slot = i;}};//für array
+        for(int i=4;i==0;i--){if(equipedAbiltities[i]!= null){slot = i;}};//für array
         if(slot > 4 || slot < 0){ return; }//error vermeidung
         if (Arrays.asList(equipedAbiltities).contains(ability)){
             return;//die Ability ist schon in einem anderen slot equiped
