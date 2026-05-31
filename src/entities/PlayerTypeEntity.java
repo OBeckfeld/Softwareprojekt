@@ -13,6 +13,7 @@ import tools.Vector;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public abstract class PlayerTypeEntity extends Entity {
 
@@ -128,6 +129,13 @@ public abstract class PlayerTypeEntity extends Entity {
         }
         if (currentHealth < 1){
             dead = true;
+        }
+        source.dealtDamage(damage);
+    }
+
+    public void dealtDamage(int dmg){
+        if(Arrays.asList(skillTree.getUnlockedAbilities()).contains("LifeSteal")){
+            setHealth(getCurrentHealth()+(int)(dmg/4));
         }
     }
 
