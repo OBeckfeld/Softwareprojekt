@@ -37,6 +37,7 @@ public abstract class PlayerTypeEntity extends Entity {
     protected HealthBar healthBar;
     protected SkillTree skillTree;
     protected int skillPoints = 0;
+    protected int pointsOnDeath = 1;
 
     public PlayerTypeEntity(int x, int y, int width, int height, int attackDuration, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
         super(x, y, width, height, registry, attackRegistry, tileManager);
@@ -122,6 +123,13 @@ public abstract class PlayerTypeEntity extends Entity {
         if (damage > 0){
             currentHealth -= damage;
         }
+        if (currentHealth < 1){
+            dead = true;
+        }
+    }
+
+    public int getPointsOnDeath(){
+        return pointsOnDeath;
     }
 
     public void move(double dx, double dy) {

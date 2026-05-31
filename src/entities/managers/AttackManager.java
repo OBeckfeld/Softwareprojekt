@@ -17,6 +17,7 @@ public class AttackManager implements AttackRegistry {
     private final EntityRegistry registry;
     private final TileManager tileManager;
     private final ArrayList<Attack> attacks;
+    private PlayerTypeEntity owner;
 
     public AttackManager(CollisionManager collisionManager, EntityRegistry registry, TileManager tileManager) {
         this.collisionManager = collisionManager;
@@ -33,6 +34,10 @@ public class AttackManager implements AttackRegistry {
         attacks.add(attack);
     }
 
+    public void grabOwner(PlayerTypeEntity source){
+        owner = source;
+    }
+
     /**
      * distributeDamage verteilt den gespeicherten Schaden und setzt ihn anschließend zurück
      */
@@ -46,10 +51,21 @@ public class AttackManager implements AttackRegistry {
                     Random random = new Random();
                     int rand = random.nextInt(100);
                     if(rand < ((PlayerTypeEntity) entity).getCritChance()){
-                        ((PlayerTypeEntity) entity).takeDamage(attack.getDamage()*(((PlayerTypeEntity) entity).getCrit()/100));//fügt kritischen Schaden zu
+                        if(!entity.isDead()) {
+                            ((PlayerTypeEntity) entity).takeDamage(attack.getDamage() * (((PlayerTypeEntity) entity).getCrit() / 100));//fügt kritischen Schaden zu
+                            if (entity.isDead()) {
+                                owner.setSkillPoints(owner.getSkillPoints() + entity.getPointsOnDeath());
+                            }
+                        }
                     }
                     else{
-                        ((PlayerTypeEntity) entity).takeDamage(attack.getDamage());//macht den Schaden. Rüstung etc. wird bei der Entity selbst abgezogen. Das gilt auch für "negativen Schaden"
+                        if(!entity.isDead()) {
+                            ((PlayerTypeEntity) entity).takeDamage(attack.getDamage());//macht den Schaden. Rüstung etc. wird bei der Entity selbst abgezogen. Das gilt auch für "negativen Schaden"
+                            if (entity.isDead()) {
+                                owner.setSkillPoints(owner.getSkillPoints() + entity.getPointsOnDeath());
+                                System.out.println(owner.getSkillPoints());
+                            }
+                        }
                     }
                 }
             }

@@ -49,12 +49,13 @@ public class Game implements Runnable {
         collisions = new CollisionManager(entities);
         entities.setCollsisons(collisions);//temporär bis ihr diese absolut gekochten Abhängigkeiten gefixt habt
 
+
+
+
+
         attackManager = new AttackManager(collisions, entities, tileManager);
-
-
-
-
         player = new Player(tileManager.getTileSize() * 2 + 5, tileManager.getTileSize() * 2 + 5, 40, 80, entities, keyboardInputs, attackManager, tileManager, gamePanel);
+
         mapLoader = new MapLoader(tileManager.getTileSize(), entities, keyboardInputs, attackManager, collisions, tileManager, gamePanel);
         mapLoader.buildMap();
         progressManager = new ProgressManager(player, mapLoader, collisions);

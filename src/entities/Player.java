@@ -2,6 +2,7 @@ package entities;
 
 import Weapons.*;
 import entities.components.MovementComponent;
+import entities.managers.AttackManager;
 import entities.managers.AttackRegistry;
 import main.GamePanel;
 import skilltree.SpeedBoost;
@@ -27,6 +28,7 @@ public class Player extends PlayerTypeEntity {
         weapon = new ShotGun(this, attackRegistry, tileManager);
         gamePanel.assignPlayer(this);
         setSkillPoints(5);
+        attackRegistry.grabOwner(this);
     }
 
 

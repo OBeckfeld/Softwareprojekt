@@ -22,6 +22,7 @@ public class Enemy extends PlayerTypeEntity {
         mass = 1;
         currentHealth = 100; //zu Testzwecken, für spätere Version unbedingt anpassen!!!
         player = null;
+        pointsOnDeath = 1;
     }
 
     public Enemy(int x, int y, int width, int height, int health, int damage, int defense, int verticalRange, int horizontalRange, int attackDuration, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
