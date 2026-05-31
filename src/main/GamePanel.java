@@ -2,6 +2,7 @@ package main;
 
 import entities.*;
 import entities.enemies.Enemy;
+import skilltree.PoisonCloud;
 import tools.TextBoxManager;
 
 import javax.swing.JPanel;
@@ -54,6 +55,11 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
             if (entity == null || entity instanceof ViewBox){
                 continue;
             }
+            else if (entity instanceof DamageCloud){
+                Color c = ((DamageCloud) entity).getColor();
+                g.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), 128));
+            }
+
             else if (entity instanceof Player){
                 g2d.setColor(Color.BLUE);
                 ((Player)entity).draw(g2d);

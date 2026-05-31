@@ -29,6 +29,7 @@ public abstract class Entity {
     public EntityRegistry registry;
     protected TileManager tileManager;
     protected boolean dead;
+    protected int z = 1;
 
     public Entity(double x, double y, int width, int height, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager) {
         this.attackRegistry = attackRegistry;
@@ -57,7 +58,8 @@ public abstract class Entity {
 
 
     public Hitbox getHurtbox() {return hurtbox;}
-
+    public int getZ(){return z;}
+    public void setZ(int z){this.z = z;}
     public double getX() {
         return x;
     }

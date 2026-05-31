@@ -72,11 +72,17 @@ public class EntityManager implements EntityRegistry {
 
     private int sortiere(Entity[] daten,int start,int ende)
     {
-        double pivot= daten[ende].getY()+ daten[ende].getHeight(); //Das letzte Element dient als Vergleichswert
+        double pivot= daten[ende].getY()+ daten[ende].getHeight();
+        double pivotZ= daten[ende].getZ();//Das letzte Element dient als Vergleichswert
         int pIndex=start; //Aktuelle Grenze für kleinere Elemente; hier landet später das Pivot.
         for(int i=start;i<ende;i++)
         {
-            if(daten[i].getY() +daten[i].getHeight()<pivot) //wenn Zahl an Stelle i <= pivot
+            if(pivotZ > daten[i].getZ()) //wenn Zahl an Stelle i <= pivot
+            {
+                tauschen(daten,i,pIndex); //dann wird Zahl an Stelle i mit Zahl an Stelle pIndex getauscht.
+                pIndex++; //Stelle an die später Pivot kommt, wird mit jeder kleineren Zahl, die nach links getauscht wird, um 1 erhöht.
+            }
+            else if(daten[i].getY() +daten[i].getHeight()<pivot) //wenn Zahl an Stelle i <= pivot
             {
                 tauschen(daten,i,pIndex); //dann wird Zahl an Stelle i mit Zahl an Stelle pIndex getauscht.
                 pIndex++; //Stelle an die später Pivot kommt, wird mit jeder kleineren Zahl, die nach links getauscht wird, um 1 erhöht.

@@ -14,6 +14,7 @@ public class Attack extends Entity{
     private boolean expired, visible; //expired gibt an, ob eine Attacke noch aktiv ist
     private final ArrayList<Entity> hitList; //hitList speichert alle Entities, die von der Attacke getroffen werden
     private final PlayerTypeEntity owner; //Referenz auf Verursacher der Attacke, macht 'Rückschlüsse' möglich
+    private boolean armorPierce = false;
 
     public Attack(double x, double y, int width, int height, EntityRegistry registry, int duration, PlayerTypeEntity owner, AttackRegistry attackRegistry, TileManager tileManager) {
         super(x, y, width, height, registry, attackRegistry, tileManager);
@@ -46,6 +47,9 @@ public class Attack extends Entity{
             registry.unregister(this);
         }
     }
+
+    public void setArmorPierce(boolean pierce){armorPierce = pierce;}
+    public boolean getArmorPierce(){return armorPierce;}
 
     public int getDuration() {
         return duration;

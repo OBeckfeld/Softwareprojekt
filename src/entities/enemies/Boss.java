@@ -28,7 +28,7 @@ public class Boss extends Enemy {
         double dist = toPlayer.getLength();
 
         if (dist <= ATTACK_RANGE) {
-            tryAttackEntity((PlayerTypeEntity) player);
+            tryAttackEntity(player);
         }
 
         if (player == null) return;
@@ -39,7 +39,7 @@ public class Boss extends Enemy {
         if (registry.getInRange(this, 100, 100).contains(player) || attackDelay != 40) {
             vector.setLength(0);
             if (attackDelay == 0) {
-                tryAttackEntity((PlayerTypeEntity) player);
+                tryAttackEntity(player);
                 attackDelay = 40;
             } else {
                 attackDelay--;

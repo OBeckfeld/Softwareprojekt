@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 public class SpeedBoost extends Ability {
     public SpeedBoost(PlayerTypeEntity owner, int x, int y, BufferedImage icon, GamePanel gamePanel, SkillTree skillTree){
         super(owner, x, y, icon, gamePanel, skillTree);
-        cost = 12; //wird in den unter klassen überschrieben
+        cost = 12;
         cooldown = 1500; //in Millisekunden
         duration = 2000; //in Millisekunden
         active = false;

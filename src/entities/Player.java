@@ -15,6 +15,7 @@ import skilltree.Dash;
 import skilltree.SkillTree;
 
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 
 public class Player extends PlayerTypeEntity {
 
@@ -32,6 +33,7 @@ public class Player extends PlayerTypeEntity {
         weapon = new StarterSword(this, attackRegistry, tileManager);
         gamePanel.assignPlayer(this);
         attackRegistry.grabOwner(this);
+        skillpoints = 1000;
     }
 
     public void update() {
