@@ -15,6 +15,9 @@ import tools.Vector;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+/**
+ * Gegner, der den Spieler verfolgt, angreift und bei wenig Leben flieht.
+ */
 public class Enemy extends PlayerTypeEntity {
 
     protected Player player;
@@ -36,9 +39,13 @@ public class Enemy extends PlayerTypeEntity {
     protected boolean fleeMode = false;
     private static final double FLEE_HEALTH = 0.3; // 30% Health
 
+    /**
+     * Erstellt einen Standard-Gegner und initialisiert Werte, SpriteSheet,
+     * Laufanimationen, Angriffsanimation und Idle-Animation.
+     */
     public Enemy(int x, int y, int width, int height, int hitCooldown,
                  EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager,
-    GamePanel gamePanel) {
+                 GamePanel gamePanel) {
         super(x, y, width, height, 100, hitCooldown, registry, attackRegistry, tileManager, gamePanel);
         defaultSpeed = 2;
         speed = defaultSpeed;
@@ -86,6 +93,10 @@ public class Enemy extends PlayerTypeEntity {
         pointsOnDeath = 1;
     }
 
+    /**
+     * Erstellt einen Gegner mit individuell festgelegten Werten
+     * für Leben, Schaden, Verteidigung, Reichweite und Angriffswerte.
+     */
     public Enemy(int x, int y, int width, int height, int health, int damage, int defense, int verticalRange, int horizontalRange, int attackDuration, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
         super(x, y, width, height, attackDuration, hitCooldown, registry, attackRegistry, tileManager, gamePanel);
         this.hitCooldown = hitCooldown;
@@ -98,6 +109,11 @@ public class Enemy extends PlayerTypeEntity {
         this.horizontalRange = horizontalRange;
     }
 
+    /**
+     * Aktualisiert den Gegner pro Tick.
+     * Dabei werden Tod, Fluchtmodus, Spielererkennung, Bewegung
+     * sowie Angriffs-, Lauf- und Idle-Animationen verarbeitet.
+     */
     @Override
     public void update() {
         if (player != null && player.getSkillTree().isActive) return;
@@ -141,6 +157,11 @@ public class Enemy extends PlayerTypeEntity {
         }
     }
 
+    /**
+     * Steuert die Bewegung und das Angriffsverhalten des Gegners.
+     * Der Gegner verfolgt den Spieler, greift in Reichweite an
+     * oder flieht, wenn der Fluchtmodus aktiv ist.
+     */
     protected void handleMovement() {
         if (player == null) {
             isMoving = false;
@@ -192,6 +213,10 @@ public class Enemy extends PlayerTypeEntity {
     }
 
     // ── Flucht-Logik ─────────────────────────────────────────
+    /**
+     * Bewegt den Gegner vom Spieler weg und aktualisiert dabei
+     * die Bewegungsrichtung passend zur Fluchtbewegung.
+     */
     private void flee() {
         isAttacking = false;
         isMoving = true;
@@ -213,17 +238,28 @@ public class Enemy extends PlayerTypeEntity {
 
     }
 
+    /**
+     * Verarbeitet erlittenen Schaden und setzt den angreifenden Spieler
+     * als Ziel des Gegners.
+     */
     @Override
     public void takeDamage(int damage, PlayerTypeEntity source, boolean piercing){ //wenn gegner Schaden nimmt, sieht er den Player
         player = (Player)source;
         super.takeDamage(damage, source, piercing);
     }
 
+    /**
+     * Richtet den Gegner zum Ziel aus und benutzt die aktuelle Waffe.
+     */
     protected void tryAttackEntity(PlayerTypeEntity targetPlayer) {
         direction = getDirectionTo(targetPlayer.getCenter()[0], targetPlayer.getCenter()[1]);
         weapon.use();
     }
 
+    /**
+     * Gibt das aktuelle Sprite des Gegners zurück.
+     * Angriffsanimation hat Priorität vor Laufanimation und Idle-Animation.
+     */
     public BufferedImage getSprite() {
         if (isAttacking) return attackAnimation.getCurrentFrame();
         if (isMoving) return currentAnimation.getCurrentFrame();

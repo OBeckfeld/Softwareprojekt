@@ -19,6 +19,11 @@ public class AttackManager implements AttackRegistry {
     private final ArrayList<Attack> attacks;
     private PlayerTypeEntity owner;
 
+    /**
+     * Erstellt einen neuen AttackManager und speichert die Referenzen
+     * auf CollisionManager, EntityRegistry und TileManager.
+     * Zusätzlich wird die Liste für aktive Attacken initialisiert.
+     */
     public AttackManager(CollisionManager collisionManager, EntityRegistry registry, TileManager tileManager) {
         this.collisionManager = collisionManager;
         this.registry = registry;
@@ -28,16 +33,29 @@ public class AttackManager implements AttackRegistry {
 
 
 
+    /**
+     * Erstellt eine neue Attacke mit den angegebenen Werten
+     * und fügt sie der Liste der aktiven Attacken hinzu.
+     */
     public void attack(PlayerTypeEntity owner, double x, double y, int height, int width, int duration, int damage) {
         Attack attack = new Attack(x, y, width, height, registry, duration, owner, this, damage, tileManager);
         attacks.add(attack);
     }
+
+    /**
+     * Erstellt eine neue Attacke mit den angegebenen Werten,
+     * setzt zusätzlich die Rüstungsdurchdringung und fügt sie
+     * der Liste der aktiven Attacken hinzu.
+     */
     public void attack(PlayerTypeEntity owner, double x, double y, int height, int width, int duration, int damage, boolean armorPierce) {
         Attack attack = new Attack(x, y, width, height, registry, duration, owner, this, damage, tileManager);
         attack.setArmorPierce(armorPierce);
         attacks.add(attack);
     }
 
+    /**
+     * Speichert die Entity, die als Verursacher einer Attacke verwendet wird.
+     */
     public void grabOwner(PlayerTypeEntity source){
         owner = source;
     }

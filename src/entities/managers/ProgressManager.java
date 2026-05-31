@@ -18,6 +18,10 @@ public class ProgressManager {
     // Index, um die Speicherdatei zu benennen
     private int currentSavingIndex = 1;
 
+    /**
+     * Erstellt einen neuen ProgressManager und speichert Referenzen
+     * auf Spieler, MapLoader, SkillTree und CollisionManager.
+     */
     public ProgressManager(Player player, MapLoader mapLoader, CollisionManager collisionManager) {
         this.player = player;
         this.mapLoader = mapLoader;
@@ -44,11 +48,17 @@ public class ProgressManager {
         }
     }
 
+    /**
+     * Setzt den aktuellen Spieler neu und aktualisiert die SkillTree-Referenz.
+     */
     public void setPlayer(Player player) {
         this.player = player;
         this.skillTree = player.getSkillTree();
     }
 
+    /**
+     * Gibt den aktuellen Speicherindex zurück.
+     */
     public int getSavingIndex() {
         return currentSavingIndex;
     }
@@ -189,7 +199,7 @@ public class ProgressManager {
         //Start und Ende des Arrays im String werden gefunden, dabei wird alles vor dem Start des Arrays ignoriert
         int arrayStart = oneLineJson.indexOf("[", startIndex);
         int arrayEnd = oneLineJson.indexOf("]", arrayStart);
-        
+
         //falls das Array nicht gefunden wird, wird eine Exception geworfen
         if(arrayStart == -1 || arrayEnd == -1) {
             throw new IllegalArgumentException("Array " + key + " has wrong format");

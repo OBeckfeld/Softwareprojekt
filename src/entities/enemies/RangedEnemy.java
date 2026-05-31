@@ -15,6 +15,10 @@ import java.awt.image.BufferedImage;
  * Gegner der aus der Ferne schießt und bei Annäherung des Spielers flieht.
  * Hält eine optimale Distanz zum Spieler und schießt in regelmäßigen Abständen.
  */
+/**
+ * Gegner der aus der Ferne schießt und bei Annäherung des Spielers flieht.
+ * Hält eine optimale Distanz zum Spieler und schießt in regelmäßigen Abständen.
+ */
 public class RangedEnemy extends Enemy {
     private SpriteSheet sheet;
     private Animation currentAnimation;  // aktuell abgespielte Lauf-Animation
@@ -30,9 +34,11 @@ public class RangedEnemy extends Enemy {
     private static final int SHOOT_COOLDOWN = 60;  // Ticks zwischen zwei Schüssen
     private int shootTimer = 0;                    // zählt Ticks seit letztem Schuss
     private int hitCooldown;
+
     /**
-     * Erstellt einen neuen RangedEnemy.
-     */    
+     * Erstellt einen neuen RangedEnemy und initialisiert Werte,
+     * SpriteSheet, Laufanimationen sowie die Schussanimation.
+     */
 
     public RangedEnemy(int x, int y, int width, int height,
                        EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
