@@ -199,9 +199,9 @@ public class Enemy extends PlayerTypeEntity {
     }
 
     @Override
-    public void takeDamage(int damage, PlayerTypeEntity source){ //wenn gegner Schaden nimmt, sieht er den Player
+    public void takeDamage(int damage, PlayerTypeEntity source, boolean piercing){ //wenn gegner Schaden nimmt, sieht er den Player
         player = (Player)source;
-        super.takeDamage(damage, source);
+        super.takeDamage(damage, source, piercing);
     }
 
     protected void tryAttackEntity(PlayerTypeEntity targetPlayer) {

@@ -2,6 +2,7 @@ package main;
 
 import entities.*;
 import entities.enemies.Enemy;
+import skilltree.PoisonCloud;
 import tools.TextBoxManager;
 import tools.TextBox;
 
@@ -76,7 +77,13 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
                 ((Player)entity).draw(g2d); // Healthbar
                 continue;
 
-            }  else if (entity instanceof Enemy) {
+
+            }
+            else if (entity instanceof DamageCloud){
+                Color c = ((DamageCloud) entity).getColor();
+                g.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), 128));
+            }
+            else if (entity instanceof Enemy) {
             BufferedImage sprite = ((Enemy) entity).getSprite();
             if (sprite != null) {
                 g2d.drawImage(sprite, (int) Math.round(x), (int) Math.round(y), width, height, null);

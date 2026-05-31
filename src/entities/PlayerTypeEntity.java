@@ -31,12 +31,12 @@ public abstract class PlayerTypeEntity extends Entity {
     protected double speed = 2.5;
     protected Weapon weapon;
     protected double defaultSpeed = 3;
-    protected int attacking = 0;
+    protected int attacking = 3;
     protected HealthBar healthBar;
     protected SkillTree skillTree;
-    protected int skillPoints = 0;
+    protected int skillPoints = 1000;
     protected int pointsOnDeath = 1;
-
+    private boolean isParrying = false;
     public PlayerTypeEntity(int x, int y, int width, int height, int attackDuration, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
         super(x, y, width, height, registry, attackRegistry, tileManager);
         abilityManger = new AbilityManager(this);
@@ -89,8 +89,10 @@ public abstract class PlayerTypeEntity extends Entity {
     public void setDefense(int def){
         defense = def;
     }
+
     public double getSpeed() { return speed; }
     public void setSpeed(double speed) { this.speed = speed; }
+
     public void setDamageModifier(int mod){damageModifier = mod;}
     public void setHealth(int life){if(life>maxHealth){
             currentHealth = maxHealth;
@@ -107,9 +109,12 @@ public abstract class PlayerTypeEntity extends Entity {
         healthBar.draw(g);
     }
 
-    public void takeDamage(int damage, PlayerTypeEntity source) {
-        damage = damage - (int)(damage * defense) / 100;
-        if (damage > 0) {
+    public void takeDamage(int damage, PlayerTypeEntity source,boolean armorPierce) {
+        if (isParrying){return;}
+        if (!armorPierce) {
+            damage = damage - (int) (damage * defense) / 100;
+        }
+        if (damage > 0){
             currentHealth -= damage;
         }
         if (currentHealth < 1) {
@@ -119,7 +124,9 @@ public abstract class PlayerTypeEntity extends Entity {
             source.dealtDamage(damage);
         }
     }
-
+    public void setParrying(boolean parry){
+        isParrying = parry;
+    }
     public void dealtDamage(int dmg){
         if(Arrays.asList(skillTree.getUnlockedAbilities()).contains("Lifesteal")){
             setHealth(getCurrentHealth()+(int)(dmg/6));

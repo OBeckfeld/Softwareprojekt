@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 public class DMGBoost2 extends Ability {
     public DMGBoost2(PlayerTypeEntity owner, int x, int y, BufferedImage icon, GamePanel gamePanel, SkillTree skillTree){
         super(owner, x, y, icon, gamePanel, skillTree);
-        cost = 12; //wird in den unter klassen überschrieben
+        cost = 12;
         cooldown = 1500; //in Millisekunden
         duration = 100; //in Millisekunden
         active = false;

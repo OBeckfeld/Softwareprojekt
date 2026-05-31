@@ -32,6 +32,11 @@ public class AttackManager implements AttackRegistry {
         Attack attack = new Attack(x, y, width, height, registry, duration, owner, this, damage, tileManager);
         attacks.add(attack);
     }
+    public void attack(PlayerTypeEntity owner, double x, double y, int height, int width, int duration, int damage, boolean armorPierce) {
+        Attack attack = new Attack(x, y, width, height, registry, duration, owner, this, damage, tileManager);
+        attack.setArmorPierce(armorPierce);
+        attacks.add(attack);
+    }
 
     public void grabOwner(PlayerTypeEntity source){
         owner = source;
@@ -49,19 +54,17 @@ public class AttackManager implements AttackRegistry {
 
                     Random random = new Random();
                     int rand = random.nextInt(100);
-                    PlayerTypeEntity attacker = attack.getOwner(); // ← Owner von der Attack holen statt von owner Feld
-
-                    if (rand < attacker.getCritChance()) {
-                        if (!entity.isDead()) {
-                            ((PlayerTypeEntity) entity).takeDamage(attack.getDamage() * (attacker.getCrit() / 100), attacker);
-                            if (entity.isDead() && attacker != null) {
-                                attacker.setSkillPoints(attacker.getSkillPoints() + entity.getPointsOnDeath());
+                    if(rand < ((PlayerTypeEntity) entity).getCritChance()){
+                        if(!entity.isDead()) {
+                            ((PlayerTypeEntity) entity).takeDamage(attack.getDamage() * (owner.getCrit() / 100), owner,attack.getArmorPierce());//fügt kritischen Schaden zu
+                            if (entity.isDead()) {
+                                owner.setSkillPoints(owner.getSkillPoints() + entity.getPointsOnDeath());
                             }
                         }
                     }
                     else{
                         if(!entity.isDead()) {
-                            ((PlayerTypeEntity) entity).takeDamage(attack.getDamage(), owner);//macht den Schaden. Rüstung etc. wird bei der Entity selbst abgezogen. Das gilt auch für "negativen Schaden"
+                            ((PlayerTypeEntity) entity).takeDamage(attack.getDamage(), owner,attack.getArmorPierce());//macht den Schaden. Rüstung etc. wird bei der Entity selbst abgezogen. Das gilt auch für "negativen Schaden"
                             if (entity.isDead()) {
                                 owner.setSkillPoints(owner.getSkillPoints() + entity.getPointsOnDeath());//wenn gegner getötet wird, erhällt player skill points
                             }

@@ -18,6 +18,7 @@ import skilltree.Dash;
 import skilltree.SkillTree;
 
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.util.Objects;
 import java.awt.image.BufferedImage;
 
@@ -44,7 +45,7 @@ public class Player extends PlayerTypeEntity {
         skillTree = new SkillTree(this, gamePanel);
         weapon = new Rifle(this, attackRegistry, tileManager);
 
-        sheet = new SpriteSheet("src/data/sprites/playerCrawler.png", 833, 833);
+        sheet = new SpriteSheet("src/data/sprites/playerCrawler.png", 1024, 1024);
 
         walkAnimations = new Animation[4];
         walkAnimations[0] = new Animation(new BufferedImage[]{ // rechts

@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 public class Lifesteal extends Ability {
     public Lifesteal(PlayerTypeEntity owner, int x, int y, BufferedImage icon, GamePanel gamePanel, SkillTree skillTree){
         super(owner, x, y, icon, gamePanel, skillTree);
-        cost = 25; //wird in den unter klassen überschrieben
+        cost = 25;
         cooldown = 4000; //in Millisekunden
         duration = 1; //in Millisekunden
         active = false;
