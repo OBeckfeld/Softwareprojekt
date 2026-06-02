@@ -14,7 +14,6 @@ public class FollowingProjectile extends Projectile{
     }
     public FollowingProjectile(double x, double y, int width, int height, EntityRegistry registry, AttackRegistry attackManager, PlayerTypeEntity owner, double speed, Vector vector, int timeToLive, int damage, TileManager tileManager) {
         super(x,y,width,height,registry,attackManager,owner,speed,vector,timeToLive, damage, tileManager);
-
     }
     @Override
     protected void logic(){

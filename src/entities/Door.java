@@ -11,8 +11,6 @@ public class Door extends Entity{
 
     public Door(double x, double y, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager) {
         super(x, y, 10, 120, registry, attackRegistry, tileManager);
-        registry.register(this);
-        this.registry = registry;
         this.open = false;
     }
 

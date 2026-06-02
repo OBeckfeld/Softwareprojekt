@@ -12,25 +12,14 @@ public class EntityManager implements EntityRegistry {
     private CollisionManager collisionManager;
     private TileManager tileManager;
 
-    /**
-     * Erstellt einen neuen EntityManager und initialisiert die Entity-Liste,
-     * den CollisionManager und den TileManager.
-     */
     public EntityManager(CollisionManager collisions, TileManager tileManager) {
         entities = new ArrayList<>();
         collisionManager = collisions;
         this.tileManager =  tileManager;
     }
 
-    /**
-     * Setzt den CollisionManager nachträglich neu.
-     */
     public void setCollsisons(CollisionManager collisionManager) {this.collisionManager = collisionManager;}//temporär bis ihr euer Zeug gefixt habt
 
-    /**
-     * Registriert eine Entity, fügt sie der Entity-Liste hinzu
-     * und sortiert die Liste anschließend nach Zeichenreihenfolge.
-     */
     @Override
     public void register(Entity entity){
         if (entity != null) {
@@ -39,22 +28,11 @@ public class EntityManager implements EntityRegistry {
         }
     }
 
-    /**
-     * Entfernt eine Entity aus der Entity-Liste.
-     */
     public void unregister(Entity entity){entities.remove(entity);
     }
 
-    /**
-     * Gibt eine Kopie aller registrierten Entities zurück,
-     * damit die originale Entity-Liste nicht direkt verändert werden kann.
-     */
     public ArrayList<Entity> getEntities(){return new ArrayList<>(entities);}//damit die eigentliche Liste nicht von anderen Klassen bearbeitet werden kann
 
-    /**
-     * Gibt alle Entities zurück, die sich innerhalb eines bestimmten Bereichs
-     * um die angegebene Entity befinden.
-     */
     public ArrayList<Entity> getInRange(Entity entity, int rangeX, int rangeY){//gibt alle entities zurück, die im sichtfeld von entity sind
         ViewBox viewBox = new ViewBox((entity.getCenter() [0]-rangeX/2), (entity.getCenter() [1]-rangeY/2), rangeY, rangeX,  this, tileManager);//viewBox wird zentriert
         collisionManager.checkCollisions();//collisions werden geupdatet, da die viewbox am anfang nicht da war | könnte das gameplay langsamer machen
@@ -67,21 +45,11 @@ public class EntityManager implements EntityRegistry {
         return colls;
     }
 
-    /**
-     * Prüft, ob zwei Entities miteinander kollidieren.
-     */
     public boolean collidesWith(Entity entity1, Entity entity2){ return collisionManager.getEntities(entity1).contains(entity2);}
-
-    /**
-     * Gibt alle Entities zurück, die aktuell mit der angegebenen Entity kollidieren.
-     */
+    
     public ArrayList<Entity> getCollisions(Entity entity){ return collisionManager.getEntities(entity); }
 
 
-    /**
-     * Sortiert eine Entity-Liste nach ihrer Zeichenreihenfolge anhand von Y-Wert
-     * und Z-Wert und gibt die sortierte Liste zurück.
-     */
     public ArrayList<Entity> quickSortForY(ArrayList<Entity> list)
     {
         Entity [] array = list.toArray(new Entity [list.size()]);
@@ -102,23 +70,13 @@ public class EntityManager implements EntityRegistry {
         }
     }
 
-    /**
-     * Teilt das Array anhand eines Pivot-Elements in kleinere und größere Elemente
-     * und gibt die endgültige Position des Pivot-Elements zurück.
-     */
     private int sortiere(Entity[] daten,int start,int ende)
     {
-        double pivot= daten[ende].getY()+ daten[ende].getHeight();
-        double pivotZ= daten[ende].getZ();//Das letzte Element dient als Vergleichswert
+        double pivot= daten[ende].getY()+ daten[ende].getHeight(); //Das letzte Element dient als Vergleichswert
         int pIndex=start; //Aktuelle Grenze für kleinere Elemente; hier landet später das Pivot.
         for(int i=start;i<ende;i++)
         {
-            if(pivotZ > daten[i].getZ()) //wenn Zahl an Stelle i <= pivot
-            {
-                tauschen(daten,i,pIndex); //dann wird Zahl an Stelle i mit Zahl an Stelle pIndex getauscht.
-                pIndex++; //Stelle an die später Pivot kommt, wird mit jeder kleineren Zahl, die nach links getauscht wird, um 1 erhöht.
-            }
-            else if(daten[i].getY() +daten[i].getHeight()<pivot) //wenn Zahl an Stelle i <= pivot
+            if(daten[i].getY() +daten[i].getHeight()<pivot) //wenn Zahl an Stelle i <= pivot
             {
                 tauschen(daten,i,pIndex); //dann wird Zahl an Stelle i mit Zahl an Stelle pIndex getauscht.
                 pIndex++; //Stelle an die später Pivot kommt, wird mit jeder kleineren Zahl, die nach links getauscht wird, um 1 erhöht.
@@ -128,9 +86,6 @@ public class EntityManager implements EntityRegistry {
         return pIndex;
     }
 
-    /**
-     * Vertauscht zwei Entities innerhalb des übergebenen Arrays.
-     */
     public void tauschen(Entity[] daten, int a, int b)
     {
         Entity i= daten[a];

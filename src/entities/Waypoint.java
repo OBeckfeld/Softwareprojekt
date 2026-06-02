@@ -11,8 +11,6 @@ public class Waypoint extends Entity{
 
     public Waypoint(double x, double y, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager) {
         super(x, y, 40, 40, registry, attackRegistry, tileManager);
-        registry.register(this);
-        this.registry = registry;
         used = false;
     }
 

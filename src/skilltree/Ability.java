@@ -31,12 +31,6 @@ public abstract class Ability implements MouseListener, MouseMotionListener {
     private TextBox description;
     protected JLabel label;
     private SkillTree skillTree;
-
-    /**
-     * Erstellt eine neue Ability und initialisiert Position, Icon, Besitzer,
-     * SkillTree-Anbindung sowie die grundlegenden Werte wie Cooldown, Dauer
-     * und Freischaltungsstatus.
-     */
     public Ability(PlayerTypeEntity owner, int x, int y, BufferedImage icon, GamePanel gamePanel, SkillTree skillTree){
         this.gamePanel = gamePanel;
         this.skillTree = skillTree;
@@ -60,31 +54,10 @@ public abstract class Ability implements MouseListener, MouseMotionListener {
         this.icon = icon;
 
     }
-
-    /**
-     * Gibt die X-Position der Ability im SkillTree zurück.
-     */
     public int getX(){return x;}
-
-    /**
-     * Gibt die Y-Position der Ability im SkillTree zurück.
-     */
     public int getY(){return y;}
-
-    /**
-     * Gibt die Beschreibung der jeweiligen Ability zurück.
-     */
     public abstract String getDescription();
-
-    /**
-     * Schaltet die jeweilige Ability frei.
-     */
     public abstract void unlock();
-
-    /**
-     * Versucht die Ability zu benutzen und prüft dabei Cooldown,
-     * Laufstatus und ob es sich um eine aktive Ability handelt.
-     */
     public boolean use() {
         if (System.currentTimeMillis() - lastUsed < cooldown || isRunning || !active){//wenn sie auf einem cooldown ist, wenn sie schon läuft, wenn sie eine passive ability ist
             return false; //ability kann nicht benutzt werden
@@ -95,35 +68,15 @@ public abstract class Ability implements MouseListener, MouseMotionListener {
         lastUsed = System.currentTimeMillis();
         return true;//ability kann benutzt werden
     }
-
-    /**
-     * Macht die Ability im SkillTree erreichbar.
-     */
     public void setAccessible(){accessible = true;}
-
-    /**
-     * Gibt zurück, ob die Ability bereits freigeschaltet wurde.
-     */
     public boolean isUnlocked(){
         return unlocked;
     }
-
-    /**
-     * Gibt zurück, ob die Ability im SkillTree erreichbar ist.
-     */
     public boolean isAccessible() {
         return accessible;
     }
 
-    /**
-     * Führt den Effekt der Ability aus.
-     */
     public void effect(){}
-
-    /**
-     * Aktualisiert die Ability und ruft während der Dauer ihren Effekt auf.
-     * Nach Ablauf der Dauer wird die Ability beendet.
-     */
     public void update(){
         if (System.currentTimeMillis() - lastUsed < duration){
             effect();
@@ -134,17 +87,10 @@ public abstract class Ability implements MouseListener, MouseMotionListener {
         }
     }
 
-    /**
-     * Gibt die Skillpoint-Kosten der Ability zurück.
-     */
     public int getCost(){
         return cost;
     }
 
-    /**
-     * Zeichnet das Icon der Ability und legt je nach Zugänglichkeit
-     * eine halbtransparente Überlagerung darüber.
-     */
     public void draw(Graphics g){
 
         g.drawImage(icon, iconX, iconY, iconSize, iconSize, null);
@@ -158,10 +104,6 @@ public abstract class Ability implements MouseListener, MouseMotionListener {
         }
     }
 
-    /**
-     * Aktualisiert den Hover-Zustand der Maus über dem Ability-Icon
-     * und zeigt oder entfernt die Beschreibung im SkillTree-Menü.
-     */
     public void updateMouseHovering(MouseEvent e) {
         int mouseX = e.getX();
         int mouseY = e.getY();
@@ -174,16 +116,16 @@ public abstract class Ability implements MouseListener, MouseMotionListener {
             if (mouseHovers && skillTree.getActive()) {
                 if (description == null) {
                     description = new TextBox(
-                            getClass().getSimpleName() + ":(e)" + getDescription() + " (e)(e)Kosten: " + cost + " Skillpoints (e)(e)Skillpoints:" + owner.getSkillPoints(),
-                            iconX + iconSize + 30,
-                            iconY,
-                            400,
-                            250,
-                            true,
-                            gamePanel.getTextBoxManager()
+                        getClass().getSimpleName() + ":(e)" + getDescription() + " (e)(e)Kosten: " + cost + " Skillpoints (e)(e)Skillpoints:" + owner.getSkillPoints(),
+                        iconX + iconSize + 30,
+                        iconY,
+                        400,
+                        250,
+                        true,
+                        gamePanel.getTextBoxManager()
                     );
                     gamePanel.getTextBoxManager().removeTextBox(description);
-                    gamePanel.getTextBoxManager().addMenuTextBox(description);
+                    gamePanel.getTextBoxManager().addSkillTreeTextBox(description);
                 }
             } else if (description != null) {
                 description.setAlive(false);
@@ -192,18 +134,11 @@ public abstract class Ability implements MouseListener, MouseMotionListener {
         }
     }
 
-    /**
-     * Reagiert auf Mausbewegungen.
-     */
     @Override
     public void mouseMoved(MouseEvent e) {
         // Hover state is handled in updateMouseHovering() from GamePanel.
     }
 
-    /**
-     * Reagiert auf einen Mausklick auf die Ability und schaltet sie frei,
-     * wenn sie erreichbar ist und genügend Skillpoints vorhanden sind.
-     */
     @Override
     public void mouseClicked(MouseEvent e){
         if(accessible){
@@ -215,39 +150,13 @@ public abstract class Ability implements MouseListener, MouseMotionListener {
             }
         }
     }
-
-    /**
-     * Wird aufgerufen, wenn die Ability nach ihrer Dauer beendet wird.
-     */
+    
     public void end(){}
-
-    /**
-     * Gibt zurück, ob es sich um eine aktive Ability handelt.
-     */
     public boolean isActiveAbility(){return active;}
 
-    /**
-     * Reagiert auf das Drücken einer Maustaste.
-     */
     @Override public void mousePressed(MouseEvent e) {}
-
-    /**
-     * Reagiert auf das Loslassen einer Maustaste.
-     */
     @Override public void mouseReleased(MouseEvent e) {}
-
-    /**
-     * Reagiert darauf, wenn die Maus den Bereich betritt.
-     */
     @Override public void mouseEntered(MouseEvent e) {}
-
-    /**
-     * Reagiert darauf, wenn die Maus den Bereich verlässt.
-     */
     @Override public void mouseExited(MouseEvent e) {}
-
-    /**
-     * Reagiert auf das Ziehen der Maus.
-     */
     @Override public void mouseDragged(MouseEvent e) {}
 }

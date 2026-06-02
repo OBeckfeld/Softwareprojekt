@@ -23,12 +23,12 @@ public abstract class Entity {
     protected AttackRegistry attackRegistry;
     protected int height, width;
     protected double x, y;
+    protected double defaultSpeed = 5;
     protected MovementComponent movement;
     protected Hitbox hurtbox;
     public EntityRegistry registry;
     protected TileManager tileManager;
     protected boolean dead;
-    protected int z = 1;
 
     public Entity(double x, double y, int width, int height, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager) {
         this.attackRegistry = attackRegistry;
@@ -38,6 +38,7 @@ public abstract class Entity {
         this.height = height;
         movement = new MovementComponent(tileManager);
         hurtbox = new Hitbox(x, y, width, height);
+        registry.register(this);
         this.registry = registry;
         this.tileManager = tileManager;
         dead = false;
@@ -50,13 +51,13 @@ public abstract class Entity {
         this.height = height;
         movement = new MovementComponent(tileManager);
         hurtbox = new Hitbox(x, y, width, height);
-
+        registry.register(this);
+        this.registry = registry;
     }
 
 
     public Hitbox getHurtbox() {return hurtbox;}
-    public int getZ(){return z;}
-    public void setZ(int z){this.z = z;}
+
     public double getX() {
         return x;
     }

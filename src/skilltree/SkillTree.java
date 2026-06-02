@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 public class SkillTree {
 
+
     public boolean isActive = false;
     private Ability dash;
     private Ability dmgBoost;
@@ -41,34 +42,33 @@ public class SkillTree {
     private GamePanel gamePanel;
     private PlayerTypeEntity owner;
 
+
     public SkillTree(PlayerTypeEntity owner, GamePanel gamePanel) {
         loadIcons();
         this.gamePanel = gamePanel;
-        this.owner = owner;
+        this.owner=owner;
 
         abilities = new Ability[]{
-                dash = new Dash(owner, lv1, r3, abilityIcons[11], gamePanel, this),
-                dmgBoost = new DMGBoost(owner, lv1, (r1+r2)/2, abilityIcons[0], gamePanel, this),
-                dmgBoost2 = new DMGBoost2(owner, lv2, r2, abilityIcons[1], gamePanel, this),
-                dmgNegation = new DMGNegation(owner, lv1, (r4+r5)/2, abilityIcons[5], gamePanel, this),
-                dmgNegation2 = new DMGNegation2(owner, lv2, r5, abilityIcons[6], gamePanel, this),
-                earthquake = new Earthquake(owner, lv3, r2, abilityIcons[9], gamePanel, this),
-                heal = new Heal(owner, lv2, r4, abilityIcons[4], gamePanel, this),
-                krit = new Crit(owner, lv2, r1, abilityIcons[2], gamePanel, this),
-                krit2 = new Crit2(owner, lv3, r1, abilityIcons[3], gamePanel, this),
-                lifesteal = new Lifesteal(owner, lv3, r4, abilityIcons[8], gamePanel, this),
-                parry = new Parry(owner, lv3, r5, abilityIcons[7], gamePanel, this),
-                poisonCloud = new PoisonCloud(owner, lv3, r3, abilityIcons[12], gamePanel, this),
-                speedBoost = new SpeedBoost(owner, lv2, r3, abilityIcons[10], gamePanel, this)
+            dash = new Dash(owner, lv1, r3, abilityIcons[11], gamePanel, this),
+            dmgBoost = new DMGBoost(owner, lv1, (r1+r2)/2, abilityIcons[0], gamePanel, this),
+            dmgBoost2 = new DMGBoost2(owner, lv2, r2, abilityIcons[1], gamePanel, this),
+            dmgNegation = new DMGNegation(owner, lv1, (r4+r5)/2, abilityIcons[5], gamePanel, this),
+            dmgNegation2 = new DMGNegation2(owner, lv2, r5, abilityIcons[6], gamePanel, this),
+            earthquake = new Earthquake(owner, lv3, r2, abilityIcons[9], gamePanel, this),
+            heal = new Heal(owner, lv2, r4, abilityIcons[4], gamePanel, this),
+            krit = new Crit(owner, lv2, r1, abilityIcons[2], gamePanel, this),
+            krit2 = new Crit2(owner, lv3, r1, abilityIcons[3], gamePanel, this),
+            lifesteal = new Lifesteal(owner, lv3, r4, abilityIcons[8], gamePanel, this),
+            parry = new Parry(owner, lv3, r5, abilityIcons[7], gamePanel, this),
+            poisonCloud = new PoisonCloud(owner, lv3, r3, abilityIcons[12], gamePanel, this),
+            speedBoost = new SpeedBoost(owner, lv2, r3, abilityIcons[10], gamePanel, this)
         };
-
         dash.setAccessible();
         dmgBoost.setAccessible();
         dmgNegation.setAccessible();
-
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        width = (int) screenSize.getWidth();
-        height = (int) screenSize.getHeight();
+        width = (int)screenSize.getWidth();
+        height = (int)screenSize.getHeight();
 
         gamePanel.addAbility(dash);
         gamePanel.addAbility(dmgBoost);
@@ -83,18 +83,27 @@ public class SkillTree {
         gamePanel.addAbility(parry);
         gamePanel.addAbility(poisonCloud);
         gamePanel.addAbility(speedBoost);
+
+
     }
 
-    public void open() { isActive = true; }
-    public boolean getActive() { return isActive; }
-    public void close() { isActive = false; }
+    public void open(){
+        isActive = true;
+    }
+    
+    public boolean getActive(){
+        return isActive;
+    }
 
-    public void unlock(Ability ability) {
-        if (owner.getSkillPoints() >= ability.getCost()) {
-            owner.setSkillPoints(owner.getSkillPoints() - ability.getCost());
+    public void close(){
+        isActive = false;
+    }
+
+    public void unlock(Ability ability){
+        if(owner.getSkillPoints() >= ability.getCost()) {
+            owner.setSkillPoints((owner.getSkillPoints())-ability.getCost());
             ability.unlock();
-
-            if (dmgBoost.isUnlocked()) {
+            if (dmgBoost.isUnlocked()) {  //Welche Fähigkeiten werden wodurch freigeschaltet
                 dmgBoost2.setAccessible();
                 krit.setAccessible();
             }
@@ -123,61 +132,101 @@ public class SkillTree {
         }
     }
 
+    /**
+     * Gibt ein Array mit den Namen aller freigeschalteten Fähigkeiten zurück
+     * @return
+     */
     public String[] getUnlockedAbilities() {
         ArrayList<String> unlockedAbilities = new ArrayList<>();
+        // "Stapelung" nach accessibility der abilities, um die Effizienz zu erhöhen
         if (dash.isUnlocked()) {
             unlockedAbilities.add("Dash");
             if (speedBoost.isUnlocked()) {
                 unlockedAbilities.add("SpeedBoost");
-                if (earthquake.isUnlocked()) unlockedAbilities.add("Earthquake");
-                if (poisonCloud.isUnlocked()) unlockedAbilities.add("PoisonCloud");
-                if (lifesteal.isUnlocked()) unlockedAbilities.add("Lifesteal");
+                if (earthquake.isUnlocked()) {
+                    unlockedAbilities.add("Earthquake");
+                }
+                if (poisonCloud.isUnlocked()) {
+                    unlockedAbilities.add("PoisonCloud");
+                }
+                if (lifesteal.isUnlocked()) {
+                    unlockedAbilities.add("Lifesteal");
+                }
             }
         }
         if (dmgBoost.isUnlocked()) {
             unlockedAbilities.add("DMGBoost");
-            if (dmgBoost2.isUnlocked()) unlockedAbilities.add("DMGBoost2");
+            if (dmgBoost2.isUnlocked()) {
+                unlockedAbilities.add("DMGBoost2");
+            }
             if (krit.isUnlocked()) {
                 unlockedAbilities.add("Krit");
-                if (krit2.isUnlocked()) unlockedAbilities.add("Krit2");
+                if (krit2.isUnlocked()) {
+                    unlockedAbilities.add("Krit2");
+                }
             }
         }
         if (dmgNegation.isUnlocked()) {
             unlockedAbilities.add("DMGNegation");
             if (dmgNegation2.isUnlocked()) {
                 unlockedAbilities.add("DMGNegation2");
-                if (parry.isUnlocked()) unlockedAbilities.add("Parry");
+                if(parry.isUnlocked()){
+                    unlockedAbilities.add("Parry");
+                }
             }
-            if (heal.isUnlocked()) unlockedAbilities.add("Heal");
+            if (heal.isUnlocked()) {
+            unlockedAbilities.add("Heal");
+            }
         }
-        return unlockedAbilities.toArray(new String[0]);
+
+        return unlockedAbilities.toArray(new String[unlockedAbilities.size()]);
     }
 
+    /**
+     * Gibt auf Angabe des Namens einer Ability eine Referenz auf das im SkillTree hinterlegte Ability-Objekt zurück
+     * @param abilityName
+     */
     public Ability getAbilityReference(String abilityName) {
-        switch (abilityName) {
-            case "Dash": return dash;
-            case "DMGBoost": return dmgBoost;
-            case "DMGBoost2": return dmgBoost2;
-            case "DMGNegation": return dmgNegation;
-            case "DMGNegation2": return dmgNegation2;
-            case "Earthquake": return earthquake;
-            case "Heal": return heal;
-            case "Krit": return krit;
-            case "Krit2": return krit2;
-            case "Lifesteal": return lifesteal;
-            case "Parry": return parry;
-            case "PoisonCloud": return poisonCloud;
-            case "SpeedBoost": return speedBoost;
-            default: throw new IllegalArgumentException("Ability nicht gefunden: " + abilityName);
+        switch(abilityName){
+            case "Dash": 
+                return dash;
+            case "DMGBoost": 
+                return dmgBoost;
+            case "DMGBoost2": 
+                return dmgBoost2;
+            case "DMGNegation": 
+                return dmgNegation;
+            case "DMGNegation2": 
+                return dmgNegation2;
+            case "Earthquake":
+                return earthquake;
+            case "Heal":
+                return heal;
+            case "Krit":
+                return krit;
+            case "Krit2":
+                return krit2;
+            case "Lifesteal":
+                return lifesteal;
+            case "Parry":
+                return parry;
+            case "PoisonCloud":
+                return poisonCloud;
+            case "SpeedBoost":
+                return speedBoost;
+            default:
+                throw new IllegalArgumentException("Ability name not found: " + abilityName);
         }
     }
 
-    public void update() {}
-
-    public void draw(Graphics g) {
-        g.setColor(new Color(0, 0, 0, 180));
-        g.drawRect(0, 0, width, height);
-        g.fillRect(0, 0, width, height);
+    public void update(){
+        
+    }
+    
+    public void draw(Graphics g){
+        g.setColor(new Color(0,0,0,180));
+        g.drawRect(0,0,width,height);
+        g.fillRect(0,0,width,height);
         g.drawLine(lv1, (r1+r2)/2, lv2, r1);
         g.drawLine(lv1, (r1+r2)/2, lv2, r2);
         g.drawLine(lv1, r3, lv2, r3);
@@ -191,8 +240,8 @@ public class SkillTree {
         g.drawLine(lv2, r4, lv3, r4);
         g.drawLine(lv2, r5, lv3, r5);
 
-        for (Ability node : abilities) {
-            node.draw(g);
+        for (Ability node : abilities) {    // zeichnet die Skills
+                node.draw(g);
         }
     }
 
@@ -204,19 +253,20 @@ public class SkillTree {
             SpriteSheet ss = new SpriteSheet(sheet);
             int size = 512;
             abilityIcons = new BufferedImage[]{
-                    ss.getFrame(0,        0, size, size),
-                    ss.getFrame(size,     0, size, size),
-                    ss.getFrame(size*2,   0, size, size),
-                    ss.getFrame(size*3,   0, size, size),
-                    ss.getFrame(size*4,   0, size, size),
-                    ss.getFrame(size*5,   0, size, size),
-                    ss.getFrame(size*6,   0, size, size),
-                    ss.getFrame(size*7,   0, size, size),
-                    ss.getFrame(size*8,   0, size, size),
-                    ss.getFrame(size*9,   0, size, size),
-                    ss.getFrame(size*10,  0, size, size),
-                    ss.getFrame(size*11,  0, size, size),
-                    ss.getFrame(size*12,  0, size, size)
+                    ss.getSprite(0,   0, size, size),
+                    ss.getSprite(size,  0, size, size),
+                    ss.getSprite(size*2, 0, size, size),
+                    ss.getSprite(size*3, 0, size, size),
+                    ss.getSprite(size*4, 0, size, size),
+                    ss.getSprite(size*5, 0, size, size),
+                    ss.getSprite(size*6, 0, size, size),
+                    ss.getSprite(size*7, 0, size, size),
+                    ss.getSprite(size*8, 0, size, size),
+                    ss.getSprite(size*9, 0, size, size),
+                    ss.getSprite(size*10, 0, size, size),
+                    ss.getSprite(size*11, 0, size, size),
+                    ss.getSprite(size*12, 0, size, size)
+
             };
         } catch (IOException e) {
             e.printStackTrace();

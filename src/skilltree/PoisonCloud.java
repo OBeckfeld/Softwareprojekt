@@ -1,11 +1,9 @@
 package skilltree;
 
-import entities.DamageCloud;
 import entities.PlayerTypeEntity;
 import entities.components.MovementComponent;
 import main.GamePanel;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import tools.TileManager;
 
@@ -28,8 +26,8 @@ public class PoisonCloud extends Ability {
     @Override
     public boolean use(){
         if (!super.use()){ return false; } //offcooldown check
-        DamageCloud cloud= new entities.DamageCloud(owner.getCenter()[0]-90,owner.getCenter()[1]-90,180,180, owner.registry, new TileManager(),600,100,15,owner, new Color(62, 185, 33, 180), true);
-        cloud.setZ(2);
+        owner.gainLife(15);
+        new entities.DamageCloud(owner.getCenter()[0]-50,owner.getCenter()[1]-50,100,100, owner.registry, new TileManager(),600,10,owner);
         return true;
     }
 

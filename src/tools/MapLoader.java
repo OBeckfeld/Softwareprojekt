@@ -1,8 +1,5 @@
 package tools;
 
-import Weapons.Gun;
-import entities.enemies.ExplodeEnemy;
-import entities.enemies.RangedEnemy;
 import entities.managers.EntityRegistry;
 import entities.managers.AttackRegistry;
 import entities.managers.CollisionManager;
@@ -10,9 +7,12 @@ import inputs.KeyboardInputs;
 import entities.Entity;
 import entities.Player;
 import entities.enemies.Enemy;
+import entities.enemies.RangedEnemy;
+import entities.enemies.ExplodeEnemy;
 import entities.Door;
 import entities.Waypoint;
 import entities.Attack;
+import Weapons.Gun;
 import main.GamePanel;
 
 import java.util.ArrayList;
@@ -105,7 +105,7 @@ public class MapLoader {
         //Start und Ende des Arrays im String werden gefunden, dabei wird alles vor dem Start des Arrays ignoriert
         int arrayStart = oneLineJson.indexOf("[[", startIndex);
         int arrayEnd = oneLineJson.indexOf("]]", arrayStart);
-
+        
         //falls das Array nicht gefunden wird, wird eine Exception geworfen
         if(arrayStart == -1 || arrayEnd == -1) {
             throw new IllegalArgumentException("Array " + key + " has wrong format");
@@ -136,7 +136,6 @@ public class MapLoader {
         }
         return parsedArray;
     }
-
 
     /**
      * Mithilfe angegebener ID und Koordinaten wird eine entsprechende Entity gespanwt
@@ -191,7 +190,7 @@ public class MapLoader {
                 rangedEnemyLvL5.setWeapon(new Gun(rangedEnemyLvL5, attackRegistry, tileManager));
                 break;
             case 30:
-                new ExplodeEnemy(x, y , 40, 40, registry, attackRegistry, tileManager, gamePanel);
+                new ExplodeEnemy(x, y , 40, 40, 100, 80, 300, registry, attackRegistry, tileManager, gamePanel);
                 break;
             default:
                 return;
@@ -241,9 +240,5 @@ public class MapLoader {
 
     public int getMapIndex() {
         return mapIndex;
-    }
-
-    public int getMapIndexLimit() {
-        return indexLimit;
     }
 }

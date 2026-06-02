@@ -17,12 +17,8 @@ public class AttackManager implements AttackRegistry {
     private final EntityRegistry registry;
     private final TileManager tileManager;
     private final ArrayList<Attack> attacks;
+    private PlayerTypeEntity owner;
 
-    /**
-     * Erstellt einen neuen AttackManager und speichert die Referenzen
-     * auf CollisionManager, EntityRegistry und TileManager.
-     * Zusätzlich wird die Liste für aktive Attacken initialisiert.
-     */
     public AttackManager(CollisionManager collisionManager, EntityRegistry registry, TileManager tileManager) {
         this.collisionManager = collisionManager;
         this.registry = registry;
@@ -30,29 +26,15 @@ public class AttackManager implements AttackRegistry {
         attacks = new ArrayList<>();
     }
 
-    public void grabOwner(PlayerTypeEntity source) {
-        // kept for interface compatibility; attack owner is stored on each Attack.
-    }
 
 
-    /**
-     * Erstellt eine neue Attacke mit den angegebenen Werten
-     * und fügt sie der Liste der aktiven Attacken hinzu.
-     */
     public void attack(PlayerTypeEntity owner, double x, double y, int height, int width, int duration, int damage) {
         Attack attack = new Attack(x, y, width, height, registry, duration, owner, this, damage, tileManager);
         attacks.add(attack);
     }
 
-    /**
-     * Erstellt eine neue Attacke mit den angegebenen Werten,
-     * setzt zusätzlich die Rüstungsdurchdringung und fügt sie
-     * der Liste der aktiven Attacken hinzu.
-     */
-    public void attack(PlayerTypeEntity owner, double x, double y, int height, int width, int duration, int damage, boolean armorPierce) {
-        Attack attack = new Attack(x, y, width, height, registry, duration, owner, this, damage, tileManager);
-        attack.setArmorPierce(armorPierce);
-        attacks.add(attack);
+    public void grabOwner(PlayerTypeEntity source){
+        owner = source;
     }
 
     /**
@@ -67,20 +49,19 @@ public class AttackManager implements AttackRegistry {
 
                     Random random = new Random();
                     int rand = random.nextInt(100);
-                    PlayerTypeEntity attackOwner = attack.getOwner();
                     if(rand < ((PlayerTypeEntity) entity).getCritChance()){
                         if(!entity.isDead()) {
-                            ((PlayerTypeEntity) entity).takeDamage(attack.getDamage() * (attackOwner.getCrit() / 100), attackOwner, attack.getArmorPierce());
+                            ((PlayerTypeEntity) entity).takeDamage(attack.getDamage() * (((PlayerTypeEntity) entity).getCrit() / 100), owner);//fügt kritischen Schaden zu
                             if (entity.isDead()) {
-                                attackOwner.setSkillPoints(attackOwner.getSkillPoints() + entity.getPointsOnDeath());
+                                owner.setSkillPoints(owner.getSkillPoints() + entity.getPointsOnDeath());
                             }
                         }
                     }
                     else{
                         if(!entity.isDead()) {
-                            ((PlayerTypeEntity) entity).takeDamage(attack.getDamage(), attackOwner, attack.getArmorPierce());
+                            ((PlayerTypeEntity) entity).takeDamage(attack.getDamage(), owner);//macht den Schaden. Rüstung etc. wird bei der Entity selbst abgezogen. Das gilt auch für "negativen Schaden"
                             if (entity.isDead()) {
-                                attackOwner.setSkillPoints(attackOwner.getSkillPoints() + entity.getPointsOnDeath());
+                                owner.setSkillPoints(owner.getSkillPoints() + entity.getPointsOnDeath());//wenn gegner getötet wird, erhällt player skill points
                             }
                         }
                     }
