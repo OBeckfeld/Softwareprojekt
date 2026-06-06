@@ -275,12 +275,12 @@ public class Enemy extends PlayerTypeEntity {
                     attackAnimation = new Animation(new BufferedImage[]{
                             sheet.getFrameMirrored(2, 0), sheet.getFrameMirrored(2, 1),
                             sheet.getFrameMirrored(2, 2), sheet.getFrameMirrored(2, 3)
-                    }, 15, false);
+                    }, 30, false);
                 } else {
                     attackAnimation = new Animation(new BufferedImage[]{
                             sheet.getFrame(2, 0), sheet.getFrame(2, 1),
                             sheet.getFrame(2, 2), sheet.getFrame(2, 3)
-                    }, 15, false);
+                    }, 30, false);
                 }
                 tryAttackEntity((PlayerTypeEntity) player);
             } else if (attackAnimation.isFinished()) {

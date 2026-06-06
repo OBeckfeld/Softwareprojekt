@@ -118,16 +118,16 @@ public class Player extends PlayerTypeEntity {
         // Angriffs-Animationen für alle 4 Richtungen laden
         attackAnimation[0] = new Animation(new BufferedImage[]{
                 sheet.getFrame(attackRow, 0), sheet.getFrame(attackRow, 1), sheet.getFrame(attackRow, 2)
-        }, 8, false);
+        }, 15, false);
         attackAnimation[2] = new Animation(new BufferedImage[]{
                 sheet.getFrame(attackRow, 3), sheet.getFrame(attackRow, 4), sheet.getFrame(attackRow, 5)
-        }, 8, false);
+        }, 15, false);
         attackAnimation[1] = new Animation(new BufferedImage[]{
                 sheet.getFrame(attackRow, 6), sheet.getFrame(attackRow, 7), sheet.getFrame(attackRow, 8)
-        }, 8, false);
+        }, 15, false);
         attackAnimation[3] = new Animation(new BufferedImage[]{
                 sheet.getFrame(attackRow, 9), sheet.getFrame(attackRow, 10), sheet.getFrame(attackRow, 11)
-        }, 8, false);
+        }, 15, false);
 
         currentAnimation = walkAnimations[0];
     }
