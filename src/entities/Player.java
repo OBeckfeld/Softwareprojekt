@@ -69,7 +69,7 @@ public class Player extends PlayerTypeEntity {
         mass = 3;
         currentHealth = 100;
         skillTree = new SkillTree(this, gamePanel);
-        weapon = new Rifle(this, attackRegistry, tileManager);
+        weapon = new IronSword(this, attackRegistry, tileManager);
         sheet = new SpriteSheet("src/data/sprites/playerCrawler.png", 1024, 1024);
         loadWeaponAnimations();
     }

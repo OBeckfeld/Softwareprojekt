@@ -82,20 +82,21 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
             int drawW = entity.getWidth() * scale;
             int drawH = entity.getHeight() * scale;
             int drawX = (int) Math.round(entity.getX()) - (drawW - entity.getWidth()) / 2;
-            int spriteOffsetY = 40;
+            int spriteOffsetY = 80;
             int drawY = (int) Math.round(entity.getY()) - (drawH - entity.getHeight()) / 2 + spriteOffsetY;
 
             if (entity instanceof Player) {
                 // Spieler-Sprite zentriert auf der Hitbox zeichnen
                 BufferedImage sprite = ((Player) entity).getSprite();
 
-                int playerDrawWidth = 80;
-                int playerDrawHeight = 80;
+                int playerDrawWidth = 80 * scale;
+                int playerDrawHeight = 80 * scale;
+
                 int playerDrawX = (int) Math.round(entity.getX()) + entity.getWidth() / 2 - playerDrawWidth / 2;
                 int playerDrawY = (int) Math.round(entity.getY()) + entity.getHeight() - playerDrawHeight;
 
                 if (sprite != null) {
-                    g2d.drawImage(sprite, playerDrawX, playerDrawY, playerDrawWidth, playerDrawHeight, null);
+                    g2d.drawImage(sprite, playerDrawX, playerDrawY + spriteOffsetY, playerDrawWidth, playerDrawHeight, null);
                 } else {
                     // Fallback: blaues Rechteck wenn kein Sprite vorhanden
                     g2d.setColor(Color.BLUE);

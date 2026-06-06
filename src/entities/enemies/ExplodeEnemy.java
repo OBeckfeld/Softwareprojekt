@@ -28,9 +28,9 @@ public class ExplodeEnemy extends Enemy {
     private boolean isMoving = false;
 
     private static final int EXPLODE_RANGE = 100;  // Abstand zum Spieler der Explosion auslöst
-    private static final int EXPLODE_DELAY = 120;  // Ticks bis zur Explosion (2 Sek. bei 60 FPS)
+    private static final int EXPLODE_DELAY = 200;  // Ticks bis zur Explosion (2 Sek. bei 60 FPS)
     private static final int BLAST_RADIUS  = 100;  // Radius des Explosionsschadens
-    private static final int EXPLODE_DMG   = 500;  // Schadenswert der Explosion
+    private static final int EXPLODE_DMG   = 90;  // Schadenswert der Explosion
 
     private boolean exploded = false;      // ob die Explosion bereits stattgefunden hat
     private int explodeTimer = 0;          // zählt Ticks seit Explosion ausgelöst wurde
@@ -122,7 +122,7 @@ public class ExplodeEnemy extends Enemy {
 
         // Zustand 3: normal → Tod prüfen, dann Bewegung
         if (currentHealth <= 0) {
-            explode();
+            registry.unregister(this);
             return;
         }
         super.update();

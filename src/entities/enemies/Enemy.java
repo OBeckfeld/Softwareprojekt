@@ -64,6 +64,11 @@ public class Enemy extends PlayerTypeEntity {
     /** Schwellenwert für den Fluchtmodus: 30% der maximalen HP. */
     private static final double FLEE_HEALTH = 0.3;
 
+
+    private double healTime = 8;
+
+    private int healCounter = 0;
+
     /**
      * Erstellt einen Standard-Gegner mit Standardwerten.
      *
@@ -236,6 +241,11 @@ public class Enemy extends PlayerTypeEntity {
 
         if (fleeMode) {
             flee();
+            healCounter ++;
+            if(healCounter == healTime*120){
+                setHealth(maxHealth);
+                fleeMode = false;
+            }
             return;
         }
 
@@ -260,16 +270,17 @@ public class Enemy extends PlayerTypeEntity {
             isMoving = false;
             if (!isAttacking) {
                 isAttacking = true;
+
                 if (direction == 2) {
                     attackAnimation = new Animation(new BufferedImage[]{
                             sheet.getFrameMirrored(2, 0), sheet.getFrameMirrored(2, 1),
                             sheet.getFrameMirrored(2, 2), sheet.getFrameMirrored(2, 3)
-                    }, 20, false);
+                    }, 15, false);
                 } else {
                     attackAnimation = new Animation(new BufferedImage[]{
                             sheet.getFrame(2, 0), sheet.getFrame(2, 1),
                             sheet.getFrame(2, 2), sheet.getFrame(2, 3)
-                    }, 20, false);
+                    }, 15, false);
                 }
                 tryAttackEntity((PlayerTypeEntity) player);
             } else if (attackAnimation.isFinished()) {
@@ -307,6 +318,7 @@ public class Enemy extends PlayerTypeEntity {
      */
     @Override
     public void takeDamage(int damage, PlayerTypeEntity source, boolean piercing) {
+        player = (Player) source;
         super.takeDamage(damage, source, piercing);
     }
 

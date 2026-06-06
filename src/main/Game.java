@@ -60,7 +60,7 @@ public class Game implements Runnable {
         // AttackManager und Spieler erstellen
         attackManager = new AttackManager(collisions, entities, tileManager);
         player = new Player(tileManager.getTileSize() * 2 + 5, tileManager.getTileSize() * 2 + 5,
-                100, 100, entities, keyboardInputs, attackManager, tileManager, gamePanel);
+                80, 80, entities, keyboardInputs, attackManager, tileManager, gamePanel);
         gamePanel.assignPlayer(player);
 
         // Map laden und Fortschrittsmanager initialisieren

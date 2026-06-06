@@ -190,8 +190,9 @@ public class RangedEnemy extends Enemy {
                         this, 5, shootVector, 120, damage, tileManager);
             }
         } else {
-            // Spieler außer Reichweite → stillstehen
-            isMoving = false;
+            isMoving = true;
+            isShooting = false;
+            super.handleMovement();
         }
     }
 
