@@ -47,6 +47,8 @@ public class Player extends PlayerTypeEntity {
     /** Letzte Richtung, um unnötige Animations-Wechsel zu vermeiden. */
     private int lastDirection = -1;
 
+    private boolean moving = false;
+
     /**
      * Erstellt einen neuen Spieler und initialisiert alle Komponenten.
      *
@@ -193,11 +195,13 @@ public class Player extends PlayerTypeEntity {
                 isAnimatingAttack = false;
             }
         } else {
-            if (this.walkAnimations != null && direction != lastDirection) {
-                currentAnimation = walkAnimations[direction];
-                lastDirection = direction;
+            if(moving) {
+                if (this.walkAnimations != null && direction != lastDirection) {
+                    currentAnimation = walkAnimations[direction];
+                    lastDirection = direction;
+                }
+                if (currentAnimation != null) currentAnimation.update();
             }
-            if (currentAnimation != null) currentAnimation.update();
         }
 
         // Angriff mit J auslösen
@@ -229,6 +233,9 @@ public class Player extends PlayerTypeEntity {
         return currentAnimation.getCurrentFrame();
     }
 
+    public void setMoving(boolean move){
+        moving = move;
+    }
     /**
      * Gibt die aktuellen Skillpunkte des Spielers zurück.
      *

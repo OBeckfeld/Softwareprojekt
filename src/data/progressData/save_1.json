@@ -1,6 +1,6 @@
 {
-"mapIndex":3,
+"mapIndex":5,
 "weapon":"Rifle",
 "skillPoints":0,
-"skillTreeData":[]
+"skillTreeData":["DMGNegation", "Heal"]
 }

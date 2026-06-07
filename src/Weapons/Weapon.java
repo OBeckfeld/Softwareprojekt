@@ -43,6 +43,15 @@ public abstract class Weapon {
         return true;//ability kann benutzt werden
     }
 
+    public boolean onCooldown(){
+        if (System.currentTimeMillis() - lastUsed < attackCooldown){
+            return true; //kann nicht benutzt werden
+        }
+        else {
+            return false;
+        }
+    }
+
     /**
      * Wendet Rückstoß auf den Besitzer der Waffe an.
      * Die Rückstoßrichtung wird aus der entgegengesetzten Blickrichtung berechnet.

@@ -45,6 +45,7 @@ public class ExplodeEnemy extends Enemy {
         currentHealth = 1;
         setSpeed(3);
         viewRange = 300;
+        pointsOnDeath = 3;
 
         sheet = new SpriteSheet("src/data/sprites/gegnerexplosive2.png", 161, 161);
 

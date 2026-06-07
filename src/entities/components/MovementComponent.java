@@ -55,9 +55,10 @@ public class MovementComponent {
      */
     public void move(Player entity) {
         if (inputs == null) {
+            entity.setMoving(false);
             return;
         }
-
+        entity.setMoving(true);
         double dx = 0, dy = 0;
         int tileSize = tileManager.getTileSize();
 

@@ -2,5 +2,5 @@
 "mapIndex":6,
 "weapon":"Rifle",
 "skillPoints":0,
-"skillTreeData":["Dash", "DMGBoost", "DMGNegation", "Heal"]
+"skillTreeData":["DMGBoost", "DMGBoost2", "DMGNegation", "DMGNegation2", "Parry", "Heal"]
 }

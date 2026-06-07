@@ -253,7 +253,7 @@ public class Enemy extends PlayerTypeEntity {
 
         Vector vector = new Vector(getX(), getY(), player.getX(), player.getY());
 
-        if (vector.getLength() > speed) {
+        if (vector.getLength() > speed && !isAttacking) {
             isMoving = true;
             double dx = player.getX() - getX();
             double dy = player.getY() - getY();
@@ -268,10 +268,10 @@ public class Enemy extends PlayerTypeEntity {
             }
         }
 
-        if (registry.getInRange(this, 100, 100).contains(player)) {
+        if ((registry.getInRange(this, 100, 100).contains(player) || attackDelay != 40)&& !weapon.onCooldown()) {
             isMoving = false;
-            if (!isAttacking) {
-                isAttacking = true;
+            isAttacking = true;
+            if (attackDelay == 0) {
 
                 if (direction == 2) {
                     attackAnimation = new Animation(new BufferedImage[]{
@@ -285,8 +285,10 @@ public class Enemy extends PlayerTypeEntity {
                     }, 30, false);
                 }
                 tryAttackEntity((PlayerTypeEntity) player);
-            } else if (attackAnimation.isFinished()) {
+                attackDelay = 40;
                 isAttacking = false;
+            } else {
+                attackDelay--;
             }
         }
     }
@@ -320,7 +322,9 @@ public class Enemy extends PlayerTypeEntity {
      */
     @Override
     public void takeDamage(int damage, PlayerTypeEntity source, boolean piercing) {
-        player = (Player) source;
+        if (source instanceof Player) {
+            player = (Player) source;
+        }
         super.takeDamage(damage, source, piercing);
     }
 

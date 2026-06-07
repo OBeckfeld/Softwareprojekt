@@ -200,9 +200,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
     public void clearAbilities() { abilities.clear(); }
 
     public void addAbility(Ability ability) {
-        System.out.println("addAbility called: " + ability.getClass().getSimpleName()
-                + " | list size before: " + abilities.size()
-                + " | already contains: " + abilities.contains(ability));
         if (!abilities.contains(ability)) {
             abilities.add(ability);
         }
