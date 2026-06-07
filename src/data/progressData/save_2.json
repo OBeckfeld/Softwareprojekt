@@ -1,6 +1,6 @@
 {
-"mapIndex":3,
-"weapon":"IronSword",
+"mapIndex":6,
+"weapon":"Rifle",
 "skillPoints":0,
-"skillTreeData":[]
+"skillTreeData":["Dash", "DMGBoost", "DMGNegation", "Heal"]
 }

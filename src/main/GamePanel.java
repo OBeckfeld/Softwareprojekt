@@ -197,7 +197,16 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
     public TextBoxManager getTextBoxManager() { return textBoxManager; }
 
-    public void addAbility(Ability ability) { abilities.add(ability); }
+    public void clearAbilities() { abilities.clear(); }
+
+    public void addAbility(Ability ability) {
+        System.out.println("addAbility called: " + ability.getClass().getSimpleName()
+                + " | list size before: " + abilities.size()
+                + " | already contains: " + abilities.contains(ability));
+        if (!abilities.contains(ability)) {
+            abilities.add(ability);
+        }
+    }
 
     public void setDeathScreen(boolean deathScreen) { showDeathScreen = deathScreen; }
 

@@ -51,7 +51,7 @@ public abstract class Ability implements MouseListener, MouseMotionListener {
         this.owner = owner;
         label = new JLabel(); //damit es angeklickt werden kann
         label.setBounds(iconX, iconY,iconSize,iconSize );
-        label.addMouseListener(this);
+
 
 
         duration = 10; //in Millisekunden (wie lange die ability ihre effect() Methode aufrufen kann)
@@ -209,6 +209,7 @@ public abstract class Ability implements MouseListener, MouseMotionListener {
      */
     @Override
     public void mouseClicked(MouseEvent e){
+
         if(accessible){
             if(owner.getSkillPoints() >= cost) {
                 owner.getAbilityManger().unlock(this);

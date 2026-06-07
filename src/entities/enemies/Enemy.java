@@ -69,6 +69,8 @@ public class Enemy extends PlayerTypeEntity {
 
     private int healCounter = 0;
 
+    private int attackDelay = 60;
+
     /**
      * Erstellt einen Standard-Gegner mit Standardwerten.
      *

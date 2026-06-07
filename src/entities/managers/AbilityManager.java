@@ -24,12 +24,13 @@ public class AbilityManager {
         return true;//feedback
     }
     public void equip(Ability ability) {
-        int slot = -1;
+        int slot = 0;
         for (int i = 0; i < equipedAbiltities.length; i++) {//für array
             if (equipedAbiltities[i] == null) {
                 slot = i;
                 break;
             }
+        }
             if (Arrays.asList(equipedAbiltities).contains(ability)) {
                 return;//die Ability ist schon in einem anderen slot equiped
             }
@@ -37,7 +38,7 @@ public class AbilityManager {
                 return;//die Ability eine passive Ability
             }
             equipedAbiltities[slot] = ability;
-        }
+
     }
     public void update (){
 

@@ -51,21 +51,23 @@ public class SkillTree {
         this.gamePanel = gamePanel;
         this.owner = owner;
 
-        abilities = new Ability[]{
-                dash = new Dash(owner, lv1, r3, abilityIcons[11], gamePanel, this),
-                dmgBoost = new DMGBoost(owner, lv1, (r1+r2)/2, abilityIcons[0], gamePanel, this),
-                dmgBoost2 = new DMGBoost2(owner, lv2, r2, abilityIcons[1], gamePanel, this),
-                dmgNegation = new DMGNegation(owner, lv1, (r4+r5)/2, abilityIcons[5], gamePanel, this),
-                dmgNegation2 = new DMGNegation2(owner, lv2, r5, abilityIcons[6], gamePanel, this),
-                earthquake = new Earthquake(owner, lv3, r2, abilityIcons[9], gamePanel, this),
-                heal = new Heal(owner, lv2, r4, abilityIcons[4], gamePanel, this),
-                krit = new Crit(owner, lv2, r1, abilityIcons[2], gamePanel, this),
-                krit2 = new Crit2(owner, lv3, r1, abilityIcons[3], gamePanel, this),
-                lifesteal = new Lifesteal(owner, lv3, r4, abilityIcons[8], gamePanel, this),
-                parry = new Parry(owner, lv3, r5, abilityIcons[7], gamePanel, this),
-                poisonCloud = new PoisonCloud(owner, lv3, r3, abilityIcons[12], gamePanel, this),
-                speedBoost = new SpeedBoost(owner, lv2, r3, abilityIcons[10], gamePanel, this)
-        };
+
+            abilities = new Ability[]{
+                    dash = new Dash(owner, lv1, r3, abilityIcons[11], gamePanel, this),
+                    dmgBoost = new DMGBoost(owner, lv1, (r1 + r2) / 2, abilityIcons[0], gamePanel, this),
+                    dmgBoost2 = new DMGBoost2(owner, lv2, r2, abilityIcons[1], gamePanel, this),
+                    dmgNegation = new DMGNegation(owner, lv1, (r4 + r5) / 2, abilityIcons[5], gamePanel, this),
+                    dmgNegation2 = new DMGNegation2(owner, lv2, r5, abilityIcons[6], gamePanel, this),
+                    earthquake = new Earthquake(owner, lv3, r2, abilityIcons[9], gamePanel, this),
+                    heal = new Heal(owner, lv2, r4, abilityIcons[4], gamePanel, this),
+                    krit = new Crit(owner, lv2, r1, abilityIcons[2], gamePanel, this),
+                    krit2 = new Crit2(owner, lv3, r1, abilityIcons[3], gamePanel, this),
+                    lifesteal = new Lifesteal(owner, lv3, r4, abilityIcons[8], gamePanel, this),
+                    parry = new Parry(owner, lv3, r5, abilityIcons[7], gamePanel, this),
+                    poisonCloud = new PoisonCloud(owner, lv3, r3, abilityIcons[12], gamePanel, this),
+                    speedBoost = new SpeedBoost(owner, lv2, r3, abilityIcons[10], gamePanel, this)
+            };
+
 
         dash.setAccessible();
         dmgBoost.setAccessible();
@@ -111,7 +113,7 @@ public class SkillTree {
      * von bereits freigeschalteten Abilities weitere SkillTree-Knoten zugänglich.
      */
     public void unlock(Ability ability) {
-        if (owner.getSkillPoints() >= ability.getCost()) {
+
             owner.setSkillPoints(owner.getSkillPoints() - ability.getCost());
             ability.unlock();
 
@@ -141,7 +143,7 @@ public class SkillTree {
             if (speedBoost.isUnlocked()) {
                 poisonCloud.setAccessible();
             }
-        }
+
     }
 
     /**

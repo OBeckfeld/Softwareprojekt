@@ -104,6 +104,7 @@ public class Game implements Runnable {
      * Wird aufgerufen wenn der Spieler stirbt und einen Speicherpunkt hat.
      */
     public void respawn() {
+
         if (progressManager.getSavingIndex() == 1) return; // kein Fortschritt vorhanden
 
         // alten Spieler entfernen und neuen erstellen
@@ -131,6 +132,7 @@ public class Game implements Runnable {
      */
     public void startOver() {
         // alten Spieler entfernen und neuen erstellen
+
         entities.unregister(this.player);
         player = new Player(tileManager.getTileSize() * 2 + 5, tileManager.getTileSize() * 2 + 5,
                 80, 80, entities, keyboardInputs, attackManager, tileManager, gamePanel);
