@@ -7,6 +7,7 @@ import tools.TileManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+
 public class EntityManager implements EntityRegistry {
     private ArrayList<Entity> entities;
     private CollisionManager collisionManager;

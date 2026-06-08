@@ -8,6 +8,7 @@ import entities.Entity;
 import entities.PlayerTypeEntity;
 import tools.TileManager;
 
+
 /**
  * Verwaltet alle aktiven Angriffe im Spiel und verteilt den Schaden
  * an getroffene Entities. Implementiert das AttackRegistry Interface.

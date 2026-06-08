@@ -14,3 +14,4 @@ public interface EntityRegistry {
     ArrayList<Entity> getEntities();
     ArrayList<Entity> getCollisions(Entity entity);
 }
+

@@ -32,6 +32,7 @@ public class Boss extends Enemy {
     private Weapon secondWeapon;
 
 
+
     public Boss(int x, int y, int width, int height, EntityRegistry registry, AttackManager attackManager, TileManager tileManager, GamePanel gamePanel) {
         super(x, y, width, height, 60, registry, attackManager, tileManager, gamePanel);
         currentHealth = 1000;

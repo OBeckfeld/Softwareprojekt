@@ -23,6 +23,7 @@ public class AbilityManager {
         entity.getSkillTree().unlock(ability);
         return true;//feedback
     }
+
     public void equip(Ability ability) {
         int slot = 0;
         for (int i = 0; i < equipedAbiltities.length; i++) {//für array

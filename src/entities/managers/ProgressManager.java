@@ -18,6 +18,7 @@ public class ProgressManager {
     // Index, um die Speicherdatei zu benennen
     private int currentSavingIndex = 1;
 
+
     public ProgressManager(Player player, MapLoader mapLoader, CollisionManager collisionManager) {
         this.player = player;
         this.mapLoader = mapLoader;
