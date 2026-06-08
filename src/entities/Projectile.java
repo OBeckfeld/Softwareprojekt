@@ -13,6 +13,7 @@ public class Projectile extends Entity {
     protected int timeAlive = 0;
     protected Vector moveVector;
     protected int damage;
+
     public Projectile(double x, double y, int width, int height, EntityRegistry registry, AttackRegistry attackRegistry, PlayerTypeEntity owner, double speed, int direction, int timeToLive, int damage, TileManager tileManager) {
         super(x, y, width, height, registry, attackRegistry, tileManager);
         this.owner = owner;
