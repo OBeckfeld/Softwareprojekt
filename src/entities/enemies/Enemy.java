@@ -35,16 +35,16 @@ public class Enemy extends PlayerTypeEntity {
     private Animation[] animations;
 
     /** Angriffs-Animation. */
-    private Animation attackAnimation;
+    protected Animation attackAnimation;
 
     /** Idle-Animation wenn der Gegner stillsteht. */
-    private Animation idleAnimation;
+    protected Animation idleAnimation;
 
     /** Gibt an, ob der Gegner sich gerade bewegt. */
     private boolean isMoving = false;
 
     /** Gibt an, ob der Gegner gerade angreift. */
-    private boolean isAttacking = false;
+    protected boolean isAttacking = false;
 
     /** Letzte Richtung, um unnötige Animation-Wechsel zu vermeiden. */
     private int lastDirection = -1;
@@ -69,7 +69,7 @@ public class Enemy extends PlayerTypeEntity {
 
     private int healCounter = 0;
 
-    private int attackDelay = 60;
+    protected int attackDelay = 60;
 
     /**
      * Erstellt einen Standard-Gegner mit Standardwerten.

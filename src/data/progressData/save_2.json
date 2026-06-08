@@ -1,6 +1,6 @@
 {
-"mapIndex":2,
-"weapon":"ShotGun",
-"skillPoints":0,
-"skillTreeData":[]
+"mapIndex":4,
+"weapon":"MiniGun",
+"skillPoints":9,
+"skillTreeData":["DMGNegation", "Heal"]
 }

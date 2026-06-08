@@ -77,14 +77,9 @@ public class Player extends PlayerTypeEntity {
         miniGun = new MiniGun(this, attackRegistry, tileManager);
         shotGun = new ShotGun(this, attackRegistry, tileManager);
         weapons.add(starterSword);
-        weapons.add(miniGun);
-        weapons.add(gun);
-        weapons.add(ironSword);
-        weapons.add(shotGun);
-        weapons.add(rifle);
         weapon = weapons.get(0); //aktuelle Waffe
 
-        skillPoints = 100;
+        skillPoints = 0;
 
         sheet = new SpriteSheet("src/data/sprites/playerCrawler.png", 1024, 1024);
         loadWeaponAnimations();
@@ -271,6 +266,21 @@ public class Player extends PlayerTypeEntity {
         }
         else {
             press = false;
+        }
+    }
+
+    public void unlockWeapon(int index){
+        switch (index){
+            case 2: weapons.add(gun);
+            break;
+            case 3: weapons.add(ironSword);
+            break;
+            case 4: weapons.add(rifle);
+            break;
+            case 5: weapons.add(shotGun);
+            break;
+            case 6: weapons.add(miniGun);
+            break;
         }
     }
 

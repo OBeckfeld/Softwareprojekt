@@ -1,6 +1,6 @@
 {
-"mapIndex":2,
-"weapon":"ShotGun",
-"skillPoints":90,
-"skillTreeData":["Dash", "SpeedBoost"]
+"mapIndex":3,
+"weapon":"MiniGun",
+"skillPoints":4,
+"skillTreeData":["DMGNegation", "Heal"]
 }
