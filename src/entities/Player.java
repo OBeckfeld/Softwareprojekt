@@ -91,6 +91,10 @@ public class Player extends PlayerTypeEntity {
         shotGun = new ShotGun(this, attackRegistry, tileManager);
         weapons.add(starterSword);
         weapons.add(miniGun);
+        weapons.add(gun);
+        weapons.add(ironSword);
+        weapons.add(shotGun);
+        weapons.add(rifle);
         weapon = weapons.getFirst();
 
         sheet = new SpriteSheet("src/data/sprites/playerCrawler.png", 1024, 1024);

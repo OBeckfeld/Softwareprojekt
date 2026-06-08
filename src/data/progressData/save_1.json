@@ -1,6 +1,6 @@
 {
-"mapIndex":5,
-"weapon":"ShotGun",
+"mapIndex":1,
+"weapon":"StarterSword",
 "skillPoints":0,
-"skillTreeData":["DMGBoost", "DMGBoost2", "Krit", "DMGNegation"]
+"skillTreeData":[]
 }
