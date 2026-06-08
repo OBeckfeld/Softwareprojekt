@@ -109,6 +109,9 @@ public class Game implements Runnable {
 
         // alten Spieler entfernen und neuen erstellen
         entities.unregister(this.player);
+        // Alte SkillTree-Ability-Objekte aus dem GamePanel entfernen
+        gamePanel.clearAbilities();
+
         player = new Player(tileManager.getTileSize() * 2 + 5, tileManager.getTileSize() * 2 + 5,
                 80, 80, entities, keyboardInputs, attackManager, tileManager, gamePanel);
         gamePanel.assignPlayer(player);

@@ -101,7 +101,7 @@ public class Enemy extends PlayerTypeEntity {
         this.maxHealth = 100;
         this.currentHealth = 100;
         this.weapon.setDamage(damage);
-        this.weapon.setHitCooldown(hitCooldown);
+        this.weapon.setLastUsed(System.currentTimeMillis());
         this.defense = 0;
         pointsOnDeath = 1;
     }
@@ -134,7 +134,7 @@ public class Enemy extends PlayerTypeEntity {
         this.maxHealth = health;
         this.currentHealth = health;
         this.weapon.setDamage(damage);
-        this.weapon.setHitCooldown(hitCooldown);
+        this.weapon.setLastUsed(System.currentTimeMillis());
         this.defense = defense;
         this.verticalRange = verticalRange;
         this.horizontalRange = horizontalRange;

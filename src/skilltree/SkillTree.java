@@ -112,9 +112,10 @@ public class SkillTree {
      * Zieht die Kosten ab, ruft die Freischaltung der Ability auf und macht abhängig
      * von bereits freigeschalteten Abilities weitere SkillTree-Knoten zugänglich.
      */
-    public void unlock(Ability ability) {
-
-            owner.setSkillPoints(owner.getSkillPoints() - ability.getCost());
+    public void unlock(Ability ability, boolean load) {
+            if (!load){
+                owner.setSkillPoints(owner.getSkillPoints() - ability.getCost());
+            }
             ability.unlock();
 
             if (dmgBoost.isUnlocked()) {

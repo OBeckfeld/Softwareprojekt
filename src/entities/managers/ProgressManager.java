@@ -80,7 +80,7 @@ public class ProgressManager {
                 if (abilityName == null || abilityName.isBlank()) {
                     continue;
                 }
-                skillTree.unlock(skillTree.getAbilityReference(abilityName));
+                skillTree.unlock(skillTree.getAbilityReference(abilityName), true);
             }
         }
         catch (Exception e) {
