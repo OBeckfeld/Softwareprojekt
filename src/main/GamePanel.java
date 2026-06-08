@@ -84,7 +84,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
             int drawX = (int) Math.round(entity.getX()) - (drawW - entity.getWidth()) / 2;
             int spriteOffsetY = 80;
             int drawY = (int) Math.round(entity.getY()) - (drawH - entity.getHeight()) / 2 + spriteOffsetY;
-
+            g2d.setColor(Color.BLACK);
             if (entity instanceof Player) {
                 // Spieler-Sprite zentriert auf der Hitbox zeichnen
                 BufferedImage sprite = ((Player) entity).getSprite();

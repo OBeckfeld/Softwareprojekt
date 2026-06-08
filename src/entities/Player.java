@@ -28,9 +28,6 @@ public class Player extends PlayerTypeEntity {
     /** Tastatureingaben des Spielers. */
     protected final KeyboardInputs inputs;
 
-    /** Skillpunkte des Spielers. */
-    private int skillpoints = 0;
-
     /** Lauf-Animationen für alle 4 Richtungen (rechts, unten, links, oben). */
     private Animation[] walkAnimations;
 
@@ -63,16 +60,6 @@ public class Player extends PlayerTypeEntity {
 
     /**
      * Erstellt einen neuen Spieler und initialisiert alle Komponenten.
-     *
-     * @param x              X-Koordinate
-     * @param y              Y-Koordinate
-     * @param width          Breite der Hitbox
-     * @param height         Höhe der Hitbox
-     * @param registry       EntityRegistry zum Registrieren der Entity
-     * @param keyboardInputs Tastatureingaben des Spielers
-     * @param attackRegistry AttackRegistry für Angriffe
-     * @param tileManager    TileManager für Kollisionen
-     * @param gamePanel      GamePanel für SkillTree und DeathScreen
      */
     public Player(int x, int y, int width, int height, EntityRegistry registry,
                   KeyboardInputs keyboardInputs, AttackRegistry attackRegistry,
@@ -82,7 +69,6 @@ public class Player extends PlayerTypeEntity {
         movement = new MovementComponent(keyboardInputs, tileManager);
         mass = 3;
         currentHealth = 100;
-        skillTree = new SkillTree(this, gamePanel);
         starterSword = new StarterSword(this, attackRegistry, tileManager);
         ironSword = new IronSword(this, attackRegistry, tileManager);
         gun = new Gun(this, attackRegistry, tileManager);
@@ -95,7 +81,9 @@ public class Player extends PlayerTypeEntity {
         weapons.add(ironSword);
         weapons.add(shotGun);
         weapons.add(rifle);
-        weapon = weapons.getFirst(); //aktuelle Waffe
+        weapon = weapons.get(0); //aktuelle Waffe
+
+        skillPoints = 100;
 
         sheet = new SpriteSheet("src/data/sprites/playerCrawler.png", 1024, 1024);
         loadWeaponAnimations();
@@ -231,11 +219,14 @@ public class Player extends PlayerTypeEntity {
 
         // Angriff mit J auslösen
         if (inputs.getHeldKeys().contains(KeyEvent.VK_J)) {
-            if (!isAnimatingAttack) {
-                isAnimatingAttack = true;
-                attackAnimation[direction].reset();
-                weapon.use();
-            }
+                if (weapon.use()){
+                    isAnimatingAttack = true;
+                    attackAnimation[direction].reset();
+                }
+
+
+
+
         }
 
         // Fähigkeiten 1-4 benutzen
@@ -246,8 +237,8 @@ public class Player extends PlayerTypeEntity {
         if (inputs.getHeldKeys().contains(KeyEvent.VK_L)) {
             if(!press) {
                 press = true;
-                if (weapons.indexOf(weapon) == weapons.indexOf(weapons.getLast())) {
-                    weapon = weapons.getFirst();
+                if (weapons.indexOf(weapon) == weapons.indexOf(weapons.get(weapons.size()-1))) {
+                    weapon = weapons.get(0);
                 } else {
                     weapon = weapons.get(weapons.indexOf(weapon) + 1);
                 }
@@ -260,8 +251,8 @@ public class Player extends PlayerTypeEntity {
         if (inputs.getHeldKeys().contains(KeyEvent.VK_K)) {
             if(!press) {
                 press = true;
-                if (weapons.indexOf(weapon) == weapons.indexOf(weapons.getFirst())) {
-                    weapon = weapons.getLast();
+                if (weapons.indexOf(weapon) == weapons.indexOf(weapons.get(0))) {
+                    weapon = weapons.get(weapons.size()-1);
                 } else {
                     weapon = weapons.get(weapons.indexOf(weapon) - 1);
                 }
@@ -294,12 +285,12 @@ public class Player extends PlayerTypeEntity {
      *
      * @return Skillpunkte
      */
-    public int getSkillpoints() { return skillpoints; }
+    public int getSkillpoints() { return skillPoints; }
 
     /**
      * Setzt die Skillpunkte des Spielers auf den angegebenen Wert.
      *
      * @param number Neuer Skillpunktestand
      */
-    public void setSkillpoints(int number) { skillpoints = number; }
+    public void setSkillpoints(int number) { skillPoints = number; }
 }

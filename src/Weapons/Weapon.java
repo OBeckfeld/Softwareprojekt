@@ -34,7 +34,7 @@ public abstract class Weapon {
      * und versetzt den Besitzer für die Angriffsdauer in den Angriffs-Zustand.
      */
     public boolean use(){
-        if (System.currentTimeMillis() - lastUsed < attackCooldown){
+        if (onCooldown()){
             return false; //kann nicht benutzt werden
         }
 

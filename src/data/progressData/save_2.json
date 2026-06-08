@@ -1,6 +1,6 @@
 {
-"mapIndex":7,
+"mapIndex":2,
 "weapon":"ShotGun",
 "skillPoints":0,
-"skillTreeData":["DMGNegation", "DMGNegation2", "Heal"]
+"skillTreeData":[]
 }
