@@ -75,7 +75,7 @@ public abstract class Weapon {
     /**
      * Setzt den Angriffscooldown der Waffe.
      */
-    public void setHitCooldown(int cooldown) {
-        this.attackCooldown = cooldown;
+    public void setLastUsed(long time) {
+        lastUsed = time;
     }
 }

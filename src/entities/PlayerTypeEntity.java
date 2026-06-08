@@ -58,14 +58,22 @@ public abstract class PlayerTypeEntity extends Entity {
     /** Referenz auf das GamePanel für UI-Interaktionen. */
     protected GamePanel gamePanel;
 
-    /** Aktuelle Bewegungsgeschwindigkeit. */
-    protected double speed = 2.5;
+
+
+
+
 
     /** Aktuell ausgerüstete Waffe. */
     protected Weapon weapon;
 
     /** Standardgeschwindigkeit der Entity. */
     protected double defaultSpeed = 3;
+
+    /** Aktuelle Bewegungsgeschwindigkeit. */
+    protected double speed = defaultSpeed;
+
+    /** Aktueller speedBoost. */
+    protected double speedBoost = 0;
 
     /** Verbleibende Ticks des Angriffs-Lockouts. */
     protected int attacking = 3;
@@ -222,6 +230,12 @@ public abstract class PlayerTypeEntity extends Entity {
      */
     public int getDamage() { return damage; }
 
+    public void setSpeedBoost(double boost){
+        speedBoost += boost;
+    }
+    public double getSpeedBoost(){
+        return speedBoost;
+    }
     /**
      * Gibt den kritischen Schadensmultiplikator zurück.
      *
@@ -409,6 +423,7 @@ public abstract class PlayerTypeEntity extends Entity {
      */
     public void update() {
         if (skillTree != null && !skillTree.getActive()) {
+            speed = defaultSpeed + speedBoost;
             if (currentHealth <= 0) {
                 // Spieler bekommt Death Screen, andere Entities werden unregistriert
                 if (this instanceof Player) {
@@ -421,8 +436,6 @@ public abstract class PlayerTypeEntity extends Entity {
                 if (attacking > 0) {
                     speed = 0;
                     attacking--;
-                } else {
-                    speed = defaultSpeed;
                 }
 
                 abilityManger.update();
@@ -459,7 +472,7 @@ public abstract class PlayerTypeEntity extends Entity {
     public void setWeapon(Weapon weapon) {
         this.weapon = weapon;
         this.weapon.setDamage(damage);
-        this.weapon.setHitCooldown(hitCooldown);
+        this.weapon.setLastUsed(System.currentTimeMillis());
     }
 
     /**

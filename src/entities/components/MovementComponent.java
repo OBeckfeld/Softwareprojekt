@@ -47,98 +47,35 @@ public class MovementComponent {
 
     /**
      * Bewegt den Spieler anhand der aktuellen Tastatureingaben.
-     * Prüft Kollisionen mit Wänden in alle 4 Richtungen.
-     * Normalisiert diagonale Bewegung auf gleiche Geschwindigkeit.
      * Aktualisiert Position und Hurtbox des Spielers.
-     *
-     * @param entity Der zu bewegende Spieler
      */
     public void move(Player entity) {
         if (inputs == null) {
             entity.setMoving(false);
+
             return;
         }
-        entity.setMoving(true);
         double dx = 0, dy = 0;
-        int tileSize = tileManager.getTileSize();
-
         if (inputs.getHeldKeys().contains(KeyEvent.VK_W)) {
-            dy -= entity.getSpeed();
             entity.setDirection(3);
+            dy -= entity.getSpeed();
         }
         if (inputs.getHeldKeys().contains(KeyEvent.VK_S)) {
-            dy += entity.getSpeed();
             entity.setDirection(1);
+            dy += entity.getSpeed();
         }
         if (inputs.getHeldKeys().contains(KeyEvent.VK_A)) {
-            dx -= entity.getSpeed();
             entity.setDirection(2);
+            dx -= entity.getSpeed();
         }
         if (inputs.getHeldKeys().contains(KeyEvent.VK_D)) {
-            dx += entity.getSpeed();
             entity.setDirection(0);
+            dx += entity.getSpeed();
         }
-
-        // Diagonale Bewegung normalisieren damit die Geschwindigkeit gleich bleibt
-        if (dx != 0 && dy != 0) {
-            dx = dx * 0.70710678118;
-            dy = dy * 0.70710678118;
-        }
-
-        int playerWidth = (int) entity.getHurtbox().getWidth();
-        int playerHeight = (int) entity.getHurtbox().getHeight();
-        double newX = entity.getX() + dx;
-        double newY = entity.getY() + dy;
-
-        // Kollision rechts prüfen
-        if (dx > 0) {
-            double right = newX + playerWidth;
-            double tileCol = right / tileSize;
-            double tileRowTop = entity.getY() / tileSize;
-            double tileRowBottom = (entity.getY() + playerHeight) / tileSize;
-            if (isWall((int) tileRowTop, (int) tileCol) ||
-                    isWall((int) tileRowBottom, (int) tileCol)) {
-                newX = tileCol * tileSize - playerWidth - entity.getSpeed();
-            }
-            // Kollision links prüfen
-        } else if (dx < 0) {
-            double tileCol = newX / tileSize;
-            double tileRowTop = entity.getY() / tileSize;
-            double tileRowBottom = (entity.getY() + playerHeight - 1) / tileSize;
-            if (isWall((int) tileRowTop, (int) tileCol) ||
-                    isWall((int) tileRowBottom, (int) tileCol)) {
-                newX = tileCol * tileSize + entity.getSpeed();
-            }
-        }
-
-        // Kollision unten prüfen
-        if (dy > 0) {
-            double bottomEdge = newY + playerHeight;
-            double tileRow = bottomEdge / tileSize;
-            double tileColLeft = entity.getX() / tileSize;
-            double tileColRight = (entity.getX() + playerWidth - 1) / tileSize;
-            if (isWall((int) tileRow, (int) tileColLeft) ||
-                    isWall((int) tileRow, (int) tileColRight)) {
-                newY = tileRow * tileSize - playerHeight - entity.getSpeed();
-            }
-            // Kollision oben prüfen
-        } else if (dy < 0) {
-            double tileRow = newY / tileSize;
-            double tileColLeft = entity.getX() / tileSize;
-            double tileColRight = (entity.getX() + playerWidth - 1) / tileSize;
-            if (isWall((int) tileRow, (int) tileColLeft) ||
-                    isWall((int) tileRow, (int) tileColRight)) {
-                newY = tileRow * tileSize + entity.getSpeed();
-            }
-        }
-
-        entity.setX(newX);
-        entity.setY(newY);
-
-        // Hurtbox wird zentriert unter dem Sprite positioniert
-        double hitboxX = newX + (entity.getWidth() - entity.getHurtbox().getWidth()) / 2.0;
-        double hitboxY = newY + (entity.getHeight() - entity.getHurtbox().getHeight());
-        entity.getHurtbox().setLocation(hitboxX, hitboxY);
+        Vector moveVector = new Vector(entity.getX(), entity.getY(), entity.getX() + dx, entity.getY() + dy);
+        moveVector.setLength(entity.getSpeed());
+        applyVector(entity,moveVector);
+        entity.setMoving(dx != 0 || dy != 0);
     }
 
     /**
@@ -277,5 +214,8 @@ public class MovementComponent {
             return true;
         }
         return map[row][col] != 8;
+    }
+    public Vector getDirectionVector(PlayerTypeEntity entity){
+        return new Vector(entity.getX(), entity.getY(), entity.getX() + entity.getOffsetCoords(entity.getDirection())[0], entity.getY() + entity.getOffsetCoords(entity.getDirection())[1]);
     }
 }

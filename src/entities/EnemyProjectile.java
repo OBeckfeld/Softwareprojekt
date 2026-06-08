@@ -38,6 +38,10 @@ public class EnemyProjectile extends Projectile {
             hit();
             return;
         }
+        if (movement.collidesWithWall(this, moveVector.getOffsetX(), moveVector.getOffsetY())){
+            hit();
+            return;
+        }
         move();
     }
 

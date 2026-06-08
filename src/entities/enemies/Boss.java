@@ -40,8 +40,8 @@ public class Boss extends Enemy {
         viewRange = 800;
         pointsOnDeath = 30;
         skillPoints = 16;
-        skillTree.unlock(skillTree.getAbilityReference("dmgBoost"));
-        skillTree.unlock(skillTree.getAbilityReference("crit"));
+        skillTree.unlock(skillTree.getAbilityReference("dmgBoost"), true);
+        skillTree.unlock(skillTree.getAbilityReference("crit"), true);
         attackDelay = 40;
     }
 

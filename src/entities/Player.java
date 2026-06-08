@@ -56,7 +56,8 @@ public class Player extends PlayerTypeEntity {
     private ShotGun shotGun;
     private Rifle rifle;
     private ArrayList <Weapon> weapons = new ArrayList<>();
-
+    private int currentEquipCooldown = 0;
+    private int equipCooldown = 30;
 
     /**
      * Erstellt einen neuen Spieler und initialisiert alle Komponenten.
@@ -163,6 +164,7 @@ public class Player extends PlayerTypeEntity {
      * Angriffe und das Benutzen von Fähigkeiten.
      */
     public void update() {
+        currentEquipCooldown --;
         if (inputs == null) return;
 
         // SkillTree aktualisieren wenn aktiv
@@ -237,12 +239,16 @@ public class Player extends PlayerTypeEntity {
         if (inputs.getHeldKeys().contains(KeyEvent.VK_L)) {
             if(!press) {
                 press = true;
-                if (weapons.indexOf(weapon) == weapons.indexOf(weapons.get(weapons.size()-1))) {
-                    weapon = weapons.get(0);
-                } else {
-                    weapon = weapons.get(weapons.indexOf(weapon) + 1);
+                if (currentEquipCooldown <= 0) {
+                    currentEquipCooldown = equipCooldown;
+                    if (weapons.indexOf(weapon) == weapons.indexOf(weapons.get(weapons.size() - 1))) {
+                        weapon = weapons.get(0);
+                        weapon.setLastUsed(System.currentTimeMillis());
+                    } else {
+                        weapon = weapons.get(weapons.indexOf(weapon) + 1);
+                    }
+                    loadWeaponAnimations();
                 }
-                loadWeaponAnimations();
             }
         }
         else {
@@ -251,12 +257,16 @@ public class Player extends PlayerTypeEntity {
         if (inputs.getHeldKeys().contains(KeyEvent.VK_K)) {
             if(!press) {
                 press = true;
-                if (weapons.indexOf(weapon) == weapons.indexOf(weapons.get(0))) {
-                    weapon = weapons.get(weapons.size()-1);
-                } else {
-                    weapon = weapons.get(weapons.indexOf(weapon) - 1);
+                if (currentEquipCooldown <= 0) {
+                    currentEquipCooldown = equipCooldown;
+                    weapon.setLastUsed(System.currentTimeMillis()); //damit man nicht direkt angreifen kann
+                    if (weapons.indexOf(weapon) == weapons.indexOf(weapons.get(0))) {
+                        weapon = weapons.get(weapons.size() - 1);
+                    } else {
+                        weapon = weapons.get(weapons.indexOf(weapon) - 1);
+                    }
+                    loadWeaponAnimations();
                 }
-                loadWeaponAnimations();
             }
         }
         else {

@@ -20,10 +20,9 @@ public class AbilityManager {
             return false;
         }
         abilities.add(ability);
-        entity.getSkillTree().unlock(ability);
+        entity.getSkillTree().unlock(ability, false);
         return true;//feedback
     }
-
     public void equip(Ability ability) {
         int slot = 0;
         for (int i = 0; i < equipedAbiltities.length; i++) {//für array
