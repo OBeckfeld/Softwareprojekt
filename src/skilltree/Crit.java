@@ -16,12 +16,12 @@ public class Crit extends Ability {
 
     }
     @Override
-    public String getDescription(){ return "5 prozentige Chance, plus 150 Prozent Schaden zu verursachen";}
+    public String getDescription(){ return "10 prozentige Chance, plus 200 Prozent Schaden zu verursachen";}
     @Override
     public void unlock(){
         unlocked = true;
-        owner.setCrit(owner.getCrit()+150);
-        owner.setCritChance(owner.getCritChance()+5);
+        owner.setCrit(owner.getCrit()+200);
+        owner.setCritChance(owner.getCritChance()+10);
 
     }
 

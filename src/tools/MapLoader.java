@@ -25,7 +25,7 @@ public class MapLoader {
     //Legt die aktuelle Map fest, welche geladen werden soll
     private int mapIndex = 1;
     //Anzahl an vorhandenen Datensätzen für die Maps
-    private int indexLimit = 6;
+    private int indexLimit = 7;
     //Arrays, welche die Informationen über die Map enthalten
     private int[][] entityMap;
     private int[][] tileMap;
@@ -202,6 +202,10 @@ public class MapLoader {
                 break;
             case 30:
                 new ExplodeEnemy(x, y , 60, 60, registry, attackRegistry, tileManager, gamePanel);
+                break;
+            case 40:
+                Boss firstBoss = new Boss(x, y , 100, 100, 500, 15, 75, 800, 5000, registry, attackRegistry, tileManager, gamePanel);
+                firstBoss.setWeapon(new ShotGun(firstBoss, attackRegistry, tileManager));
                 break;
             default:
                 return;

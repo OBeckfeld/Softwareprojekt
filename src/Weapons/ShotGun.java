@@ -22,8 +22,8 @@ public class ShotGun extends Weapon{
         if (!super.use()){return false;}//on cooldown
         Random random = new Random();
 
-        int projectileWidth = 10;
-        int projectileHeight = 10;
+        int projectileWidth = 8;
+        int projectileHeight = 8;
 
         double x = owner.getCenter()[0];
         double y = owner.getCenter()[1];
@@ -57,7 +57,7 @@ public class ShotGun extends Weapon{
             normalVector.setLength(10);
             offsetVector.setLength(5);
             normalVector.combineVector(offsetVector);
-            new Projectile(x, y, 10, 10, owner.registry, attackRegistry, owner, 5, normalVector, 50, damage,tileManager);
+            new Projectile(x, y, 10, 10, owner.registry, attackRegistry, owner, 10, normalVector, 40, damage,tileManager);
         }
 
 

@@ -20,7 +20,7 @@ public class Boss extends Enemy {
         currentHealth = 1000;
         setSpeed(2);
         viewRange = 800;
-        pointsOnDeath = 10;
+        pointsOnDeath = 30;
         skillPoints = 4;
         skillTree.unlock(skillTree.getAbilityReference("dash"));
         attackDelay = 40;

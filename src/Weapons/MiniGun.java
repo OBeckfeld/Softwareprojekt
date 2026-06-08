@@ -17,8 +17,8 @@ public class MiniGun extends Weapon{
     
     public MiniGun(PlayerTypeEntity owner, AttackRegistry attackRegistry, TileManager tileManager) {
         super(owner, attackRegistry, tileManager);
-        damage = 10;
-        attackCooldown = 20;//inMilli Sekunden
+        damage = 15;
+        attackCooldown = 5;//inMilli Sekunden
         attackDuration = 10;//in ticks
     }
 
@@ -65,7 +65,7 @@ public class MiniGun extends Weapon{
         normalVector.setLength(10);
         offsetVector.setLength(5);
         normalVector.combineVector(offsetVector);
-        new Projectile(x, y, 10, 10, owner.registry, attackRegistry, owner, 5, normalVector, 50, damage,tileManager);
+        new Projectile(x, y, 10, 10, owner.registry, attackRegistry, owner, 8, normalVector, 50, damage,tileManager);
 
         applyKnockback(5);
 

@@ -1,6 +1,6 @@
 {
-"mapIndex":6,
-"weapon":"Rifle",
+"mapIndex":7,
+"weapon":"ShotGun",
 "skillPoints":0,
-"skillTreeData":["DMGBoost", "DMGBoost2", "DMGNegation", "DMGNegation2", "Parry", "Heal"]
+"skillTreeData":["DMGBoost", "DMGBoost2", "Krit", "DMGNegation"]
 }

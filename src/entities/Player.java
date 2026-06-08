@@ -13,6 +13,8 @@ import inputs.KeyboardInputs;
 
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -48,6 +50,16 @@ public class Player extends PlayerTypeEntity {
     private int lastDirection = -1;
 
     private boolean moving = false;
+    private boolean press = false;
+
+    private StarterSword starterSword;
+    private IronSword ironSword;
+    private Gun gun;
+    private MiniGun miniGun;
+    private ShotGun shotGun;
+    private Rifle rifle;
+    private ArrayList <Weapon> weapons = new ArrayList<>();
+
 
     /**
      * Erstellt einen neuen Spieler und initialisiert alle Komponenten.
@@ -71,7 +83,16 @@ public class Player extends PlayerTypeEntity {
         mass = 3;
         currentHealth = 100;
         skillTree = new SkillTree(this, gamePanel);
-        weapon = new Rifle(this, attackRegistry, tileManager);
+        starterSword = new StarterSword(this, attackRegistry, tileManager);
+        ironSword = new IronSword(this, attackRegistry, tileManager);
+        gun = new Gun(this, attackRegistry, tileManager);
+        rifle = new Rifle(this, attackRegistry, tileManager);
+        miniGun = new MiniGun(this, attackRegistry, tileManager);
+        shotGun = new ShotGun(this, attackRegistry, tileManager);
+        weapons.add(starterSword);
+        weapons.add(miniGun);
+        weapon = weapons.getFirst();
+
         sheet = new SpriteSheet("src/data/sprites/playerCrawler.png", 1024, 1024);
         loadWeaponAnimations();
     }
@@ -218,6 +239,34 @@ public class Player extends PlayerTypeEntity {
         if (inputs.getHeldKeys().contains(KeyEvent.VK_2)) { abilityManger.use(2); }
         if (inputs.getHeldKeys().contains(KeyEvent.VK_3)) { abilityManger.use(3); }
         if (inputs.getHeldKeys().contains(KeyEvent.VK_4)) { abilityManger.use(4); }
+        if (inputs.getHeldKeys().contains(KeyEvent.VK_L)) {
+            if(!press) {
+                press = true;
+                if (weapons.indexOf(weapon) == weapons.indexOf(weapons.getLast())) {
+                    weapon = weapons.getFirst();
+                } else {
+                    weapon = weapons.get(weapons.indexOf(weapon) + 1);
+                }
+                loadWeaponAnimations();
+            }
+        }
+        else {
+            press = false;
+        }
+        if (inputs.getHeldKeys().contains(KeyEvent.VK_K)) {
+            if(!press) {
+                press = true;
+                if (weapons.indexOf(weapon) == weapons.indexOf(weapons.getFirst())) {
+                    weapon = weapons.getLast();
+                } else {
+                    weapon = weapons.get(weapons.indexOf(weapon) - 1);
+                }
+                loadWeaponAnimations();
+            }
+        }
+        else {
+            press = false;
+        }
     }
 
     /**

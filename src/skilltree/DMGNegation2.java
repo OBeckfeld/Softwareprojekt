@@ -16,11 +16,11 @@ public class DMGNegation2 extends Ability {
 
     }
     @Override
-    public String getDescription(){ return "Erhaltener Schaden wird um 15 Prozent verringert";}
+    public String getDescription(){ return "Erhaltener Schaden wird um 35 Prozent verringert";}
     @Override
     public void unlock(){
         unlocked = true;
-        owner.setDefense(owner.getDefense()+20);
+        owner.setDefense(owner.getDefense()+35);
 
     }
 
