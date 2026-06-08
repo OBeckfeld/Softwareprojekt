@@ -95,7 +95,7 @@ public class Player extends PlayerTypeEntity {
         weapons.add(ironSword);
         weapons.add(shotGun);
         weapons.add(rifle);
-        weapon = weapons.getFirst();
+        weapon = weapons.getFirst(); //aktuelle Waffe
 
         sheet = new SpriteSheet("src/data/sprites/playerCrawler.png", 1024, 1024);
         loadWeaponAnimations();
