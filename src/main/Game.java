@@ -70,12 +70,14 @@ public class Game implements Runnable {
         progressManager = new ProgressManager(player, mapLoader, collisions);
 
         // Anleitungs-Textbox beim Start anzeigen
-        new TextBox("Anleitung:(e)(e)Steuerung:(e)Bewegung: WASD (e) Angriff: J (e) Skilltree: P (e) Skills: 1 bis 5 (e)(e)" +
-                "Generelles: Es gibt drei Arten von Gegnern, die alle Skillpoints droppen, welche im Skilltree ausgegeben werden können.(e)" +
+        new TextBox("Anleitung:(e)Steuerung:(e)Bewegung: WASD (e) Angriff: J (e) "+
+                "Skilltree: P (e) Skills: 1 bis 5, in freigeschalteter (e) Reihenfolge. (e) Waffe wechseln: L, K (e)" +
+                "Generelles: Skillpoints und Kosten werden im Skilltree angezeigt.(e)" +
                 "Rote Objekte sind Waypoints, an welchen der Fortschritt gespeichert werden kann. Bei Benutzung werden sie blau.(e)" +
                 "Graue Objekte sind Türen, welche sich durch besiegen aller Gegner aktivieren. Interaktion mit Türen ist durch Berührung möglich." +
-                "Nachdem der letzte Raum erriecht ist wird auf Wiederholung geschaltet, und man kann den letzten Raum so oft wie man es schafft durchspielen.",
-                0, 600, 600, 500, 1200, textBoxManager);
+                "Neue Waffen werden beim Betreten bestimmter Räume freigeschaltet." +
+                "Nachdem der letzte Raum erriecht ist, wird auf Wiederholung geschaltet und man kann den letzten Raum so oft wie man es schafft durchspielen.",
+                0, 400, 700, 500, 5200, textBoxManager);
 
         // Map-Größe berechnen
         WIDTH = tileManager.getTileMap()[0].length * tileManager.getTileSize();
