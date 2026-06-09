@@ -7,6 +7,7 @@ import main.GamePanel;
 import skilltree.SkillTree;
 import tools.Animation;
 import tools.SpriteSheet;
+import tools.TextBox;
 import tools.TileManager;
 import entities.managers.EntityRegistry;
 import inputs.KeyboardInputs;
@@ -78,8 +79,7 @@ public class Player extends PlayerTypeEntity {
         shotGun = new ShotGun(this, attackRegistry, tileManager);
         weapons.add(starterSword);
         weapon = weapons.get(0); //aktuelle Waffe
-        weapons.add(miniGun);
-        skillPoints = 200;
+        skillPoints = 0;
 
         sheet = new SpriteSheet("src/data/sprites/playerCrawler.png", 1024, 1024);
         loadWeaponAnimations();
@@ -245,6 +245,17 @@ public class Player extends PlayerTypeEntity {
                     } else {
                         weapon = weapons.get(weapons.indexOf(weapon) + 1);
                     }
+                    String displayText = weapon.getClass().getSimpleName();//direkterNameDerKlasse
+                    int displayWidth = displayText.length()*25;
+                    new TextBox(
+                            weapon.getClass().getSimpleName(),
+                            (int) getX(),
+                            (int) getY() - 60,
+                            displayWidth,
+                            43,
+                            30,
+                            gamePanel.getTextBoxManager()
+                    );
                     loadWeaponAnimations();
                 }
             }
@@ -265,6 +276,17 @@ public class Player extends PlayerTypeEntity {
 
                         weapon = weapons.get(index - 1);
                     }
+                    String displayText = weapon.getClass().getSimpleName();//direkterNameDerKlasse
+                    int displayWidth = displayText.length()*25;
+                    new TextBox(
+                            weapon.getClass().getSimpleName(),
+                            (int) getX(),
+                            (int) getY() - 60,
+                            displayWidth,
+                            43,
+                            30,
+                            gamePanel.getTextBoxManager()
+                    );
                     loadWeaponAnimations();
                 }
             }

@@ -36,7 +36,7 @@ public class Attack extends Entity{
     }
 
     /**
-     * Attacke wird geupdated, um alte Attacken zu entfernen und die Anzahl an Attacken zu begrenzen
+     * Aktualisiert die Attacke und entfernt sie nach Ablauf ihrer Dauer
      */
     public void update() {
         timeAlive ++;

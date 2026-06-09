@@ -40,6 +40,8 @@ public abstract class PlayerTypeEntity extends Entity {
     /** Sichtweite der Entity in Pixeln. */
     protected int viewRange = 300;
 
+    private boolean initialized = false;
+
     /** Masse der Entity, beeinflusst den Rückstoß bei Kollisionen. */
     protected int mass = 2;
 
@@ -123,6 +125,7 @@ public abstract class PlayerTypeEntity extends Entity {
         attacking = 0;
         skillTree = new SkillTree(this, gamePanel);
         this.gamePanel = gamePanel;
+        initialized = true;
     }
 
     /**
@@ -146,6 +149,7 @@ public abstract class PlayerTypeEntity extends Entity {
                             TileManager tileManager, GamePanel gamePanel,
                             int hitBoxWidth, int hitBoxHeight) {
         super(x, y, width, height, registry, tileManager, hitBoxWidth, hitBoxHeight);
+        initialized = true;
         abilityManger = new AbilityManager(this);
         viewRange = 500;
         mass = 2;
@@ -432,6 +436,9 @@ public abstract class PlayerTypeEntity extends Entity {
      * Wird nur ausgeführt wenn der SkillTree nicht aktiv ist.
      */
     public void update() {
+        if (!initialized) {
+            return;
+        }
         if (skillTree != null && !skillTree.getActive()) {
             speed = defaultSpeed + speedBoost;
             if (currentHealth <= 0) {
