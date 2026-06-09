@@ -86,9 +86,6 @@ public abstract class PlayerTypeEntity extends Entity {
     /** SkillTree der Entity. */
     protected SkillTree skillTree;
 
-    /** Cooldown zwischen Treffern in Ticks. */
-    protected int hitCooldown;
-
     /** Aktuell verfügbare Skillpunkte. */
     protected int skillPoints = 0;
 
@@ -123,7 +120,6 @@ public abstract class PlayerTypeEntity extends Entity {
         weapon = new StarterSword(this, attackRegistry, tileManager);
         healthBar = new HealthBar(this);
         attacking = 0;
-        skillTree = new SkillTree(this, gamePanel);
         this.gamePanel = gamePanel;
         initialized = true;
     }
@@ -157,7 +153,7 @@ public abstract class PlayerTypeEntity extends Entity {
         weapon = new StarterSword(this, attackRegistry, tileManager);
         healthBar = new HealthBar(this);
         attacking = 0;
-        skillTree = new SkillTree(this, gamePanel);
+
         this.gamePanel = gamePanel;
     }
 
@@ -406,13 +402,16 @@ public abstract class PlayerTypeEntity extends Entity {
      * @param dmg Ausgeteilter Schaden
      */
     public void dealtDamage(int dmg) {
-        if (Arrays.asList(skillTree.getUnlockedAbilities()).contains("Lifesteal")) {
-            int heal = (dmg / 6);
-            if(heal<=0) {
-                heal =1;
+        if (skillTree != null){
+            if (Arrays.asList(skillTree.getUnlockedAbilities()).contains("Lifesteal")) {
+                int heal = (dmg / 6);
+                if(heal<=0) {
+                    heal =1;
+                }
+                setHealth(getCurrentHealth() + heal);
             }
-            setHealth(getCurrentHealth() + heal);
         }
+
     }
 
     /**
@@ -439,7 +438,7 @@ public abstract class PlayerTypeEntity extends Entity {
         if (!initialized) {
             return;
         }
-        if (skillTree != null && !skillTree.getActive()) {
+        if (skillTree == null || !skillTree.getActive()) {
             speed = defaultSpeed + speedBoost;
             if (currentHealth <= 0) {
                 // Spieler bekommt Death Screen, andere Entities werden unregistriert

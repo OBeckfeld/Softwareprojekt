@@ -188,7 +188,7 @@ public class Enemy extends PlayerTypeEntity {
     public void update() {
         if (player != null && player.getSkillTree() != null && player.getSkillTree().isActive) return;
 
-        if (skillTree != null && !skillTree.isActive) {
+        if (skillTree == null || !skillTree.isActive) {
             super.update();
             if (currentHealth <= 0) {
                 registry.unregister(this);

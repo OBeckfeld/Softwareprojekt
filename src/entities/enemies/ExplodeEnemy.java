@@ -27,7 +27,6 @@ public class ExplodeEnemy extends Enemy {
     private int lastDirection = -1;
     private boolean isMoving = false;
 
-    private static final int EXPLODE_RANGE = 100;  // Abstand zum Spieler der Explosion auslöst
     private static final int EXPLODE_DELAY = 200;  // Ticks bis zur Explosion (2 Sek. bei 60 FPS)
     private static final int BLAST_RADIUS  = 100;  // Radius des Explosionsschadens
     private static final int EXPLODE_DMG   = 90;  // Schadenswert der Explosion

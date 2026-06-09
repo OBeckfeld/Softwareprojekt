@@ -1,6 +1,6 @@
 {
-"mapIndex":4,
-"weapon":"IronSword",
-"skillPoints":27,
+"mapIndex":5,
+"weapon":"Gun",
+"skillPoints":3179,
 "skillTreeData":["Dash", "SpeedBoost", "Earthquake", "PoisonCloud", "Lifesteal", "DMGBoost", "DMGBoost2", "Krit", "Krit2", "DMGNegation", "DMGNegation2", "Parry", "Heal"]
 }

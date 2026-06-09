@@ -21,10 +21,15 @@ public class SpriteSheet {
         try {
             File file = new File(path);
             sheet = ImageIO.read(file);
+
+            if (sheet == null) {
+                throw new IOException("ImageIO konnte das Bild nicht lesen: " + path);
+            }
+
             this.frameWidth = frameWidth;
             this.frameHeight = frameHeight;
         } catch (IOException e) {
-            System.out.println("Sprite nicht gefunden: " + path);
+            throw new RuntimeException("Sprite nicht gefunden oder nicht lesbar: " + path, e);
         }
     }
 

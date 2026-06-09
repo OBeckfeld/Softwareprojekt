@@ -1,7 +1,7 @@
 package tools;
 
 public class Hitbox {
-    double x, y, width, height;
+    private double x, y, width, height;
 
     /**
      * Erstellt eine neue Hitbox mit Position, Breite und Höhe.

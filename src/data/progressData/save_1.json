@@ -1,6 +1,6 @@
 {
 "mapIndex":2,
 "weapon":"StarterSword",
-"skillPoints":18,
-"skillTreeData":["Dash", "SpeedBoost", "Earthquake", "PoisonCloud", "Lifesteal", "DMGBoost", "DMGBoost2", "Krit", "Krit2", "DMGNegation", "DMGNegation2", "Parry", "Heal"]
+"skillPoints":3340,
+"skillTreeData":[]
 }

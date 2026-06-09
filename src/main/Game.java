@@ -76,7 +76,7 @@ public class Game implements Runnable {
                 "Rote Objekte sind Waypoints, an welchen der Fortschritt gespeichert werden kann. Bei Benutzung werden sie blau.(e)" +
                 "Graue Objekte sind Türen, welche sich durch besiegen aller Gegner aktivieren. Interaktion mit Türen ist durch Berührung möglich." +
                 "Neue Waffen werden beim Betreten bestimmter Räume freigeschaltet." +
-                "Nachdem der letzte Raum erriecht ist, wird auf Wiederholung geschaltet und man kann den letzten Raum so oft wie man es schafft durchspielen.",
+                "Nachdem der letzte Raum erreicht ist, wird auf Wiederholung geschaltet und man kann den letzten Raum so oft wie man es schafft durchspielen.",
                 0, 400, 700, 500, 5200, textBoxManager);
 
         // Map-Größe berechnen
