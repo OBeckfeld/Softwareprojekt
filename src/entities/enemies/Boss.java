@@ -53,7 +53,7 @@ public class Boss extends Enemy {
         viewRange = 400;
         damage = 10;
         phase = 1;
-        healTime = 240;
+        healTime = 300;
 
         sheet = new SpriteSheet("src/data/sprites/gegnerranged.png", 161, 161);
 
@@ -85,15 +85,16 @@ public class Boss extends Enemy {
     }
 
     public Boss(int x, int y, int width, int height, int health, int damage, int defense, int viewrange, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
-        super(x, y, width, height, 60, registry, attackRegistry, tileManager, gamePanel);
+        super(x, y, width, height, hitCooldown, registry, attackRegistry, tileManager, gamePanel);
         this.maxHealth = health;
         this.currentHealth = health;
         this.damage = damage;
         this.hitCooldown = hitCooldown;
         this.defense = defense;
         setSpeed(3);
-        pointsOnDeath = 2;
+        pointsOnDeath = 30;
         phase = 1;
+        healTime = 300;
 
         sheet = new SpriteSheet("src/data/sprites/gegnerranged.png", 161, 161);
 
@@ -238,7 +239,7 @@ public class Boss extends Enemy {
             }
         }
 
-        if ((registry.getInRange(this, 100, 100).contains(player) || attackDelay != 50)&& !weapon.onCooldown()) {
+        if ((registry.getInRange(this, 100, 100).contains(player) && phase == 1 || attackDelay != 50)&& !weapon.onCooldown()) {
             isMoving = false;
             isAttacking = true;
             if (attackDelay == 0) {
@@ -254,7 +255,7 @@ public class Boss extends Enemy {
                             sheet.getFrame(2, 2), sheet.getFrame(2, 3)
                     }, 30, false);
                 }
-                tryAttackEntity((PlayerTypeEntity) player);
+                tryAttackEntity(player);
                 attackDelay = 50;
                 isAttacking = false;
             } else {
@@ -266,7 +267,7 @@ public class Boss extends Enemy {
         Vector toPlayer = new Vector(getX(), getY(), player.getX(), player.getY());
         double dist = toPlayer.getLength();
 
-        if (dist < FLEE_RANGE) {
+        if (dist < FLEE_RANGE && phase == 2) {
             // Spieler zu nah → vom Spieler wegbewegen
             isMoving = true;
             isShooting = false;

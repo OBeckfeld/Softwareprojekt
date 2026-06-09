@@ -65,7 +65,7 @@ public class MiniGun extends Weapon{
         normalVector.setLength(10);
         offsetVector.setLength(5);
         normalVector.combineVector(offsetVector);
-        new FollowingProjectile(x, y, 10, 10, owner.registry, attackRegistry, owner, 8, normalVector, 40, damage,tileManager);
+        new Projectile(x, y, 10, 10, owner.registry, attackRegistry, owner, 8, normalVector, 40, damage,tileManager);
 
         applyKnockback(5);
 
