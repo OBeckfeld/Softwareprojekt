@@ -78,8 +78,8 @@ public class Player extends PlayerTypeEntity {
         shotGun = new ShotGun(this, attackRegistry, tileManager);
         weapons.add(starterSword);
         weapon = weapons.get(0); //aktuelle Waffe
-
-        skillPoints = 0;
+        weapons.add(miniGun);
+        skillPoints = 200;
 
         sheet = new SpriteSheet("src/data/sprites/playerCrawler.png", 1024, 1024);
         loadWeaponAnimations();
@@ -140,7 +140,7 @@ public class Player extends PlayerTypeEntity {
                 sheet.getFrame(attackRow, 9), sheet.getFrame(attackRow, 10), sheet.getFrame(attackRow, 11)
         }, 15, false);
 
-        currentAnimation = walkAnimations[0];
+        currentAnimation = walkAnimations[direction];
     }
 
     /**
@@ -151,6 +151,7 @@ public class Player extends PlayerTypeEntity {
     public void setWeapon(Weapon newWeapon) {
         this.weapon = newWeapon;
         loadWeaponAnimations();
+        setDirection(getDirection());
     }
 
     /**
@@ -226,11 +227,13 @@ public class Player extends PlayerTypeEntity {
 
         }
 
+
         // Fähigkeiten 1-4 benutzen
         if (inputs.getHeldKeys().contains(KeyEvent.VK_1)) { abilityManger.use(1); }
         if (inputs.getHeldKeys().contains(KeyEvent.VK_2)) { abilityManger.use(2); }
         if (inputs.getHeldKeys().contains(KeyEvent.VK_3)) { abilityManger.use(3); }
         if (inputs.getHeldKeys().contains(KeyEvent.VK_4)) { abilityManger.use(4); }
+        if (inputs.getHeldKeys().contains(KeyEvent.VK_5)) { abilityManger.use(5); }
         if (inputs.getHeldKeys().contains(KeyEvent.VK_L)) {
             if(!press) {
                 press = true;
@@ -269,18 +272,27 @@ public class Player extends PlayerTypeEntity {
         }
     }
 
+    public Weapon getStarterSword(){
+        return starterSword;
+    }
+
     public void unlockWeapon(int index){
-        switch (index){
-            case 2: weapons.add(gun);
-            break;
-            case 3: weapons.add(ironSword);
-            break;
-            case 4: weapons.add(rifle);
-            break;
-            case 5: weapons.add(shotGun);
-            break;
-            case 6: weapons.add(miniGun);
-            break;
+        weapons.clear();
+        weapons.add(starterSword);
+        if(index >= 2){
+            weapons.add(gun);
+        }
+        if(index >= 3){
+            weapons.add(ironSword);
+        }
+        if(index >= 4){
+            weapons.add(rifle);
+        }
+        if(index >= 5){
+            weapons.add(shotGun);
+        }
+        if(index >= 6){
+            weapons.add(miniGun);
         }
     }
 

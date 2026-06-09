@@ -20,7 +20,7 @@ public class SpeedBoost extends Ability {
     @Override
     public void unlock(){
         unlocked = true;
-        owner.setSpeedBoost(owner.getSpeedBoost()+1);
+        owner.setSpeedBoost(1);
 
     }
 

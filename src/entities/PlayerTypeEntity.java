@@ -397,7 +397,11 @@ public abstract class PlayerTypeEntity extends Entity {
      */
     public void dealtDamage(int dmg) {
         if (Arrays.asList(skillTree.getUnlockedAbilities()).contains("Lifesteal")) {
-            setHealth(getCurrentHealth() + (int) (dmg / 6));
+            int heal = (dmg / 6);
+            if(heal<=0) {
+                heal =1;
+            }
+            setHealth(getCurrentHealth() + heal);
         }
     }
 
