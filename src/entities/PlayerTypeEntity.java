@@ -367,7 +367,13 @@ public abstract class PlayerTypeEntity extends Entity {
      * @param armorPierce true wenn Rüstung ignoriert wird
      */
     public void takeDamage(int damage, PlayerTypeEntity source, boolean armorPierce) {
-        if (isParrying) return;
+        if (isParrying) {
+            Vector pushVector = new Vector(x, y, source.getX(), source.getY());
+            pushVector.setLength(50);
+            source.takeDamage(10,this, false);
+            source.move(pushVector);
+            return;
+        }
         if (!armorPierce) {
             damage = damage - (int) (damage * defense) / 100;
         }

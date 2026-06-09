@@ -109,7 +109,7 @@ public class AttackManager implements AttackRegistry {
                     PlayerTypeEntity attackOwner = attack.getOwner();
 
                     // Kritischen Treffer prüfen
-                    if (rand < ((PlayerTypeEntity) entity).getCritChance()) {
+                    if (rand < attackOwner.getCritChance()) {
                         if (!entity.isDead()) {
                             ((PlayerTypeEntity) entity).takeDamage(
                                     attack.getDamage() * (attackOwner.getCrit() / 100),

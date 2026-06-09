@@ -239,7 +239,7 @@ public class Player extends PlayerTypeEntity {
                 press = true;
                 if (currentEquipCooldown <= 0) {
                     currentEquipCooldown = equipCooldown;
-                    if (weapons.indexOf(weapon) == weapons.indexOf(weapons.get(weapons.size() - 1))) {
+                    if (weapons.indexOf(weapon) >= weapons.indexOf(weapons.get(weapons.size() - 1))) {
                         weapon = weapons.get(0);
                         weapon.setLastUsed(System.currentTimeMillis());
                     } else {
@@ -258,10 +258,12 @@ public class Player extends PlayerTypeEntity {
                 if (currentEquipCooldown <= 0) {
                     currentEquipCooldown = equipCooldown;
                     weapon.setLastUsed(System.currentTimeMillis()); //damit man nicht direkt angreifen kann
-                    if (weapons.indexOf(weapon) == weapons.indexOf(weapons.get(0))) {
+                    int index = weapons.indexOf(weapon);
+                    if (index == weapons.indexOf(weapons.get(0))) {
                         weapon = weapons.get(weapons.size() - 1);
                     } else {
-                        weapon = weapons.get(weapons.indexOf(weapon) - 1);
+
+                        weapon = weapons.get(index - 1);
                     }
                     loadWeaponAnimations();
                 }
@@ -293,6 +295,10 @@ public class Player extends PlayerTypeEntity {
         }
         if(index >= 6){
             weapons.add(miniGun);
+        }
+        if (!weapons.contains(weapon)) {
+            weapon = weapons.get(0);
+            loadWeaponAnimations();
         }
     }
 

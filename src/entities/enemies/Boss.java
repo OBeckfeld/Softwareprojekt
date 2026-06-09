@@ -161,7 +161,7 @@ public class Boss extends Enemy {
             healing = true;
             if(waiting > healTime){
                 gainLife(300);
-                damage =+ 5;
+                damage += 5;
                 healing = false;
                 waiting = 0;
             }
@@ -179,8 +179,6 @@ public class Boss extends Enemy {
                 }
             }
         }
-
-        handleMovement();
 
         if (idleAnimation == null) {
             return;
