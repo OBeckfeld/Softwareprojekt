@@ -9,14 +9,14 @@ import java.awt.image.BufferedImage;
 public class DMGNegation extends Ability {
     public DMGNegation(PlayerTypeEntity owner, int x, int y, BufferedImage icon, GamePanel gamePanel, SkillTree skillTree){
         super(owner, x, y, icon, gamePanel, skillTree);
-        cost = 2;
+        cost = 4;
         cooldown = 1500; //in Millisekunden
         duration = 2000; //in Millisekunden
         active = false;
 
     }
     @Override
-    public String getDescription(){ return "Erhaltener Schaden wird um 10 Prozent verringert";}
+    public String getDescription(){ return "Erhaltener Schaden wird um 15 Prozent verringert";}
     @Override
     public void unlock(){
         unlocked = true;

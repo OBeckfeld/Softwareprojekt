@@ -26,7 +26,6 @@ public class Lifesteal extends Ability {
     @Override
     public boolean use(){
         if (!super.use()){ return false; } //offcooldown check
-        owner.gainLife(15);
         return true;
     }
 

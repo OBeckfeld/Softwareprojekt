@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 public class Dash extends Ability {
     public Dash(PlayerTypeEntity owner, int x, int y, BufferedImage icon, GamePanel gamePanel, SkillTree skillTree){
         super(owner, x, y, icon, gamePanel, skillTree);
-        cost = 2;
+        cost = 4;
         cooldown = 1500; //in Millisekunden
         duration = 100; //in Millisekunden
     }

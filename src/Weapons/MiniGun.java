@@ -11,13 +11,13 @@ import tools.Vector;
 import java.util.Random;
 public class MiniGun extends Weapon{
     int ammo = 200; // Nummer an Schüssen, bevor die MiniGun reloaden muss
-    int reloadTime = 20; // Zeit in Ticks, die zum reloaden benötigt wird
+    int reloadTime = 60; // Zeit in Ticks, die zum reloaden benötigt wird
     int shotsSinceLastReload = 0;
     int reloadTimer = 0;
     
     public MiniGun(PlayerTypeEntity owner, AttackRegistry attackRegistry, TileManager tileManager) {
         super(owner, attackRegistry, tileManager);
-        damage = 5;
+        damage = 6;
         attackCooldown = 50;//inMilli Sekunden
         attackDuration = 10;//in ticks
     }
@@ -65,7 +65,7 @@ public class MiniGun extends Weapon{
         normalVector.setLength(10);
         offsetVector.setLength(5);
         normalVector.combineVector(offsetVector);
-        new Projectile(x, y, 10, 10, owner.registry, attackRegistry, owner, 8, normalVector, 40, damage,tileManager);
+        new FollowingProjectile(x, y, 10, 10, owner.registry, attackRegistry, owner, 8, normalVector, 40, damage,tileManager);
 
         applyKnockback(5);
 

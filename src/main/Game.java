@@ -41,7 +41,7 @@ public class Game implements Runnable {
     private static int HEIGHT;                 // Höhe der aktuellen Map
     public static int screenWidth;             // Bildschirmbreite
     public static int screenHeight;            // Bildschirmhöhe
-
+    public long lastRespawned = System.currentTimeMillis();
     public Game() {
         // Bildschirmgröße ermitteln für Kamera und SkillTree
         getScreenSize();
@@ -104,7 +104,9 @@ public class Game implements Runnable {
      * Wird aufgerufen wenn der Spieler stirbt und einen Speicherpunkt hat.
      */
     public void respawn() {
-
+        if (lastRespawned + 5000> System.currentTimeMillis()){
+            return;
+        }
         if (progressManager.getSavingIndex() == 1) return; // kein Fortschritt vorhanden
 
         // alten Spieler entfernen und neuen erstellen
@@ -122,6 +124,7 @@ public class Game implements Runnable {
         camera.setX(player.getX());
         camera.setY(player.getY());
         camera.update(player);
+        player.setWeapon(player.getStarterSword());
 
         // Death Screen ausblenden und Fokus zurücksetzen
         textBoxManager.clearMenuTextBoxes();

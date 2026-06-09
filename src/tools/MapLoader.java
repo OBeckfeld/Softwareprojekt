@@ -1,6 +1,7 @@
 package tools;
 
 import Weapons.Gun;
+import Weapons.IronSword;
 import Weapons.ShotGun;
 import entities.enemies.Boss;
 import entities.enemies.ExplodeEnemy;
@@ -62,6 +63,7 @@ public class MapLoader {
                 if (((Door) entity).isOpen()) {
                     for (Entity e : collisionManager.getEntities(entity)) {
                         if (e instanceof Player) {
+                             ((Player) e).unlockWeapon(mapIndex);
                             buildMap();
                         }
                     }
@@ -205,7 +207,8 @@ public class MapLoader {
                 break;
             case 40:
                 Boss firstBoss = new Boss(x, y , 100, 100, 500, 15, 75, 800, 5000, registry, attackRegistry, tileManager, gamePanel);
-                firstBoss.setWeapon(new ShotGun(firstBoss, attackRegistry, tileManager));
+                firstBoss.setWeapon1(new ShotGun(firstBoss, attackRegistry, tileManager));
+                firstBoss.setWeapon2(new IronSword(firstBoss, attackRegistry, tileManager));
                 break;
             default:
                 return;

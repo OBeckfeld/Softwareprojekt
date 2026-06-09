@@ -1,6 +1,6 @@
 {
-"mapIndex":2,
-"weapon":"ShotGun",
-"skillPoints":90,
-"skillTreeData":["Dash", "SpeedBoost"]
+"mapIndex":1,
+"weapon":"StarterSword",
+"skillPoints":200,
+"skillTreeData":[]
 }
