@@ -171,16 +171,22 @@ public class MapLoader {
                 new Enemy(x, y , 60, 60, 20, 5, 0, 120, 60, 20, 2000, registry, attackRegistry, tileManager, gamePanel);
                 break;
             case 11:
-                new Enemy(x, y , 60, 60, 60, 10, 0, 120, 60, 20, 2000, registry, attackRegistry, tileManager, gamePanel);
+                new Enemy(x, y , 61, 61, 60, 10, 0, 120, 60, 20, 2000, registry, attackRegistry, tileManager, gamePanel);
                 break;
             case 12:
-                new Enemy(x, y , 60, 60, 100, 20, 0, 120, 60, 20, 2000, registry, attackRegistry, tileManager, gamePanel);
+                new Enemy(x, y , 62, 62, 100, 20, 0, 120, 60, 20, 2000, registry, attackRegistry, tileManager, gamePanel);
                 break;
             case 13:
-                new Enemy(x, y , 60, 60, 100, 20, 15, 120, 60, 20, 2000, registry, attackRegistry, tileManager, gamePanel);
+                new Enemy(x, y , 63, 63, 100, 20, 15, 120, 60, 20, 2000, registry, attackRegistry, tileManager, gamePanel);
                 break;
             case 14:
-                new Enemy(x, y , 60, 60, 100, 5, 80, 120, 60, 20, 3000, registry, attackRegistry, tileManager, gamePanel);
+                new Enemy(x, y , 64, 64, 100, 5, 80, 120, 60, 20, 3000, registry, attackRegistry, tileManager, gamePanel);
+                break;
+            case 15:
+                new Enemy(x, y , 50, 50, 75, 10, 10, 100, 70, 15, 3000, registry, attackRegistry, tileManager, gamePanel);
+                break;
+            case 16:
+                new Enemy(x, y , 65, 65, 110, 45, 20, 150, 80, 40, 3500, registry, attackRegistry, tileManager, gamePanel);
                 break;
             case 20:
                 RangedEnemy rangedEnemyLvL1 = new RangedEnemy(x, y , 60, 60, 10, 2, 0, 300, 1000, registry, attackRegistry, tileManager, gamePanel);
@@ -201,6 +207,10 @@ public class MapLoader {
             case 24:
                 RangedEnemy rangedEnemyLvL5 = new RangedEnemy(x, y , 60, 60, 100, 5, 80, 300, 3000, registry, attackRegistry, tileManager, gamePanel);
                 rangedEnemyLvL5.setWeapon(new Gun(rangedEnemyLvL5, attackRegistry, tileManager));
+                break;
+            case 25:
+                RangedEnemy rangedEnemyLvL6 = new RangedEnemy(x, y , 55, 60, 150, 25, 15, 600, 3000, registry, attackRegistry, tileManager, gamePanel);
+                rangedEnemyLvL6.setWeapon(new Gun(rangedEnemyLvL6, attackRegistry, tileManager));
                 break;
             case 30:
                 new ExplodeEnemy(x, y , 60, 60, registry, attackRegistry, tileManager, gamePanel);

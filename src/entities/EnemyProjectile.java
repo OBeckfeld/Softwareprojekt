@@ -30,11 +30,9 @@ public class EnemyProjectile extends Projectile {
     @Override
     protected void logic() {
         for (Entity entity : registry.getInRange(this, Math.max(width, height), Math.max(width, height))) {
-            System.out.println("In Range: " + entity.getClass().getSimpleName());
             if (!(entity instanceof PlayerTypeEntity) || entity instanceof Enemy) {
                 continue;
             }
-            System.out.println("Treffer auf Spieler!");
             hit();
             return;
         }
