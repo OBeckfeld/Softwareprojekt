@@ -22,19 +22,23 @@ public class EntityManager implements EntityRegistry {
     public void setCollsisons(CollisionManager collisionManager) {this.collisionManager = collisionManager;}//temporär bis ihr euer Zeug gefixt habt
 
     @Override
-    public void register(Entity entity){
-        if (entity != null) {
+    public synchronized void register(Entity entity) {
+        if (entity != null && !entities.contains(entity)) {
             entities.add(entity);
             entities = quickSortForY(entities);
         }
     }
 
-    public void unregister(Entity entity){entities.remove(entity);
+    @Override
+    public synchronized void unregister(Entity entity) {
+        entities.remove(entity);
     }
 
-    public ArrayList<Entity> getEntities(){return new ArrayList<>(entities);}//damit die eigentliche Liste nicht von anderen Klassen bearbeitet werden kann
+    public synchronized ArrayList<Entity> getEntities() {
+        return new ArrayList<>(entities);
+    }//damit die eigentliche Liste nicht von anderen Klassen bearbeitet werden kann
 
-    public ArrayList<Entity> getInRange(Entity entity, int rangeX, int rangeY){//gibt alle entities zurück, die im sichtfeld von entity sind
+    public synchronized ArrayList<Entity> getInRange(Entity entity, int rangeX, int rangeY){//gibt alle entities zurück, die im sichtfeld von entity sind
         ViewBox viewBox = new ViewBox((entity.getCenter() [0]-rangeX/2), (entity.getCenter() [1]-rangeY/2), rangeY, rangeX,  this, tileManager);//viewBox wird zentriert
         collisionManager.checkCollisions();//collisions werden geupdatet, da die viewbox am anfang nicht da war | könnte das gameplay langsamer machen
         ArrayList<Entity> colls = collisionManager.getEntities(viewBox);//Entities checken, die in range sind

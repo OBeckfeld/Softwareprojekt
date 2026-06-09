@@ -28,6 +28,7 @@ public class RangedEnemy extends Enemy {
     private static final int ATTACK_RANGE  = 300;  // maximale Schussreichweite
     private static final int SHOOT_COOLDOWN = 60;  // Ticks zwischen zwei Schüssen
     private int shootTimer = 0;                    // zählt Ticks seit letztem Schuss
+    private boolean initialized = false;
     
     /**
      * Erstellt einen neuen RangedEnemy.
@@ -68,6 +69,7 @@ public class RangedEnemy extends Enemy {
         }, 8, false);
 
         currentAnimation = animations[0];
+        initialized = true;
     }
 
     public RangedEnemy(int x, int y, int width, int height, int health, int damage, int defense, int viewrange, int hitCooldown, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
@@ -107,6 +109,7 @@ public class RangedEnemy extends Enemy {
         }, 8, false);
 
         currentAnimation = animations[0];
+        initialized = true;
     }
 
     /**
@@ -115,6 +118,9 @@ public class RangedEnemy extends Enemy {
      */
     @Override
     public void update() {
+        if (!initialized || animations == null || shootAnimation == null) {
+            return;
+        }
         if (currentHealth <= 0) {
             registry.unregister(this);
             return;
