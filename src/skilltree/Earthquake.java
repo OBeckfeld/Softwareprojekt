@@ -28,7 +28,7 @@ public class Earthquake extends Ability {
     @Override
     public boolean use(){
         if (!super.use()){ return false; } //offcooldown check
-        DamageCloud cloud= new entities.DamageCloud(owner.getCenter()[0]-110,owner.getCenter()[1]-110,220,220, owner.registry, new TileManager(),120,60, 35, owner, new Color(60, 38, 38, 180), false);
+        DamageCloud cloud= new entities.DamageCloud(owner.getCenter()[0]-110,owner.getCenter()[1]-110,220,220, owner.registry, new TileManager(),120,60, 40, owner, new Color(60, 38, 38, 180), false);
         cloud.setZ(0);
         return true;
     }

@@ -11,9 +11,9 @@ import static java.lang.Math.round;
 public class Rifle extends Weapon{
     public Rifle (PlayerTypeEntity owner, AttackRegistry attackRegistry, TileManager tileManager){
         super(owner, attackRegistry, tileManager);
-        attackCooldown = 1000;//inMilli Sekunden
-        attackDuration = 50;//in ticks
-        damage = 80;
+        attackCooldown = 900;//inMilli Sekunden
+        attackDuration = 80;//in ticks
+        damage = 100;
     }
     @Override
     public boolean use(){
@@ -39,7 +39,7 @@ public class Rifle extends Weapon{
                 width = (int) Math.round(scale*3);
                 break;
         }
-        new Projectile(owner.getCenter() [0], owner.getCenter() [1], width, height, owner.registry, attackRegistry, owner, 12, owner.getDirection(), 600, damage, tileManager);
+        new Projectile(owner.getCenter() [0], owner.getCenter() [1], width, height, owner.registry, attackRegistry, owner, 16, owner.getDirection(), 600, damage, tileManager);
         applyKnockback(10);
         return true;
     }

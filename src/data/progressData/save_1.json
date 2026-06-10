@@ -1,6 +1,6 @@
 {
 "mapIndex":2,
 "weapon":"StarterSword",
-"skillPoints":3340,
-"skillTreeData":[]
+"skillPoints":3,
+"skillTreeData":["DMGNegation"]
 }

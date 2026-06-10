@@ -13,7 +13,7 @@ import java.util.Random;
 public class ShotGun extends Weapon{
     public ShotGun(PlayerTypeEntity owner, AttackRegistry attackRegistry, TileManager tileManager) {
         super(owner, attackRegistry, tileManager);
-        damage = 10;
+        damage = 14;
         attackCooldown = 1000;//inMilli Sekunden
         attackDuration = 30;//in ticks
     }

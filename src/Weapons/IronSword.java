@@ -8,7 +8,7 @@ import tools.TileManager;
 public class IronSword extends Weapon {
     public IronSword(PlayerTypeEntity owner, AttackRegistry attackRegistry, TileManager tileManager) {
         super(owner,attackRegistry, tileManager);
-        damage = 40;
+        damage = 55;
         attackCooldown = 1100;//inMilli Sekunden
         attackDuration = 20;//in ticks
     }

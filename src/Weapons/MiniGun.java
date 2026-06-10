@@ -17,7 +17,7 @@ public class MiniGun extends Weapon{
     
     public MiniGun(PlayerTypeEntity owner, AttackRegistry attackRegistry, TileManager tileManager) {
         super(owner, attackRegistry, tileManager);
-        damage = 6;
+        damage = 8;
         attackCooldown = 50;//inMilli Sekunden
         attackDuration = 10;//in ticks
     }

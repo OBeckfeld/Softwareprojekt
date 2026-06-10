@@ -79,8 +79,8 @@ public class Player extends PlayerTypeEntity {
         shotGun = new ShotGun(this, attackRegistry, tileManager);
         weapons.add(starterSword);
         weapon = weapons.get(0); //aktuelle Waffe
-        skillPoints = 3333;
-        defaultSpeed = 6;
+        skillPoints = 0;
+        defaultSpeed = 3;
         skillTree = new SkillTree(this, gamePanel);
         sheet = new SpriteSheet("src/data/sprites/playerCrawler.png", 1024, 1024);
         loadWeaponAnimations();
