@@ -1,6 +1,6 @@
 {
-"mapIndex":2,
-"weapon":"StarterSword",
-"skillPoints":3,
-"skillTreeData":["DMGNegation"]
+"mapIndex":4,
+"weapon":"Rifle",
+"skillPoints":13,
+"skillTreeData":["Dash", "DMGNegation", "Heal"]
 }
