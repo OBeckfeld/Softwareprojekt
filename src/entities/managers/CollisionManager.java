@@ -10,6 +10,7 @@ public class CollisionManager {
     private EntityManager entityManager;
     private HashMap<Entity, ArrayList<Entity>> entities;
 
+
     public CollisionManager(EntityManager entityManager){
         this.entityManager = entityManager;
         this.entities = new HashMap<>();

@@ -1,97 +1,143 @@
 package entities.managers;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Random;
 
 import entities.Attack;
 import entities.Entity;
 import entities.PlayerTypeEntity;
 import tools.TileManager;
 
-import javax.accessibility.AccessibleTable;
 
+/**
+ * Verwaltet alle aktiven Angriffe im Spiel und verteilt den Schaden
+ * an getroffene Entities. Implementiert das AttackRegistry Interface.
+ */
 public class AttackManager implements AttackRegistry {
 
-    private CollisionManager collisionManager;
-    private HashMap<PlayerTypeEntity, Integer> totalDamage; //totalDamage speichert alle Entities, die Schaden nehmen, und den entsprechenden Schaden
-    private final EntityRegistry registry;
-    private final TileManager tileManager;
-    private ArrayList<Attack> attacks;
+    /** CollisionManager für die Kollisionsprüfung zwischen Angriffen und Entities. */
+    private final CollisionManager collisionManager;
 
+    /** EntityRegistry für den Zugriff auf alle aktiven Entities. */
+    private final EntityRegistry registry;
+
+    /** TileManager für tile-basierte Berechnungen. */
+    private final TileManager tileManager;
+
+    /** Liste aller aktuell aktiven Angriffe. */
+    private final ArrayList<Attack> attacks;
+
+    /**
+     * Erstellt einen neuen AttackManager.
+     *
+     * @param collisionManager CollisionManager für Kollisionsprüfungen
+     * @param registry         EntityRegistry für den Zugriff auf Entities
+     * @param tileManager      TileManager für tile-basierte Berechnungen
+     */
     public AttackManager(CollisionManager collisionManager, EntityRegistry registry, TileManager tileManager) {
         this.collisionManager = collisionManager;
-        this.totalDamage = new HashMap<>();
         this.registry = registry;
         this.tileManager = tileManager;
         attacks = new ArrayList<>();
     }
 
     /**
-     * newAttack erstellt eine neue Attacke, falls der owner keine aktive Attacke hat, dies limitiert die Anzahl der Attacken pro Entity
+     * Wird für Interface-Kompatibilität beibehalten.
+     * Der Angreifer wird direkt im Attack-Objekt gespeichert.
+     *
+     * @param source Angreifende Entity
      */
-    public void newAttack(PlayerTypeEntity owner) {
-        if(owner.getAttack() == null || owner.getAttack().isExpired()) { //falls der owner noch keine Attacke hat oder seine Attacke abgelaufen ist, wird eine neue Attacke erstellt
-            double x;
-            double y;
-            int height;
-            int width;
-            //owner.setAttacking(10);//sagt dem owner, wie lange er angreift
-            switch (owner.getDirection()) { //die Position der Attacke wird abhängig von der Richtung des owners gesetzt
-                case 0: //rechts
-                    x = Math.round(owner.getX() + owner.getWidth());
-                    y = Math.round(owner.getY() + owner.getHeight() / 2 - owner.getVerticalRange() / 2);
-                    height = owner.getVerticalRange(); //das Rectangle wird um 90 Grad gedreht, somit werden height und width vertauscht
-                    width = owner.getHorizontalRange();
-                    break;
-                case 1: //unten
-                    x = Math.round(owner.getX() + owner.getWidth() / 2 - owner.getVerticalRange() / 2);
-                    y = Math.round(owner.getY() + owner.getHeight());
-                    height = owner.getHorizontalRange(); //das Rectangle wird um 90 Grad gedreht, somit werden height und width vertauscht
-                    width = owner.getVerticalRange();
-                    break;
-                case 2: //links
-                    x = Math.round(owner.getX() - owner.getHorizontalRange());
-                    y = Math.round(owner.getY() + owner.getHeight() / 2 - owner.getVerticalRange() / 2);
-                    height = owner.getVerticalRange(); //das Rectangle wird um 90 Grad gedreht, somit werden height und width vertauscht
-                    width = owner.getHorizontalRange();
-                    break;
-                case 3: //oben
-                    x = Math.round(owner.getX() + owner.getWidth() / 2 - owner.getVerticalRange() / 2);
-                    y = Math.round(owner.getY() - owner.getHorizontalRange());
-                    height = owner.getHorizontalRange(); //das Rectangle wird um 90 Grad gedreht, somit werden height und width vertauscht
-                    width = owner.getVerticalRange();
-                    break;
-                default:
-                    throw new IllegalArgumentException();
-            }
-            Attack attack = new Attack(x, y, width, height, registry, owner.getAttackDuration(), owner, this, owner.getDamage(), tileManager);
-            owner.setAttack(attack); //die Attacke wird als aktive Attacke des owners gespeichert, die alte Attacke wird überschrieben
-            registry.register(attack);
-        }
-    }
-    
-
-    public void attack(PlayerTypeEntity owner, double x, double y, int height, int width, int duration, int damage) {
-        if (!owner.isAttacking()) { //die Gültigkeit der Attacke wird überprüft, falls sie ungültig ist, geschieht nichts
-            Attack attack = new Attack(x, y, width, height, registry, duration, owner, this, tileManager);
-            owner.setAttack(attack);
-            owner.setAttacking(true);
-            attacks.add(attack);
-        }
+    public void grabOwner(PlayerTypeEntity source) {
+        // kept for interface compatibility; attack owner is stored on each Attack.
     }
 
     /**
-     * distributeDamage verteilt den gespeicherten Schaden und setzt ihn anschließend zurück
+     * Erstellt einen neuen Angriff und fügt ihn der Angriffsliste hinzu.
+     *
+     * @param owner    Angreifende Entity
+     * @param x        X-Koordinate des Angriffs
+     * @param y        Y-Koordinate des Angriffs
+     * @param height   Höhe der Angriffs-Hitbox
+     * @param width    Breite der Angriffs-Hitbox
+     * @param duration Dauer des Angriffs in Ticks
+     * @param damage   Schadenswert des Angriffs
+     */
+    public void attack(PlayerTypeEntity owner, double x, double y, int height, int width, int duration, int damage) {
+        Attack attack = new Attack(x, y, width, height, registry, duration, owner, this, damage, tileManager);
+        attacks.add(attack);
+    }
+
+    /**
+     * Erstellt einen neuen Angriff mit optionaler Rüstungsdurchdringung
+     * und fügt ihn der Angriffsliste hinzu.
+     *
+     * @param owner       Angreifende Entity
+     * @param x           X-Koordinate des Angriffs
+     * @param y           Y-Koordinate des Angriffs
+     * @param height      Höhe der Angriffs-Hitbox
+     * @param width       Breite der Angriffs-Hitbox
+     * @param duration    Dauer des Angriffs in Ticks
+     * @param damage      Schadenswert des Angriffs
+     * @param armorPierce true wenn der Angriff Rüstung ignoriert
+     */
+    public void attack(PlayerTypeEntity owner, double x, double y, int height, int width, int duration, int damage, boolean armorPierce) {
+        Attack attack = new Attack(x, y, width, height, registry, duration, owner, this, damage, tileManager);
+        attack.setArmorPierce(armorPierce);
+        attacks.add(attack);
+    }
+
+    /**
+     * Verteilt den Schaden aller aktiven Angriffe an getroffene Entities.
+     * Prüft für jeden Angriff welche Entities kollidieren und fügt ihnen Schaden zu.
+     * Berücksichtigt kritische Treffer, Rüstungsdurchdringung und Skillpunkte bei Tod.
+     * Jede Entity kann pro Angriff nur einmal getroffen werden (HitList).
      */
     public void distributeDamage() {
-
         for (Attack attack : attacks) {
-            for (Entity entity : collisionManager.getEntities(attack)) {//durchläuft alle Entities, die von der Attacke getroffen werden
-                if (!attack.getHitList().contains(entity) && entity instanceof PlayerTypeEntity && entity.getClass() != attack.getOwner().getClass()) { //überprüft, ob die Entity bereits bekannt ist und ob sie überhaupt Schaden nehmen kann
+            for (Entity entity : collisionManager.getEntities(attack)) {
 
-                    attack.getHitList().add(entity); //fügt die Entity der hitlist in der Attacke hinzu
+                // Nur unbekannte Entities treffen die Schaden nehmen können
+                // und nicht zur gleichen Klasse wie der Angreifer gehören
+                if (!attack.getHitList().contains(entity)
+                        && entity instanceof PlayerTypeEntity
+                        && entity.getClass() != attack.getOwner().getClass()) {
 
-                    ((PlayerTypeEntity) entity).takeDamage(attack.getDamage());//macht den Schaden. Rüstung etc. wird bei der Entity selbst abgezogen. Das gilt auch für "negativen Schaden"
+                    attack.getHitList().add(entity);
+
+                    Random random = new Random();
+                    int rand = random.nextInt(100);
+                    PlayerTypeEntity attackOwner = attack.getOwner();
+
+                    // Kritischen Treffer prüfen
+                    if (rand < attackOwner.getCritChance()) {
+                        if (!entity.isDead()) {
+                            ((PlayerTypeEntity) entity).takeDamage(
+                                    attack.getDamage() * (attackOwner.getCrit() / 100),
+                                    attackOwner,
+                                    attack.getArmorPierce()
+                            );
+                            // Skillpunkte bei Tod vergeben
+                            if (entity.isDead()) {
+                                attackOwner.setSkillPoints(
+                                        attackOwner.getSkillPoints() + entity.getPointsOnDeath()
+                                );
+                            }
+                        }
+                    } else {
+                        if (!entity.isDead()) {
+                            ((PlayerTypeEntity) entity).takeDamage(
+                                    attack.getDamage(),
+                                    attackOwner,
+                                    attack.getArmorPierce()
+                            );
+                            // Skillpunkte bei Tod vergeben
+                            if (entity.isDead()) {
+                                attackOwner.setSkillPoints(
+                                        attackOwner.getSkillPoints() + entity.getPointsOnDeath()
+                                );
+                            }
+                        }
+                    }
                 }
             }
         }

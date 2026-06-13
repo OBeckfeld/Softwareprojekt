@@ -13,26 +13,32 @@ public class AbilityManager {
     public AbilityManager(PlayerTypeEntity entity){
         this.entity = entity;
         abilities = new ArrayList<>();
-        equipedAbiltities = new Ability [4];//man kann 4 Abilties equipen
+        equipedAbiltities = new Ability [5];//man kann 5 Abilties equipen
     }
     public boolean unlock (Ability ability){
         if (abilities.contains(ability)) {
             return false;
         }
         abilities.add(ability);
-        ability.unlock();
+        entity.getSkillTree().unlock(ability, false);
         return true;//feedback
     }
-    public void equip(Ability ability, int slot){
-        slot --;//für array
-        if(slot > 3 || slot < 0){ return; }//error vermeidung
-        if (Arrays.asList(equipedAbiltities).contains(ability)){
-            return;//die Ability ist schon in einem anderen slot equiped
+    public void equip(Ability ability) {
+        int slot = 0;
+        for (int i = 0; i < equipedAbiltities.length; i++) {//für array
+            if (equipedAbiltities[i] == null) {
+                slot = i;
+                break;
+            }
         }
-        if (!ability.isActiveAbility()){
-            return;//die Ability eine passive Ability
-        }
-        equipedAbiltities [slot] = ability;
+            if (Arrays.asList(equipedAbiltities).contains(ability)) {
+                return;//die Ability ist schon in einem anderen slot equiped
+            }
+            if (!ability.isActiveAbility()) {
+                return;//die Ability eine passive Ability
+            }
+            equipedAbiltities[slot] = ability;
+
     }
     public void update (){
 

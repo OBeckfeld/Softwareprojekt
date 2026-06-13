@@ -1,0 +1,41 @@
+package skilltree;
+
+import entities.PlayerTypeEntity;
+import entities.components.MovementComponent;
+import main.GamePanel;
+
+import java.awt.image.BufferedImage;
+
+public class Crit extends Ability {
+    public Crit(PlayerTypeEntity owner, int x, int y, BufferedImage icon, GamePanel gamePanel, SkillTree skillTree){
+        super(owner, x, y, icon, gamePanel, skillTree);
+        cost = 12;
+        cooldown = 1500; //in Millisekunden
+        duration = 2000; //in Millisekunden
+        active = false;
+
+    }
+    @Override
+    public String getDescription(){ return "10 prozentige Chance, plus 200 Prozent Schaden zu verursachen";}
+    @Override
+    public void unlock(){
+        unlocked = true;
+        owner.setCrit(owner.getCrit()+200);
+        owner.setCritChance(owner.getCritChance()+10);
+
+    }
+
+    @Override
+    public boolean use(){
+        if (!super.use()){ return false; } //offcooldown check
+
+        return true;
+    }
+
+    @Override
+    public void effect() {
+    }
+
+    public void end(){owner.setCrit(owner.getCrit()-150);}
+
+}
