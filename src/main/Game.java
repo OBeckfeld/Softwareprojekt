@@ -37,8 +37,8 @@ public class Game implements Runnable {
     private final TextBoxManager textBoxManager;   // verwaltet Textboxen
     private final Camera camera;               // Kamera folgt dem Spieler
     private Player player;                     // Referenz auf den Spieler
-    private static int WIDTH;                  // Breite der aktuellen Map
-    private static int HEIGHT;                 // Höhe der aktuellen Map
+    public static int WIDTH;                  // Breite der aktuellen Map
+    public static int HEIGHT;                 // Höhe der aktuellen Map
     public static int screenWidth;             // Bildschirmbreite
     public static int screenHeight;            // Bildschirmhöhe
     public long lastRespawned = System.currentTimeMillis();
