@@ -191,7 +191,7 @@ public class ProgressManager {
         //Start und Ende des Arrays im String werden gefunden, dabei wird alles vor dem Start des Arrays ignoriert
         int arrayStart = oneLineJson.indexOf("[", startIndex);
         int arrayEnd = oneLineJson.indexOf("]", arrayStart);
-        
+
         //falls das Array nicht gefunden wird, wird eine Exception geworfen
         if(arrayStart == -1 || arrayEnd == -1) {
             throw new IllegalArgumentException("Array " + key + " has wrong format");

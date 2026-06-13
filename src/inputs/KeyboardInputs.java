@@ -32,6 +32,5 @@ public class KeyboardInputs implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         heldKeys.add(e.getKeyCode());
-        }
     }
-
+}

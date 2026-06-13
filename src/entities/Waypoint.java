@@ -15,7 +15,7 @@ public class Waypoint extends Entity{
     }
 
     public void update() {
-        
+
     }
 
     public boolean isUsed() {

@@ -63,7 +63,7 @@ public class MapLoader {
                 if (((Door) entity).isOpen()) {
                     for (Entity e : collisionManager.getEntities(entity)) {
                         if (e instanceof Player) {
-                             ((Player) e).unlockWeapon(mapIndex);
+                            ((Player) e).unlockWeapon(mapIndex);
                             buildMap();
                         }
                     }

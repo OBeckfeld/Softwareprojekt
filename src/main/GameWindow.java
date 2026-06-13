@@ -16,4 +16,3 @@ public class GameWindow {
         jframe.setVisible(true);
     }
 }
-

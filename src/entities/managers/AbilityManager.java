@@ -31,13 +31,13 @@ public class AbilityManager {
                 break;
             }
         }
-            if (Arrays.asList(equipedAbiltities).contains(ability)) {
-                return;//die Ability ist schon in einem anderen slot equiped
-            }
-            if (!ability.isActiveAbility()) {
-                return;//die Ability eine passive Ability
-            }
-            equipedAbiltities[slot] = ability;
+        if (Arrays.asList(equipedAbiltities).contains(ability)) {
+            return;//die Ability ist schon in einem anderen slot equiped
+        }
+        if (!ability.isActiveAbility()) {
+            return;//die Ability eine passive Ability
+        }
+        equipedAbiltities[slot] = ability;
 
     }
     public void update (){

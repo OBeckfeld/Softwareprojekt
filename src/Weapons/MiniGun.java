@@ -14,7 +14,7 @@ public class MiniGun extends Weapon{
     int reloadTime = 60; // Zeit in Ticks, die zum reloaden benötigt wird
     int shotsSinceLastReload = 0;
     int reloadTimer = 0;
-    
+
     public MiniGun(PlayerTypeEntity owner, AttackRegistry attackRegistry, TileManager tileManager) {
         super(owner, attackRegistry, tileManager);
         damage = 8;

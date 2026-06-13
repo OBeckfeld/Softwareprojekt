@@ -108,12 +108,12 @@ public class TextBoxManager {
             for (int row = 0; row < imageIndexes.size(); row++) {
                 for (int col = 0; col < imageIndexes.get(row).size(); col++) {
                     g.drawImage(
-                        characters[imageIndexes.get(row).get(col)],
-                        textPosX + col * imageWidth,
-                        textPosY + row * imageHeight,
-                        imageWidth,
-                        imageHeight,
-                        null
+                            characters[imageIndexes.get(row).get(col)],
+                            textPosX + col * imageWidth,
+                            textPosY + row * imageHeight,
+                            imageWidth,
+                            imageHeight,
+                            null
                     );
                 }
             }
@@ -142,12 +142,12 @@ public class TextBoxManager {
             for (int row = 0; row < imageIndexes.size(); row++) {
                 for (int col = 0; col < imageIndexes.get(row).size(); col++) {
                     g.drawImage(
-                        characters[imageIndexes.get(row).get(col)],
-                        textPosX + col * imageWidth,
-                        textPosY + row * imageHeight,
-                        imageWidth,
-                        imageHeight,
-                        null
+                            characters[imageIndexes.get(row).get(col)],
+                            textPosX + col * imageWidth,
+                            textPosY + row * imageHeight,
+                            imageWidth,
+                            imageHeight,
+                            null
                     );
                 }
             }
@@ -186,7 +186,7 @@ public class TextBoxManager {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * Methode, welche aus einem String die Indizes der Zeichen entnimmt
      * @param box TextBox, aus welcher die Informationen entnommen werden sollen

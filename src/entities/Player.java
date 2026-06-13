@@ -218,10 +218,10 @@ public class Player extends PlayerTypeEntity {
 
         // Angriff mit J auslösen
         if (inputs.getHeldKeys().contains(KeyEvent.VK_J)) {
-                if (weapon.use()){
-                    isAnimatingAttack = true;
-                    attackAnimation[direction].reset();
-                }
+            if (weapon.use()){
+                isAnimatingAttack = true;
+                attackAnimation[direction].reset();
+            }
 
 
 

@@ -51,7 +51,7 @@ public class EntityManager implements EntityRegistry {
     }
 
     public boolean collidesWith(Entity entity1, Entity entity2){ return collisionManager.getEntities(entity1).contains(entity2);}
-    
+
     public ArrayList<Entity> getCollisions(Entity entity){ return collisionManager.getEntities(entity); }
 
 

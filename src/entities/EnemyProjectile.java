@@ -54,4 +54,3 @@ public class EnemyProjectile extends Projectile {
         return sprite;
     }
 }
-

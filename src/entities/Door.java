@@ -6,7 +6,7 @@ import entities.managers.EntityRegistry;
 import tools.TileManager;
 
 public class Door extends Entity{
-    
+
     private boolean open;
 
     public Door(double x, double y, EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager) {

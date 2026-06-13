@@ -46,7 +46,7 @@ public class Boss extends Enemy {
      */
 
     public Boss(int x, int y, int width, int height,
-                       EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
+                EntityRegistry registry, AttackRegistry attackRegistry, TileManager tileManager, GamePanel gamePanel) {
         super(x, y, width, height, 60, registry, attackRegistry, tileManager, gamePanel);
         currentHealth = 30;
         setSpeed(3);
@@ -193,19 +193,19 @@ public class Boss extends Enemy {
         } else {
             idleAnimation.update();
         }
-            // Schuss-Animation hat Priorität vor Lauf-Animation
-            if (isShooting) {
-                shootAnimation.update();
-                if (shootAnimation.isFinished()) {
-                    isShooting = false;
-                }
-            } else if (isMoving) {
-                if (direction != lastDirection) {
-                    currentAnimation = animations[direction];
-                    lastDirection = direction;
-                }
-                currentAnimation.update();
+        // Schuss-Animation hat Priorität vor Lauf-Animation
+        if (isShooting) {
+            shootAnimation.update();
+            if (shootAnimation.isFinished()) {
+                isShooting = false;
             }
+        } else if (isMoving) {
+            if (direction != lastDirection) {
+                currentAnimation = animations[direction];
+                lastDirection = direction;
+            }
+            currentAnimation.update();
+        }
 
     }
 

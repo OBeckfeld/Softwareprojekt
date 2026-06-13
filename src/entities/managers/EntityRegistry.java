@@ -12,5 +12,5 @@ public interface EntityRegistry {
 
     boolean collidesWith(Entity entity1, Entity entity2);
     ArrayList<Entity> getEntities();
+    ArrayList<Entity> getCollisions(Entity entity);
 }
-

@@ -39,4 +39,3 @@ public class DamageCloud extends Entity {
         return color;
     }
 }
-
