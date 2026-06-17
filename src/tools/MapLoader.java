@@ -64,6 +64,7 @@ public class MapLoader {
                     for (Entity e : collisionManager.getEntities(entity)) {
                         if (e instanceof Player) {
                             ((Player) e).unlockWeapon(mapIndex);
+                            ((Player) e).gainLife(10);
                             buildMap();
                         }
                     }
