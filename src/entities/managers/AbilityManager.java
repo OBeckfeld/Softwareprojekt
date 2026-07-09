@@ -40,17 +40,20 @@ public class AbilityManager {
         equipedAbiltities[slot] = ability;
 
     }
-    public void update (){
 
+    public void update() {
         for (Ability ability : equipedAbiltities){
-            if (ability == null){continue;}
+            if (ability == null)
+                continue;
             ability.update();
         }
     }
-    public void use(int slot){
+
+    public void use(int slot) {
         slot --; //für array
-        if (equipedAbiltities [slot] == null){return;}
-        equipedAbiltities [slot].use();
+        if (equipedAbiltities[slot] == null)
+            return;
+        equipedAbiltities[slot].use();
     }
 
 }

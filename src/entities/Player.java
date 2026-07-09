@@ -14,8 +14,9 @@ import inputs.KeyboardInputs;
 
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Objects;
 
 /**
@@ -30,10 +31,10 @@ public class Player extends PlayerTypeEntity {
     protected final KeyboardInputs inputs;
 
     /** Lauf-Animationen für alle 4 Richtungen (rechts, unten, links, oben). */
-    private Animation[] walkAnimations;
+    private Map<Class, Animation[]> walkAnimations;
 
     /** Angriffs-Animationen für alle 4 Richtungen. */
-    private Animation[] attackAnimation;
+    private Map<Class, Animation[]> attackAnimations;
 
     /** Gibt an ob gerade eine Angriffsanimation abgespielt wird. */
     private boolean isAnimatingAttack = false;
@@ -82,8 +83,56 @@ public class Player extends PlayerTypeEntity {
         skillPoints = 0;
         defaultSpeed = 3;
         skillTree = new SkillTree(this, gamePanel);
-        sheet = new SpriteSheet("src/data/sprites/playerCrawler.png", 1024, 1024);
-        loadWeaponAnimations();
+        sheet = new SpriteSheet("src/data/sprites/playerCrawler2.png", 64, 64);
+        initWeaponAnimations();
+    }
+
+    private void initWeaponAnimations(){
+        walkAnimations = new HashMap<Class, Animation[]>();
+        attackAnimations = new HashMap<Class, Animation[]>();
+
+        Class[] weaponClasses = new Class[]{
+                StarterSword.class,
+                IronSword.class,
+                Gun.class,
+                Rifle.class,
+                MiniGun.class,
+                ShotGun.class
+        };
+
+        for(int classIndex=0; classIndex<weaponClasses.length; classIndex++) {
+            ArrayList<Animation> attackAnims = new ArrayList<Animation>();
+            ArrayList<Animation> walkAnims = new ArrayList<Animation>();
+            int attackRow = classIndex * 2;
+            int walkRow = attackRow + 1;
+            for(int directionIndex=0; directionIndex<4; directionIndex++){
+                int col = classIndex * 3;
+                walkAnims.add(
+                        new Animation(
+                                new BufferedImage[]{
+                                        sheet.getFrame(walkRow, col),
+                                        sheet.getFrame(walkRow, col+1),
+                                        sheet.getFrame(walkRow, col+2)
+                                },
+                                8,
+                                true));
+                attackAnims.add(
+                        new Animation(
+                                new BufferedImage[]{
+                                        sheet.getFrame(attackRow, col),
+                                        sheet.getFrame(attackRow, col+1),
+                                        sheet.getFrame(attackRow, col+2)
+                                },
+                                8,
+                                true));
+            }
+            Animation[] walkAnims_ = new Animation[attackAnims.size()];
+            attackAnims.toArray(walkAnims_);
+            walkAnimations.put(weaponClasses[classIndex], walkAnims_);
+            Animation[] attackAnims_ = new Animation[attackAnims.size()];
+            attackAnims.toArray(attackAnims_);
+            attackAnimations.put(weaponClasses[classIndex], attackAnims_);
+        }
     }
 
     /**
@@ -92,56 +141,7 @@ public class Player extends PlayerTypeEntity {
      * Jede Waffe hat eine eigene Zeile im SpriteSheet.
      */
     private void loadWeaponAnimations() {
-        walkAnimations = new Animation[4];
-        attackAnimation = new Animation[4];
-
-        int walkRow, attackRow;
-
-        if (weapon instanceof StarterSword) {
-            walkRow = 1; attackRow = 0;
-        } else if (weapon instanceof IronSword) {
-            walkRow = 3; attackRow = 2;
-        } else if (weapon instanceof Gun) {
-            walkRow = 5; attackRow = 4;
-        } else if (weapon instanceof Rifle) {
-            walkRow = 7; attackRow = 6;
-        } else if (weapon instanceof MiniGun) {
-            walkRow = 9; attackRow = 8;
-        } else if (weapon instanceof ShotGun) {
-            walkRow = 11; attackRow = 10;
-        } else {
-            walkRow = 1; attackRow = 0;
-        }
-
-        // Lauf-Animationen für alle 4 Richtungen laden
-        walkAnimations[0] = new Animation(new BufferedImage[]{
-                sheet.getFrame(walkRow, 0), sheet.getFrame(walkRow, 1), sheet.getFrame(walkRow, 2)
-        }, 8, true);
-        walkAnimations[2] = new Animation(new BufferedImage[]{
-                sheet.getFrame(walkRow, 3), sheet.getFrame(walkRow, 4), sheet.getFrame(walkRow, 5)
-        }, 8, true);
-        walkAnimations[1] = new Animation(new BufferedImage[]{
-                sheet.getFrame(walkRow, 6), sheet.getFrame(walkRow, 7), sheet.getFrame(walkRow, 8)
-        }, 8, true);
-        walkAnimations[3] = new Animation(new BufferedImage[]{
-                sheet.getFrame(walkRow, 9), sheet.getFrame(walkRow, 10), sheet.getFrame(walkRow, 11)
-        }, 8, true);
-
-        // Angriffs-Animationen für alle 4 Richtungen laden
-        attackAnimation[0] = new Animation(new BufferedImage[]{
-                sheet.getFrame(attackRow, 0), sheet.getFrame(attackRow, 1), sheet.getFrame(attackRow, 2)
-        }, 15, false);
-        attackAnimation[2] = new Animation(new BufferedImage[]{
-                sheet.getFrame(attackRow, 3), sheet.getFrame(attackRow, 4), sheet.getFrame(attackRow, 5)
-        }, 15, false);
-        attackAnimation[1] = new Animation(new BufferedImage[]{
-                sheet.getFrame(attackRow, 6), sheet.getFrame(attackRow, 7), sheet.getFrame(attackRow, 8)
-        }, 15, false);
-        attackAnimation[3] = new Animation(new BufferedImage[]{
-                sheet.getFrame(attackRow, 9), sheet.getFrame(attackRow, 10), sheet.getFrame(attackRow, 11)
-        }, 15, false);
-
-        currentAnimation = walkAnimations[direction];
+        currentAnimation = walkAnimations.get(getWeapon().getClass())[direction];
     }
 
     /**
@@ -202,14 +202,14 @@ public class Player extends PlayerTypeEntity {
 
         // Angriffs- oder Laufanimation aktualisieren
         if (isAnimatingAttack) {
-            attackAnimation[direction].update();
-            if (attackAnimation[direction].isFinished()) {
-                isAnimatingAttack = false;
-            }
+            //attackAnimation[direction].update();
+            //if (attackAnimation[direction].isFinished()) {
+            //    isAnimatingAttack = false;
+            //}
         } else {
             if(moving) {
                 if (this.walkAnimations != null && direction != lastDirection) {
-                    currentAnimation = walkAnimations[direction];
+                    currentAnimation = walkAnimations.get(getWeapon().getClass())[direction];
                     lastDirection = direction;
                 }
                 if (currentAnimation != null) currentAnimation.update();
@@ -220,7 +220,7 @@ public class Player extends PlayerTypeEntity {
         if (inputs.getHeldKeys().contains(KeyEvent.VK_J)) {
             if (weapon.use()){
                 isAnimatingAttack = true;
-                attackAnimation[direction].reset();
+                attackAnimations.get(getWeapon().getClass())[direction].reset();
             }
 
 
@@ -333,8 +333,10 @@ public class Player extends PlayerTypeEntity {
      * @return Aktueller Animations-Frame als BufferedImage
      */
     public BufferedImage getSprite() {
-        if (isAnimatingAttack) return attackAnimation[direction].getCurrentFrame();
-        if (currentAnimation == null) return null;
+        if (isAnimatingAttack)
+            return attackAnimations.get(getWeapon().getClass())[direction].getCurrentFrame();
+        if (currentAnimation == null)
+            return null;
         return currentAnimation.getCurrentFrame();
     }
 

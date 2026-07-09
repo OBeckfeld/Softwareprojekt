@@ -9,8 +9,31 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Map;
+
+import static javax.swing.UIManager.put;
 
 public class SkillTree {
+
+    private enum AbilityIconType {
+        DASH,
+        CRIT_1,
+        CRIT_2,
+        DMG_1,
+        DMG_2,
+        DMG_RES_1,
+        DMG_RES_2,
+        EARTHQUAKE,
+        HEAL,
+        LIFESTEAL,
+        PARRY,
+        POISON,
+        SPEED
+    }
+
+
 
     public boolean isActive = false;
     private Ability dash;
@@ -28,7 +51,7 @@ public class SkillTree {
     private Ability speedBoost;
     private int height;
     private int width;
-    private BufferedImage[] abilityIcons;
+    private Map<AbilityIconType, BufferedImage> abilityIcons;
     private Ability[] abilities;
     private final int lv1 = 350;
     private final int lv2 = 600;
@@ -53,19 +76,19 @@ public class SkillTree {
 
 
         abilities = new Ability[]{
-                dash = new Dash(owner, lv1, r3, abilityIcons[11], gamePanel, this),
-                dmgBoost = new DMGBoost(owner, lv1, (r1 + r2) / 2, abilityIcons[0], gamePanel, this),
-                dmgBoost2 = new DMGBoost2(owner, lv2, r2, abilityIcons[1], gamePanel, this),
-                dmgNegation = new DMGNegation(owner, lv1, (r4 + r5) / 2, abilityIcons[5], gamePanel, this),
-                dmgNegation2 = new DMGNegation2(owner, lv2, r5, abilityIcons[6], gamePanel, this),
-                earthquake = new Earthquake(owner, lv3, r2, abilityIcons[9], gamePanel, this),
-                heal = new Heal(owner, lv2, r4, abilityIcons[4], gamePanel, this),
-                krit = new Crit(owner, lv2, r1, abilityIcons[2], gamePanel, this),
-                krit2 = new Crit2(owner, lv3, r1, abilityIcons[3], gamePanel, this),
-                lifesteal = new Lifesteal(owner, lv3, r4, abilityIcons[8], gamePanel, this),
-                parry = new Parry(owner, lv3, r5, abilityIcons[7], gamePanel, this),
-                poisonCloud = new PoisonCloud(owner, lv3, r3, abilityIcons[12], gamePanel, this),
-                speedBoost = new SpeedBoost(owner, lv2, r3, abilityIcons[10], gamePanel, this)
+                dash = new Dash(owner, lv1, r3, abilityIcons.get(AbilityIconType.DASH), gamePanel, this),
+                dmgBoost = new DMGBoost(owner, lv1, (r1 + r2) / 2, abilityIcons.get(AbilityIconType.DMG_1), gamePanel, this),
+                dmgBoost2 = new DMGBoost2(owner, lv2, r2, abilityIcons.get(AbilityIconType.DMG_2), gamePanel, this),
+                dmgNegation = new DMGNegation(owner, lv1, (r4 + r5) / 2,  abilityIcons.get(AbilityIconType.DMG_RES_1), gamePanel, this),
+                dmgNegation2 = new DMGNegation2(owner, lv2, r5,  abilityIcons.get(AbilityIconType.DMG_RES_2), gamePanel, this),
+                earthquake = new Earthquake(owner, lv3, r2,  abilityIcons.get(AbilityIconType.EARTHQUAKE), gamePanel, this),
+                heal = new Heal(owner, lv2, r4,  abilityIcons.get(AbilityIconType.HEAL), gamePanel, this),
+                krit = new Crit(owner, lv2, r1,  abilityIcons.get(AbilityIconType.CRIT_1), gamePanel, this),
+                krit2 = new Crit2(owner, lv3, r1,  abilityIcons.get(AbilityIconType.CRIT_2), gamePanel, this),
+                lifesteal = new Lifesteal(owner, lv3, r4,  abilityIcons.get(AbilityIconType.LIFESTEAL), gamePanel, this),
+                parry = new Parry(owner, lv3, r5,  abilityIcons.get(AbilityIconType.PARRY), gamePanel, this),
+                poisonCloud = new PoisonCloud(owner, lv3, r3,  abilityIcons.get(AbilityIconType.POISON), gamePanel, this),
+                speedBoost = new SpeedBoost(owner, lv2, r3,  abilityIcons.get(AbilityIconType.SPEED), gamePanel, this)
         };
 
 
@@ -117,7 +140,6 @@ public class SkillTree {
             owner.setSkillPoints(owner.getSkillPoints() - ability.getCost());
         }
         ability.unlock();
-
         if (dmgBoost.isUnlocked()) {
             dmgBoost2.setAccessible();
             krit.setAccessible();
@@ -244,25 +266,25 @@ public class SkillTree {
     private void loadIcons() {
         try {
             BufferedImage sheet = ImageIO.read(
-                    getClass().getResource("../data/sprites/AbilitySpritesheet.png")
+                getClass().getResource("../data/sprites/AbilitySpritesheet.png")
             );
             SpriteSheet ss = new SpriteSheet(sheet);
             int size = 512;
-            abilityIcons = new BufferedImage[]{
-                    ss.getFrame(0,        0, size, size),
-                    ss.getFrame(size,     0, size, size),
-                    ss.getFrame(size*2,   0, size, size),
-                    ss.getFrame(size*3,   0, size, size),
-                    ss.getFrame(size*4,   0, size, size),
-                    ss.getFrame(size*5,   0, size, size),
-                    ss.getFrame(size*6,   0, size, size),
-                    ss.getFrame(size*7,   0, size, size),
-                    ss.getFrame(size*8,   0, size, size),
-                    ss.getFrame(size*9,   0, size, size),
-                    ss.getFrame(size*10,  0, size, size),
-                    ss.getFrame(size*11,  0, size, size),
-                    ss.getFrame(size*12,  0, size, size)
-            };
+            abilityIcons = new HashMap<AbilityIconType, BufferedImage>(){{
+                    put(AbilityIconType.DMG_1, ss.getFrame(0, 0, size, size));
+                    put(AbilityIconType.DMG_2, ss.getFrame(size, 0, size, size));
+                    put(AbilityIconType.CRIT_1, ss.getFrame(size*2, 0, size, size));
+                    put(AbilityIconType.CRIT_2, ss.getFrame(size*3, 0, size, size));
+                    put(AbilityIconType.HEAL, ss.getFrame(size*4, 0, size, size));
+                    put(AbilityIconType.DMG_RES_1, ss.getFrame(size*5, 0, size, size));
+                    put(AbilityIconType.DMG_RES_2, ss.getFrame(size*6, 0, size, size));
+                    put(AbilityIconType.PARRY, ss.getFrame(size*7, 0, size, size));
+                    put(AbilityIconType.LIFESTEAL, ss.getFrame(size*8, 0, size, size));
+                    put(AbilityIconType.EARTHQUAKE, ss.getFrame(size*9, 0, size, size));
+                    put(AbilityIconType.SPEED, ss.getFrame(size*10, 0, size, size));
+                    put(AbilityIconType.DASH, ss.getFrame(size*11, 0, size, size));
+                    put(AbilityIconType.POISON, ss.getFrame(size*12, 0, size, size));
+            }};
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -94,7 +94,7 @@ public class Boss extends Enemy {
         setSpeed(3);
         pointsOnDeath = 30;
         phase = 1;
-        healTime = 300;
+        healTime = 80;
 
         sheet = new SpriteSheet("src/data/sprites/gegnerranged.png", 161, 161);
 
@@ -161,7 +161,7 @@ public class Boss extends Enemy {
             phase = 2;
             healing = true;
             if(waiting > healTime){
-                gainLife(300);
+                gainLife(400);
                 damage += 5;
                 healing = false;
                 waiting = 0;

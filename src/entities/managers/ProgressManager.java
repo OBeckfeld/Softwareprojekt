@@ -73,7 +73,7 @@ public class ProgressManager {
             // Werte aus der datei werden in die entsprechenden Klassen eingespeist
             mapLoader.setMapIndex(mapIndex);
             mapLoader.buildMap();
-            player.unlockWeapon(currentSavingIndex+1);
+            player.unlockWeapon(currentSavingIndex);
             player.setWeapon(weaponClass);
             player.setSkillpoints(skillPoints);
             for (String abilityName : unlockedAbilities) {
@@ -126,7 +126,7 @@ public class ProgressManager {
             e.printStackTrace();
         }
         // Index wird für nächste Speicherung erhöht
-        currentSavingIndex++;
+        currentSavingIndex = mapLoader.getMapIndex();
     }
 
     /**
