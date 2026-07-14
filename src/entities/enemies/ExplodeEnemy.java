@@ -100,6 +100,11 @@ public class ExplodeEnemy extends Enemy {
     @Override
     public void update() {
         // Zustand 1: Explosion hat stattgefunden → Animations-Abschluss abwarten, dann unregistrieren
+        if (currentHealth <= 0) {
+            registry.unregister(this);
+            return;
+        }
+
         if (exploded) {
             if (!explodeAnimationDone) {
                 explodeAnimation.update();
@@ -120,11 +125,6 @@ public class ExplodeEnemy extends Enemy {
             return;
         }
 
-        // Zustand 3: normal → Tod prüfen, dann Bewegung
-        if (currentHealth <= 0) {
-            registry.unregister(this);
-            return;
-        }
         super.update();
         if (isMoving) {
             currentAnimation.update();
@@ -148,7 +148,7 @@ public class ExplodeEnemy extends Enemy {
         );
 
         // Kollisionsdistanz: Summe der halben Breiten beider Entities
-        double minDist = (getWidth() / 2.0) + (player.getWidth() / 2.0);
+        double minDist = (getWidth() / 2.0) + (player.getWidth() / 2.0) + 2;
 
         if (toPlayer.getLength() <= minDist) {
             // Spieler berührt → Explosion auslösen

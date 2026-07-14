@@ -31,7 +31,7 @@ public class Boss extends Enemy {
     int size = 12; // Größe des Projektils in Pixeln
     private static final int FLEE_RANGE    = 150;  // Abstand unter dem der Gegner flieht
     private static final int ATTACK_RANGE  = 300;  // maximale Schussreichweite
-    private static final int SHOOT_COOLDOWN = 60;  // Ticks zwischen zwei Schüssen
+    private static int SHOOT_COOLDOWN = 60;  // Ticks zwischen zwei Schüssen
     private int shootTimer = 0;                    // zählt Ticks seit letztem Schuss
 
     private Weapon weapon1;
@@ -53,7 +53,7 @@ public class Boss extends Enemy {
         viewRange = 400;
         damage = 10;
         phase = 1;
-        healTime = 300;
+        healTime = 100;
 
         sheet = new SpriteSheet("src/data/sprites/gegnerranged.png", 161, 161);
 
@@ -140,12 +140,6 @@ public class Boss extends Enemy {
      */
     @Override
     public void update() {
-        if (currentHealth <= 0) {
-            registry.unregister(this);
-            return;
-        }
-
-
 
         if (player != null && player.getSkillTree() != null && player.getSkillTree().isActive) return;
 
@@ -157,20 +151,22 @@ public class Boss extends Enemy {
             }
         }
 
-        if (currentHealth < maxHealth/3 && phase == 1 || healing) {
+        if (currentHealth < maxHealth/3 && phase == 1) {
             phase = 2;
             healing = true;
-            if(waiting > healTime){
-                gainLife(300);
-                damage += 5;
+            SHOOT_COOLDOWN = 35;
+        }
+        if (healing) {
+            if (waiting > healTime) {
+                gainLife(200);
                 healing = false;
                 waiting = 0;
-            }
-            else {
-                waiting ++;
+            } else {
+                waiting++;
             }
             return;
         }
+
 
         if (player == null) {
             ArrayList<Entity> inView = getInView();
@@ -224,66 +220,93 @@ public class Boss extends Enemy {
 
         Vector vector = new Vector(getX(), getY(), player.getX(), player.getY());
 
-        if (vector.getLength() > ATTACK_RANGE && !isAttacking) {
-            isMoving = true;
-            double dx = player.getX() - getX();
-            double dy = player.getY() - getY();
-            if (Math.abs(dx) >= Math.abs(dy)) {
-                direction = dx > 0 ? 0 : 2;
-            } else {
-                direction = dy > 0 ? 1 : 3;
-            }
-            if (!isAttacking) {
-                vector.setLength(speed);
-                move(vector);
-            }
-        }
-
-        if ((registry.getInRange(this, 100, 100).contains(player) && phase == 1 || attackDelay != 50)&& !weapon.onCooldown()) {
-            isMoving = false;
-            isAttacking = true;
-            if (attackDelay == 0) {
-
-                if (direction == 2) {
-                    attackAnimation = new Animation(new BufferedImage[]{
-                            sheet.getFrameMirrored(2, 0), sheet.getFrameMirrored(2, 1),
-                            sheet.getFrameMirrored(2, 2), sheet.getFrameMirrored(2, 3)
-                    }, 30, false);
+        if (phase == 1){
+            if (vector.getLength() > ATTACK_RANGE && !isAttacking) {
+                isMoving = true;
+                double dx = player.getX() - getX();
+                double dy = player.getY() - getY();
+                if (Math.abs(dx) >= Math.abs(dy)) {
+                    direction = dx > 0 ? 0 : 2;
                 } else {
-                    attackAnimation = new Animation(new BufferedImage[]{
+                    direction = dy > 0 ? 1 : 3;
+                }
+                if (!isAttacking) {
+                    vector.setLength(speed);
+                    move(vector);
+                }
+            }
+            if ((registry.getInRange(this, 100, 100).contains(player) || attackDelay != 50)&& !weapon.onCooldown()) {
+                isMoving = false;
+                isAttacking = true;
+                if (attackDelay == 0) {
+
+                    if (direction == 2) {
+                        attackAnimation = new Animation(new BufferedImage[]{
+                                sheet.getFrameMirrored(2, 0), sheet.getFrameMirrored(2, 1),
+                                sheet.getFrameMirrored(2, 2), sheet.getFrameMirrored(2, 3)
+                        }, 30, false);
+                    } else {
+                        attackAnimation = new Animation(new BufferedImage[]{
+                                sheet.getFrame(2, 0), sheet.getFrame(2, 1),
+                                sheet.getFrame(2, 2), sheet.getFrame(2, 3)
+                        }, 30, false);
+                    }
+                    tryAttackEntity(player);
+                    attackDelay = 50;
+                    isAttacking = false;
+                } else {
+                    attackDelay--;
+                }
+            }
+            shootTimer++;
+            Vector toPlayer = new Vector(getX(), getY(), player.getX(), player.getY());
+            double dist = toPlayer.getLength();
+            if (dist < FLEE_RANGE) {
+                // Spieler zu nah → vom Spieler wegbewegen
+                isMoving = true;
+                isShooting = false;
+                double dx = player.getX() + getX();
+                double dy = player.getY() + getY();
+                if (Math.abs(dx) >= Math.abs(dy)) {
+                    direction = dx > 0 ? 2 : 0; // invertiert: weg vom Spieler
+                } else {
+                    direction = dy > 0 ? 3 : 1;
+                }
+                Vector fleeVector = new Vector(player.getX(), player.getY(), getX(), getY());
+                fleeVector.setLength(getSpeed());
+                move(fleeVector);
+
+            } else if (dist <= ATTACK_RANGE) {
+                // Spieler in Schussreichweite → schießen wenn Cooldown abgelaufen
+                isMoving = false;
+                if (shootTimer >= SHOOT_COOLDOWN) {
+                    shootTimer = 0;
+                    isShooting = true;
+
+                    // Schuss-Animation neu starten
+                    shootAnimation = new Animation(new BufferedImage[]{
                             sheet.getFrame(2, 0), sheet.getFrame(2, 1),
                             sheet.getFrame(2, 2), sheet.getFrame(2, 3)
-                    }, 30, false);
+                    }, 8, false);
+
+                    // Projektil in Richtung Spieler abfeuern
+                    double x = getCenter()[0];
+                    double y = getCenter()[1];
+                    Vector shootVector = new Vector(x, y, player.getCenter()[0], player.getCenter()[1]);
+                    shootVector.setLength(10);
+                    new EnemyProjectile(x, y, size, size, registry, attackRegistry,
+                            this, 5, shootVector, 120, damage, tileManager);
                 }
-                tryAttackEntity(player);
-                attackDelay = 50;
-                isAttacking = false;
             } else {
-                attackDelay--;
+                isMoving = true;
+                isShooting = false;
+                super.handleMovement();
             }
         }
-
-        shootTimer++;
-        Vector toPlayer = new Vector(getX(), getY(), player.getX(), player.getY());
-        double dist = toPlayer.getLength();
-
-        if (dist < FLEE_RANGE && phase == 2) {
-            // Spieler zu nah → vom Spieler wegbewegen
-            isMoving = true;
-            isShooting = false;
-            double dx = player.getX() + getX();
-            double dy = player.getY() + getY();
-            if (Math.abs(dx) >= Math.abs(dy)) {
-                direction = dx > 0 ? 2 : 0; // invertiert: weg vom Spieler
-            } else {
-                direction = dy > 0 ? 3 : 1;
-            }
-            Vector fleeVector = new Vector(player.getX(), player.getY(), getX(), getY());
-            fleeVector.setLength(getSpeed());
-            move(fleeVector);
-
-        } else if (dist <= ATTACK_RANGE) {
-            // Spieler in Schussreichweite → schießen wenn Cooldown abgelaufen
+        if(phase == 2){
+            shootTimer++;
+            Vector toPlayer = new Vector(getX(), getY(), player.getX(), player.getY());
+            double dist = toPlayer.getLength();
             isMoving = false;
             if (shootTimer >= SHOOT_COOLDOWN) {
                 shootTimer = 0;
@@ -301,13 +324,12 @@ public class Boss extends Enemy {
                 Vector shootVector = new Vector(x, y, player.getCenter()[0], player.getCenter()[1]);
                 shootVector.setLength(10);
                 new EnemyProjectile(x, y, size, size, registry, attackRegistry,
-                        this, 5, shootVector, 120, damage, tileManager);
+                        this, 7, shootVector, 120, damage+3, tileManager);
             }
-        } else {
-            isMoving = true;
-            isShooting = false;
-            super.handleMovement();
+
         }
+
+
     }
 
     /**

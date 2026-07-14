@@ -157,6 +157,10 @@ public abstract class PlayerTypeEntity extends Entity {
         this.gamePanel = gamePanel;
     }
 
+    public GamePanel getPanel(){
+        return gamePanel;
+    }
+
     /**
      * Erhöht die aktuellen Trefferpunkte um den angegebenen Betrag.
      * Überschreitet nicht das Maximum.

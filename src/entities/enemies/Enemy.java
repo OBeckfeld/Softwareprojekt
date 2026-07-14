@@ -71,6 +71,8 @@ public class Enemy extends PlayerTypeEntity {
 
     protected int attackDelay = 60;
 
+    private boolean healed = false;
+
     /**
      * Erstellt einen Standard-Gegner mit Standardwerten.
      *
@@ -241,12 +243,13 @@ public class Enemy extends PlayerTypeEntity {
             return;
         }
 
-        if (fleeMode) {
+        if (fleeMode && !healed) {
             flee();
             healCounter ++;
             if(healCounter == healTime*120){
                 setHealth(maxHealth);
                 fleeMode = false;
+                healed = true;
             }
             return;
         }

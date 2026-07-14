@@ -62,19 +62,20 @@ public class HealthBar {
             g.drawRect(x, y, WIDTH, HEIGHT);
         }
         else{
+            int loc = 210;
             AffineTransform old = g.getTransform();
             g.setTransform(new AffineTransform());
             //Background
             g.setColor(Color.DARK_GRAY);
-            g.fillRect(30, screenHeight-10, screenWidth +20, 20);
+            g.fillRect(20, screenHeight+loc, screenWidth +loc*2, 20);
 
             //Foreground
             g.setColor(Color.RED);
-            g.fillRect(32, screenHeight-12, (int) (screenWidth * healthPercent)+20, 16);
+            g.fillRect(22, screenHeight+loc + 2, (int) ((screenWidth +loc*2) * healthPercent), 16);
 
             //Border
             g.setColor(Color.BLACK);
-            g.drawRect(30, screenHeight-10, screenWidth+20, 20);
+            g.drawRect(20, screenHeight+loc, screenWidth+loc*2, 20);
             g.setTransform(old);
         }
     }

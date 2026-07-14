@@ -82,7 +82,7 @@ public class Player extends PlayerTypeEntity {
         skillPoints = 0;
         defaultSpeed = 3;
         skillTree = new SkillTree(this, gamePanel);
-        sheet = new SpriteSheet("src/data/sprites/playerCrawler.png", 1024, 1024);
+        sheet = new SpriteSheet("src/data/sprites/playerCrawler2.png", 64, 64);
         loadWeaponAnimations();
     }
 
@@ -198,102 +198,109 @@ public class Player extends PlayerTypeEntity {
                 }
                 movement.move(this);
             }
-        }
 
-        // Angriffs- oder Laufanimation aktualisieren
-        if (isAnimatingAttack) {
-            attackAnimation[direction].update();
-            if (attackAnimation[direction].isFinished()) {
-                isAnimatingAttack = false;
-            }
-        } else {
-            if(moving) {
-                if (this.walkAnimations != null && direction != lastDirection) {
-                    currentAnimation = walkAnimations[direction];
-                    lastDirection = direction;
+
+            // Angriffs- oder Laufanimation aktualisieren
+            if (isAnimatingAttack) {
+                attackAnimation[direction].update();
+                if (attackAnimation[direction].isFinished()) {
+                    isAnimatingAttack = false;
                 }
-                if (currentAnimation != null) currentAnimation.update();
-            }
-        }
-
-        // Angriff mit J auslösen
-        if (inputs.getHeldKeys().contains(KeyEvent.VK_J)) {
-            if (weapon.use()){
-                isAnimatingAttack = true;
-                attackAnimation[direction].reset();
-            }
-
-
-
-
-        }
-
-
-        // Fähigkeiten 1-4 benutzen
-        if (inputs.getHeldKeys().contains(KeyEvent.VK_1)) { abilityManger.use(1); }
-        if (inputs.getHeldKeys().contains(KeyEvent.VK_2)) { abilityManger.use(2); }
-        if (inputs.getHeldKeys().contains(KeyEvent.VK_3)) { abilityManger.use(3); }
-        if (inputs.getHeldKeys().contains(KeyEvent.VK_4)) { abilityManger.use(4); }
-        if (inputs.getHeldKeys().contains(KeyEvent.VK_5)) { abilityManger.use(5); }
-        if (inputs.getHeldKeys().contains(KeyEvent.VK_L)) {
-            if(!press) {
-                press = true;
-                if (currentEquipCooldown <= 0) {
-                    currentEquipCooldown = equipCooldown;
-                    if (weapons.indexOf(weapon) >= weapons.indexOf(weapons.get(weapons.size() - 1))) {
-                        weapon = weapons.get(0);
-                        weapon.setLastUsed(System.currentTimeMillis());
-                    } else {
-                        weapon = weapons.get(weapons.indexOf(weapon) + 1);
+            } else {
+                if (moving) {
+                    if (this.walkAnimations != null && direction != lastDirection) {
+                        currentAnimation = walkAnimations[direction];
+                        lastDirection = direction;
                     }
-                    String displayText = weapon.getClass().getSimpleName();//direkterNameDerKlasse
-                    int displayWidth = displayText.length()*25;
-                    new TextBox(
-                            weapon.getClass().getSimpleName(),
-                            (int) getX(),
-                            (int) getY() - 60,
-                            displayWidth,
-                            43,
-                            30,
-                            gamePanel.getTextBoxManager()
-                    );
-                    loadWeaponAnimations();
+                    if (currentAnimation != null) currentAnimation.update();
                 }
             }
-        }
-        else {
-            press = false;
-        }
-        if (inputs.getHeldKeys().contains(KeyEvent.VK_K)) {
-            if(!press) {
-                press = true;
-                if (currentEquipCooldown <= 0) {
-                    currentEquipCooldown = equipCooldown;
-                    weapon.setLastUsed(System.currentTimeMillis()); //damit man nicht direkt angreifen kann
-                    int index = weapons.indexOf(weapon);
-                    if (index == weapons.indexOf(weapons.get(0))) {
-                        weapon = weapons.get(weapons.size() - 1);
-                    } else {
 
-                        weapon = weapons.get(index - 1);
-                    }
-                    String displayText = weapon.getClass().getSimpleName();//direkterNameDerKlasse
-                    int displayWidth = displayText.length()*25;
-                    new TextBox(
-                            weapon.getClass().getSimpleName(),
-                            (int) getX(),
-                            (int) getY() - 60,
-                            displayWidth,
-                            43,
-                            30,
-                            gamePanel.getTextBoxManager()
-                    );
-                    loadWeaponAnimations();
+            // Angriff mit J auslösen
+            if (inputs.getHeldKeys().contains(KeyEvent.VK_J)) {
+                if (weapon.use()) {
+                    isAnimatingAttack = true;
+                    attackAnimation[direction].reset();
                 }
+
+
             }
-        }
-        else {
-            press = false;
+
+
+            // Fähigkeiten 1-4 benutzen
+            if (inputs.getHeldKeys().contains(KeyEvent.VK_1)) {
+                abilityManger.use(1);
+            }
+            if (inputs.getHeldKeys().contains(KeyEvent.VK_2)) {
+                abilityManger.use(2);
+            }
+            if (inputs.getHeldKeys().contains(KeyEvent.VK_3)) {
+                abilityManger.use(3);
+            }
+            if (inputs.getHeldKeys().contains(KeyEvent.VK_4)) {
+                abilityManger.use(4);
+            }
+            if (inputs.getHeldKeys().contains(KeyEvent.VK_5)) {
+                abilityManger.use(5);
+            }
+            if (inputs.getHeldKeys().contains(KeyEvent.VK_L)) {
+                if (!press) {
+                    press = true;
+                    if (currentEquipCooldown <= 0) {
+                        currentEquipCooldown = equipCooldown;
+                        if (weapons.indexOf(weapon) >= weapons.indexOf(weapons.get(weapons.size() - 1))) {
+                            weapon = weapons.get(0);
+                            weapon.setLastUsed(System.currentTimeMillis());
+                        } else {
+                            weapon = weapons.get(weapons.indexOf(weapon) + 1);
+                        }
+                        String displayText = weapon.getClass().getSimpleName();//direkterNameDerKlasse
+                        int displayWidth = displayText.length() * 25;
+                        new TextBox(
+                                weapon.getClass().getSimpleName(),
+                                (int) getX(),
+                                (int) getY() - 60,
+                                displayWidth,
+                                43,
+                                30,
+                                gamePanel.getTextBoxManager()
+                        );
+                        loadWeaponAnimations();
+                    }
+                }
+            } else {
+                press = false;
+            }
+            if (inputs.getHeldKeys().contains(KeyEvent.VK_K)) {
+                if (!press) {
+                    press = true;
+                    if (currentEquipCooldown <= 0) {
+                        currentEquipCooldown = equipCooldown;
+                        weapon.setLastUsed(System.currentTimeMillis()); //damit man nicht direkt angreifen kann
+                        int index = weapons.indexOf(weapon);
+                        if (index == weapons.indexOf(weapons.get(0))) {
+                            weapon = weapons.get(weapons.size() - 1);
+                        } else {
+
+                            weapon = weapons.get(index - 1);
+                        }
+                        String displayText = weapon.getClass().getSimpleName();//direkterNameDerKlasse
+                        int displayWidth = displayText.length() * 25;
+                        new TextBox(
+                                weapon.getClass().getSimpleName(),
+                                (int) getX(),
+                                (int) getY() - 60,
+                                displayWidth,
+                                43,
+                                30,
+                                gamePanel.getTextBoxManager()
+                        );
+                        loadWeaponAnimations();
+                    }
+                }
+            } else {
+                press = false;
+            }
         }
     }
 
@@ -314,10 +321,10 @@ public class Player extends PlayerTypeEntity {
             weapons.add(rifle);
         }
         if(index >= 5){
-            weapons.add(shotGun);
+            weapons.add(miniGun);
         }
         if(index >= 6){
-            weapons.add(miniGun);
+            weapons.add(shotGun);
         }
         if (!weapons.contains(weapon)) {
             weapon = weapons.get(0);

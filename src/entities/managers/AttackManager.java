@@ -6,6 +6,7 @@ import java.util.Random;
 import entities.Attack;
 import entities.Entity;
 import entities.PlayerTypeEntity;
+import tools.TextBox;
 import tools.TileManager;
 
 
@@ -116,6 +117,7 @@ public class AttackManager implements AttackRegistry {
                                     attackOwner,
                                     attack.getArmorPierce()
                             );
+                            new TextBox("CRIT", (int)attack.getOwner().getX()+5, (int)attack.getOwner().getY()-5, 92, 34, 50, attack.getOwner().getPanel().getTextBoxManager());
                             // Skillpunkte bei Tod vergeben
                             if (entity.isDead()) {
                                 attackOwner.setSkillPoints(
